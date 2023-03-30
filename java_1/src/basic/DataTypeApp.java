@@ -2,6 +2,7 @@ package basic;
 
 public class DataTypeApp {
 	public static void main(String[] args) {
+		
 		System.out.println("<<정수형(IntegerType)>>");
 		System.out.println("정수값(10진수 100) = "+100);
 		System.out.println("정수값(8진수 100) = "+0100);
@@ -36,5 +37,43 @@ public class DataTypeApp {
 		System.out.println("b1 = "+b1);
 		System.out.println("b2 = "+b2);
 		System.out.println("==============================================");
+		System.out.println("<<문자형(CharacterType)>>");
+		System.out.println("문자형(2Byte) = "+'A');
+		System.out.println("문자형(2Byte) = "+'가');
+		System.out.println("문자형(2Byte) = "+'\'');
+		System.out.println("문자형(2Byte) = "+'\\');
+		
+		char c1='A';
+		char c2=65;
+		char c3='a'-32;
+		
+		System.out.println("c1 = "+c1);
+		System.out.println("c2 = "+c2);
+		System.out.println("c3 = "+c3);
+		
+		char c4=45000;
+
+		System.out.println("c4 = "+c4);
+		System.out.println("==============================================");
+		System.out.println("<<논리형(BooleanType)>>");
+		System.out.println("논리값(1Byte) = "+false);
+		System.out.println("논리값(1Byte) = "+true);
+		System.out.println("논리값(1Byte) = "+(20>10));
+		System.out.println("논리값(1Byte) = "+(20<10));
+		
+		boolean d1=false;
+		boolean d2=20>10;
+		
+		System.out.println("d1 = "+d1);
+		System.out.println("d2 = "+d2);
+		
+		System.out.println("<<문자열(StringType)>>");
+		System.out.println("문자열 = "+"홍길동");
+		System.out.println("문자열 = "+"유관순 열사가 \"대한독립 만세\"를 외쳤습니다.");
+		
+		String name="임꺽정";
+		System.out.println("이름 = "+name);
+		System.out.println("==============================================");
+
 	}
 }
