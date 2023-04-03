@@ -57,8 +57,8 @@ public class GuGuDanExample {
 			if(num >= 2 && num <= 9) break;
 			System.out.println("[에러]2~9 사이 정수값만 입력 가능합니다.");
 		}
-		for (int i = 2; i <=9; i++) {
-			System.out.println(num +num + " * " + i + " = " + num * i);
+		for (int i = 1; i <=9; i++) {
+			System.out.println(num + " * " + i + " = " + num * i);
 		}
 		
 		scanner.close();

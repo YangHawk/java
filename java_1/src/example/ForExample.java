@@ -98,7 +98,7 @@ public class ForExample {
 			if (count % 7 == 0) {
 				System.out.println();
 			}
-		}//변수 하나를 지정해줌으로써 출력갯수를 셀 수 있어 자신이 원하는 타이밍에 밑으로 내릴 수 있다.
+		} // 변수 하나를 지정해줌으로써 출력갯수를 셀 수 있어 자신이 원하는 타이밍에 밑으로 내릴 수 있다.
 		System.out.println();
 		System.out.println("=========================================");
 	}
