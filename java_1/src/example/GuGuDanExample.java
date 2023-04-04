@@ -62,6 +62,6 @@ public class GuGuDanExample {
 		}
 		
 		scanner.close();
-		
+		//정상적일 때 break;로 빠져나갈 수 있게 한다!
 	}
 }

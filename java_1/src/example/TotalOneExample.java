@@ -12,14 +12,15 @@ import java.util.Scanner;
 public class TotalOneExample {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		int num = 0;
+		int tot = 0;
 		for (int i = 1; i <= 5; i++) {
 			System.out.print(i + "번째 정수값 입력 >>");
-			num = scanner.nextInt();
-			num += num;
+			
+			int num = scanner.nextInt();
+			tot += num;
 		}
-		System.out.println("[결과]합계 = " + num);
+		System.out.println("[결과]합계 = " + tot);
 		scanner.close();
-
+// 변수를 tot, num으로 총 2 개 사용하여....
 	}
 }
