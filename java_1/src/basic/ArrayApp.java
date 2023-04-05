@@ -14,7 +14,8 @@ public class ArrayApp {
 		System.out.println("=========================================================================");
 		int index = 0;
 		num[index] = 10;
-		num[index + 1] = 10;
+		num[index + 1] = 20;
+		num[index + 2] = 30;
 		for (int i = 0; i < num.length; i++) {
 			System.out.println("num[" + i + "] = " + num[i]);
 		}
@@ -44,13 +45,16 @@ public class ArrayApp {
 		System.out.println("합계 = " + tot);
 
 		System.out.println("=========================================================================");
-		int count = 0;
+		int count = 0, count2 = 0;
 		for (int element : array) {
 			if (element >= 30 && element <= 60) {
 				count++;
+			} else {
+				count2++;
+
 			}
 		}
-		System.out.println("30~60 범위의 요소의 갯수 = " + count);
+		System.out.println("30~60 범위의 요소의 갯수 = " + count + ", 범위를 벗어난 요소의 갯수 = " + count2);
 		System.out.println("=========================================================================");
 
 	}

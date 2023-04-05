@@ -21,7 +21,7 @@ public class RpaGameApp {
 
 			}
 			System.out.println("[입력]컴퓨터 >> ");
-			switch (computer) {
+			switch (computer) {//숫자이므로 화면에 가위인지 바위인이 보인지 출력해 주는 구문
 			case 1:
 				System.out.println("가위");
 				break;
