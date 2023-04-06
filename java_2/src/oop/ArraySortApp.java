@@ -35,10 +35,12 @@ public class ArraySortApp {
 
 		array = new int[] { 30, 50, 10, 40, 20 };
 
-		System.out.println("정렬 전 >> " + Arrays.toString(array));
+		System.out.println("정렬 전 >> " + Arrays.toString(array)); 
+		// Arrays 클래스: 배열의 요소를 제어하는 기능의 메소드를 제공하는 클래스
+		//Arrays.toString(Object[] array): 배열을 전달받아 배열의 모든 요소값들을 문자열로 변환하여 반환하는 메소드
 
-		Arrays.sort(array);
-
+		Arrays.sort(array);//Arrays.sort(Object[] array): 배열을 전달받아 배열의 모든 요소값들을 오름차순 정렬하는 메소드
+		
 		System.out.println("정렬 후 >> " + Arrays.toString(array));
 
 		System.out.println("=======================================================================");
