@@ -18,6 +18,7 @@ public class Student {
 		this.name = name;
 		this.kor = kor;
 		this.eng = eng;
+		//tot = kor + eng;
 		calcTot();
 	}
 
@@ -74,7 +75,7 @@ public class Student {
 	}
 
 	public static int getTotal() {
-		return total;
+		return total; // ← Student 생략 가능하다! 클래스 생략 가능, 왜?
 	}
 
 	public static void setTotal(int total) {

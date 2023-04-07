@@ -42,10 +42,10 @@ public class StudentApp {
 				new Student(3000, "전우치", 91, 80), 
 				new Student(4000, "일지매", 76, 82), 
 				new Student(5000, "장길산", 84, 86) };
-		int total=0;
+		//int total=0;
 		for (Student student : students2) {
 			student.display();
-			total += student.getTot(); //객체 지향 프로그래밍에 맞지 않다!
+			//Student.total += student.getTot(); //객체 지향 프로그래밍에 맞지 않다!
 			
 			Student.setTotal(Student.getTotal() + student.getTot());
 		}

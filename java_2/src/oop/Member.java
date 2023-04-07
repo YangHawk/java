@@ -1,11 +1,13 @@
 package oop;
 
 public class Member {
+	
+	
 	private String id;
 	private String name;
 	private String email;
 
-	public Member() {
+	public Member() {this("NoId", "NoName", "NoEmail");
 		// TODO Auto-generated constructor stub
 	}
 
