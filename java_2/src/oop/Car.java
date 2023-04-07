@@ -5,6 +5,10 @@ public class Car {
 	private boolean engineStatus;
 	private int currentSpeed;
 
+	public Car() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void startEngine() {
 		engineStatus = true;
 		System.out.println(modelName + "의 시동을 켰습니다.");
@@ -53,7 +57,7 @@ public class Car {
 		System.out.println(modelName + "의 속도가 " + speed + "Km/h 감소 되었습니다. 현재 속도는 " + currentSpeed + "Km/h 입니다.");
 	}
 
-	public  void speedZero() {
+	public void speedZero() {
 
 		currentSpeed = 0;
 		System.out.println(modelName + "의 자동차가 멈췄습니다");
