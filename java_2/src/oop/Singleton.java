@@ -10,7 +10,7 @@ public class Singleton {
 
 	static {
 		_instance = new Singleton();
-	} //왜 위처럼 안하고 따로 static 블록 안에 이걸 해주는가?
+	} //왜 위처럼 안하고 따로 static 블록 안에 이걸 해주는가? 이것은 초기화 블록이다.
 
 	public static Singleton getInstance() {
 		return _instance;

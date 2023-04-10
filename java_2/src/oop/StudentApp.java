@@ -12,7 +12,7 @@ public class StudentApp {
 		student2.calcTot();
 		student3.calcTot();
 		student4.calcTot();
-		student5.calcTot();
+		student5.calcTot(); 점수가 변경되는 생성자로 수정!
 		 */
 		student1.display();
 		student2.display();
@@ -21,7 +21,7 @@ public class StudentApp {
 		student5.display();
 		System.out.println("=========================================================================");
 		student1.setKor(100);
-		// student1.calcTot();
+		// student1.calcTot(); 점수가 변경되는 Setter 메소드로 수정!
 		student1.display();
 		System.out.println("=========================================================================");
 		Student[] students = new Student[5];
