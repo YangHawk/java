@@ -3,9 +3,9 @@ package inheritance;
 public class AcademyApp {
 	public static void main(String[] args) {
 		/*
-		 * AcademyStudent[] students = new AcademyStudent[300]; AcademyInstructor[]
-		 * instroctors = new AcademyInstructor[50]; AcademyStaff[] staffs = new
-		 * AcademyStaff[100];
+		 * AcademyStudent[] students = new AcademyStudent[300];
+		 * AcademyInstructor[] instroctors = new AcademyInstructor[50];
+		 * AcademyStaff[] staffs = new AcademyStaff[100];
 		 */
 
 		AcademyPerson[] persons = new AcademyPerson[5];

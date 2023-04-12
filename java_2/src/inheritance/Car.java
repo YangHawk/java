@@ -1,6 +1,6 @@
 package inheritance;
 
-public class Car extends Object {
+public class Car extends Object {//←생략 가능!
 	private String modelName;
 	private String userName;
 
