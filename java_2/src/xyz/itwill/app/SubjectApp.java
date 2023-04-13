@@ -1,7 +1,8 @@
 package xyz.itwill.app;
 
-import xyz.itwill.subject.JavaSubject;
 import xyz.itwill.subject.OracleSubject;
+import xyz.itwill.subject.JavaSubject;
+
 //import xyz.uniwill.subject.JavaSubject;
 
 public class SubjectApp {

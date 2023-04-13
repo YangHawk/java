@@ -46,7 +46,7 @@ public class OuterOne {
 		public void setInnerNum(int innerNum) {
 			this.innerNum = innerNum;
 		}
-
+		
 		public void innerDisplay() {
 			System.out.println("innerNum = " + innerNum);
 

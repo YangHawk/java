@@ -29,7 +29,7 @@ public class OuterThree {
 	public void local() {
 		class InnerThree {
 			int innerNum;
-
+		
 			void innerDisplay() {
 				System.out.println("innerNum = " + innerNum);
 			}
