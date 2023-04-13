@@ -1,6 +1,6 @@
-package enumerate;
+package nested;
 
-import enumerate.OuterTwo.InnerTwo;
+import nested.OuterTwo.InnerTwo;
 
 public class OuterTwoApp {
 	public static void main(String[] args) {

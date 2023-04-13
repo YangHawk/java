@@ -1,4 +1,4 @@
-package enumerate;
+package nested;
 
 public class AnonymousApp {
 	public static void main(String[] args) {

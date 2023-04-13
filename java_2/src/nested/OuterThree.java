@@ -1,4 +1,4 @@
-package enumerate;
+package nested;
 
 public class OuterThree {
 	private int outerNum;
