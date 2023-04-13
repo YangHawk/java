@@ -13,6 +13,7 @@ public class EnumApp {
 		System.out.println("검색 = " + EnumTwo.SEARCH);
 		System.out.println("====================================================");
 		// int choice = EnumOne.INSERT;
+		//String choice2 = EnumOne.INSERT;
 		EnumOne choice = EnumOne.INSERT;
 		System.out.println("choice = " + choice);
 		System.out.println("====================================================");
