@@ -66,8 +66,8 @@ public class StringApp {
 		System.out.println("두번째 위치의 문자 = " + str5.charAt(1));
 		System.out.println("==============================================================");
 		System.out.println("A 문자열의 저장 위치 = " + str5.indexOf("A"));
-		System.out.println("A 문자열의 저장 위치 = " + str5.indexOf("EFG"));
-		System.out.println("A 문자열의 저장 위치 = " + str5.indexOf("X"));
+		System.out.println("EFG 문자열의 저장 위치 = " + str5.indexOf("EFG"));
+		System.out.println("X 문자열의 저장 위치 = " + str5.indexOf("X"));
 		System.out.println("==============================================================");
 		String str6 = "Java Programming";
 
