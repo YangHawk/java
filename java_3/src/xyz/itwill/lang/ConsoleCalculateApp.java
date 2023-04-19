@@ -42,11 +42,56 @@ public class ConsoleCalculateApp {
 
 		System.out.println("[결과]" + yeonsan)
 		*/
-		
-		String yeonsan;
-		
+
 		System.out.print("연산식 입력 >> ");
-		yeonsan = scanner.nextLine().replace(" ", "");
-		
+
+		String operation = scanner.nextLine().replace(" ", "");
+		// System.out.println("operation = "+operation);
+		String[] operatorArray = { "*", "/", "+", "-" };
+
+		int index = -1;
+
+		for (String operator : operatorArray) {
+			// index = operation.indexOf(operator);
+			index = operation.lastIndexOf(operator);
+			if (index != -1)
+				break;
+		}
+
+		if (index <= 0 || index > operation.length() - 1) {
+			System.out.println("[에러]연산식을 잘못 입력하였습니다.");
+			System.exit(0);
+		}
+
+		try {
+			int num1 = Integer.parseInt(operation.substring(0, index));
+
+			String operator = operation.substring(index, index + 1);
+
+			int num2 = Integer.parseInt(operation.substring(index + 1));
+
+			int result = 0;
+			switch (operator) {
+			case "*":
+				result = num1 * num2;
+				break;
+			case "/":
+				result = num1 / num2;
+				break;
+			case "+":
+				result = num1 + num2;
+				break;
+			case "-":
+				result = num1 - num2;
+				break;
+			}
+
+		} catch (NumberFormatException e) {
+			System.out.println("[에러]연산식에 숫자가 아닌 값이 입력되었습니다.");
+		} catch (ArithmeticException e) {
+			System.out.println("[에러]0으로 나눌 수 없습니다.");
+		} catch (Exception e) {
+			System.out.println("[에러]프로그램에 예기치 못한 오류가 발생하였습니다.");
+		}
 	}
 }
