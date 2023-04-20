@@ -9,13 +9,14 @@ public class WantCalendarApp {
 
 		Calendar calendar = Calendar.getInstance();
 
-		System.out.println("년");
+		System.out.println("년 입력 >>");
 		int year = scanner.nextInt();
-		System.out.println("월");
-
+		System.out.println("월 입력 >>");
 		int month = scanner.nextInt();
 
-		calendar.set(year, month, 1);
+		scanner.close();
+
+		calendar.set(year, month-1, 1);
 
 		int week = calendar.get(Calendar.DAY_OF_WEEK);
 
