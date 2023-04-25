@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 //사칙 연산식을 입력받아 연산 결과를 출력하는 프로그램
@@ -148,12 +149,83 @@ public class CalculatorFrameApp extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Object eventSource = e.getSource();
+		// Object eventSource = e.getSource();
+		JButton eventButton = (JButton) e.getSource();
 
-		if (eventSource ==  b_C) {
+		if (eventButton == b_C) {
+			operation = "";
 			
+			label.setText("0");
 
-		} 
-		
+		} else if (eventButton == b_equals) {
+			String[] operatorArray = { "*", "/", "+", "-" };
+
+			int index = -1;
+			for (int i = 0; i < operatorArray.length; i++) {
+				index = operation.lastIndexOf(operatorArray[i]);
+				if (index != -1)
+					break;
+			}
+
+			if (index <= 0)
+				return;
+
+			try {
+				int num1 = Integer.parseInt(operation.substring(0, index));
+				
+				String operator = operation.substring(index, index + 1);
+				
+				int num2 = Integer.parseInt(operation.substring(index + 1));
+
+				int result = 0;
+				switch (operator) {
+				case "*":
+					result = num1 * num2;
+					break;
+				case "/":
+					result = num1 / num2;
+					break;
+				case "+":
+					result = num1 + num2;
+					break;
+				case "-":
+					result = num1 - num2;
+					break;
+				}
+
+				
+				/*
+				// label.setText(result+"");
+				label.setText(String.valueOf(result));
+
+				// operation="";
+				operation = String.valueOf(result);
+				*/	
+				
+				operation = String.valueOf(result);
+				label.setText(operation);// 이렇게 써도 되지 않나?
+				
+				
+				
+			} catch (ArithmeticException exception) {
+				// operation = "";
+				label.setText("0으로 나눌 수 없습니다.");
+			} catch (NumberFormatException exception) {
+				JOptionPane.showInternalMessageDialog(this, "입력한 연산식이 형식에 맞지 않습니다.");
+				label.setText("0");
+				operation = "";
+
+			} catch (Exception exception) {
+				JOptionPane.showMessageDialog(this, "프로그램에 예기치 못한 오류 발생");
+				System.exit(0);
+			}
+
+		} else {
+
+			operation += eventButton.getText();
+			label.setText(operation);
+
+		}
+
 	}
 }
