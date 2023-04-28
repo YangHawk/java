@@ -13,7 +13,7 @@ public class MemberLoadApp {
 		while (true) {
 			try {
 				Member member = (Member) in.readObject();
-				if (member == null)
+				if (member != null)
 					System.out.println(member);
 			} catch (EOFException e) {
 				break;

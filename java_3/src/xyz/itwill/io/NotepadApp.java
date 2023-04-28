@@ -9,11 +9,13 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -22,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class NotepadApp extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -29,9 +32,11 @@ public class NotepadApp extends JFrame {
 	JTextArea jTextArea;
 	JMenuItem init, open, save, exit;
 
-	FileDialog openDialog, saveDialog;
+	// FileDialog openDialog, saveDialog;
+	JFileChooser openDialog, saveDialog;
 
-	private String filepath;
+	// private String filepath;
+	private File file;
 
 	public NotepadApp(String title) {
 		super(title);
@@ -68,8 +73,14 @@ public class NotepadApp extends JFrame {
 
 		getContentPane().add(jScrollPane, BorderLayout.CENTER);
 
-		openDialog = new FileDialog(this, "열기", FileDialog.LOAD);
-		saveDialog = new FileDialog(this, "저장", FileDialog.SAVE);
+		// openDialog = new FileDialog(this, "열기", FileDialog.LOAD);
+		openDialog = new JFileChooser();
+		openDialog.setCurrentDirectory(new File("c:/"));
+		openDialog.addChoosableFileFilter(new FileNameExtensionFilter("텍스트 파일(*.txt)", "txt"));
+		// saveDialog = new FileDialog(this, "저장", FileDialog.SAVE);
+		saveDialog = new JFileChooser();
+		saveDialog.setCurrentDirectory(new File("c:/"));
+		saveDialog.addChoosableFileFilter(new FileNameExtensionFilter("텍스트 파일(*.txt)", "txt"));
 
 		init.addActionListener(new NotepadEventHandle());
 		open.addActionListener(new NotepadEventHandle());
@@ -93,18 +104,27 @@ public class NotepadApp extends JFrame {
 
 			if (eventSource == init) {
 				jTextArea.setText("");
-				filepath = "";
+				// filepath = "";
+				file = null;
 				setTitle("제목 없음 - Java 메모장");
 			} else if (eventSource == open) {
-				openDialog.setVisible(true);
 
-				if (openDialog.getFile() == null)
-					return;
+				/*
+				 * openDialog.setVisible(true);
+				 * 
+				 * if (openDialog.getFile() == null) return;
+				 * 
+				 * filepath = openDialog.getDirectory() + openDialog.getFile();
+				 */
+				int option = openDialog.showOpenDialog(NotepadApp.this);
 
-				filepath = openDialog.getDirectory() + openDialog.getFile();
+				if (option == JFileChooser.APPROVE_OPTION) {
+					file = openDialog.getSelectedFile();
+					setTitle(file.toString() + " - Java 메모장");
+				}
 
 				try {
-					BufferedReader in = new BufferedReader(new FileReader((filepath)));
+					BufferedReader in = new BufferedReader(new FileReader(file.getAbsoluteFile()));// (filepath)));
 
 					jTextArea.setText("");
 
@@ -116,7 +136,7 @@ public class NotepadApp extends JFrame {
 					}
 					in.close();
 
-					setTitle(openDialog.getFile() + " - Java 메모장");
+					// setTitle(openDialog.getFile() + " - Java 메모장");
 				} catch (FileNotFoundException exception) {
 					JOptionPane.showMessageDialog(null, "파일을 찾을 수 없습니다.");
 				} catch (IOException exception) {
@@ -125,19 +145,26 @@ public class NotepadApp extends JFrame {
 
 			} else if (eventSource == save) {
 
-				if (filepath == null || filepath.equals("")) {
+				// if (filepath == null || filepath.equals("")) {
+				if (file == null) {
+					int option = saveDialog.showSaveDialog(NotepadApp.this);
 
-					saveDialog.setVisible(true);
-
-					if (saveDialog.getFile() == null)
-						return;
-
-					filepath = saveDialog.getDirectory() + saveDialog.getFile();
-
-					setTitle(saveDialog.getFile() + " - Java 메모장");
+					if (option == JFileChooser.APPROVE_OPTION) {
+						file = saveDialog.getSelectedFile();
+						setTitle(file.toString() + " - Java 메모장");
+					}
+					/*
+					 * saveDialog.setVisible(true);
+					 * 
+					 * if (saveDialog.getFile() == null) return;
+					 * 
+					 * filepath = saveDialog.getDirectory() + saveDialog.getFile();
+					 * 
+					 * setTitle(saveDialog.getFile() + " - Java 메모장");
+					 */
 				}
 				try {
-					BufferedWriter out = new BufferedWriter(new FileWriter(filepath));
+					BufferedWriter out = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));// filepath));
 
 					String text = jTextArea.getText();
 
