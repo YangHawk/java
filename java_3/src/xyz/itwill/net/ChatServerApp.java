@@ -32,6 +32,7 @@ public class ChatServerApp {
 					socketThread.start();
 
 					clientList.add(socketThread);
+					
 				} catch (IOException e) {
 					System.out.println("[에러로그]클라이언트의 접속 관련 문제 발생");
 				}
@@ -53,6 +54,7 @@ public class ChatServerApp {
 	}
 
 	public class SocketThread extends Thread {
+		
 		private Socket client;
 
 		private BufferedReader in;
