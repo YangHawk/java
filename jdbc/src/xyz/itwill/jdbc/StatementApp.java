@@ -40,6 +40,19 @@ public class StatementApp {
 
 		Statement stmt = con.createStatement();
 		
+		1. 
+		StringBuffer sb = new StringBuffer();
+		sb.append("insert into student values(no");
+		sb.append(", '"+name+"'");
+		sb.append(", '"+phone+"'");
+		sb.append(", '"+address+"'");
+		sb.append(", '"+birthday+"'");
+		
+		2. 
+		String sql1=new String();
+		sql1.format("insert into student values(%d, '%s', '%s', '%s', '%s')", no, name, phone, address, birthday);
+		
+		
 		String sql1 = "insert into student values(" + no + ", '" + name + "', '" + phone + "', '" + address + "', '"
 				+ birthday + "')";
 		int rows = stmt.executeUpdate(sql1);

@@ -109,7 +109,19 @@ public class ResultSetCursorApp {
 		 * // ResertSet.insertRow(): ResultSet 객체에서 삽입도니 행을 실제 테이블에 적용하여 // 삽입 처리하는 메소드
 		 * rs.insertRow();
 		 */
-
+		
+		/*
+		rs.moveToInsertRow();
+		
+		rs.updateInt("no",5000);
+		rs.updateString("name", "일지매");
+		rs.updateString("phone", "010-6715-9081");
+		rs.updateString("address", "서울시 종로구");
+		rs.updateString("birthday", "2000-12-31");
+		
+		rs.insertRow();
+		*/
+		
 		// rs.absolute(4);
 
 		// ResertSet.deleteRow(): ResultSet 객체에서 ResultSet 커서가 위치한 처리행을 삭제

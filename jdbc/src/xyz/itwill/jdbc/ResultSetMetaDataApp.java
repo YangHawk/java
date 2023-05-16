@@ -30,7 +30,7 @@ public class ResultSetMetaDataApp {
 		System.out.println("검색행의 컬럼 갯수 = " + columnCount);
 		System.out.println("==============================================================");
 		for (int i = 1; i <= columnCount; i++) {// 검색 대상의 갯수만큼 반복 처리
-			// ResultSetMetaData.getColumnLaber(int columnIndex): 첨자 위치(columnIndex)의
+			// ResultSetMetaData.getColumnLabel(int columnIndex): 첨자 위치(columnIndex)의
 			// 검색 대상의 이름(컬럼명) 을 반환하는 메소드
 			// ※Index는 Java = 0부터 시작 / Oracle = 1부터 시작
 			String columnLabel = rsmd.getColumnLabel(i);
