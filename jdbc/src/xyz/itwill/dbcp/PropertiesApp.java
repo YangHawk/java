@@ -15,8 +15,8 @@ public class PropertiesApp {
 	public PropertiesApp() throws IOException {
 		// Properties 파일을 읽기 위한 입력 스트림 생성
 		// ▶ Properties 파일의 경로를 제공받아 FileInputStream 클래스로 객체를 생성
-		// ▶ 프로그램 배포시 파일 경로에 문제가 발생 가능 그러므로,
 		// FileInputStream in = new FileInputStream("src/xyz/itwill/dbcp/user.properties");
+		// ▶ 프로그램 배포시 파일 경로에 문제가 발생 가능 그러므로,
 		
 		// Object.getClass(): 현재 실행중인 클래스에 대한 Class 객체(Clazz)를 반환하는 메소드
 		// Class.getClassLoader(): 클래스를 읽어 메모리에 저장된 ClassLoader 객체를 반환하는 메소드
@@ -25,7 +25,7 @@ public class PropertiesApp {
 		InputStream in=getClass().getClassLoader().getResourceAsStream("xyz/itwill/dbcp/user.properties");
 
 		// Properties 객체 생성 - 다수의 엔트리(Entry - Key와 Value) 저장
-		// ▶ Properties 클래스는 Map 인터페이스를 상`속받은 자식 클래스
+		// ▶ Properties 클래스는 Map 인터페이스를 상속받은 자식 클래스
 		// ▶ Properties 파일의 이름(Name)과 값(Value)을 하나의 엔트리(Entry)로 저장하기 위한 객체
 		Properties properties = new Properties();
 

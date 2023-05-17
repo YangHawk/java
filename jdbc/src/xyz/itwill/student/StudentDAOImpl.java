@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // DAO(Data Access Object) 클래스: 저장매체에 행정보를 삽입, 삭제, 변경, 검색하는 기능을 제공하는 클래스
-// ▶ 저장매체: 정보를 행단위로 저장하여 관리하기 위한 하드웨어 또는 소프트웨어 - DBMS
+// ▶ 저장매체: 정보를 행단위로 저장하여 관리하기 위한 하드웨어 또는 소프트웨어 - DBMS(지금은 Oracle)
 // ▶ 인터페이스를 상속받아 작성하는 것을 권장 - 메소드 작성 규칙 제공: 유지보수의 효율성 증가
 // ▶ 싱글톤 디자인 패턴을 적용하여 작성하는 것을 권장 - 프로그램에 하나의 객체만 제공되는 클래스
 
@@ -154,7 +154,7 @@ public class StudentDAOImpl extends JdbcDAO implements StudentDAO {
 		try {
 			con = getConnection();
 
-			String sql = "select 8 from student where name = ?";
+			String sql = "select * from student where name = ? order by no";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, name);
 			rs = pstmt.executeQuery();
@@ -180,10 +180,37 @@ public class StudentDAOImpl extends JdbcDAO implements StudentDAO {
 		return studentList;
 	}
 
+	// STUDENT 테이블에 저장된 모든 학생 정보를 검색하여 반환하는 메소드
 	@Override
 	public List<StudentDTO> selectAllStudentList() {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<StudentDTO> allStudentList = new ArrayList<>();
+		try {
+			con = getConnection();
+
+			String sql = "select no, name, phone, address, to_char(birthday, 'yyyy-mm-dd') birthday from student order by no";
+			// 이렇게 하면 substring() 메소드를 호출할 필요 없다.
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				StudentDTO student = new StudentDTO();
+				student.setNo(rs.getInt("no"));
+				student.setName(rs.getString("name"));
+				student.setPhone(rs.getString("phone"));
+				student.setAddress(rs.getString("address"));
+				student.setBirthday(rs.getString("birthday"));
+
+				allStudentList.add(student);
+			}
+		} catch (SQLException e) {
+			System.out.println("[에러]selectAllStudentList() 메소드의 SQL 오류 = " + e.getMessage());
+		} finally {
+			close(con, pstmt, rs);
+		}
+		return allStudentList;
 	}
 
 }

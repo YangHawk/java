@@ -80,4 +80,9 @@ public class StudentDTO {
 		this.birthday = birthday;
 	}
 
+	@Override
+	public String toString() { // toString 메소드를 오버라이드
+		return no + "\t" + name + "\t" + phone + "\t" + address + "\t" + birthday;
+	}
+
 }

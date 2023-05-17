@@ -10,7 +10,7 @@ import oracle.ucp.jdbc.PoolDataSourceFactory;
 // ▶ DBCP 클래스의 메소드가 동일한 형식으로 작성하기 위한 규칙을 제공
 
 // UCP(Universal Connection Pool) 라이브러리로 의해 제공되는 DBCP 클래스를 이용한 JDBC 프로그램 작성
-// ▶ https://www.oracle.com 사이트의 페이지에서 UCP 라이브러리 파일(ucp1.jar) 파일을 다운로드 받아
+// ▶ https://www.oracle.com 사이트의 페이지에서 UCP 라이브러리 파일(ucp11.jar) 파일을 다운로드 받아
 // 프로젝트에 빌드 처리
 public class DataSourceApp {
 	public static void main(String[] args) throws SQLException {
@@ -19,7 +19,7 @@ public class DataSourceApp {
 		// PoolDataSourceFactory.getPoolDataSource(): PoolDataSource 객체를 생성하여 반환하는 메소드
 		PoolDataSource pds = PoolDataSourceFactory.getPoolDataSource();
 
-		// PoolDataSoource 객체에 저장될 Connection 객체를 생성하기 위한 메소드 호출!
+		// PoolDataSource 객체에 저장될 Connection 객체를 생성하기 위한 메소드 호출!
 
 		// PoolDataSourceFactory.setConnectionFactoryClassName(String driver)
 		// ▶ PoolDataSource 객체의 JDBC Driver 클래스를 변경하는 메소드

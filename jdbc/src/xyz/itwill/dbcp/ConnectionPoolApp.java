@@ -11,9 +11,9 @@ import java.sql.SQLException;
 
 public class ConnectionPoolApp {
 	public static void main(String[] args) throws SQLException {
-		// ConnectionPool 클래스를 싱글톤 클래스이므로 new 연살자를 사용하여 생성자로 객체를 생성하지
+		// ConnectionPool 클래스를 싱글톤 클래스이므로 new 연산자를 사용하여 생성자로 객체를 생성하지
 		// 않고 메소드를 호출하여 객체를 반환받아서 사용
-		// ▶ ConnectionPool 객체에는 Connection 객체가 2개 생성되어 저장되어 있음
+		// ▶ ConnectionPool 객체에는 Connection 객체가 3개 생성되어 저장되어 있음
 		ConnectionPool cp = ConnectionPool.getInstance();
 
 		// ConnectionPool.getConnection(): ConnectionPool 객체에 저장된 Connection 객체 중
