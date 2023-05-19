@@ -15,6 +15,7 @@ public interface StudentDAO {
 	int updateALog(StudentDTO student);
 
 // 내 정보만 보기
-	List<StudentDTO> showALog(StudentDTO student);
+	List<ALogDTO> showALog(StudentDTO student);
 
+	// student 객체가 입실해있는지, 퇴실해있는지 확인하는 메소뜨!
 }

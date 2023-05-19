@@ -67,7 +67,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		try {
 			con = getConnection();
 
-			String sql = "insert into alog(logno, sno, logtype, logintime) values(logno_seq.nextval ,?, 1, sysdate)";
+			String sql = "insert into alog(logno, sno, logtype, logintime) values(logno_seq.nextval ,?, '입실', sysdate)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, student.getNo());
 
@@ -91,7 +91,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		try {
 			con = getConnection();
 
-			String sql = "update alog set logtype = 0, logouttime = sysdate WHERE sno = ? and trunc(logintime, 'DD') = trunc(sysdate)";
+			String sql = "update alog set logtype = '퇴실', logouttime = sysdate WHERE sno = ? and trunc(logintime, 'DD') = trunc(sysdate)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, student.getNo());
 
@@ -105,30 +105,43 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		}
 		return rows;
 	}
-	
+
 	// 저장된 객체의 학번을 전달받아
 	@Override
-	public List<StudentDTO> showALog(StudentDTO student) {
+	public List<ALogDTO> showALog(StudentDTO student) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<StudentDTO> myALog = new ArrayList<>();
+		List<ALogDTO> aLog = new ArrayList<>();
 		try {
 			con = getConnection();
 
-			String sql = "select * from alog where sno =?";
+			String sql = "select * from alog where sno =? order by logintime";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, student.getNo());
 
 			rs = pstmt.executeQuery();
-			
-			myALog.add(student);
+
+			while (rs.next()) {
+
+				ALogDTO myALog = new ALogDTO();
+				myALog.setLogNo(rs.getInt("logNo"));
+				myALog.setsNo(rs.getInt("sNo"));
+				myALog.setLogType(rs.getString("logType"));
+				myALog.setLogInTime(rs.getString("logInTime"));
+				myALog.setLogOutTime(rs.getString("logOutTime"));
+				myALog.setStatus(rs.getString("status"));
+				myALog.setsName(rs.getString("sName"));
+
+				aLog.add(myALog);
+			}
 
 		} catch (SQLException e) {
 			System.out.println("[에러]showALog() 메소드의 SQL 오류 = " + e.getMessage());
 		} finally {
 			close(con, pstmt, rs);
 		}
-		return myALog;
+		return aLog;
 	}
+
 }

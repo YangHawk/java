@@ -16,6 +16,7 @@ STATUS              VARCHAR2(20)
  */
 public class ALogDTO {
 
+	
 	private int logNo;
 	private int sNo;
 	private String logType;

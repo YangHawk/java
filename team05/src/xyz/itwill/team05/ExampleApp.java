@@ -15,11 +15,11 @@ public class ExampleApp {
 		login();
 
 		while (true) {
-			System.out.println("1. 입실 / 2. 퇴실 / 3. 내 정보 보기 / 4. 종료");
+			System.out.println("1. 입실 / 2. 퇴실 / 3. 출결 기록 확인 / 4. 종료");
 
 			int choice;
 			try {
-				System.out.print("메뉴 선택[1 / 2 / 3] → ");
+				System.out.print("메뉴 선택[1 / 2 / 3 / 4] → ");
 				choice = Integer.parseInt(in.readLine());
 				if (choice < 1 || choice > 4)
 					throw new Exception();
@@ -30,7 +30,7 @@ public class ExampleApp {
 			}
 			System.out.println();
 
-			if (choice == 3)
+			if (choice == 4)
 				break;
 
 			switch (choice) {
@@ -39,13 +39,10 @@ public class ExampleApp {
 				break;
 			case 2:
 				updateALog();
-
 				break;
-
 			case 3:
 				showALog();
 				break;
-
 			}
 
 			System.out.println();
@@ -57,6 +54,7 @@ public class ExampleApp {
 	}
 
 	public void login() {
+
 		try {
 			String email;
 			String phone;
@@ -108,17 +106,17 @@ public class ExampleApp {
 		}
 	}
 
-	public void callStudent() {
-
-	}
-
 	public void insertALog() {
 
-		System.out.println("입실 버튼!");
+		System.out.println("입실 버튼 눌렀다!");
 
 		try {
 			int rows = AccessDAOImpl.getDAO().insertALog(student);
-			System.out.println("[처리 결과]" + rows + "명의 학생이 입실하였습니다.");
+			if (rows > 0) {
+				System.out.println("[처리 결과]" + rows + "명의 학생이 입실하였습니다.");
+			} else {
+				System.out.println("[에러]입실 처리 중 오류가 발생하였습니다.");
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,7 +130,12 @@ public class ExampleApp {
 
 		try {
 			int rows = AccessDAOImpl.getDAO().updateALog(student);
-			System.out.println("[처리 결과]" + rows + "명의 학생이 퇴실하였습니다.");
+			if (rows > 0) {
+				System.out.println("[처리 결과]" + rows + "명의 학생이 퇴실하였습니다.");
+			} else {
+				System.out.println("[에러]퇴실 처리 중 오류가 발생하였습니다.");
+
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -140,10 +143,16 @@ public class ExampleApp {
 
 	public void showALog() {
 		System.out.println("내 출결 기록 보기");
-		List<StudentDTO> showMyLog = AccessDAOImpl.getDAO().showALog(student);
+		List<ALogDTO> alog = AccessDAOImpl.getDAO().showALog(student);
+
+		if (alog.isEmpty()) {
+			System.out.println("[처리 결과]출결 정보가 없습니다.");
+			return;
+		}
 
 		System.out.println("==========================================================================");
-		System.out.println(showMyLog);
-
+		for (ALogDTO log : alog) {
+			System.out.println(log);
+		}
 	}
 }
