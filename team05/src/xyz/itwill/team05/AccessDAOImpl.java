@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
@@ -105,11 +106,13 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return rows;
 	}
 	
+	// 저장된 객체의 학번을 전달받아
 	@Override
 	public List<StudentDTO> showALog(StudentDTO student) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		List<StudentDTO> myALog = new ArrayList<>();
 		try {
 			con = getConnection();
 
@@ -118,12 +121,14 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 			pstmt.setInt(1, student.getNo());
 
 			rs = pstmt.executeQuery();
+			
+			myALog.add(student);
 
 		} catch (SQLException e) {
 			System.out.println("[에러]showALog() 메소드의 SQL 오류 = " + e.getMessage());
 		} finally {
 			close(con, pstmt, rs);
 		}
-		return ;
+		return myALog;
 	}
 }

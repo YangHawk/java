@@ -2,6 +2,7 @@ package xyz.itwill.team05;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class ExampleApp {
 
@@ -14,13 +15,13 @@ public class ExampleApp {
 		login();
 
 		while (true) {
-			System.out.println("1. 입실 / 2. 퇴실 / 3. 종료 ");
+			System.out.println("1. 입실 / 2. 퇴실 / 3. 내 정보 보기 / 4. 종료");
 
 			int choice;
 			try {
-				System.out.print("메뉴 선택[1 / 2] → ");
+				System.out.print("메뉴 선택[1 / 2 / 3] → ");
 				choice = Integer.parseInt(in.readLine());
-				if (choice < 1 || choice > 3)
+				if (choice < 1 || choice > 4)
 					throw new Exception();
 			} catch (Exception e) {
 				System.out.println("[에러]메뉴를 잘못 선택하였습니다.");
@@ -38,10 +39,15 @@ public class ExampleApp {
 				break;
 			case 2:
 				updateALog();
+
 				break;
+
+			case 3:
+				showALog();
+				break;
+
 			}
-			
-			
+
 			System.out.println();
 		}
 	}
@@ -130,5 +136,14 @@ public class ExampleApp {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void showALog() {
+		System.out.println("내 출결 기록 보기");
+		List<StudentDTO> showMyLog = AccessDAOImpl.getDAO().showALog(student);
+
+		System.out.println("==========================================================================");
+		System.out.println(showMyLog);
+
 	}
 }
