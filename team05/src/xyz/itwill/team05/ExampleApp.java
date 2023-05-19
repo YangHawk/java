@@ -2,12 +2,14 @@ package xyz.itwill.team05;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ExampleApp {
 
 	private BufferedReader in;
 	StudentDTO student = new StudentDTO();
+	private boolean checkInOut = false;
 
 	public ExampleApp() {
 		in = new BufferedReader(new InputStreamReader(System.in));
@@ -35,11 +37,21 @@ public class ExampleApp {
 
 			switch (choice) {
 			case 1:
-				insertALog();
-				break;
+				checkIn();
+				if (checkInOut) {
+					break;
+				} else {
+					insertALog();
+					break;
+				}
 			case 2:
-				updateALog();
-				break;
+				checkOut();
+				if (checkInOut) {
+					break;
+				} else {
+					updateALog();
+					break;
+				}
 			case 3:
 				showALog();
 				break;
@@ -111,6 +123,7 @@ public class ExampleApp {
 		System.out.println("입실 버튼 눌렀다!");
 
 		try {
+
 			int rows = AccessDAOImpl.getDAO().insertALog(student);
 			if (rows > 0) {
 				System.out.println("[처리 결과]" + rows + "명의 학생이 입실하였습니다.");
@@ -155,4 +168,34 @@ public class ExampleApp {
 			System.out.println(log);
 		}
 	}
+
+	public void checkIn() {
+		try {
+			LocalDate currentDate = LocalDate.now();
+			checkInOut = AccessDAOImpl.getDAO().checkIn(student, currentDate);
+			if (checkInOut) {
+				System.out.println("입실 이미 했음!");
+				return;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void checkOut() {
+
+		try {
+			LocalDate currentDate = LocalDate.now();
+			checkInOut = AccessDAOImpl.getDAO().checkOut(student, currentDate);
+			if (checkInOut) {
+				System.out.println("퇴실 이미 했음!");
+				return;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

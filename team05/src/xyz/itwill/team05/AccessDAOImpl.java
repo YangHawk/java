@@ -1,9 +1,11 @@
 package xyz.itwill.team05;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,4 +146,65 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return aLog;
 	}
 
+	@Override
+	public boolean checkIn(StudentDTO student, LocalDate currentDate) {
+
+		boolean checkIn = false;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = getConnection();
+
+			String sql = "select count(*) from alog where sno = ? and logType = '입실' and trunc(logInTime) = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, student.getNo());
+			pstmt.setDate(2, Date.valueOf(currentDate));
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				int count = rs.getInt(1);
+				checkIn = count > 0;
+			}
+
+		} catch (SQLException e) {
+			System.out.println("[에러]checkInOut() 메소드의 SQL 오류 = " + e.getMessage());
+		} finally {
+			close(con, pstmt, rs);
+		}
+
+		return checkIn;
+
+	}
+	
+	@Override
+	public boolean checkOut(StudentDTO student, LocalDate currentDate) {
+		boolean checkOut = false;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = getConnection();
+
+			String sql = "select count(*) from alog where sno = ? and logType = '퇴실' and trunc(logInTime) = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, student.getNo());
+			pstmt.setDate(2, Date.valueOf(currentDate));
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				int count = rs.getInt(1);
+				checkOut = count > 0;
+			}
+
+		} catch (SQLException e) {
+			System.out.println("[에러]checkOut() 메소드의 SQL 오류 = " + e.getMessage());
+		} finally {
+			close(con, pstmt, rs);
+		}
+
+		return checkOut;
+	}
 }

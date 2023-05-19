@@ -1,5 +1,6 @@
 package xyz.itwill.team05;
 
+import java.time.LocalDate;
 import java.util.List;
 
 //1. 학생이 로그인을 하면 자동으로 ALOG 테이블에서 학생의 상태를 변경하는 메소드
@@ -17,5 +18,14 @@ public interface StudentDAO {
 // 내 정보만 보기
 	List<ALogDTO> showALog(StudentDTO student);
 
-	// student 객체가 입실해있는지, 퇴실해있는지 확인하는 메소뜨!
+	// student 버튼 눌렀을 때 입실 또는 퇴실을 못하게!
+	// 만약 sno - 1이고 날짜가 05/19일 때 행이 있다면, 입실 버튼을 눌렀을 때 행이 추가가 못되게!
+	// 1. 행을 검색해야 함
+	// select * from alog where sno = ? and and trunc(logintime, 'DD') =
+	// trunc(sysdate)
+
+	boolean checkIn(StudentDTO student, LocalDate currentDate);
+
+	boolean checkOut(StudentDTO student, LocalDate currentDate);
+
 }
