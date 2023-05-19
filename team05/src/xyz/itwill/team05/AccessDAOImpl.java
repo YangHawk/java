@@ -157,7 +157,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		try {
 			con = getConnection();
 
-			String sql = "select count(*) from alog where sno = ? and logType = '입실' and trunc(logInTime) = ?";
+			String sql = "select count(*) from alog where sno = ? and trunc(logInTime) = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, student.getNo());
 			pstmt.setDate(2, Date.valueOf(currentDate));
@@ -169,7 +169,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("[에러]checkInOut() 메소드의 SQL 오류 = " + e.getMessage());
+			System.out.println("[에러]checkIn() 메소드의 SQL 오류 = " + e.getMessage());
 		} finally {
 			close(con, pstmt, rs);
 		}
