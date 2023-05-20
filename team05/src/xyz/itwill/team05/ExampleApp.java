@@ -746,17 +746,93 @@ public class ExampleApp {
 	}
 
 	public void studentNoAtt() {
-		System.out.println("===================");
-		System.out.println(" 학생 별 출결 조회 ");
-		System.out.println("===================");
 
+		System.out.println("======================");
+		System.out.println("학생 별 출결 현황 조회");
+		System.out.println("======================");
+
+		try {
+			String name;
+			while (true) {
+				System.out.print("이름 입력 >> ");
+				name = in.readLine();
+
+				if (name == null || name.equals("")) {
+					System.out.println("[입력오류]이름을 반드시 입력해 주세요.");
+					continue;
+				}
+
+				String nameReg = "^[가-힣]{2,5}$";
+				if (!Pattern.matches(nameReg, name)) {
+					System.out.println("[입력오류]이름은 2~5 범위의 한글로만 입력해 주세요.");
+					continue;
+				}
+
+				break;
+			}
+
+			List<ALogDTO> studentALogList = TeacherDAOImpl.getDAO().selectNameAlogList(name);
+
+			if (studentALogList.isEmpty()) {
+				System.out.println("[처리결과]검색된 학생정보가 없습니다.");
+				return;
+			}
+
+			System.out.println("========================================================================");
+			System.out.println("LOG\t학번\t입퇴\t이름\t입실시간\t\t퇴실시간\t상태");
+			System.out.println("========================================================================");
+			for (ALogDTO student : studentALogList) {
+				System.out.println(student);
+			}
+			System.out.println("========================================================================");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void studentdateAtt() {
-		System.out.println("=======================");
-		System.out.println(" 출결 현황 날짜별 조회 ");
-		System.out.println("=======================");
 
+		System.out.println("======================");
+		System.out.println("날짜 별 출결 현황 조회");
+		System.out.println("======================");
+
+		try {
+			String logInTime;
+			while (true) {
+				System.out.print("날짜 입력 >> ");
+				logInTime = in.readLine();
+
+				if (logInTime == null || logInTime.equals("")) {
+					System.out.println("[입력오류]날짜를 반드시 입력해 주세요.");
+					continue;
+				}
+
+				String logInTimeReg = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$";
+				if (!Pattern.matches(logInTimeReg, logInTime)) {
+					System.out.println("[입력오류]날짜는 YYYY-MM-DD 형식으로만 입력해 주세요.");
+					continue;
+				}
+
+				break;
+			}
+
+			List<ALogDTO> dateALogList = TeacherDAOImpl.getDAO().selectDateALogList(logInTime);
+
+			if (dateALogList.isEmpty()) {
+				System.out.println("[처리결과]검색된 날짜의 출결 정보가 없습니다.");
+				return;
+			}
+
+			System.out.println("========================================================================");
+			System.out.println("LOG\t학번\t입퇴\t이름\t입실시간\t\t퇴실시간\t상태");
+			System.out.println("========================================================================");
+			for (ALogDTO date : dateALogList) {
+				System.out.println(date);
+			}
+			System.out.println("========================================================================");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

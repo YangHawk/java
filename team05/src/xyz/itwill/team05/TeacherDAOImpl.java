@@ -66,7 +66,7 @@ public class TeacherDAOImpl extends JdbcDAO implements TeacherDAO {
 		try {
 			con = getConnection();
 
-			String sql = "update student set name=?,phone=?,address=?,birthday=? where no=?";
+			String sql = "update student set name=?,email=?,phone=?,address=? where no=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, student.getName());
 			pstmt.setString(2, student.getEmail());
@@ -209,5 +209,71 @@ public class TeacherDAOImpl extends JdbcDAO implements TeacherDAO {
 			close(con, pstmt, rs);
 		}
 		return studentList;
+	}
+
+	@Override
+	public List<ALogDTO> selectNameAlogList(String name) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<ALogDTO> studentLog = new ArrayList<>();
+		try {
+			con = getConnection();
+
+			String sql = "select * from alog where sname = ? order by logintime";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				ALogDTO student = new ALogDTO();
+				student.setsNo(rs.getInt("sno"));
+				student.setLogType(rs.getString("logtype"));
+				student.setsName(rs.getString("sname"));
+				student.setLogInTime(rs.getString("logintime"));
+				student.setLogOutTime(rs.getString("logouttime"));
+				student.setStatus(rs.getString("status"));
+
+				studentLog.add(student);
+			}
+		} catch (SQLException e) {
+			System.out.println("[에러]selectStudent() 메소드의 SQL 오류 = " + e.getMessage());
+		} finally {
+			close(con, pstmt, rs);
+		}
+		return studentLog;
+	}
+
+	@Override
+	public List<ALogDTO> selectDateALogList(String logInTime) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<ALogDTO> dateLog = new ArrayList<>();
+		try {
+			con = getConnection();
+
+			String sql = "select * from alog where trunc(logintime) = to_date(?, 'YYYY-MM-DD') order by logintime";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, logInTime);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				ALogDTO student = new ALogDTO();
+				student.setsNo(rs.getInt("sno"));
+				student.setLogType(rs.getString("logtype"));
+				student.setsName(rs.getString("sname"));
+				student.setLogInTime(rs.getString("logintime"));
+				student.setLogOutTime(rs.getString("logouttime"));
+				student.setStatus(rs.getString("status"));
+
+				dateLog.add(student);
+			}
+		} catch (SQLException e) {
+			System.out.println("[에러]selectStudent() 메소드의 SQL 오류 = " + e.getMessage());
+		} finally {
+			close(con, pstmt, rs);
+		}
+		return dateLog;
 	}
 }

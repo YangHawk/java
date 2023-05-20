@@ -98,6 +98,7 @@ public class ALogDTO {
 
 	@Override
 	public String toString() {
-		return logNo + "\t" + sNo + "\t" + logType + "\t" + logInTime + "\t" + logOutTime + "\t" + status;
+		return logNo + "\t" + sNo + "\t" + logType + "\t" + sName + "\t" + logInTime + "\t" + logOutTime + "\t"
+				+ status;
 	}
 }
