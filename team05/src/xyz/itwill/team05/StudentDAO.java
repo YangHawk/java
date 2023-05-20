@@ -32,6 +32,9 @@ public interface StudentDAO {
 	// 학생 정보를 전달받아 결석 상태로 처리하는 메소드
 	int updateStatusAbsent(StudentDTO student);
 
+	// 학생 정보를 전달받아 결석 상태로 처리하는 메소드
+	int updateStatusAbsent2(StudentDTO student);
+
 	// 마지막으로 출석한 날짜를 전달받아, 결석한 날짜들의 행을 삽입하는 메소드
 	int insertStatusAbsent(StudentDTO student);
 
