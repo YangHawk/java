@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class ExampleApp {
 
@@ -197,18 +198,14 @@ public class ExampleApp {
 
 			switch (choice) {
 			case 1:
-				System.out.println("========================");
-				System.out.println("학생 정보 관리 기능 실행");
-				System.out.println("========================");
-				// 여기에 선생의 DAO 메소드가 호출되어야 함
+				studentInfApp();
+				break;
 
 			case 2:
-				System.out.println("========================");
-				System.out.println("학생 출결 관리 기능 실행");
-				System.out.println("========================");
-
-				// 여기에 선생의 DAO 메소드가 호출되어야 함
+				studentAttApp();
+				break;
 			}
+
 		}
 	}
 
@@ -288,7 +285,7 @@ public class ExampleApp {
 	public void studentMyPage() {
 
 		String[] menu = { "1. 내 정보 보기", "2. 출결 현황", "3. 뒤로 가기" };
-		
+
 		System.out.println("==============================================================");
 		System.out.println("『마이 페이지』");
 		System.out.println("==============================================================");
@@ -326,6 +323,440 @@ public class ExampleApp {
 			}
 			System.out.println();
 		}
+	}
+
+	public void studentInfApp() {
+		in = new BufferedReader(new InputStreamReader(System.in));
+
+		String[] menu = { "1.학생 정보 삽입", "2.학생 정보 변경", "3.학생 정보 삭제", "4.학생 정보 검색", "5.전체 학생 목록 출력", "6.뒤로 가기" };
+
+		System.out.println("<< 학생 정보 관리 >>");
+
+		while (true) {
+			for (String item : menu) {
+				System.out.println(item);
+			}
+
+			int choice;
+			try {
+				System.out.print("메뉴 선택[1~6] >> ");
+				choice = Integer.parseInt(in.readLine());
+				if (choice < 1 || choice > 6)
+					throw new Exception();
+			} catch (Exception e) {
+				System.out.println("[에러]메뉴를 잘못 선택 하였습니다.");
+				System.out.println();
+				continue;
+			}
+			System.out.println();
+
+			if (choice == 6)
+				break;
+
+			switch (choice) {
+			case 1:
+				addStudent();
+				break;
+			case 2:
+				modifyStudent();
+				break;
+			case 3:
+				removeStudent();
+				break;
+			case 4:
+				searchStudent();
+				break;
+			case 5:
+				displayAllStudent();
+				break;
+			case 6:
+				return;
+			}
+			System.out.println();
+		}
+	}
+
+	public void addStudent() {
+		System.out.println("===============");
+		System.out.println(" 학생정보 삽입 ");
+		System.out.println("===============");
+
+		try {
+
+			int no;
+			while (true) {
+				System.out.print("학번 입력 >> ");
+				String noTemp = in.readLine();
+
+				if (noTemp == null || noTemp.equals("")) {
+					System.out.println("[입력오류]학번을 반드시 입력해 주세요.");
+					continue;
+				}
+
+				String noReg = "^[1-9][0-9]{3}$";
+				if (!Pattern.matches(noReg, noTemp)) {
+					System.out.println("[입력오류]학번은 4자리 숫자로만 입력해 주세요.");
+					continue;
+				}
+
+				no = Integer.parseInt(noTemp);
+
+				StudentDTO student = TeacherDAOImpl.getDAO().selectStudent(no);
+
+				if (student != null) {
+					System.out.println("[입력오류]이미 사용중인 학번을 입력 하였습니다.");
+					continue;
+				}
+
+				break;
+			}
+
+			String name;
+			while (true) {
+				System.out.print("이름 입력 >> ");
+				name = in.readLine();
+
+				if (name == null || name.equals("")) {
+					System.out.println("[입력오류]이름을 반드시 입력해 주세요.");
+					continue;
+				}
+
+				String nameReg = "^[가-힣]{2,5}$";
+				if (!Pattern.matches(nameReg, name)) {
+					System.out.println("[입력오류]이름은 2~5 범위의 한글로만 입력해 주세요.");
+					continue;
+				}
+
+				break;
+			}
+
+			String email;
+			while (true) {
+				System.out.print("이메일 입력 >> ");
+				email = in.readLine();
+
+				if (email == null || email.equals("")) {
+					System.out.println("[입력오류]이메일을 반드시 입력해 주세요.");
+					continue;
+				}
+
+				break;
+			}
+
+			String phone;
+			while (true) {
+				System.out.print("전화번호 입력 >> ");
+				phone = in.readLine();
+
+				if (phone == null || phone.equals("")) {
+					System.out.println("[입력오류]전화번호를 반드시 입력해 주세요.");
+					continue;
+				}
+
+				String phoneReg = "(01[016789])-\\d{3,4}-\\d{4}";
+				if (!Pattern.matches(phoneReg, phone)) {
+					System.out.println("[입력오류]전화번호를 형식에 맞게 입력해 주세요.");
+					continue;
+				}
+
+				break;
+			}
+
+			String address;
+			while (true) {
+				System.out.print("주소 입력 >> ");
+				address = in.readLine();
+
+				if (address == null || address.equals("")) {
+					System.out.println("[입력오류]주소를 반드시 입력해 주세요.");
+					continue;
+				}
+
+				break;
+			}
+
+			StudentDTO student = new StudentDTO();
+			student.setNo(no);
+			student.setName(name);
+			student.setEmail(email);
+			student.setPhone(phone);
+			student.setAddress(address);
+
+			int rows = TeacherDAOImpl.getDAO().insertStudent(student);
+
+			System.out.println("[처리결과]" + rows + "명의 학생정보를 삽입 하였습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void modifyStudent() {
+		System.out.println("===============");
+		System.out.println(" 학생정보 변경 ");
+		System.out.println("===============");
+
+		try {
+			int no;
+			while (true) {
+				System.out.print("학번 입력 >> ");
+				String noTemp = in.readLine();
+
+				if (noTemp == null || noTemp.equals("")) {
+					System.out.println("[입력오류]학번을 반드시 입력해 주세요.");
+					continue;
+				}
+
+				String noReg = "^[1-9][0-9]{3}$";
+				if (!Pattern.matches(noReg, noTemp)) {
+					System.out.println("[입력오류]학번은 4자리 숫자로만 입력해 주세요.");
+					continue;
+				}
+
+				no = Integer.parseInt(noTemp);
+
+				break;
+			}
+
+			StudentDTO student = TeacherDAOImpl.getDAO().selectStudent(no);
+
+			if (student == null) {// 검색된 학생정보가 없는 경우
+				System.out.println("[처리결과]변경할 학번의 학생정보가 없습니다.");
+				return;
+			}
+
+			// 검색된 학생정보 출력
+			System.out.println("========================================================================");
+			System.out.println("학번\t이름\t이메일\t\t\t전화번호\t주소");
+			System.out.println("========================================================================");
+			System.out.println(student);
+			System.out.println("========================================================================");
+
+			// 키보드로 학번를 제외한 값을 입력받아 저장 - 입력값 검증
+			System.out.println("[메세지]변경값 입력 >> 변경하지 않을 경우 엔터만 입력해 주세요.");
+
+			String name;
+			while (true) {
+				System.out.print("이름 입력 >> ");
+				name = in.readLine();
+
+				String nameReg = "^[가-힣]{2,5}$";
+				if (name != null && !name.equals("") && !Pattern.matches(nameReg, name)) {
+					System.out.println("[입력오류]이름은 2~5 범위의 한글로만 입력해 주세요.");
+					continue;
+				}
+
+				break;
+			}
+
+			String email;
+			while (true) {
+				System.out.print("이메일 입력 >> ");
+				email = in.readLine();
+
+				if (email != null && !email.equals("")) {
+					System.out.println("[입력오류]이메일을 형식에 맞게 입력해 주세요.");
+					continue;
+				}
+
+				break;
+			}
+
+			String phone;
+			while (true) {
+				System.out.print("전화번호 입력 >> ");
+				phone = in.readLine();
+
+				String phoneReg = "(01[016789])-\\d{3,4}-\\d{4}";
+				if (phone != null && !phone.equals("") && !Pattern.matches(phoneReg, phone)) {
+					System.out.println("[입력오류]전화번호를 형식에 맞게 입력해 주세요.");
+					continue;
+				}
+
+				break;
+			}
+
+			System.out.print("주소 입력 >> ");
+			String address = in.readLine();
+
+			if (name != null && !name.equals(""))
+				student.setName(name);
+			if (email != null && !email.equals(""))
+				student.setEmail(email);
+			if (phone != null && !phone.equals(""))
+				student.setPhone(phone);
+			if (address != null && !address.equals(""))
+				student.setAddress(address);
+
+			int rows = TeacherDAOImpl.getDAO().updateStudent(student);
+
+			System.out.println("[처리결과]" + rows + "명의 학생정보를 변경 하였습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void removeStudent() {
+		System.out.println("===============");
+		System.out.println(" 학생정보 삭제 ");
+		System.out.println("===============");
+
+		try {
+			int no;
+			while (true) {
+				System.out.print("학번 입력 >> ");
+				String noTemp = in.readLine();
+
+				if (noTemp == null || noTemp.equals("")) {// 입력값이 없는 경우
+					System.out.println("[입력오류]학번을 반드시 입력해 주세요.");
+					continue;
+				}
+
+				String noReg = "^[1-9][0-9]{3}$";
+				if (!Pattern.matches(noReg, noTemp)) {
+					System.out.println("[입력오류]학번은 4자리 숫자로만 입력해 주세요.");
+					continue;
+				}
+
+				no = Integer.parseInt(noTemp);
+
+				break;
+			}
+
+			int rows = TeacherDAOImpl.getDAO().deleteStudent(no);
+
+			if (rows > 0) {
+				System.out.println("[처리결과]" + rows + "명의 학생정보를 삭제 하였습니다.");
+			} else {
+				System.out.println("[처리결과]삭제할 학번의 학생정보가 없습니다.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void searchStudent() {
+		System.out.println("===============");
+		System.out.println(" 학생정보 검색 ");
+		System.out.println("===============");
+
+		try {
+			String name;
+			while (true) {
+				System.out.print("이름 입력 >> ");
+				name = in.readLine();
+
+				if (name == null || name.equals("")) {
+					System.out.println("[입력오류]이름을 반드시 입력해 주세요.");
+					continue;
+				}
+
+				String nameReg = "^[가-힣]{2,5}$";
+				if (!Pattern.matches(nameReg, name)) {
+					System.out.println("[입력오류]이름은 2~5 범위의 한글로만 입력해 주세요.");
+					continue;
+				}
+
+				break;
+			}
+
+			List<StudentDTO> studentList = TeacherDAOImpl.getDAO().selectNameStudentList(name);
+
+			if (studentList.isEmpty()) {
+				System.out.println("[처리결과]검색된 학생정보가 없습니다.");
+				return;
+			}
+
+			System.out.println("========================================================================");
+			System.out.println("학번\t이름\t이메일\t\t\t전화번호\t주소");
+			System.out.println("========================================================================");
+			for (StudentDTO student : studentList) {
+				System.out.println(student);
+			}
+			System.out.println("========================================================================");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void displayAllStudent() {
+		System.out.println("===============");
+		System.out.println(" 학생목록 출력 ");
+		System.out.println("===============");
+
+		List<StudentDTO> studentList = TeacherDAOImpl.getDAO().selectAllStudentList();
+
+		if (studentList.isEmpty()) {// 검색된 학생정보가 없는 경우
+			System.out.println("[처리결과]저장된 학생정보가 없습니다.");
+			return;
+		}
+
+		System.out.println("========================================================================");
+		System.out.println("학번\t이름\t이메일\t\t\t전화번호\t주소");
+		System.out.println("========================================================================");
+		for (StudentDTO student : studentList) {
+			System.out.println(student);
+		}
+		System.out.println("========================================================================");
+	}
+
+	public void studentAttApp() {
+		in = new BufferedReader(new InputStreamReader(System.in));
+
+		String[] menu = { "1.학생 별 출결 조회", "2.출결 현황 날짜별 조회", "3.뒤로 가기" };
+
+		System.out.println("<< 학생 출결 관리 및 조회 >>");
+
+		while (true) {
+			// 메뉴 출력
+			for (String item : menu) {
+				System.out.println(item);
+			}
+
+			int choice;
+			try {
+				System.out.print("메뉴 선택[1~3] >> ");
+				// 키보드로 문자열을 입력받아 정수값으로 변환하여 변수에 저장
+				choice = Integer.parseInt(in.readLine());
+				// 메뉴 선택을 잘못한 경우 인위적 예외 발생
+				if (choice < 1 || choice > 3)
+					throw new Exception();
+			} catch (Exception e) {
+				System.out.println("[에러]메뉴를 잘못 선택 하였습니다.");
+				System.out.println();
+				continue;// 반복문(while) 재실행
+			}
+			System.out.println();
+
+			if (choice == 3)
+				break;// 반복문(while) 종료
+
+			// 메뉴 선택에 따른 기능 구현 - 메소드 호출
+			switch (choice) {
+			case 1:
+				studentNoAtt();
+				break;
+			case 2:
+				studentdateAtt();
+				break;
+			case 3:
+				return;
+			}
+			System.out.println();
+		}
+	}
+
+	public void studentNoAtt() {
+		System.out.println("===================");
+		System.out.println(" 학생 별 출결 조회 ");
+		System.out.println("===================");
+
+	}
+
+	public void studentdateAtt() {
+		System.out.println("=======================");
+		System.out.println(" 출결 현황 날짜별 조회 ");
+		System.out.println("=======================");
+
 	}
 
 }
