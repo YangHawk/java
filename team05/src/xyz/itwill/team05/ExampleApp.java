@@ -15,9 +15,9 @@ public class ExampleApp {
 	public ExampleApp() {
 		in = new BufferedReader(new InputStreamReader(System.in));
 
-		System.out.println("==============================================================");
+		System.out.println("===================================");
 		System.out.println("『교사 또는 학생으로 로그인하세요』");
-		System.out.println("==============================================================");
+		System.out.println("===================================");
 
 		login(); // 로그인 메소드 호출
 
@@ -29,7 +29,7 @@ public class ExampleApp {
 	}
 
 	public static void main(String[] args) {
-		new ExampleApp();
+		new ExampleApp(); // 생성자로 객체 생성
 	}
 
 	public StudentDTO login() { // 로그인 과정을 수행하기 위한 메소드
@@ -73,14 +73,14 @@ public class ExampleApp {
 				break;
 			}
 
-			System.out.println("==============================================================");
+			System.out.println("==========================================");
 
-			if (student.getNo() == 1000) {
+			if (student.getNo() == 1000) { // 학번 1000 = 교사 || 학번 1001~ = 학생
 				System.out.println("[처리 결과]교사 " + student.getName() + "님이 입장하였습니다.");
 			} else {
 				System.out.println("[처리 결과]학생 " + student.getName() + "님이 입장하였습니다.");
 			}
-			System.out.println("==============================================================");
+			System.out.println("==========================================");
 
 			return student;
 
@@ -90,8 +90,7 @@ public class ExampleApp {
 		return null;
 	}
 
-	public void insertALog() { // 학생의 입실 처리를 위한 메소드
-
+	public void insertALog() { // 학생 입실 처리 메소드
 		System.out.println("입실");
 
 		try {
@@ -109,8 +108,7 @@ public class ExampleApp {
 
 	}
 
-	public void updateALog() { // 학생의 퇴실 처리를 위한 메소드
-
+	public void updateALog() { // 학생 퇴실 처리 메소드
 		System.out.println("퇴실");
 
 		try {
@@ -135,15 +133,16 @@ public class ExampleApp {
 			return;
 		}
 
-		System.out.println("=============================================================================");
-		System.out.println("LOG\t학번\t이메일\t\t입실시간\t\t퇴실시간\t상태");
-		System.out.println("=============================================================================");
+		System.out.println("====================================================================================");
+		System.out.println("LOG\t학번\t출결\t이름\t입실시간\t\t퇴실시간\t\t상태");
+		System.out.println("====================================================================================");
 		for (ALogDTO log : alog) {
 			System.out.println(log);
 		}
+		System.out.println("====================================================================================");
 	}
 
-	public void checkIn() { // 입실 관련 메소드
+	public void checkIn() { // 입실한 상태에서 재입실을 방지하는 메소드
 		try {
 			LocalDate currentDate = LocalDate.now();
 			checkInOut = AccessDAOImpl.getDAO().checkIn(student, currentDate);
@@ -157,7 +156,7 @@ public class ExampleApp {
 		}
 	}
 
-	public void checkOut() { // 퇴실 관련 메소드
+	public void checkOut() { // 퇴실 상태에서 재퇴실을 방지하는 메소드
 
 		try {
 			LocalDate currentDate = LocalDate.now();
@@ -172,10 +171,10 @@ public class ExampleApp {
 		}
 	}
 
-	public void runTeacher() {
+	public void runTeacher() { // 선생으로 로그인 할 시 메소드 호출
 		while (true) {
 			System.out.println("==============================================================");
-			System.out.println("1. 학생 정보 관리 / 2. 학생 출결 관리 / 3. 종료");
+			System.out.println(" 1. 학생 정보 관리 / 2. 학생 출결 관리 / 3. 종료 ");
 			System.out.println("==============================================================");
 
 			int choice;
@@ -192,7 +191,7 @@ public class ExampleApp {
 			System.out.println();
 
 			if (choice == 3) {
-				System.out.println("프로그램을 종료합니다.");
+				System.out.println("[메세지]프로그램을 종료합니다.");
 				break;
 			}
 
@@ -209,13 +208,14 @@ public class ExampleApp {
 		}
 	}
 
-	public void runStudent() {
+	public void runStudent() { // 학생으로 로그인할 시 메소드 호출
 		while (true) {
-			System.out.println("==============================================================");
+			System.out.println("==================");
 			System.out.println("『학생 메인 메뉴』");
-			System.out.println("==============================================================");
-			System.out.println("1. 입실 / 2. 퇴실 / 3. 마이 페이지 / 4. 종료");
-
+			System.out.println("==================");
+			System.out.println();
+			System.out.println(" 1. 입실 / 2. 퇴실 / 3. 마이 페이지 / 4. 종료 ");
+			System.out.println();
 			int choice;
 			try {
 				System.out.print("메뉴를 선택하세요.[1 / 2 / 3 / 4] → ");
@@ -230,7 +230,7 @@ public class ExampleApp {
 			System.out.println();
 
 			if (choice == 4) {
-				System.out.println("프로그램을 종료합니다.");
+				System.out.println("[메세지]프로그램을 종료합니다.");
 				break;
 			}
 
@@ -262,7 +262,7 @@ public class ExampleApp {
 		}
 	}
 
-	public void studentStatus() {
+	public void studentStatus() { // 학생의 출결 상태를 정상, 지각, 조퇴, 결석으로 변경하는 메소드
 		try {
 			AccessDAOImpl.getDAO().updateStatusNormal(student);
 			AccessDAOImpl.getDAO().updateStatusLate(student);
@@ -286,13 +286,15 @@ public class ExampleApp {
 
 		String[] menu = { "1. 내 정보 보기", "2. 출결 현황", "3. 뒤로 가기" };
 
-		System.out.println("==============================================================");
+		System.out.println("===============");
 		System.out.println("『마이 페이지』");
-		System.out.println("==============================================================");
+		System.out.println("===============");
+		System.out.println();
 
 		while (true) {
 			for (String item : menu) {
 				System.out.println(item);
+				System.out.println();
 			}
 
 			int choice;
@@ -325,26 +327,30 @@ public class ExampleApp {
 		}
 	}
 
-	public void studentInfApp() {
+	public void studentInfApp() { // 선생으로 로그인할 시 학생 정보를 C.R.U.D 하기 위한 메소드
 		in = new BufferedReader(new InputStreamReader(System.in));
 
 		String[] menu = { "1.학생 정보 삽입", "2.학생 정보 변경", "3.학생 정보 삭제", "4.학생 정보 검색", "5.전체 학생 목록 출력", "6.뒤로 가기" };
 
-		System.out.println("<< 학생 정보 관리 >>");
+		System.out.println("====================");
+		System.out.println("『 학생 정보 관리 』");
+		System.out.println("====================");
+		System.out.println();
 
 		while (true) {
 			for (String item : menu) {
 				System.out.println(item);
+				System.out.println();
 			}
 
 			int choice;
 			try {
-				System.out.print("메뉴 선택[1~6] >> ");
+				System.out.print("메뉴 선택[1 ~ 6] → ");
 				choice = Integer.parseInt(in.readLine());
 				if (choice < 1 || choice > 6)
 					throw new Exception();
 			} catch (Exception e) {
-				System.out.println("[에러]메뉴를 잘못 선택 하였습니다.");
+				System.out.println("[에러]메뉴를 잘못 선택하였습니다.");
 				System.out.println();
 				continue;
 			}
@@ -376,16 +382,17 @@ public class ExampleApp {
 		}
 	}
 
-	public void addStudent() {
-		System.out.println("===============");
-		System.out.println(" 학생정보 삽입 ");
-		System.out.println("===============");
+	public void addStudent() { // STUDENT 테이블에 학생 정보를 삽입하는 메소드
+		System.out.println("====================");
+		System.out.println("『 학생 정보 삽입 』");
+		System.out.println("====================");
+		System.out.println();
 
 		try {
 
 			int no;
 			while (true) {
-				System.out.print("학번 입력 >> ");
+				System.out.print("학번 입력 → ");
 				String noTemp = in.readLine();
 
 				if (noTemp == null || noTemp.equals("")) {
@@ -413,7 +420,7 @@ public class ExampleApp {
 
 			String name;
 			while (true) {
-				System.out.print("이름 입력 >> ");
+				System.out.print("이름 입력 → ");
 				name = in.readLine();
 
 				if (name == null || name.equals("")) {
@@ -432,7 +439,7 @@ public class ExampleApp {
 
 			String email;
 			while (true) {
-				System.out.print("이메일 입력 >> ");
+				System.out.print("이메일 입력 → ");
 				email = in.readLine();
 
 				if (email == null || email.equals("")) {
@@ -445,7 +452,7 @@ public class ExampleApp {
 
 			String phone;
 			while (true) {
-				System.out.print("전화번호 입력 >> ");
+				System.out.print("전화번호 입력 → ");
 				phone = in.readLine();
 
 				if (phone == null || phone.equals("")) {
@@ -464,7 +471,7 @@ public class ExampleApp {
 
 			String address;
 			while (true) {
-				System.out.print("주소 입력 >> ");
+				System.out.print("주소 입력 → ");
 				address = in.readLine();
 
 				if (address == null || address.equals("")) {
@@ -490,15 +497,15 @@ public class ExampleApp {
 		}
 	}
 
-	public void modifyStudent() {
-		System.out.println("===============");
-		System.out.println(" 학생정보 변경 ");
-		System.out.println("===============");
-
+	public void modifyStudent() { // STUDENT 테이블에 학생 정보를 변경하는 메소드
+		System.out.println("====================");
+		System.out.println("『 학생 정보 변경 』");
+		System.out.println("====================");
+		System.out.println();
 		try {
 			int no;
 			while (true) {
-				System.out.print("학번 입력 >> ");
+				System.out.print("학번 입력 → ");
 				String noTemp = in.readLine();
 
 				if (noTemp == null || noTemp.equals("")) {
@@ -532,11 +539,11 @@ public class ExampleApp {
 			System.out.println("========================================================================");
 
 			// 키보드로 학번를 제외한 값을 입력받아 저장 - 입력값 검증
-			System.out.println("[메세지]변경값 입력 >> 변경하지 않을 경우 엔터만 입력해 주세요.");
+			System.out.println("[메세지]변경값 입력 → 변경하지 않을 경우 엔터만 입력해 주세요.");
 
 			String name;
 			while (true) {
-				System.out.print("이름 입력 >> ");
+				System.out.print("이름 입력 → ");
 				name = in.readLine();
 
 				String nameReg = "^[가-힣]{2,5}$";
@@ -550,7 +557,7 @@ public class ExampleApp {
 
 			String email;
 			while (true) {
-				System.out.print("이메일 입력 >> ");
+				System.out.print("이메일 입력 → ");
 				email = in.readLine();
 
 				if (email != null && !email.equals("")) {
@@ -563,7 +570,7 @@ public class ExampleApp {
 
 			String phone;
 			while (true) {
-				System.out.print("전화번호 입력 >> ");
+				System.out.print("전화번호 입력 → ");
 				phone = in.readLine();
 
 				String phoneReg = "(01[016789])-\\d{3,4}-\\d{4}";
@@ -575,7 +582,7 @@ public class ExampleApp {
 				break;
 			}
 
-			System.out.print("주소 입력 >> ");
+			System.out.print("주소 입력 → ");
 			String address = in.readLine();
 
 			if (name != null && !name.equals(""))
@@ -595,15 +602,15 @@ public class ExampleApp {
 		}
 	}
 
-	public void removeStudent() {
-		System.out.println("===============");
-		System.out.println(" 학생정보 삭제 ");
-		System.out.println("===============");
-
+	public void removeStudent() { // STUDENT 테이블에 학생 정보를 삭제하는 메소드
+		System.out.println("====================");
+		System.out.println("『 학생 정보 삭제 』");
+		System.out.println("====================");
+		System.out.println();
 		try {
 			int no;
 			while (true) {
-				System.out.print("학번 입력 >> ");
+				System.out.print("학번 입력 → ");
 				String noTemp = in.readLine();
 
 				if (noTemp == null || noTemp.equals("")) {// 입력값이 없는 경우
@@ -634,15 +641,15 @@ public class ExampleApp {
 		}
 	}
 
-	public void searchStudent() {
-		System.out.println("===============");
-		System.out.println(" 학생정보 검색 ");
-		System.out.println("===============");
-
+	public void searchStudent() { // 이름을 전달받아 STUDENT 테이블에 해당 학생 정보를 검색하여 반환하는 메소드
+		System.out.println("====================");
+		System.out.println("『 학생 정보 검색 』");
+		System.out.println("====================");
+		System.out.println();
 		try {
 			String name;
 			while (true) {
-				System.out.print("이름 입력 >> ");
+				System.out.print("이름 입력 → ");
 				name = in.readLine();
 
 				if (name == null || name.equals("")) {
@@ -678,11 +685,11 @@ public class ExampleApp {
 		}
 	}
 
-	public void displayAllStudent() {
-		System.out.println("===============");
-		System.out.println(" 학생목록 출력 ");
-		System.out.println("===============");
-
+	public void displayAllStudent() { // STUDENT 테이블에 모든 학생 정보를 검색하여 반환하는 메소드
+		System.out.println("===================");
+		System.out.println("『 학생목록 출력 』");
+		System.out.println("===================");
+		System.out.println();
 		List<StudentDTO> studentList = TeacherDAOImpl.getDAO().selectAllStudentList();
 
 		if (studentList.isEmpty()) {// 검색된 학생정보가 없는 경우
@@ -699,22 +706,26 @@ public class ExampleApp {
 		System.out.println("========================================================================");
 	}
 
-	public void studentAttApp() {
+	public void studentAttApp() { // 선생으로 로그인할 시 ALOG 테이블에서 학생의 출결 기록을 검색하기 위한 메소드
 		in = new BufferedReader(new InputStreamReader(System.in));
 
 		String[] menu = { "1.학생 별 출결 조회", "2.출결 현황 날짜별 조회", "3.뒤로 가기" };
 
-		System.out.println("<< 학생 출결 관리 및 조회 >>");
+		System.out.println("============================");
+		System.out.println("『 학생 출결 관리 및 조회 』");
+		System.out.println("============================");
+		System.out.println();
 
 		while (true) {
 			// 메뉴 출력
 			for (String item : menu) {
 				System.out.println(item);
+				System.out.println();
 			}
 
 			int choice;
 			try {
-				System.out.print("메뉴 선택[1~3] >> ");
+				System.out.print("메뉴 선택[1~3] → ");
 				// 키보드로 문자열을 입력받아 정수값으로 변환하여 변수에 저장
 				choice = Integer.parseInt(in.readLine());
 				// 메뉴 선택을 잘못한 경우 인위적 예외 발생
@@ -745,16 +756,16 @@ public class ExampleApp {
 		}
 	}
 
-	public void studentNoAtt() {
+	public void studentNoAtt() { // 학생 이름을 전달받아 ALOG 테이블에 저장된 해당 이름의 출결 기록을 검색하여 반환하는 메소드
 
-		System.out.println("======================");
-		System.out.println("학생 별 출결 현황 조회");
-		System.out.println("======================");
+		System.out.println("===========================");
+		System.out.println("『 학생별 출결 현황 조회 』");
+		System.out.println("===========================");
 
 		try {
 			String name;
 			while (true) {
-				System.out.print("이름 입력 >> ");
+				System.out.print("이름 입력 → ");
 				name = in.readLine();
 
 				if (name == null || name.equals("")) {
@@ -778,28 +789,28 @@ public class ExampleApp {
 				return;
 			}
 
-			System.out.println("========================================================================");
-			System.out.println("LOG\t학번\t입퇴\t이름\t입실시간\t\t퇴실시간\t상태");
-			System.out.println("========================================================================");
+			System.out.println("====================================================================================");
+			System.out.println("LOG\t학번\t출결\t이름\t입실시간\t\t퇴실시간\t\t상태");
+			System.out.println("====================================================================================");
 			for (ALogDTO student : studentALogList) {
 				System.out.println(student);
 			}
-			System.out.println("========================================================================");
+			System.out.println("=================================================================================");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void studentdateAtt() {
+	public void studentdateAtt() { // 특정 날짜를 전달받아 ALOG 테이블에 저장된 해당 날짜의 출결 기록을 검색하여 반환하는 메소드
 
-		System.out.println("======================");
-		System.out.println("날짜 별 출결 현황 조회");
-		System.out.println("======================");
+		System.out.println("===========================");
+		System.out.println("『 날짜별 출결 현황 조회 』");
+		System.out.println("===========================");
 
 		try {
 			String logInTime;
 			while (true) {
-				System.out.print("날짜 입력 >> ");
+				System.out.print("날짜 입력 → ");
 				logInTime = in.readLine();
 
 				if (logInTime == null || logInTime.equals("")) {
@@ -823,13 +834,13 @@ public class ExampleApp {
 				return;
 			}
 
-			System.out.println("========================================================================");
-			System.out.println("LOG\t학번\t입퇴\t이름\t입실시간\t\t퇴실시간\t상태");
-			System.out.println("========================================================================");
+			System.out.println("====================================================================================");
+			System.out.println("LOG\t학번\t출결\t이름\t입실시간\t\t퇴실시간\t\t상태");
+			System.out.println("====================================================================================");
 			for (ALogDTO date : dateALogList) {
 				System.out.println(date);
 			}
-			System.out.println("========================================================================");
+			System.out.println("====================================================================================");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

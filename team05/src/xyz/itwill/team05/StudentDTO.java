@@ -11,7 +11,6 @@ NAME             VARCHAR2(50)
 EMAIL            VARCHAR2(50)  
 PHONE            VARCHAR2(20)  
 ADDRESS          VARCHAR2(100) 
-
  
  */
 

@@ -3,6 +3,7 @@ package xyz.itwill.team05;
 import java.util.List;
 
 public interface TeacherDAO {
+	
 	// 학생정보를 전달받아 STUDENT 테이블에 삽입하고 삽입행의 갯수를 반환하는 메소드
 	int insertStudent(StudentDTO student);
 

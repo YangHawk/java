@@ -23,6 +23,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return _dao;
 	}
 
+	// 입력한 ID와 비밀번호를 전달받아 선생 또는 학생으로 로그인할 수 있는 메소드
 	@Override
 	public StudentDTO login(String email, String phone) {
 		Connection con = null;
@@ -61,7 +62,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return student;
 	}
 
-	// 학생 입실
+	// 로그인한 학생 정보를 전달받아 ALOG 테이블에 행을 삽입하고 입실 처리하는 메소드
 	@Override
 	public int insertALog(StudentDTO student) {
 		Connection con = null;
@@ -85,7 +86,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return rows;
 	}
 
-	// 학생 퇴실
+	// 로그인한 학생 정보를 전달받아 ALOG 테이블에 행을 변경하고 퇴실 처리하는 메소드
 	@Override
 	public int updateALog(StudentDTO student) {
 		Connection con = null;
@@ -110,6 +111,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return rows;
 	}
 
+	// 로그인한 학생 정보를 전달받아 ALOG 테이블에서 해당 학생의 행을 반환받는 메소드
 	@Override
 	public List<ALogDTO> showALog(StudentDTO student) {
 		Connection con = null;
@@ -147,6 +149,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return aLog;
 	}
 
+	// 로그인한 학생 정보와 입실한 날짜를 전달받아 재입실을 방지하는 메소드
 	@Override
 	public boolean checkIn(StudentDTO student, LocalDate currentDate) {
 		boolean checkIn = false;
@@ -178,6 +181,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 
 	}
 
+	// 로그인한 학생 정보와 입실한 날짜를 전달받아 재퇴실을 방지하는 메소드
 	@Override
 	public boolean checkOut(StudentDTO student, LocalDate currentDate) {
 		boolean checkOut = false;
@@ -208,6 +212,8 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return checkOut;
 	}
 
+	// 로그인한 학생 정보의 입실 퇴실 시간을 전달받아 ALOG 테이블에 행을 변경(출결 상태를 정상 처리)하는 메소드
+	// 입실 시간: 9시 30분 이전 + 퇴실 시간: 6시 30분 이후
 	@Override
 	public int updateStatusNormal(StudentDTO student) {
 
@@ -232,6 +238,8 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return rows;
 	}
 
+	// 로그인한 학생 정보의 입실 퇴실 시간을 전달받아 ALOG 테이블에 행을 변경(출결 상태를 지각 처리)하는 메소드
+	// 입실 시간: 9시 30분 이후 + 퇴실 시간: 6시 30분 이후
 	@Override
 	public int updateStatusLate(StudentDTO student) {
 
@@ -256,6 +264,8 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return rows;
 	}
 
+	// 로그인한 학생 정보의 입실 퇴실 시간을 전달받아 ALOG 테이블에 행을 변경(출결 상태를 조퇴 처리)하는 메소드
+	// 입실 시간: 9시 30분 이전 + 퇴실 시간: 6시 30분 이전
 	@Override
 	public int updateStatusEarlyLeave(StudentDTO student) {
 		Connection con = null;
@@ -279,6 +289,9 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return rows;
 	}
 
+	
+	// 로그인한 학생 정보의 입실 퇴실 시간을 전달받아 ALOG 테이블에 행을 변경(출결 상태를 결석 처리)하는 메소드
+	// 입실 시간: 9시 30분 이후 + 퇴실 시간: 6시 30분 이전
 	@Override
 	public int updateStatusAbsent(StudentDTO student) {// 퇴실 처리할 때 결석
 		Connection con = null;
@@ -302,6 +315,8 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return rows;
 	}
 
+	// 로그인한 학생 정보의 입실 퇴실 시간을 전달받아 ALOG 테이블에 행을 변경(출결 상태를 정상으로 처리)하는 메소드
+	// 입실후에 퇴실을 하지않음
 	@Override
 	public int updateStatusAbsent2(StudentDTO student) {// 입실 처리할 때 전날 결석
 		Connection con = null;
@@ -325,6 +340,9 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return rows;
 	}
 
+	// 로그인한 학생이 정보를 전달받고 해당하는 학생이 마지막으로 출석한 날짜와 현재 입실한 날짜의 기간을 검색하여 존재하지 않다면 ALOG
+	// 테이블에 행을 삽입하고 행들의 출결 상태를 결석으로 처리하는 메소드
+	// 특정 날짜에 행이 없다면 결석 처리된 행을 삽입
 	@Override
 	public int insertStatusAbsent(StudentDTO student) {
 		Connection con = null;

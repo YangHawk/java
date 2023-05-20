@@ -8,7 +8,8 @@ DESC ALOG;
 ---------- -------- ------------ 
 LOGNO      NOT NULL NUMBER       
 SNO                 NUMBER       
-LOGTYPE             VARCHAR2(10) 
+LOGTYPE             VARCHAR2(20) 
+SNAME               VARCHAR2(20) 
 LOGINTIME           TIMESTAMP(6) 
 LOGOUTTIME          TIMESTAMP(6) 
 STATUS              VARCHAR2(20) 
