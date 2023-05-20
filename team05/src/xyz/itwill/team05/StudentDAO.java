@@ -28,4 +28,7 @@ public interface StudentDAO {
 
 	boolean checkOut(StudentDTO student, LocalDate currentDate);
 
+	// 학생이 퇴실을 했을 때 그 학생의 alog 행의 status 열이 update 되는 메소드
+	int updateStatus(StudentDTO student);
+
 }

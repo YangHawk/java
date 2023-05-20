@@ -177,7 +177,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return checkIn;
 
 	}
-	
+
 	@Override
 	public boolean checkOut(StudentDTO student, LocalDate currentDate) {
 		boolean checkOut = false;
@@ -206,5 +206,24 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		}
 
 		return checkOut;
+	}
+
+	@Override
+	public int updateStatus(StudentDTO student) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int rows = 0;
+		try {
+			con = getConnection();
+			String sql = "update alog set status = '퇴실', logouttime = sysdate WHERE sno = ? and trunc(logintime, 'DD') = trunc(sysdate)";
+
+		} catch (SQLException e) {
+			System.out.println("[에러]updateStatus() 메소드의 SQL 오류 = " + e.getMessage());
+
+		} finally {
+
+		}
+		return 0;
 	}
 }
