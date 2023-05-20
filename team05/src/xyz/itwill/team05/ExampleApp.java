@@ -101,7 +101,7 @@ public class ExampleApp {
 
 	public void updateALog() { // 학생의 퇴실 처리를 위한 메소드
 
-		System.out.println("퇴실 버튼!");
+		System.out.println("퇴실");
 
 		try {
 			int rows = AccessDAOImpl.getDAO().updateALog(student);
@@ -136,7 +136,7 @@ public class ExampleApp {
 			LocalDate currentDate = LocalDate.now();
 			checkInOut = AccessDAOImpl.getDAO().checkIn(student, currentDate);
 			if (checkInOut) {
-				System.out.println("[처리 결과] 학생 " + student.getName() + "님은 이미 입실 처리되었습니다.");
+				System.out.println("[처리 결과]학생 " + student.getName() + "님은 이미 입실 처리되었습니다.");
 				return;
 			}
 
@@ -151,7 +151,7 @@ public class ExampleApp {
 			LocalDate currentDate = LocalDate.now();
 			checkInOut = AccessDAOImpl.getDAO().checkOut(student, currentDate);
 			if (checkInOut) {
-				System.out.println("[처리 결과]" + student.getName() + "님은 이미 퇴실 처리되었습니다.");
+				System.out.println("[처리 결과]학생" + student.getName() + "님은 이미 퇴실 처리되었습니다.");
 				return;
 			}
 
@@ -227,6 +227,7 @@ public class ExampleApp {
 				if (checkInOut) {
 					break;
 				} else {
+					studentStatus();
 					insertALog();
 					break;
 				}
@@ -236,6 +237,7 @@ public class ExampleApp {
 					break;
 				} else {
 					updateALog();
+					studentStatus();
 					break;
 				}
 			case 3:
@@ -245,6 +247,24 @@ public class ExampleApp {
 
 			System.out.println();
 		}
+	}
+
+	public void studentStatus() {
+		try {
+			AccessDAOImpl.getDAO().updateStatusNormal(student);
+			AccessDAOImpl.getDAO().updateStatusLate(student);
+			AccessDAOImpl.getDAO().updateStatusEarlyLeave(student);
+			AccessDAOImpl.getDAO().updateStatusAbsent(student);
+			int rows = AccessDAOImpl.getDAO().insertStatusAbsent(student);
+
+			if (rows > 0) {
+				System.out.println("[처리 결과]학생" + student.getName() + "님의 결석이 업데이트되었습니다.");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

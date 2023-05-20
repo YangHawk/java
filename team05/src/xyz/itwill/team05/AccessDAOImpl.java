@@ -108,7 +108,6 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		return rows;
 	}
 
-	// 저장된 객체의 학번을 전달받아
 	@Override
 	public List<ALogDTO> showALog(StudentDTO student) {
 		Connection con = null;
@@ -209,21 +208,141 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 	}
 
 	@Override
-	public int updateStatus(StudentDTO student) {
+	public int updateStatusNormal(StudentDTO student) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		int rows = 0;
 		try {
 			con = getConnection();
-			String sql = "update alog set status = '퇴실', logouttime = sysdate WHERE sno = ? and trunc(logintime, 'DD') = trunc(sysdate)";
+			String sql = "update alog set status = '정상' where sno = ? and trunc(logintime) = trunc(sysdate) and logintime <= TO_DATE('09:30', 'HH24:MI') and logouttime >= TO_DATE('18:30', 'HH24:MI')";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, student.getNo());
+
+			rows = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("[에러]updateStatus() 메소드의 SQL 오류 = " + e.getMessage());
+			System.out.println("[에러]updateStatusNormal() 메소드의 SQL 오류 = " + e.getMessage());
 
 		} finally {
 
 		}
-		return 0;
+		return rows;
 	}
+
+	@Override
+	public int updateStatusLate(StudentDTO student) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int rows = 0;
+		try {
+			con = getConnection();
+			String sql = "update alog set status = '지각' where sno = ? and trunc(logintime) = trunc(sysdate) and logintime > TO_DATE('09:30', 'HH24:MI') and logouttime >= TO_DATE('18:30', 'HH24:MI')";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, student.getNo());
+
+			rows = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("[에러]updateStatusLate() 메소드의 SQL 오류 = " + e.getMessage());
+
+		} finally {
+
+		}
+		return rows;
+	}
+
+	@Override
+	public int updateStatusEarlyLeave(StudentDTO student) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int rows = 0;
+		try {
+			con = getConnection();
+			String sql = "update alog set status = '조퇴' where sno = ? and trunc(logintime) = trunc(sysdate) and logintime <= TO_DATE('09:30', 'HH24:MI') and logouttime < TO_DATE('18:30', 'HH24:MI')";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, student.getNo());
+
+			rows = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("[에러]updateStatusEarlyLeave() 메소드의 SQL 오류 = " + e.getMessage());
+
+		} finally {
+
+		}
+		return rows;
+	}
+
+	@Override
+	public int updateStatusAbsent(StudentDTO student) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int rows = 0;
+		try {
+			con = getConnection();
+			String sql = "update alog set status = '결석' where sno = ? and trunc(logintime) = trunc(sysdate) and logintime > TO_DATE('09:30', 'HH24:MI') and (logouttime < TO_DATE('18:30', 'HH24:MI') OR logouttime IS NULL)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, student.getNo());
+
+			rows = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("[에러]updateStatusAbsent() 메소드의 SQL 오류 = " + e.getMessage());
+
+		} finally {
+
+		}
+		return rows;
+	}
+
+	@Override
+	public int insertStatusAbsent(StudentDTO student) {
+	    Connection con = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    int rows = 0;
+	    
+	    try {
+	        con = getConnection();
+
+	        // 마지막 출석일을 확인하는 select 명령
+	        String sql1 = "SELECT * FROM (SELECT * FROM alog WHERE sno = ? ORDER BY logintime DESC) WHERE ROWNUM = 1";
+	        pstmt = con.prepareStatement(sql1);
+	        pstmt.setInt(1, student.getNo());
+
+	        rs = pstmt.executeQuery();
+
+	        LocalDate localLastDate = null;
+	        if (rs.next()) {
+	            localLastDate = rs.getDate("logintime").toLocalDate();
+	        } else {
+	          System.out.println("오늘이 첫 출석입니다.");
+	        }
+
+	        LocalDate currentDate = LocalDate.now();
+
+	        while (localLastDate != null && localLastDate.isBefore(currentDate)) {
+	            String abscentDate = localLastDate.plusDays(1).toString();
+	            String sql2 = "INSERT INTO alog(logno, sno, logtype, logouttime, status) VALUES (logno_seq.nextval, ?, '퇴실', ?, '결석')";
+	            pstmt = con.prepareStatement(sql2);
+	            pstmt.setInt(1, student.getNo());
+	            pstmt.setString(2, abscentDate);
+	            
+	            // 명령 실행
+	            rows += pstmt.executeUpdate();
+	            
+	            // localLastDate를 1일 추가하여 다음 날짜로 설정
+	            localLastDate = localLastDate.plusDays(1);
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("[에러] insertStatusAbsent() 메소드의 SQL 오류 = " + e.getMessage());
+	    } finally {
+	        close(con, pstmt, rs);
+	    }
+
+	    return rows;
+	}
+
 }

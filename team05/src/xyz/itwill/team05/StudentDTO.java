@@ -75,9 +75,10 @@ public class StudentDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-@Override
-public String toString() {
-	return no + "\t" + name + "\t" + phone + "\t" + address + "\t" + email;
-	
-}
+
+	@Override
+	public String toString() {
+		return "학번: " + no + " || 이름: " + name + " || 전화번호: " + phone + " || 주소: " + address + " || 이메일: " + email;
+
+	}
 }
