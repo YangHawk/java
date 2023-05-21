@@ -3,6 +3,8 @@ package xyz.itwill.team05;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -134,7 +136,7 @@ public class ExampleApp {
 		}
 
 		System.out.println("====================================================================================");
-		System.out.println("LOG\t학번\t출결\t이름\t입실시간\t\t퇴실시간\t\t상태");
+		System.out.println("학번\t출결\t이름\t입실시간\t\t퇴실시간\t\t상태");
 		System.out.println("====================================================================================");
 		for (ALogDTO log : alog) {
 			System.out.println(log);
@@ -209,6 +211,18 @@ public class ExampleApp {
 	}
 
 	public void runStudent() { // 학생으로 로그인할 시 메소드 호출
+
+		LocalDateTime currentTime = LocalDateTime.now();
+		LocalDateTime normalEnterStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(9, 0));
+		LocalDateTime normalEnterEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(9, 30));
+		LocalDateTime normalLeaveStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(18, 30));
+		LocalDateTime normalLeaveEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(19, 0));
+
+		int hour = currentTime.getHour();
+		int minute = currentTime.getMinute();
+
+		String timeString = "지금 시각은 " + hour + "시 " + minute + "분입니다.";
+
 		while (true) {
 			System.out.println("==================");
 			System.out.println("『학생 메인 메뉴』");
@@ -216,6 +230,9 @@ public class ExampleApp {
 			System.out.println();
 			System.out.println(" 1. 입실 / 2. 퇴실 / 3. 마이 페이지 / 4. 종료 ");
 			System.out.println();
+			System.out.println(timeString);
+			System.out.println();
+
 			int choice;
 			try {
 				System.out.print("메뉴를 선택하세요.[1 / 2 / 3 / 4] → ");
@@ -236,23 +253,68 @@ public class ExampleApp {
 
 			switch (choice) {
 			case 1:
-				checkIn();
-				if (checkInOut) {
+				if (currentTime.isBefore(normalEnterStartTime) || currentTime.isAfter(normalLeaveStartTime)) {
+					// 9시 이전 OR 18시 30분 이후 입실 버튼을 누른 경우
+					System.out.println("입실 가능 시간이 아닙니다!");
+					System.out.println();
 					break;
+				} else if (currentTime.isAfter(normalEnterStartTime) && currentTime.isBefore(normalEnterEndTime)) {
+					// 9시 이후 9시 30분 이전 입실 버튼을 누른 경우
+					System.out.println("정상 시간입니다.");
+					System.out.println();
+					checkIn();
+					if (checkInOut) {
+						break;
+					} else {
+						studentStatus();
+						insertALog();
+						break;
+					}
 				} else {
-					studentStatus();
-					insertALog();
-					break;
+					// 9시 30분 ~ 18시 30분 에 입실 버튼을 누른 경우
+					System.out.println("지각 시간입니다.");
+					System.out.println();
+					checkIn();
+					if (checkInOut) {
+						break;
+					} else {
+						studentStatus();
+						insertALog();
+						break;
+					}
 				}
 			case 2:
-				checkOut();
-				if (checkInOut) {
+				if (currentTime.isBefore(normalLeaveStartTime) || currentTime.isAfter(normalLeaveEndTime)) {
+					// 19시 이후 OR 9시 30분 이전 퇴실 버튼을 누른 경우
+					System.out.println("퇴실 가능 시간이 아닙니다!");
+					System.out.println();
 					break;
+				} else if (currentTime.isAfter(normalLeaveStartTime) && currentTime.isBefore(normalLeaveEndTime)) {
+					// 18시 30분 ~ 19시 퇴실 버튼을 누른 경우
+					System.out.println("정상 시간입니다.");
+					System.out.println();
+					checkOut();
+					if (checkInOut) {
+						break;
+					} else {
+						updateALog();
+						studentStatus();
+						break;
+					}
 				} else {
-					updateALog();
-					studentStatus();
-					break;
+					// 9시 30분 ~ 18시 30분 에 퇴실 버튼을 누른 경우
+					System.out.println("조퇴 시간입니다.");
+					System.out.println();
+					checkOut();
+					if (checkInOut) {
+						break;
+					} else {
+						updateALog();
+						studentStatus();
+						break;
+					}
 				}
+
 			case 3:
 				studentMyPage();
 				break;
@@ -260,26 +322,24 @@ public class ExampleApp {
 
 			System.out.println();
 		}
+
 	}
 
-	public void studentStatus() { // 학생의 출결 상태를 정상, 지각, 조퇴, 결석으로 변경하는 메소드
+	public void studentStatus() {
 		try {
 			AccessDAOImpl.getDAO().updateStatusNormal(student);
 			AccessDAOImpl.getDAO().updateStatusLate(student);
 			AccessDAOImpl.getDAO().updateStatusEarlyLeave(student);
 			AccessDAOImpl.getDAO().updateStatusAbsent(student);
 			AccessDAOImpl.getDAO().updateStatusAbsent2(student);
-
 			int rows = AccessDAOImpl.getDAO().insertStatusAbsent(student);
 
 			if (rows > 0) {
-				System.out.println("[처리 결과]학생" + student.getName() + "님의 결석이 업데이트되었습니다.");
+				System.out.println("[처리 결과] 학생 " + student.getName() + "님의 결석이 업데이트되었습니다.");
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void studentMyPage() {
@@ -790,7 +850,7 @@ public class ExampleApp {
 			}
 
 			System.out.println("====================================================================================");
-			System.out.println("LOG\t학번\t출결\t이름\t입실시간\t\t퇴실시간\t\t상태");
+			System.out.println("학번\t출결\t이름\t입실시간\t\t퇴실시간\t\t상태");
 			System.out.println("====================================================================================");
 			for (ALogDTO student : studentALogList) {
 				System.out.println(student);
@@ -835,7 +895,7 @@ public class ExampleApp {
 			}
 
 			System.out.println("====================================================================================");
-			System.out.println("LOG\t학번\t출결\t이름\t입실시간\t\t퇴실시간\t\t상태");
+			System.out.println("학번\t출결\t이름\t입실시간\t\t퇴실시간\t\t상태");
 			System.out.println("====================================================================================");
 			for (ALogDTO date : dateALogList) {
 				System.out.println(date);

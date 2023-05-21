@@ -16,9 +16,9 @@ public class JdbcDAO {
 		pds = PoolDataSourceFactory.getPoolDataSource();
 		try {
 			pds.setConnectionFactoryClassName("oracle.jdbc.driver.OracleDriver");
-			pds.setURL("jdbc:oracle:thin:@www.itwill.xyz:1521:xe");
-			pds.setUser("jdbc_team05");
-			pds.setPassword("jdbc_team05");
+			pds.setURL("jdbc:oracle:thin:@localhost:1521:xe");
+			pds.setUser("scott");
+			pds.setPassword("tiger");
 			pds.setInitialPoolSize(10);
 			pds.setMaxPoolSize(15);
 		} catch (SQLException e) {

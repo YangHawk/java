@@ -71,7 +71,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 		try {
 			con = getConnection();
 
-			String sql = "insert into alog(logno, sno, logtype, sname, logintime) values(logno_seq.nextval ,?, '입실', ?, sysdate)";
+			String sql = "insert into alog(sno, logtype, sname, logintime) values(?, '입실', ?, sysdate)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, student.getNo());
 			pstmt.setString(2, student.getName());
@@ -130,7 +130,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 			while (rs.next()) {
 
 				ALogDTO myALog = new ALogDTO();
-				myALog.setLogNo(rs.getInt("logNo"));
+		
 				myALog.setsNo(rs.getInt("sNo"));
 				myALog.setLogType(rs.getString("logType"));
 				myALog.setLogInTime(rs.getString("logInTime"));
@@ -372,7 +372,7 @@ public class AccessDAOImpl extends JdbcDAO implements AccessDAO, StudentDAO {
 
 			while (localLastDate.isBefore(currentDate.minusDays(1))) {
 				String absenceDate = localLastDate.plusDays(1).toString();
-				String sql2 = "insert into alog(logno, sno, logtype, sname, logintime, logouttime, status) VALUES (logno_seq.nextval, ?, '퇴실', ?, ?, ?, '결석')";
+				String sql2 = "insert into alog(sno, logtype, sname, logintime, logouttime, status) VALUES (?, '퇴실', ?, ?, ?, '결석')";
 				pstmt = con.prepareStatement(sql2);
 				pstmt.setInt(1, student.getNo());
 				pstmt.setString(2, student.getName());
