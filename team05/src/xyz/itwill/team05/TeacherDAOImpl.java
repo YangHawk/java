@@ -53,12 +53,13 @@ public class TeacherDAOImpl extends JdbcDAO implements TeacherDAO {
 	public int updateStudent(StudentDTO student) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
 		int rows = 0;
 		try {
 			con = getConnection();
 
-			String sql = "update student set name=?,email=?,phone=?,address=? where no=?";
-			pstmt = con.prepareStatement(sql);
+			String sql1 = "update student set name=?,email=?,phone=?,address=? where no=?";
+			pstmt = con.prepareStatement(sql1);
 			pstmt.setString(1, student.getName());
 			pstmt.setString(2, student.getEmail());
 			pstmt.setString(3, student.getPhone());
@@ -66,6 +67,14 @@ public class TeacherDAOImpl extends JdbcDAO implements TeacherDAO {
 			pstmt.setInt(5, student.getNo());
 
 			rows = pstmt.executeUpdate();
+
+			String sql2 = "update alog set sname=? where sno=?";
+			pstmt2 = con.prepareStatement(sql2); // 새로운 PreparedStatement 객체 생성
+			pstmt2.setString(1, student.getName());
+			pstmt2.setInt(2, student.getNo());
+
+			rows += pstmt2.executeUpdate();
+
 		} catch (SQLException e) {
 			System.out.println("[에러]updateStudent() 메소드의 SQL 오류 = " + e.getMessage());
 		} finally {
@@ -79,15 +88,24 @@ public class TeacherDAOImpl extends JdbcDAO implements TeacherDAO {
 	public int deleteStudent(int no) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+
 		int rows = 0;
 		try {
 			con = getConnection();
 
-			String sql = "delete from student where no=?";
-			pstmt = con.prepareStatement(sql);
+			String sql1 = "delete from student where no=?";
+			pstmt = con.prepareStatement(sql1);
 			pstmt.setInt(1, no);
 
 			rows = pstmt.executeUpdate();
+
+			String sql2 = "delete from alog where sno=?";
+			pstmt2 = con.prepareStatement(sql2);
+			pstmt2.setInt(1, no);
+
+			rows += pstmt2.executeUpdate();
+
 		} catch (SQLException e) {
 			System.out.println("[에러]deleteStudent() 메소드의 SQL 오류 = " + e.getMessage());
 		} finally {
@@ -267,4 +285,5 @@ public class TeacherDAOImpl extends JdbcDAO implements TeacherDAO {
 		}
 		return dateLog;
 	}
+
 }

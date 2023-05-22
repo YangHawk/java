@@ -502,8 +502,10 @@ public class ExampleApp {
 				System.out.print("이메일 입력 → ");
 				email = in.readLine();
 
-				if (email == null || email.equals("")) {
-					System.out.println("[입력오류]이메일을 반드시 입력해 주세요.");
+				String emailReg = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
+
+				if (email != null && !email.equals("") && !Pattern.matches(emailReg, email)) {
+					System.out.println("[입력오류]이메일을 형식에 맞게 입력해 주세요.");
 					continue;
 				}
 
@@ -620,7 +622,9 @@ public class ExampleApp {
 				System.out.print("이메일 입력 → ");
 				email = in.readLine();
 
-				if (email != null && !email.equals("")) {
+				String emailReg = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
+
+				if (email != null && !email.equals("") && !Pattern.matches(emailReg, email)) {
 					System.out.println("[입력오류]이메일을 형식에 맞게 입력해 주세요.");
 					continue;
 				}
@@ -654,9 +658,10 @@ public class ExampleApp {
 			if (address != null && !address.equals(""))
 				student.setAddress(address);
 
-			int rows = TeacherDAOImpl.getDAO().updateStudent(student);
+			TeacherDAOImpl.getDAO().updateStudent(student);
 
-			System.out.println("[처리결과]" + rows + "명의 학생정보를 변경 하였습니다.");
+			System.out.println("[처리결과]학번이 " + student.getNo() + "인 학생의 정보를 변경 하였습니다.");
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -692,7 +697,7 @@ public class ExampleApp {
 			int rows = TeacherDAOImpl.getDAO().deleteStudent(no);
 
 			if (rows > 0) {
-				System.out.println("[처리결과]" + rows + "명의 학생정보를 삭제 하였습니다.");
+				System.out.println("[처리결과]학번이 " + no + "인 학생의 정보를 삭제 하였습니다.");
 			} else {
 				System.out.println("[처리결과]삭제할 학번의 학생정보가 없습니다.");
 			}
