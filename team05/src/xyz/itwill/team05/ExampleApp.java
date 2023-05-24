@@ -31,6 +31,7 @@ public class ExampleApp {
 	}
 
 	public static void main(String[] args) {
+
 		new ExampleApp(); // 생성자로 객체 생성
 	}
 
@@ -463,7 +464,9 @@ public class ExampleApp {
 				String noReg = "^[1-9][0-9]{3}$";
 				if (!Pattern.matches(noReg, noTemp)) {
 					System.out.println("[입력오류]학번은 4자리 숫자로만 입력해 주세요.");
-					continue;
+					System.out.println("『 학생 정보 삽입 』으로 돌아갑니다.");
+
+					return;
 				}
 
 				no = Integer.parseInt(noTemp);
@@ -491,7 +494,9 @@ public class ExampleApp {
 				String nameReg = "^[가-힣]{2,5}$";
 				if (!Pattern.matches(nameReg, name)) {
 					System.out.println("[입력오류]이름은 2~5 범위의 한글로만 입력해 주세요.");
-					continue;
+					System.out.println("『 학생 정보 삽입 』으로 돌아갑니다.");
+
+					return;
 				}
 
 				break;
@@ -506,7 +511,9 @@ public class ExampleApp {
 
 				if (email != null && !email.equals("") && !Pattern.matches(emailReg, email)) {
 					System.out.println("[입력오류]이메일을 형식에 맞게 입력해 주세요.");
-					continue;
+					System.out.println("『 학생 정보 삽입 』으로 돌아갑니다.");
+
+					return;
 				}
 
 				break;
@@ -525,7 +532,9 @@ public class ExampleApp {
 				String phoneReg = "(01[016789])-\\d{3,4}-\\d{4}";
 				if (!Pattern.matches(phoneReg, phone)) {
 					System.out.println("[입력오류]전화번호를 형식에 맞게 입력해 주세요.");
-					continue;
+					System.out.println("『 학생 정보 삽입 』으로 돌아갑니다.");
+
+					return;
 				}
 
 				break;
@@ -538,7 +547,9 @@ public class ExampleApp {
 
 				if (address == null || address.equals("")) {
 					System.out.println("[입력오류]주소를 반드시 입력해 주세요.");
-					continue;
+					System.out.println("『 학생 정보 삽입 』으로 돌아갑니다.");
+
+					return;
 				}
 
 				break;
@@ -578,7 +589,9 @@ public class ExampleApp {
 				String noReg = "^[1-9][0-9]{3}$";
 				if (!Pattern.matches(noReg, noTemp)) {
 					System.out.println("[입력오류]학번은 4자리 숫자로만 입력해 주세요.");
-					continue;
+					System.out.println("『 학생 정보 삽입 』으로 돌아갑니다.");
+
+					return;
 				}
 
 				no = Integer.parseInt(noTemp);
@@ -611,7 +624,9 @@ public class ExampleApp {
 				String nameReg = "^[가-힣]{2,5}$";
 				if (name != null && !name.equals("") && !Pattern.matches(nameReg, name)) {
 					System.out.println("[입력오류]이름은 2~5 범위의 한글로만 입력해 주세요.");
-					continue;
+					System.out.println("『 학생 정보 삽입 』으로 돌아갑니다.");
+
+					return;
 				}
 
 				break;
@@ -626,7 +641,9 @@ public class ExampleApp {
 
 				if (email != null && !email.equals("") && !Pattern.matches(emailReg, email)) {
 					System.out.println("[입력오류]이메일을 형식에 맞게 입력해 주세요.");
-					continue;
+					System.out.println("『 학생 정보 삽입 』으로 돌아갑니다.");
+
+					return;
 				}
 
 				break;
@@ -640,7 +657,9 @@ public class ExampleApp {
 				String phoneReg = "(01[016789])-\\d{3,4}-\\d{4}";
 				if (phone != null && !phone.equals("") && !Pattern.matches(phoneReg, phone)) {
 					System.out.println("[입력오류]전화번호를 형식에 맞게 입력해 주세요.");
-					continue;
+					System.out.println("『 학생 정보 삽입 』으로 돌아갑니다.");
+
+					return;
 				}
 
 				break;
@@ -686,7 +705,9 @@ public class ExampleApp {
 				String noReg = "^[1-9][0-9]{3}$";
 				if (!Pattern.matches(noReg, noTemp)) {
 					System.out.println("[입력오류]학번은 4자리 숫자로만 입력해 주세요.");
-					continue;
+					System.out.println("『 학생 정보 삽입 』으로 돌아갑니다.");
+
+					return;
 				}
 
 				no = Integer.parseInt(noTemp);
@@ -725,7 +746,9 @@ public class ExampleApp {
 				String nameReg = "^[가-힣]{2,5}$";
 				if (!Pattern.matches(nameReg, name)) {
 					System.out.println("[입력오류]이름은 2~5 범위의 한글로만 입력해 주세요.");
-					continue;
+					System.out.println("『 학생 정보 삽입 』으로 돌아갑니다.");
+
+					return;
 				}
 
 				break;
@@ -774,7 +797,7 @@ public class ExampleApp {
 	public void studentAttApp() { // 선생으로 로그인할 시 ALOG 테이블에서 학생의 출결 기록을 검색하기 위한 메소드
 		in = new BufferedReader(new InputStreamReader(System.in));
 
-		String[] menu = { "1.학생 별 출결 조회", "2.출결 현황 날짜별 조회", "3.뒤로 가기" };
+		String[] menu = { "1.학생 별 출결 조회", "2.출결 현황 날짜별 조회", "3.뒤로 가기", "4.종료" };
 
 		System.out.println("============================");
 		System.out.println("『 학생 출결 관리 및 조회 』");
@@ -790,11 +813,11 @@ public class ExampleApp {
 
 			int choice;
 			try {
-				System.out.print("메뉴 선택[1~3] → ");
+				System.out.print("메뉴 선택[1~4] → ");
 				// 키보드로 문자열을 입력받아 정수값으로 변환하여 변수에 저장
 				choice = Integer.parseInt(in.readLine());
 				// 메뉴 선택을 잘못한 경우 인위적 예외 발생
-				if (choice < 1 || choice > 3)
+				if (choice < 1 || choice > 4)
 					throw new Exception();
 			} catch (Exception e) {
 				System.out.println("[에러]메뉴를 잘못 선택 하였습니다.");
@@ -803,8 +826,10 @@ public class ExampleApp {
 			}
 			System.out.println();
 
-			if (choice == 3)
-				break;// 반복문(while) 종료
+			if (choice == 4) {
+				System.out.println("[메세지]프로그램을 종료합니다.");
+				System.exit(0);// 시스템 종료
+			}
 
 			// 메뉴 선택에 따른 기능 구현 - 메소드 호출
 			switch (choice) {
@@ -817,7 +842,6 @@ public class ExampleApp {
 			case 3:
 				return;
 			}
-			System.out.println();
 		}
 	}
 
@@ -841,7 +865,9 @@ public class ExampleApp {
 				String nameReg = "^[가-힣]{2,5}$";
 				if (!Pattern.matches(nameReg, name)) {
 					System.out.println("[입력오류]이름은 2~5 범위의 한글로만 입력해 주세요.");
-					continue;
+					System.out.println("『 학생별 출결 현황 조회 』로 돌아갑니다.");
+
+					return;
 				}
 
 				break;
@@ -886,6 +912,7 @@ public class ExampleApp {
 				String logInTimeReg = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$";
 				if (!Pattern.matches(logInTimeReg, logInTime)) {
 					System.out.println("[입력오류]날짜는 YYYY-MM-DD 형식으로만 입력해 주세요.");
+
 					continue;
 				}
 
