@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>JavaScript</title>
+</head>
+<body>
+	<h1>BOM(Browser Object Model) - navigator 객체</h1>
+	<hr>
+	<p>navigator 객체: 브라우저 엔진을 객체로 표현하여 프로퍼티와 메소드 제공</p>
+	<script type="text/javascript">
+		alert(navigator); //[object Navigator] → Navigator 객체
+
+		//navigator.appName: 브라우저 엔진의 이름을 저장한 프로퍼티
+		alert("불알우저 엔진의 이름 = " + navigator.appName); //불알우저 엔진의 이름 = Netscape
+
+		//navigator.appVersion: 브라우저 엔진의 버전을 저장한 프로퍼티
+		alert("브라우저 엔진의 버전 = " + navigator.appVersion); //브라우저 엔진의 버전 = 5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+
+		//navigator.userAgent: 브라우저 엔진을 저장한 프로퍼티
+		alert("브라우저 엔진 = " + navigator.userAgent); //브라우저 엔진 = Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+	</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>JavaScript</title>
+</head>
+<body>
+	<h1>Date 클래스 함수</h1>
+	<hr>
+	<p>날짜와 시간이 저장된 객체를 생성하기 위한 클래스 함수 - Date 클래스 함수의 프로퍼티와 메소드 제공</p>
+	<script type="text/javascript">
+		//클라이언트 플랫폼(OS)의 현재 날짜와 시간이 저장된 Date 객체를 생성하여 변수에 저장
+		var now = new Date();
+		//Date.toString(): Date 객체에 저장된 날짜와 시간을 문자값으로 변환하여 반환하는 메소드
+		alert("now.toString() = " + now.toString()); //now.toString() = Thu Jun 08 2023 10:57:26 GMT+0900 (한국 표준시)
+		alert("now = " + now); //now = Thu Jun 08 2023 10:57:26 GMT+0900 (한국 표준시)
+
+		//Date.toLocaleString(): Date 객체에 저장된 날짜와 시간을 클라이언트 플랫폼에 맞는 패턴의 문자값으로 변환하여 반환하는 메소드
+		alert("now = " + now.toLocaleDateString()); //now = 2023. 6. 8.
+
+		var today = now.getFullYear() + "년 " + (now.getMonth() + 1) + "월 " + now.getDate() + "일 " + now.getDay() + "요일";
+		alert("today = " + today); //today = 2023년 6월 8일 4요일
+		//Date.getXXX(): Date 객체에 저장된 날짜와 시간 중 원하는 값을 반환하는 메소드
+		var day = [ "일", "월", "화", "수", "목", "금", "토" ]
+		var today = now.getFullYear() + "년 " + (now.getMonth() + 1) + "월 " + now.getDate() + "일 " + day[now.getDay()] + "요일";
+		alert("today = " + today); //today = 2023년 6월 8일 목요일
+
+		//매개변수에 특정 날짜와 시간을 전달하여 Date 객체를 생성하고 변수에 저장
+		var birthday = new Date(2000, 0, 1);
+		alert("birthday = " + birthday); //birthday = Sat Jan 01 2000 00:00:00 GMT+0900 (한국 표준)
+
+		//Date.getTime(): Date 객체에 저장된 날짜와 시간에 대한 초 단위 숫자값(TimeStamp)을 반환하는 메소드 제공
+		var interval = (now.getTime() - birthday.getTime()) / (1000 * 60 * 60 * 24);
+		alert("당신은 오늘까지 " + interval + "일 살았읍니다."); //당신은 오늘까지 8559.465372199074일 살았읍니다.
+		alert("당신은 오늘까지 " + Math.ceil(interval) + "일 살았읍니다."); //당신은 오늘까지 8560일 살았읍니다.
+	</script>
+</body>
+</html>

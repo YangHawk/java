@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>JavaScript</title>
+</head>
+<body>
+	<h1>DOM(Document Object Model) - Element 객체 생성 및 DOM Tree 추가</h1>
+	<hr>
+	<div id="imageDiv"></div>
+	<script type="text/javascript">
+		//document.createElement(tagName): 매개변수로 전달받은 태그명의 Element 객체를 생성하여 반환하는 메소드
+		var h2E = document.createElement("h2"); //<h2></h2> 를 생성
+		alert(h2E); //[object HTMLHeadingElement] - h2라는 이름을 갖고 있는 Element 객체가 저장됨
+		//document.createTextNode(content): 매개변수로 전달받은 태그 내용이 저장된 Text 객체를 생성하여 반환하는 메소드
+		var h2T = document.createTextNode("h2 태그에 의해 출력되는 내용");
+		alert(h2T); //[object Text]
+
+		//h2E.firstChild.nodeValue = h2T; //에러 발생 - 태그 내용이 없음(null): null의 nodeValue를 변경할 수 없음
+
+		//Node.appendChild(newNode): 매개변수로 전달받은 Node(Element) 객체를 Node(Element) 객체의 마지막 자식으로 추가하는 메소드
+		h2E.appendChild(h2T); //<h2>h2 태그에 의해 출력되는 내용</h2>
+		//docement.body: document 객체에서 body 태그를 자바스크립트 객체로 표현
+		//→ DOM Tree에 새로운 태그를 추가하여 저장 - 출력한다는 의미
+		document.body.appendChild(h2E);
+
+		var imgE = document.createElement("img"); //<img>
+		//Element.attributeName: Element 객체에 프로퍼티를 추가하면 태그에 속성과 속성값을 추가하는 것과 동일한 기능을 수행
+		imgE.src = "images/Penguins.jpg"; //<img src = "images/Penguins.jpg">
+
+		//Node.setAttribute(name, value): Node(Element) 객체의 태그의 속성값을 변경하는 메소드
+		//→ 매개변수로 전달받은 속성이 없는 경우 속성 추가
+		//Node.setAttribute(name): Node(Element) 객체의 태그의 속성값을 반환하는 메소드
+		//Node.removeAttribute(name): Node(Element) 객체의 태그의 속성을 삭제하는 메소드
+		imgE.setAttribute("width", "300"); //<img src = "images/Penguins.jpg" width = "300">
+
+		var divE = document.getElementById("imageDiv"); //<div id = "imageDiv"></div>
+		divE.appendChild(imgE); //<div id = "imageDiv"><img src = "images/Penguins.jpg" width = "300"></div>
+
+		var hrE = document.createElement("hr"); //<hr>
+		//Node.insertBefore(newElement, before): 기존 Node(Element) 객체 전 새로운 Node(Element) 객체를 삽입하는 메소드
+		document.body.insertBefore(hrE, h2E);
+	</script>
+	<!-- <h2>h2 태그에 의해 출력되는 내용</h2> - 추가됨 -->
+</body>
+</html>
