@@ -21,14 +21,14 @@
 	<div id="text"></div>
 
 	<script type="text/javascript">
-		var ulList = document.getElementsByTagName("ul");
+		var ulList = document.getElementsByTagName("ul"); //ul 1~2
 
-		var liList = ulList.item(0).getElementsByTagName("li");
+		var liList = ulList.item(0).getElementsByTagName("li"); //li 1~3
+
+		//Text 객체를 이용하여 태그 내용 변경
+		liList.item(0).firstChild.nodeValue = "신메뉴 - ∞";
 
 		var liE = liList.item(1); //<li>메뉴 - 2</li>
-
-		//태그 내용 변경
-		liE.firstChild.nodeValue = "신메뉴 - ∞";
 
 		var newText = document.createTextNode("신메뉴 - Ω");
 
@@ -48,7 +48,7 @@
 
 		//Node.innerHTML: Node(Element) 객체에 자식 태그 또는 태그 내용을 저장한 프로퍼티
 		//→ Node(Element) 객체의 innerHTML 프로퍼티를 사용하여 하위 태그 및 태그 내용 변경
-		divE.innerHTML = "<p>p 태그에 의해 출력되는 내용<p>";
+		divE.innerHTML = "<p>p 태그에 의해 출력되는 내용</p>";
 	</script>
 </body>
 </html>

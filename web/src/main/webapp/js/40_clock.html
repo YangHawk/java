@@ -25,7 +25,7 @@
 		var displayClock = function() {
 			//클라이언트의 현재 날짜와 시간이 저장된 Date 객체를 생성하여 변수에 저장
 			var now = new Date();
-			//Date 객체를 이용아여 태그 내용으로 출력될 값을 변수에 저장
+			//Date 객체를 이용하여 태그 내용으로 출력될 값을 변수에 저장
 			var printNow = now.getFullYear() + "년 " + (now.getMonth() + 1) + "월 " + now.getDate() + "일 " + now.getHours() + "시 " + now.getMinutes() + "분 " + now.getSeconds() + "초";
 			//dic 태그에 태그 내용을 변경하여 출력 
 			displayDiv.innerHTML = ''; //기본값을 1초 → 공백으로 변경했을 시 설정해주어야 한다.
