@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 </head>
 <body>
-	<h1>DOM(Document Object Model) - ÅÂ±× º¯°æ</h1>
+	<h1>DOM(Document Object Model) - íƒœê·¸ ë³€ê²½</h1>
 	<hr>
 	<ul>
-		<li>¸Ş´º - 1</li>
-		<li>¸Ş´º - 2</li>
-		<li>¸Ş´º - 3</li>
+		<li>ë©”ë‰´ - 1</li>
+		<li>ë©”ë‰´ - 2</li>
+		<li>ë©”ë‰´ - 3</li>
 	</ul>
 	<ul>
-		<li>¸Ş´º - 4</li>
-		<li>¸Ş´º - 5</li>
-		<li>¸Ş´º - 6</li>
+		<li>ë©”ë‰´ - 4</li>
+		<li>ë©”ë‰´ - 5</li>
+		<li>ë©”ë‰´ - 6</li>
 	</ul>
 	<hr>
 	<div id="text"></div>
@@ -25,14 +25,14 @@
 
 		var liList = ulList.item(0).getElementsByTagName("li");
 
-		var liE = liList.item(1); //<li>¸Ş´º - 2</li>
+		var liE = liList.item(1); //<li>ë©”ë‰´ - 2</li>
 
-		//ÅÂ±× ³»¿ë º¯°æ
-		liE.firstChild.nodeValue = "½Å¸Ş´º - ¡Ä";
+		//íƒœê·¸ ë‚´ìš© ë³€ê²½
+		liE.firstChild.nodeValue = "ì‹ ë©”ë‰´ - âˆ";
 
-		var newText = document.createTextNode("½Å¸Ş´º - ¥Ø");
+		var newText = document.createTextNode("ì‹ ë©”ë‰´ - Î©");
 
-		//Node.replaceChild(newNode, oldNode): Node(Element) °´Ã¼ÀÇ ±âÁ¸ ÀÚ½Ä Node(Element) °´Ã¼¸¦ »õ·Î¿î Node(Element) °´Ã¼·Î º¯°æÇÏ´Â ¸Ş¼Òµå
+		//Node.replaceChild(newNode, oldNode): Node(Element) ê°ì²´ì˜ ê¸°ì¡´ ìì‹ Node(Element) ê°ì²´ë¥¼ ìƒˆë¡œìš´ Node(Element) ê°ì²´ë¡œ ë³€ê²½í•˜ëŠ” ë©”ì†Œë“œ
 		liE.replaceChild(newText, liE.firstChild);
 
 		var divE = document.getElementById("text");
@@ -40,15 +40,15 @@
 		/*
 		
 		var pE = document.createElement("p"); //<p><p>
-		var pT = document.createTextNode("p ÅÂ±×¿¡ ÀÇÇØ Ãâ·ÂµÇ´Â ³»¿ë");
-		pE.appendChild(pT); //<p>p ÅÂ±×¿¡ ÀÇÇØ Ãâ·ÂµÇ´Â ³»¿ë<p>
-		divE.appendChild(pE); //<div id="text"><p>p ÅÂ±×¿¡ ÀÇÇØ Ãâ·ÂµÇ´Â ³»¿ë<p></div>
+		var pT = document.createTextNode("p íƒœê·¸ì— ì˜í•´ ì¶œë ¥ë˜ëŠ” ë‚´ìš©");
+		pE.appendChild(pT); //<p>p íƒœê·¸ì— ì˜í•´ ì¶œë ¥ë˜ëŠ” ë‚´ìš©<p>
+		divE.appendChild(pE); //<div id="text"><p>p íƒœê·¸ì— ì˜í•´ ì¶œë ¥ë˜ëŠ” ë‚´ìš©<p></div>
 
 		*/
 
-		//Node.innerHTML: Node(Element) °´Ã¼¿¡ ÀÚ½Ä ÅÂ±× ¶Ç´Â ÅÂ±× ³»¿ëÀ» ÀúÀåÇÑ ÇÁ·ÎÆÛÆ¼
-		//¡æ Node(Element) °´Ã¼ÀÇ innerHTML ÇÁ·ÎÆÛÆ¼¸¦ »ç¿ëÇÏ¿© ÇÏÀ§ ÅÂ±× ¹× ÅÂ±× ³»¿ë º¯°æ
-		divE.innerHTML = "<p>p ÅÂ±×¿¡ ÀÇÇØ Ãâ·ÂµÇ´Â ³»¿ë<p>";
+		//Node.innerHTML: Node(Element) ê°ì²´ì— ìì‹ íƒœê·¸ ë˜ëŠ” íƒœê·¸ ë‚´ìš©ì„ ì €ì¥í•œ í”„ë¡œí¼í‹°
+		//â†’ Node(Element) ê°ì²´ì˜ innerHTML í”„ë¡œí¼í‹°ë¥¼ ì‚¬ìš©í•˜ì—¬ í•˜ìœ„ íƒœê·¸ ë° íƒœê·¸ ë‚´ìš© ë³€ê²½
+		divE.innerHTML = "<p>p íƒœê·¸ì— ì˜í•´ ì¶œë ¥ë˜ëŠ” ë‚´ìš©<p>";
 	</script>
 </body>
 </html>

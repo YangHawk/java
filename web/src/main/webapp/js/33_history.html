@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 </head>
 <body>
-	<h1>BOM(Browser Object Model) - history °´Ã¼</h1>
+	<h1>BOM(Browser Object Model) - history ê°ì²´</h1>
 	<hr>
-	<p>history °´Ã¼: ºê¶ó¿ìÀúÀÇ È÷½ºÅä¸®¸¦ °´Ã¼·Î Ç¥ÇöÇÏ¿© ÇÁ·ÎÆÛÆ¼¿Í ¸Ş¼Òµå Á¦°ø</p>
+	<p>history ê°ì²´: ë¸Œë¼ìš°ì €ì˜ íˆìŠ¤í† ë¦¬ë¥¼ ê°ì²´ë¡œ í‘œí˜„í•˜ì—¬ í”„ë¡œí¼í‹°ì™€ ë©”ì†Œë“œ ì œê³µ</p>
 	<script type="text/javascript">
-		alert(history); //[object History] ¡æ History °´Ã¼
+		alert(history); //[object History] â†’ History ê°ì²´
 
 		setTimeout(function() {
-			//history.back(): ÀÌÀü ÆäÀÌÁö·Î ÀÌµ¿ÇÏ´Â ¸Ş¼Òµå
+			//history.back(): ì´ì „ í˜ì´ì§€ë¡œ ì´ë™í•˜ëŠ” ë©”ì†Œë“œ
 			history.back();
 
-			//history.forward(): ´ÙÀ½ ÆäÀÌÁö·Î ÀÌµ¿ÇÏ´Â ¸Ş¼Òµå
+			//history.forward(): ë‹¤ìŒ í˜ì´ì§€ë¡œ ì´ë™í•˜ëŠ” ë©”ì†Œë“œ
 			history.forward()
 
-			//history.go(number): ¿øÇÏ´Â ÆäÀÌÁö·Î ÀÌµ¿ÇÏ´Â ¸Ş¼Òµå
-			history.go(1); //history.forward(); ¿Í °°´Ù
-			history.go(-1); //history.back(); °ú °°´Ù
-			history.go(0); //location.reload(); ¿Í °°´Ù
+			//history.go(number): ì›í•˜ëŠ” í˜ì´ì§€ë¡œ ì´ë™í•˜ëŠ” ë©”ì†Œë“œ
+			history.go(1); //history.forward(); ì™€ ê°™ë‹¤
+			history.go(-1); //history.back(); ê³¼ ê°™ë‹¤
+			history.go(0); //location.reload(); ì™€ ê°™ë‹¤
 		}, 3000);
 	</script>
 </body>

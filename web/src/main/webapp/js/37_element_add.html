@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 </head>
 <body>
-	<h1>DOM(Document Object Model) - ÅÂ±× Ãß°¡</h1>
+	<h1>DOM(Document Object Model) - íƒœê·¸ ì¶”ê°€</h1>
 	<hr>
 	<div id="imageDiv"></div>
 	<script type="text/javascript">
-		//document.createElement(tagName): ¸Å°³º¯¼ö·Î Àü´Ş¹ŞÀº ÅÂ±×¸íÀÇ Element °´Ã¼¸¦ »ı¼ºÇÏ¿© ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-		var h2E = document.createElement("h2"); //<h2></h2> ¸¦ »ı¼º
-		alert(h2E); //[object HTMLHeadingElement] - h2¶ó´Â ÀÌ¸§À» °®°í ÀÖ´Â Element °´Ã¼°¡ ÀúÀåµÊ
-		//document.createTextNode(content): ¸Å°³º¯¼ö·Î Àü´Ş¹ŞÀº ÅÂ±× ³»¿ëÀÌ ÀúÀåµÈ Text °´Ã¼¸¦ »ı¼ºÇÏ¿© ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-		var h2T = document.createTextNode("h2 ÅÂ±×¿¡ ÀÇÇØ Ãâ·ÂµÇ´Â ³»¿ë");
+		//document.createElement(tagName): ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ë°›ì€ íƒœê·¸ëª…ì˜ Element ê°ì²´ë¥¼ ìƒì„±í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+		var h2E = document.createElement("h2"); //<h2></h2> ë¥¼ ìƒì„±
+		alert(h2E); //[object HTMLHeadingElement] - h2ë¼ëŠ” ì´ë¦„ì„ ê°–ê³  ìˆëŠ” Element ê°ì²´ê°€ ì €ì¥ë¨
+		//document.createTextNode(content): ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ë°›ì€ íƒœê·¸ ë‚´ìš©ì´ ì €ì¥ëœ Text ê°ì²´ë¥¼ ìƒì„±í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+		var h2T = document.createTextNode("h2 íƒœê·¸ì— ì˜í•´ ì¶œë ¥ë˜ëŠ” ë‚´ìš©");
 		alert(h2T); //[object Text]
 
-		//h2E.firstChild.nodeValue = h2T; //¿¡·¯ ¹ß»ı - ÅÂ±× ³»¿ëÀÌ ¾øÀ½(null): nullÀÇ nodeValue¸¦ º¯°æÇÒ ¼ö ¾øÀ½
+		//h2E.firstChild.nodeValue = h2T; //ì—ëŸ¬ ë°œìƒ - íƒœê·¸ ë‚´ìš©ì´ ì—†ìŒ(null): nullì˜ nodeValueë¥¼ ë³€ê²½í•  ìˆ˜ ì—†ìŒ
 
-		//Node.appendChild(newNode): ¸Å°³º¯¼ö·Î Àü´Ş¹ŞÀº Node(Element) °´Ã¼¸¦ Node(Element) °´Ã¼ÀÇ ¸¶Áö¸· ÀÚ½ÄÀ¸·Î Ãß°¡ÇÏ´Â ¸Ş¼Òµå
-		h2E.appendChild(h2T); //<h2>h2 ÅÂ±×¿¡ ÀÇÇØ Ãâ·ÂµÇ´Â ³»¿ë</h2>
-		//docement.body: document °´Ã¼¿¡¼­ body ÅÂ±×¸¦ ÀÚ¹Ù½ºÅ©¸³Æ® °´Ã¼·Î Ç¥Çö
-		//¡æ DOM Tree¿¡ »õ·Î¿î ÅÂ±×¸¦ Ãß°¡ÇÏ¿© ÀúÀå - Ãâ·ÂÇÑ´Ù´Â ÀÇ¹Ì
+		//Node.appendChild(newNode): ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ë°›ì€ Node(Element) ê°ì²´ë¥¼ Node(Element) ê°ì²´ì˜ ë§ˆì§€ë§‰ ìì‹ìœ¼ë¡œ ì¶”ê°€í•˜ëŠ” ë©”ì†Œë“œ
+		h2E.appendChild(h2T); //<h2>h2 íƒœê·¸ì— ì˜í•´ ì¶œë ¥ë˜ëŠ” ë‚´ìš©</h2>
+		//docement.body: document ê°ì²´ì—ì„œ body íƒœê·¸ë¥¼ ìë°”ìŠ¤í¬ë¦½íŠ¸ ê°ì²´ë¡œ í‘œí˜„
+		//â†’ DOM Treeì— ìƒˆë¡œìš´ íƒœê·¸ë¥¼ ì¶”ê°€í•˜ì—¬ ì €ì¥ - ì¶œë ¥í•œë‹¤ëŠ” ì˜ë¯¸
 		document.body.appendChild(h2E);
 
 		var imgE = document.createElement("img"); //<img>
-		//Element.attributeName: Element °´Ã¼¿¡ ÇÁ·ÎÆÛÆ¼¸¦ Ãß°¡ÇÏ¸é ÅÂ±×¿¡ ¼Ó¼º°ú ¼Ó¼º°ªÀ» Ãß°¡ÇÏ´Â °Í°ú µ¿ÀÏÇÑ ±â´ÉÀ» ¼öÇà
+		//Element.attributeName: Element ê°ì²´ì— í”„ë¡œí¼í‹°ë¥¼ ì¶”ê°€í•˜ë©´ íƒœê·¸ì— ì†ì„±ê³¼ ì†ì„±ê°’ì„ ì¶”ê°€í•˜ëŠ” ê²ƒê³¼ ë™ì¼í•œ ê¸°ëŠ¥ì„ ìˆ˜í–‰
 		imgE.src = "images/Penguins.jpg"; //<img src = "images/Penguins.jpg">
 
-		//Node.setAttribute(name, value): Node(Element) °´Ã¼ÀÇ ÅÂ±×ÀÇ ¼Ó¼º°ªÀ» º¯°æÇÏ´Â ¸Ş¼Òµå
-		//¡æ ¸Å°³º¯¼ö·Î Àü´Ş¹ŞÀº ÅÂ±× ¼Ó¼ºÀÌ ¾ø´Â °æ¿ì ¼Ó¼º Ãß°¡
-		//Node.setAttribute(name): Node(Element) °´Ã¼ÀÇ ÅÂ±×ÀÇ ¼Ó¼º°ªÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-		//Node.removeAttribute(name): Node(Element) °´Ã¼ÀÇ ÅÂ±×ÀÇ ¼Ó¼ºÀ» »èÁ¦ÇÏ´Â ¸Ş¼Òµå
+		//Node.setAttribute(name, value): Node(Element) ê°ì²´ì˜ íƒœê·¸ì˜ ì†ì„±ê°’ì„ ë³€ê²½í•˜ëŠ” ë©”ì†Œë“œ
+		//â†’ ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ë°›ì€ íƒœê·¸ ì†ì„±ì´ ì—†ëŠ” ê²½ìš° ì†ì„± ì¶”ê°€
+		//Node.setAttribute(name): Node(Element) ê°ì²´ì˜ íƒœê·¸ì˜ ì†ì„±ê°’ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+		//Node.removeAttribute(name): Node(Element) ê°ì²´ì˜ íƒœê·¸ì˜ ì†ì„±ì„ ì‚­ì œí•˜ëŠ” ë©”ì†Œë“œ
 		imgE.setAttribute("width", "300"); //<img src = "images/Penguins.jpg" width = "300">
 
 		var divE = document.getElementById("imageDiv"); //<div id = "imageDiv"></div>
 		divE.appendChild(imgE); //<div id = "imageDiv"><img src = "images/Penguins.jpg" width = "300"></div>
 
 		var hrE = document.createElement("hr"); //<hr>
-		//Node.insertBefore(newElement, before): ±âÁ¸ Node(Element) °´Ã¼ Àü »õ·Î¿î Node(Element) °´Ã¼¸¦ »ğÀÔÇÏ´Â ¸Ş¼Òµå
+		//Node.insertBefore(newElement, before): ê¸°ì¡´ Node(Element) ê°ì²´ ì „ ìƒˆë¡œìš´ Node(Element) ê°ì²´ë¥¼ ì‚½ì…í•˜ëŠ” ë©”ì†Œë“œ
 		document.body.insertBefore(hrE, h2E);
 	</script>
-	<!-- <h2>h2 ÅÂ±×¿¡ ÀÇÇØ Ãâ·ÂµÇ´Â ³»¿ë</h2> - Ãß°¡µÊ -->
+	<!-- <h2>h2 íƒœê·¸ì— ì˜í•´ ì¶œë ¥ë˜ëŠ” ë‚´ìš©</h2> - ì¶”ê°€ë¨ -->
 </body>
 </html>

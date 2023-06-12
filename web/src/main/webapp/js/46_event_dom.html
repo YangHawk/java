@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 <style type="text/css">
 #itemListDiv div {
@@ -10,27 +10,27 @@
 </style>
 </head>
 <body>
-	<h1>ÀÌº¥Æ®(Event) - DHTML</h1>
+	<h1>ì´ë²¤íŠ¸(Event) - DHTML</h1>
 	<hr>
-	<p>DHTML(Dynamic HTML): ºê¶ó¿ìÀú¿¡¼­ ÀÌº¥Æ®°¡ ¹ß»ıµÉ °æ¿ì ºê¶ó¿ìÀú¿¡ Ãâ·ÂµÈ ÅÂ±×¸¦ º¯°æÇÏ¿© µ¿ÀûÀÎ ÆäÀÌÁö¸¦ Á¦°øÇÏ´Â ¹æ¹ı</p>
+	<p>DHTML(Dynamic HTML): ë¸Œë¼ìš°ì €ì—ì„œ ì´ë²¤íŠ¸ê°€ ë°œìƒë  ê²½ìš° ë¸Œë¼ìš°ì €ì— ì¶œë ¥ëœ íƒœê·¸ë¥¼ ë³€ê²½í•˜ì—¬ ë™ì ì¸ í˜ì´ì§€ë¥¼ ì œê³µí•˜ëŠ” ë°©ë²•</p>
 	<hr>
-	<button type="button" id="addBtn">¾ÆÀÌÅÛÀ» Ãß°¡ÇÏ¼¼¿ä!</button>
+	<button type="button" id="addBtn">ì•„ì´í…œì„ ì¶”ê°€í•˜ì„¸ìš”!</button>
 	<div id="itemListDiv"></div>
 	<script type="text/javascript">
-		//ÅÂ±×¸¦ ±¸ºĞÇÏ±â À§ÇÑ °ªÀÌ ÀúÀåµÇ´Â º¯¼ö	
+		//íƒœê·¸ë¥¼ êµ¬ë¶„í•˜ê¸° ìœ„í•œ ê°’ì´ ì €ì¥ë˜ëŠ” ë³€ìˆ˜	
 		var count = 0;
 		document.getElementById("addBtn").onclick = function() {
 			count++;
 
 			var newItem = document.createElement("div"); //<div></div>
 			newItem.setAttribute("id", "item_" + count); //<div id="item_XXX"></div>
-			var html = "¾ÆÀÌÅÛ[" + count + "]&nbsp;&nbsp;<button type='btn' onclick='removeItem(" + count + ");'>»èÁ¦</button>";
-			newItem.innerHTML = html; //<div id="item_XXX">¾ÆÀÌÅÛ[XXX] »èÁ¦</div>
-			//div ÅÂ±×(itemListDiv)ÀÇ ¸¶Áö¸· ÀÚ½Ä ÅÂ±×·Î »ı¼ºµÈ ÅÂ±×¸¦ ¹èÄ¡ - Ãâ·Â
+			var html = "ì•„ì´í…œ[" + count + "]&nbsp;&nbsp;<button type='btn' onclick='removeItem(" + count + ");'>ì‚­ì œ</button>";
+			newItem.innerHTML = html; //<div id="item_XXX">ì•„ì´í…œ[XXX] ì‚­ì œ</div>
+			//div íƒœê·¸(itemListDiv)ì˜ ë§ˆì§€ë§‰ ìì‹ íƒœê·¸ë¡œ ìƒì„±ëœ íƒœê·¸ë¥¼ ë°°ì¹˜ - ì¶œë ¥
 			document.getElementById("itemListDiv").appendChild(newItem);
 		}
 
-		//ÅÂ±×¸¦ »èÁ¦ÇÏ´Â ÇÔ¼ö - ¸Å°³º¯¼ö·Î ÅÂ±×¸¦ ±¸ºĞÇÒ ¼ö ÀÖ´Â °ªÀ» Àü´Ş¹Ş¾Æ ÀúÀå
+		//íƒœê·¸ë¥¼ ì‚­ì œí•˜ëŠ” í•¨ìˆ˜ - ë§¤ê°œë³€ìˆ˜ë¡œ íƒœê·¸ë¥¼ êµ¬ë¶„í•  ìˆ˜ ìˆëŠ” ê°’ì„ ì „ë‹¬ë°›ì•„ ì €ì¥
 		function removeItem(cnt) {
 			//alert(cnt);
 			var removeE = document.getElementById("item_" + cnt);

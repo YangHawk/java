@@ -1,107 +1,107 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 </head>
 <body>
-	<h1>Äí±â(Cookie)</h1>
+	<h1>ì¿ ê¸°(Cookie)</h1>
 	<hr>
-	<p>ÄíÅ°: ¼­¹ö¿Í Å¬¶óÀÌ¾ðÆ®ÀÇ ¿¬°á Áö¼Ó¼ºÀ» Á¦°øÇÏ±â À§ÇØ Å¬¶óÀÌ¾ðÆ®¿¡ ÀúÀåµÇ´Â ¹®ÀÚ°ª</p>
-	<p>Å¬¶óÀÌ¾ðÆ®¿¡ Á¢¼ÓµÈ À¥¼­¹öÀÇ ÀÌ¸§À» ½Äº°ÀÚ·Î »ç¿ëÇÏ¿© ´Ù¼öÀÇ ÄíÅ°¸¦ ÀúÀåÇØ À¥¼­¹öÀÇ À¥ ÇÁ·Î±×·¥ ¿äÃ» ½Ã ÄíÅ°¿¡ ÀúÀåµÈ °ªÀ» Àü´Þ</p>
+	<p>ì¿ í‚¤: ì„œë²„ì™€ í´ë¼ì´ì–¸íŠ¸ì˜ ì—°ê²° ì§€ì†ì„±ì„ ì œê³µí•˜ê¸° ìœ„í•´ í´ë¼ì´ì–¸íŠ¸ì— ì €ìž¥ë˜ëŠ” ë¬¸ìžê°’</p>
+	<p>í´ë¼ì´ì–¸íŠ¸ì— ì ‘ì†ëœ ì›¹ì„œë²„ì˜ ì´ë¦„ì„ ì‹ë³„ìžë¡œ ì‚¬ìš©í•˜ì—¬ ë‹¤ìˆ˜ì˜ ì¿ í‚¤ë¥¼ ì €ìž¥í•´ ì›¹ì„œë²„ì˜ ì›¹ í”„ë¡œê·¸ëž¨ ìš”ì²­ ì‹œ ì¿ í‚¤ì— ì €ìž¥ëœ ê°’ì„ ì „ë‹¬</p>
 	<hr>
 	<form name="cookieFrom">
-		¾ÆÀÌµð: <input type="text" name="id">&nbsp;&nbsp;
-		<button type="button" id="saveBtn">ÀÔ·Â ¾ÆÀÌµð ÀúÀå</button>
+		ì•„ì´ë””: <input type="text" name="id">&nbsp;&nbsp;
+		<button type="button" id="saveBtn">ìž…ë ¥ ì•„ì´ë”” ì €ìž¥</button>
 		&nbsp;&nbsp;
-		<button type="button" id="useBtn">ÀúÀå ¾ÆÀÌµð »ç¿ë</button>
+		<button type="button" id="useBtn">ì €ìž¥ ì•„ì´ë”” ì‚¬ìš©</button>
 		&nbsp;&nbsp;
-		<button type="button" id="removeBtn">ÀúÀå ¾ÆÀÌµð »èÁ¦</button>
+		<button type="button" id="removeBtn">ì €ìž¥ ì•„ì´ë”” ì‚­ì œ</button>
 		&nbsp;&nbsp;
 	</form>
 
 	<script type="text/javascript">
-		//Å¬¶óÀÌ¾ðÆ®¿¡ ÄíÅ°¸¦ ÀúÀå(º¯°æ)ÇÏ´Â ÇÔ¼ö
-		//¡æ ÄíÅ°¿¡´Â ÇÊ¿äÇÑ Á¤º¸¸¦ ÀÌ¸§°ú °ªÀ¸·Î ¹­¾î ÀúÀå(ÀÌ¸§ = °ª)
-		//¡æ ÄíÅ°¿¡ ÀúÀåµÈ Á¤º¸¸¦ ;¸¦ ÀÌ¿ëÇÏ¿© ±¸ºÐÇÏ°í ¿©·¯ °³¸¦ ÀúÀå °¡´É
-		//¡æ ÄíÅ°ÀÇ ÇÊ¼ö Á¤º¸·Î ÄíÅ°¸í°ú ÄíÅ°°ªÀ» ¹­¾î ¹Ýµå½Ã ÀúÀå
-		//¡æ ÄíÅ°ÀÇ ¼±ÅÃ Á¤º¸·Î Àû¿ë ¹üÀ§, µµ¸ÞÀÎ, Áö¼Ó ½Ã°£ µîÀ» ÀúÀå - ¼±ÅÃ Á¤º¸¸¦ ÀúÀåÇÏÁö ¾ÊÀ» ½Ã 
+		//í´ë¼ì´ì–¸íŠ¸ì— ì¿ í‚¤ë¥¼ ì €ìž¥(ë³€ê²½)í•˜ëŠ” í•¨ìˆ˜
+		//â†’ ì¿ í‚¤ì—ëŠ” í•„ìš”í•œ ì •ë³´ë¥¼ ì´ë¦„ê³¼ ê°’ìœ¼ë¡œ ë¬¶ì–´ ì €ìž¥(ì´ë¦„ = ê°’)
+		//â†’ ì¿ í‚¤ì— ì €ìž¥ëœ ì •ë³´ë¥¼ ;ë¥¼ ì´ìš©í•˜ì—¬ êµ¬ë¶„í•˜ê³  ì—¬ëŸ¬ ê°œë¥¼ ì €ìž¥ ê°€ëŠ¥
+		//â†’ ì¿ í‚¤ì˜ í•„ìˆ˜ ì •ë³´ë¡œ ì¿ í‚¤ëª…ê³¼ ì¿ í‚¤ê°’ì„ ë¬¶ì–´ ë°˜ë“œì‹œ ì €ìž¥
+		//â†’ ì¿ í‚¤ì˜ ì„ íƒ ì •ë³´ë¡œ ì ìš© ë²”ìœ„, ë„ë©”ì¸, ì§€ì† ì‹œê°„ ë“±ì„ ì €ìž¥ - ì„ íƒ ì •ë³´ë¥¼ ì €ìž¥í•˜ì§€ ì•Šì„ ì‹œ 
 		function setCookie(name, value, path, expires) {
-			var sc = ""; //ÄíÅ°¸¦ ÀúÀåÇÏ±â À§ÇÑ º¯¼ö
+			var sc = ""; //ì¿ í‚¤ë¥¼ ì €ìž¥í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
 
-			//ÄíÅ° º¯¼ö¿¡ ÄíÅ°¸í°ú ÄíÅ°°ªÀ» ¹­¾î¼­ ÀúÀå
-			//¡æ ÄíÅ°°ªÀº ¿µ¹®ÀÚ, ¼ýÀÚ, ÀÏºÎ Æ¯¼ö ¹®ÀÚ¸¸ ÀúÀå °¡´É
-			//¡æ ¿µ¹®ÀÚ, ¼ýÀÚ, ÀÏºÎ Æ¯¼ö ¹®ÀÚ¸¦ Á¦¿ÜÇÑ ¹®ÀÚ´Â ºÎÈ£È­ Ã³¸®ÇÏ¿© ÀúÀå
+			//ì¿ í‚¤ ë³€ìˆ˜ì— ì¿ í‚¤ëª…ê³¼ ì¿ í‚¤ê°’ì„ ë¬¶ì–´ì„œ ì €ìž¥
+			//â†’ ì¿ í‚¤ê°’ì€ ì˜ë¬¸ìž, ìˆ«ìž, ì¼ë¶€ íŠ¹ìˆ˜ ë¬¸ìžë§Œ ì €ìž¥ ê°€ëŠ¥
+			//â†’ ì˜ë¬¸ìž, ìˆ«ìž, ì¼ë¶€ íŠ¹ìˆ˜ ë¬¸ìžë¥¼ ì œì™¸í•œ ë¬¸ìžëŠ” ë¶€í˜¸í™” ì²˜ë¦¬í•˜ì—¬ ì €ìž¥
 			sc += name + "=" + encodeURIComponent(value) + ";";
 
-			//ÄíÅ° º¯¼ö¿¡ path ÀÌ¸§À¸·Î ÄíÅ°ÀÇ Àû¿ë ¹üÀ§¸¦ ¹­¾î¼­ ÀúÀå
+			//ì¿ í‚¤ ë³€ìˆ˜ì— path ì´ë¦„ìœ¼ë¡œ ì¿ í‚¤ì˜ ì ìš© ë²”ìœ„ë¥¼ ë¬¶ì–´ì„œ ì €ìž¥
 			sc += "path = " + path + ";";
 
-			//Å¬¶óÀÌ¾ðÆ®ÀÇ ÇöÀç ³¯Â¥¿Í ½Ã°£ÀÌ ÀúÀåµÈ Date °´Ã¼ »ý¼º
+			//í´ë¼ì´ì–¸íŠ¸ì˜ í˜„ìž¬ ë‚ ì§œì™€ ì‹œê°„ì´ ì €ìž¥ëœ Date ê°ì²´ ìƒì„±
 			var date = new Date();
-			//Date.setDate(number): Date °´Ã¼¿¡ ÀúÀåµÈ ³¯Â¥¿Í ½Ã°£ Áß ÀÏÀ» º¯°æÇÏ´Â ¸Þ¼Òµå
+			//Date.setDate(number): Date ê°ì²´ì— ì €ìž¥ëœ ë‚ ì§œì™€ ì‹œê°„ ì¤‘ ì¼ì„ ë³€ê²½í•˜ëŠ” ë©”ì†Œë“œ
 			date.setDate(date.getDate() + expires);
 
-			//ÄíÅ° º¯¼ö¿¡ expires ÀÌ¸§À¸·Î ÄíÅ°ÀÇ Áö¼Ó ½Ã°£À» ¹­¾î¼­ ÀúÀå
-			//Date.toUTCString(): Date °´Ã¼¿¡ ÀúÀåµÈ ³¯Â¥¿Í ½Ã°£À» ¼¼°è Ç¥ÁØ½Ã(UTC)ÀÇ ¹®ÀÚ°ªÀ¸·Î º¯È¯ÇÏ¿© ¹ÝÈ¯ÇÏ´Â ¸Þ¼Òµå
+			//ì¿ í‚¤ ë³€ìˆ˜ì— expires ì´ë¦„ìœ¼ë¡œ ì¿ í‚¤ì˜ ì§€ì† ì‹œê°„ì„ ë¬¶ì–´ì„œ ì €ìž¥
+			//Date.toUTCString(): Date ê°ì²´ì— ì €ìž¥ëœ ë‚ ì§œì™€ ì‹œê°„ì„ ì„¸ê³„ í‘œì¤€ì‹œ(UTC)ì˜ ë¬¸ìžê°’ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 			sc += "expires = " + date.toUTCString();
 
-			//document.cookie: ÄíÅ°¸¦ ÀúÀåÇÏ±â À§ÇÑ °´Ã¼
-			document.cookie = sc; //Å¬¶óÀÌ¾ðÆ®ÀÇ ÄíÅ°¸¦ ÀúÀå
+			//document.cookie: ì¿ í‚¤ë¥¼ ì €ìž¥í•˜ê¸° ìœ„í•œ ê°ì²´
+			document.cookie = sc; //í´ë¼ì´ì–¸íŠ¸ì˜ ì¿ í‚¤ë¥¼ ì €ìž¥
 		}
 
-		//Å¬¶óÀÌ¾ðÆ®¿¡ ÀúÀåµÈ ÄíÅ°ÀÇ ÄíÅ°°ªÀ» ¹ÝÈ¯ÇÏ´Â ÇÔ¼ö
-		//¡æ Å¬¶óÀÌ¾ðÆ®¿¡ ÀúÀåµÈ ÄíÅ° Áß ¸Å°³º¯¼ö·Î Àü´Þ¹Þ¾Æ ÀÌ¸§ÀÇ ÄíÅ°°ª ¹ÝÈ¯
+		//í´ë¼ì´ì–¸íŠ¸ì— ì €ìž¥ëœ ì¿ í‚¤ì˜ ì¿ í‚¤ê°’ì„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
+		//â†’ í´ë¼ì´ì–¸íŠ¸ì— ì €ìž¥ëœ ì¿ í‚¤ ì¤‘ ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ë°›ì•„ ì´ë¦„ì˜ ì¿ í‚¤ê°’ ë°˜í™˜
 		function getCookie(name) {
-			//ÄíÅ°¿¡ ÀúÀåµÈ Á¤º¸¸¦ ; ¹®ÀÚ°ªÀ¸·Î ºÐ¸®ÇÏ¿© º¯¼ö¿¡ ÀúÀå
-			var gc = document.cookie.split(";"); //º¯¼ö¿¡´Â Array °´Ã¼°¡ ÀúÀå
+			//ì¿ í‚¤ì— ì €ìž¥ëœ ì •ë³´ë¥¼ ; ë¬¸ìžê°’ìœ¼ë¡œ ë¶„ë¦¬í•˜ì—¬ ë³€ìˆ˜ì— ì €ìž¥
+			var gc = document.cookie.split(";"); //ë³€ìˆ˜ì—ëŠ” Array ê°ì²´ê°€ ì €ìž¥
 
 			for (i = 0; i < gc.length; i++) {
-				//Array °´Ã¼ÀÇ ¿ä¼Ò°ª(ÄíÅ° Á¤º¸)À» = ¹®ÀÚ°ªÀ¸·Î ºÐ¸®ÇÏ¿© Ã¹¹øÂ° ¿ä¼Ò°ª(ÀÌ¸§)À» ¸Å°³º¯¼ö·Î Àü´Þ¹ÞÀº °ª(ÄíÅ°¸í)°ú ºñ±³
+				//Array ê°ì²´ì˜ ìš”ì†Œê°’(ì¿ í‚¤ ì •ë³´)ì„ = ë¬¸ìžê°’ìœ¼ë¡œ ë¶„ë¦¬í•˜ì—¬ ì²«ë²ˆì§¸ ìš”ì†Œê°’(ì´ë¦„)ì„ ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ë°›ì€ ê°’(ì¿ í‚¤ëª…)ê³¼ ë¹„êµ
 				if (gc[i].split("=")[0] == name) {
-					//µÎ¹øÂ° ¿ä¼Ò°ª(°ª)À» ¹ÝÈ¯
+					//ë‘ë²ˆì§¸ ìš”ì†Œê°’(ê°’)ì„ ë°˜í™˜
 					return gc[i].split("=")[1];
 				}
 			}
 
-			//¸Å°³º¯¼ö·Î Àü´Þ¹ÞÀº ÀÌ¸§ÀÇ ÄíÅ°°ªÀÌ ¾ø´Â °æ¿ì null ¹ÝÈ¯
+			//ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ë°›ì€ ì´ë¦„ì˜ ì¿ í‚¤ê°’ì´ ì—†ëŠ” ê²½ìš° null ë°˜í™˜
 			return null;
 		}
 
-		//[ÀÔ·Â ¾ÆÀÌµð ÀúÀå] ¹öÆ°À» Å¬¸¯ÇÑ °æ¿ì È£ÃâµÇ´Â ÀÌº¥Æ® Ã³¸® ÇÔ¼ö µî·Ï
-		//¡æ ÀÔ·Â ÅÂ±×ÀÇ ÀÔ·Â°ª(¾ÆÀÌµð)¸¦ ¹ÝÈ¯¹Þ¾Æ Å¬¶óÀÌ¾ðÆ®ÀÇ ÄíÅ°·Î ÀúÀå
+		//[ìž…ë ¥ ì•„ì´ë”” ì €ìž¥] ë²„íŠ¼ì„ í´ë¦­í•œ ê²½ìš° í˜¸ì¶œë˜ëŠ” ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ ë“±ë¡
+		//â†’ ìž…ë ¥ íƒœê·¸ì˜ ìž…ë ¥ê°’(ì•„ì´ë””)ë¥¼ ë°˜í™˜ë°›ì•„ í´ë¼ì´ì–¸íŠ¸ì˜ ì¿ í‚¤ë¡œ ì €ìž¥
 		document.getElementById("saveBtn").onclick = function() {
-			var id = cookieForm.id.value; //ÀÔ·Â ÅÂ±×ÀÇ ÀÔ·Â°ªÀ» º¯¼ö¿¡ ÀúÀå
+			var id = cookieForm.id.value; //ìž…ë ¥ íƒœê·¸ì˜ ìž…ë ¥ê°’ì„ ë³€ìˆ˜ì— ì €ìž¥
 
-			if (id == "") { //ÀÔ·Â°ªÀÌ ¾ø´Â °æ¿ì
-				alert("¾ÆÀÌµð¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ê!");
+			if (id == "") { //ìž…ë ¥ê°’ì´ ì—†ëŠ” ê²½ìš°
+				alert("ì•„ì´ë””ë¥¼ ìž…ë ¥í•´ ì£¼ì„¸ìš§!");
 				return;
 			}
 
-			//ÀÔ·Â°ªÀÌ Å¬¶óÀÌ¾ðÆ®¿¡ ÄíÅ°°ªÀ¸·Î ÇÏ·ç µ¿¾È ÀúÀå
+			//ìž…ë ¥ê°’ì´ í´ë¼ì´ì–¸íŠ¸ì— ì¿ í‚¤ê°’ìœ¼ë¡œ í•˜ë£¨ ë™ì•ˆ ì €ìž¥
 			setCookie("id", id, "/", 1);
 
-			//ÀÔ·Â ÅÂ±×ÀÇ ÀÔ·Â°ª ÃÊ±âÈ­
+			//ìž…ë ¥ íƒœê·¸ì˜ ìž…ë ¥ê°’ ì´ˆê¸°í™”
 			cookieForm.id.value = "";
 		}
 
-		//[ÀúÀå ¾ÆÀÌµð »ç¿ë] ¹öÆ°À» Å¬¸¯ÇÑ °æ¿ì È£ÃâµÇ´Â ÀÌº¥Æ® Ã³¸® ÇÔ¼ö µî·Ï
-		//¡æ ÄíÅ°°ªÀ» ¹ÝÈ¯¹Þ¾Æ ÀÔ·Â ÅÂ±×ÀÇ ÀÔ·Â°ªÀ¸·Î Ãâ·Â
+		//[ì €ìž¥ ì•„ì´ë”” ì‚¬ìš©] ë²„íŠ¼ì„ í´ë¦­í•œ ê²½ìš° í˜¸ì¶œë˜ëŠ” ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ ë“±ë¡
+		//â†’ ì¿ í‚¤ê°’ì„ ë°˜í™˜ë°›ì•„ ìž…ë ¥ íƒœê·¸ì˜ ìž…ë ¥ê°’ìœ¼ë¡œ ì¶œë ¥
 		document.getElementById("userBtn").onclick = function() {
 			var id = getCookie("id");
 
 			if (id == null) {
-				alert("ÄíÅ°¿¡ ÀúÀåµÈ ¾ÆÀÌµð°¡ ¾ø¾î¿ê!");
+				alert("ì¿ í‚¤ì— ì €ìž¥ëœ ì•„ì´ë””ê°€ ì—†ì–´ìš§!");
 				return;
 			}
-			//ÀÔ·Â ÅÂ±×ÀÇ ÀÔ·Â°ªÀ¸·Î º¯¼ö°ª ÀúÀå - ÀÔ·Â°ª º¯°æ
+			//ìž…ë ¥ íƒœê·¸ì˜ ìž…ë ¥ê°’ìœ¼ë¡œ ë³€ìˆ˜ê°’ ì €ìž¥ - ìž…ë ¥ê°’ ë³€ê²½
 			cookieForm.id.value = id;
 		}
 
-		//[ÀúÀå ¾ÆÀÌµð »èÁ¦] ¹öÆ°À» Å¬¸¯ÇÑ °æ¿ì È£ÃâµÇ´Â ÀÌº¥Æ® Ã³¸® ÇÔ¼ö µî·Ï
-		//¡æ Å¬¶óÀÌ¾ðÆ®¿¡ ÀúÀåµÈ ÄíÅ° »èÁ¦
+		//[ì €ìž¥ ì•„ì´ë”” ì‚­ì œ] ë²„íŠ¼ì„ í´ë¦­í•œ ê²½ìš° í˜¸ì¶œë˜ëŠ” ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ ë“±ë¡
+		//â†’ í´ë¼ì´ì–¸íŠ¸ì— ì €ìž¥ëœ ì¿ í‚¤ ì‚­ì œ
 		document.getElementById("removeBtn").onclick = function() {
-			//ÄíÅ°ÀÇ Áö¼Ó½Ã°£À» °ú°Å·Î º¯°æ
+			//ì¿ í‚¤ì˜ ì§€ì†ì‹œê°„ì„ ê³¼ê±°ë¡œ ë³€ê²½ - ì¿ í‚¤ ì‚­ì œ
 			setCookie("id", "", "/", -1);
 		}
 	</script>

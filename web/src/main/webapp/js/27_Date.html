@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 </head>
 <body>
-	<h1>Date Å¬·¡½º ÇÔ¼ö</h1>
+	<h1>Date í´ë˜ìŠ¤ í•¨ìˆ˜</h1>
 	<hr>
-	<p>³¯Â¥¿Í ½Ã°£ÀÌ ÀúÀåµÈ °´Ã¼¸¦ »ı¼ºÇÏ±â À§ÇÑ Å¬·¡½º ÇÔ¼ö - Date Å¬·¡½º ÇÔ¼öÀÇ ÇÁ·ÎÆÛÆ¼¿Í ¸Ş¼Òµå Á¦°ø</p>
+	<p>ë‚ ì§œì™€ ì‹œê°„ì´ ì €ì¥ëœ ê°ì²´ë¥¼ ìƒì„±í•˜ê¸° ìœ„í•œ í´ë˜ìŠ¤ í•¨ìˆ˜ - Date í´ë˜ìŠ¤ í•¨ìˆ˜ì˜ í”„ë¡œí¼í‹°ì™€ ë©”ì†Œë“œ ì œê³µ</p>
 	<script type="text/javascript">
-		//Å¬¶óÀÌ¾ğÆ® ÇÃ·§Æû(OS)ÀÇ ÇöÀç ³¯Â¥¿Í ½Ã°£ÀÌ ÀúÀåµÈ Date °´Ã¼¸¦ »ı¼ºÇÏ¿© º¯¼ö¿¡ ÀúÀå
+		//í´ë¼ì´ì–¸íŠ¸ í”Œë«í¼(OS)ì˜ í˜„ì¬ ë‚ ì§œì™€ ì‹œê°„ì´ ì €ì¥ëœ Date ê°ì²´ë¥¼ ìƒì„±í•˜ì—¬ ë³€ìˆ˜ì— ì €ì¥
 		var now = new Date();
-		//Date.toString(): Date °´Ã¼¿¡ ÀúÀåµÈ ³¯Â¥¿Í ½Ã°£À» ¹®ÀÚ°ªÀ¸·Î º¯È¯ÇÏ¿© ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-		alert("now.toString() = " + now.toString()); //now.toString() = Thu Jun 08 2023 10:57:26 GMT+0900 (ÇÑ±¹ Ç¥ÁØ½Ã)
-		alert("now = " + now); //now = Thu Jun 08 2023 10:57:26 GMT+0900 (ÇÑ±¹ Ç¥ÁØ½Ã)
+		//Date.toString(): Date ê°ì²´ì— ì €ì¥ëœ ë‚ ì§œì™€ ì‹œê°„ì„ ë¬¸ìê°’ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+		alert("now.toString() = " + now.toString()); //now.toString() = Thu Jun 08 2023 10:57:26 GMT+0900 (í•œêµ­ í‘œì¤€ì‹œ)
+		alert("now = " + now); //now = Thu Jun 08 2023 10:57:26 GMT+0900 (í•œêµ­ í‘œì¤€ì‹œ)
 
-		//Date.toLocaleString(): Date °´Ã¼¿¡ ÀúÀåµÈ ³¯Â¥¿Í ½Ã°£À» Å¬¶óÀÌ¾ğÆ® ÇÃ·§Æû¿¡ ¸Â´Â ÆĞÅÏÀÇ ¹®ÀÚ°ªÀ¸·Î º¯È¯ÇÏ¿© ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+		//Date.toLocaleString(): Date ê°ì²´ì— ì €ì¥ëœ ë‚ ì§œì™€ ì‹œê°„ì„ í´ë¼ì´ì–¸íŠ¸ í”Œë«í¼ì— ë§ëŠ” íŒ¨í„´ì˜ ë¬¸ìê°’ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 		alert("now = " + now.toLocaleDateString()); //now = 2023. 6. 8.
 
-		var today = now.getFullYear() + "³â " + (now.getMonth() + 1) + "¿ù " + now.getDate() + "ÀÏ " + now.getDay() + "¿äÀÏ";
-		alert("today = " + today); //today = 2023³â 6¿ù 8ÀÏ 4¿äÀÏ
-		//Date.getXXX(): Date °´Ã¼¿¡ ÀúÀåµÈ ³¯Â¥¿Í ½Ã°£ Áß ¿øÇÏ´Â °ªÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-		var day = [ "ÀÏ", "¿ù", "È­", "¼ö", "¸ñ", "±İ", "Åä" ]
-		var today = now.getFullYear() + "³â " + (now.getMonth() + 1) + "¿ù " + now.getDate() + "ÀÏ " + day[now.getDay()] + "¿äÀÏ";
-		alert("today = " + today); //today = 2023³â 6¿ù 8ÀÏ ¸ñ¿äÀÏ
+		var today = now.getFullYear() + "ë…„ " + (now.getMonth() + 1) + "ì›” " + now.getDate() + "ì¼ " + now.getDay() + "ìš”ì¼";
+		alert("today = " + today); //today = 2023ë…„ 6ì›” 8ì¼ 4ìš”ì¼
+		//Date.getXXX(): Date ê°ì²´ì— ì €ì¥ëœ ë‚ ì§œì™€ ì‹œê°„ ì¤‘ ì›í•˜ëŠ” ê°’ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+		var day = [ "ì¼", "ì›”", "í™”", "ìˆ˜", "ëª©", "ê¸ˆ", "í† " ]
+		var today = now.getFullYear() + "ë…„ " + (now.getMonth() + 1) + "ì›” " + now.getDate() + "ì¼ " + day[now.getDay()] + "ìš”ì¼";
+		alert("today = " + today); //today = 2023ë…„ 6ì›” 8ì¼ ëª©ìš”ì¼
 
-		//¸Å°³º¯¼ö¿¡ Æ¯Á¤ ³¯Â¥¿Í ½Ã°£À» Àü´ŞÇÏ¿© Date °´Ã¼¸¦ »ı¼ºÇÏ°í º¯¼ö¿¡ ÀúÀå
+		//ë§¤ê°œë³€ìˆ˜ì— íŠ¹ì • ë‚ ì§œì™€ ì‹œê°„ì„ ì „ë‹¬í•˜ì—¬ Date ê°ì²´ë¥¼ ìƒì„±í•˜ê³  ë³€ìˆ˜ì— ì €ì¥
 		var birthday = new Date(2000, 0, 1);
-		alert("birthday = " + birthday); //birthday = Sat Jan 01 2000 00:00:00 GMT+0900 (ÇÑ±¹ Ç¥ÁØ)
+		alert("birthday = " + birthday); //birthday = Sat Jan 01 2000 00:00:00 GMT+0900 (í•œêµ­ í‘œì¤€)
 
-		//Date.getTime(): Date °´Ã¼¿¡ ÀúÀåµÈ ³¯Â¥¿Í ½Ã°£¿¡ ´ëÇÑ ÃÊ ´ÜÀ§ ¼ıÀÚ°ª(TimeStamp)À» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå Á¦°ø
+		//Date.getTime(): Date ê°ì²´ì— ì €ì¥ëœ ë‚ ì§œì™€ ì‹œê°„ì— ëŒ€í•œ ì´ˆ ë‹¨ìœ„ ìˆ«ìê°’(TimeStamp)ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ ì œê³µ
 		var interval = (now.getTime() - birthday.getTime()) / (1000 * 60 * 60 * 24);
-		alert("´ç½ÅÀº ¿À´Ã±îÁö " + interval + "ÀÏ »ì¾ÒÀ¾´Ï´Ù."); //´ç½ÅÀº ¿À´Ã±îÁö 8559.465372199074ÀÏ »ì¾ÒÀ¾´Ï´Ù.
-		alert("´ç½ÅÀº ¿À´Ã±îÁö " + Math.ceil(interval) + "ÀÏ »ì¾ÒÀ¾´Ï´Ù."); //´ç½ÅÀº ¿À´Ã±îÁö 8560ÀÏ »ì¾ÒÀ¾´Ï´Ù.
+		alert("ë‹¹ì‹ ì€ ì˜¤ëŠ˜ê¹Œì§€ " + interval + "ì¼ ì‚´ì•˜ìë‹ˆë‹¤."); //ë‹¹ì‹ ì€ ì˜¤ëŠ˜ê¹Œì§€ 8559.465372199074ì¼ ì‚´ì•˜ìë‹ˆë‹¤.
+		alert("ë‹¹ì‹ ì€ ì˜¤ëŠ˜ê¹Œì§€ " + Math.ceil(interval) + "ì¼ ì‚´ì•˜ìë‹ˆë‹¤."); //ë‹¹ì‹ ì€ ì˜¤ëŠ˜ê¹Œì§€ 8560ì¼ ì‚´ì•˜ìë‹ˆë‹¤.
 	</script>
 </body>
 </html>

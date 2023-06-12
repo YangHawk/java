@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 </head>
 <body>
-	<h1>DOM(Document Object Model) - ÅÂ±× »èÁ¦</h1>
+	<h1>DOM(Document Object Model) - íƒœê·¸ ì‚­ì œ</h1>
 	<hr>
-	<h2>¿¤¸®¸ÕÆ® - 1</h2>
-	<h2 id="remove">¿¤¸®¸ÕÆ® - 2</h2>
-	<h2>¿¤¸®¸ÕÆ® - 3</h2>
+	<h2>ì—˜ë¦¬ë¨¼íŠ¸ - 1</h2>
+	<h2 id="remove">ì—˜ë¦¬ë¨¼íŠ¸ - 2</h2>
+	<h2>ì—˜ë¦¬ë¨¼íŠ¸ - 3</h2>
 	<script type="text/javascript">
 		var h2E = document.getElementById("remove");
-		//Node.removeChild(oldNode): Node(Element) °´Ã¼¿¡¼­ ÀÚ½Ä Node(Element) °´Ã¼¸¦ »èÁ¦ÇÏ´Â ¸Ş¼Òµå
-		//¡æ DOM Tree¿¡¼­ ÅÂ±× »èÁ¦ ¡æ ¹ÌÃâ·Â
+		//Node.removeChild(oldNode): Node(Element) ê°ì²´ì—ì„œ ìì‹ Node(Element) ê°ì²´ë¥¼ ì‚­ì œí•˜ëŠ” ë©”ì†Œë“œ
+		//â†’ DOM Treeì—ì„œ íƒœê·¸ ì‚­ì œ â†’ ë¯¸ì¶œë ¥
 		document.body.removeChild(h2E);
 
 		var h2E = document.getElementById("remove");
 
-		//Element.parentNode: Node(Element) °´Ã¼ÀÇ ºÎ¸ğ Node(Element) °´Ã¼¸¦ ÀúÀåÇÑ ÇÁ·ÎÆÛÆ¼
-		//¡æ Element.parentElement ÅÂ±×¸¸ vs. ÅÂ±× ³»¿ë±îÁö ÀÌ¹Ç·Î »èÁ¦ ½Ã¿¡´Â »ó°ü ¾ø´Ù.
+		//Element.parentNode: Node(Element) ê°ì²´ì˜ ë¶€ëª¨ Node(Element) ê°ì²´ë¥¼ ì €ì¥í•œ í”„ë¡œí¼í‹°
+		//â†’ Element.parentElement íƒœê·¸ë§Œ vs. íƒœê·¸ ë‚´ìš©ê¹Œì§€ ì´ë¯€ë¡œ ì‚­ì œ ì‹œì—ëŠ” ìƒê´€ ì—†ë‹¤.
 		h2E.parentNode.removeChild(h2E);
 		h2E.parentElement.removeChild(h2E);
-		//h2E ÅÂ±×ÀÇ ºÎ¸ğ ¡æ body ÅÂ±× ¡æ body ÅÂ±×ÀÇ ÀÚ½ÄÀÎ h2E ÅÂ±× »èÁ¦
+		//h2E íƒœê·¸ì˜ ë¶€ëª¨ â†’ body íƒœê·¸ â†’ body íƒœê·¸ì˜ ìì‹ì¸ h2E íƒœê·¸ ì‚­ì œ
 	</script>
 </body>
 </html>

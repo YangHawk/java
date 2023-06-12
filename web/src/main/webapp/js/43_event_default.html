@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 </head>
 <body>
-	<h1>ÀÌº¥Æ®(Event) - ÅÂ±×ÀÇ ±âº» ÀÌº¥Æ® Ã³¸® ±â´É</h1>
+	<h1>ì´ë²¤íŠ¸(Event) - íƒœê·¸ì˜ ê¸°ë³¸ ì´ë²¤íŠ¸ ì²˜ë¦¬ ê¸°ëŠ¥</h1>
 	<hr>
-	<p>ÅÂ±×¿¡´Â Æ¯Á¤ ÀÌº¥Æ®¿¡ ´ëÇÑ Ã³¸® ±â´ÉÀ» Á¦°ø - a ÅÂ±×, input ÅÂ±× µî</p>
+	<p>íƒœê·¸ì—ëŠ” íŠ¹ì • ì´ë²¤íŠ¸ì— ëŒ€í•œ ì²˜ë¦¬ ê¸°ëŠ¥ì„ ì œê³µ - a íƒœê·¸, input íƒœê·¸ ë“±</p>
 	<hr>
-	<button type="button" id="btn">´ÙÀ½(Daum)À¸·Î ÀÌµ¿</button>
+	<button type="button" id="btn">ë‹¤ìŒ(Daum)ìœ¼ë¡œ ì´ë™</button>
 	<hr>
-	<!-- a ÅÂ±×´Â click ÀÌº¥Æ®°¡ ¹ß»ıÇÒ °æ¿ì href ¼Ó¼º°ªÀ¸·Î ¼³Á¤µÈ ÆäÀÌÁö·Î ÀÌµ¿: ÅÂ±×ÀÇ ±âº» ÀÌº¥Æ® ¸í·É -->
-	<a href="https://www.naver.com" id="naver"><button type="button">³×ÀÌ¹ö(Naver)·Î ÀÌµ¿</button></a>
+	<!-- a íƒœê·¸ëŠ” click ì´ë²¤íŠ¸ê°€ ë°œìƒí•  ê²½ìš° href ì†ì„±ê°’ìœ¼ë¡œ ì„¤ì •ëœ í˜ì´ì§€ë¡œ ì´ë™: íƒœê·¸ì˜ ê¸°ë³¸ ì´ë²¤íŠ¸ ëª…ë ¹ -->
+	<a href="https://www.naver.com" id="naver"><button type="button">ë„¤ì´ë²„(Naver)ë¡œ ì´ë™</button></a>
 	<script type="text/javascript">
 		document.getElementById("btn").onclick = function() {
 			location.href = "https://www.daum.net";
 		};
 
-		document.getElementById("naver").onclick = function() { //¸Å°³º¯¼ö·Î event °´Ã¼¸¦ Àü´Ş¹Ş¾Æ¼­ »ç¿ë °¡´É - function(e)
-			//event °´Ã¼: ÅÂ±×¿¡¼­ ¹ß»ıµÈ ÀÌº¥Æ® Á¤º¸¸¦ ÀúÀåÇÑ °´Ã¼
-			//¡æ ÀÌº¥Æ® Ã³¸® ÇÔ¼ö°¡ È£ÃâµÇ¸é ÀÚµ¿À¸·Î »ı¼ºµÇ¸ç ÀÌº¥Æ® Ã³¸® ÇÔ¼ö°¡ Á¾·áµÇ¸é ÀÚµ¿À¸·Î ¼Ò¸ê
+		document.getElementById("naver").onclick = function() { //ë§¤ê°œë³€ìˆ˜ë¡œ event ê°ì²´ë¥¼ ì „ë‹¬ë°›ì•„ì„œ ì‚¬ìš© ê°€ëŠ¥ - function(e)
+			//event ê°ì²´: íƒœê·¸ì—ì„œ ë°œìƒëœ ì´ë²¤íŠ¸ ì •ë³´ë¥¼ ì €ì¥í•œ ê°ì²´
+			//â†’ ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ê°€ í˜¸ì¶œë˜ë©´ ìë™ìœ¼ë¡œ ìƒì„±ë˜ë©° ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ê°€ ì¢…ë£Œë˜ë©´ ìë™ìœ¼ë¡œ ì†Œë©¸
 
-			//event.preventDefault(): ÅÂ±×¿¡ ¼³Á¤µÈ ±âº» ÀÌº¥Æ® ¸í·ÉÀ» Ãë¼ÒÇÏ´Â ¸Ş¼Òµå
+			//event.preventDefault(): íƒœê·¸ì— ì„¤ì •ëœ ê¸°ë³¸ ì´ë²¤íŠ¸ ëª…ë ¹ì„ ì·¨ì†Œí•˜ëŠ” ë©”ì†Œë“œ
 			event.preventDefault();
 		};
 	</script>

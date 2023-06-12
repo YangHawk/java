@@ -1,76 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 </head>
 <body>
-	<h1>form �±� ���� �̺�Ʈ - �Է� ������</h1>
+	<h1>form 태그 관련 이벤트 - 입력 페이지</h1>
 	<hr>
-	<p>form �±�: ����ڷκ��� ���� �Է¹޾� ���� �̺�Ʈ(Submit Event)�� �߻��Ǹ� �� ���α׷��� ��û�Ͽ� �Է°��� �����ϴ� �±�</p>
-	<p>form �±״� �ݵ�� ����ڷκ��� ���� �Է¹ޱ� ���� �Է� �±׿� ���� �̺�Ʈ�� �߻��ϴ� �±װ� ���� �±׷� ����Ǿ��־�� �������� ���� ����</p>
-	<p>form �±״� �ڹٽ�ũ��Ʈ�� �̿��Ͽ� ����� �Է°��� ������ �� �������� ��쿡�� ���۵ǵ��� �����ϰ� ���������� �Է°��� �ִ� ��� form �±װ� ���۵��� �ʵ��� �����ϴ°��� ����</p>
+	<p>form 태그: 사용자로부터 값을 입력받아 제출 이벤트(Submit Event)가 발생되면 웹 프로그램을 요청하여 입력값을 전달하는 태그</p>
+	<p>form 태그는 반드시 사용자로부터 값을 입력받기 위한 입력 태그와 제출 이벤트를 발생하는 태그가 하위 태그로 선언되어있어야 정상적인 동작 가능</p>
+	<p>form 태그는 자바스크립트를 이용하여 사용자 입력값을 검증한 후 정상적인 경우에만 동작되도록 설정하고 비정상적인 입력값이 있는 경우 form 태그가 동작되지 않도록 설정하는것을 권장</p>
 	<hr>
 	<form action="47_form_action.html" method="post" name="loginForm">
 		<table>
 			<tr>
-				<td>���̵�</td>
-				<!-- ����ڷκ��� ���� �Է¹ޱ� ���� �±� -->
+				<td>아이디</td>
+				<!-- 사용자로부터 값을 입력받기 위한 태그 -->
 				<td><input type="text" name="id"></td>
 			</tr>
 			<tr>
-				<td>��й�ȣ</td>
+				<td>비밀번호</td>
 				<td><input type="password" name="pw"></td>
 			</tr>
 			<tr>
-				<!-- ���� �̺�Ʈ�� �߻��ϴ� button �±� -->
-				<!-- �� click �̺�Ʈ�� ���� ���� �̺�Ʈ�� �߻��Ǿ� form �±� ���� -->
+				<!-- 제출 이벤트를 발생하는 button 태그 -->
+				<!-- → click 이벤트에 의해 제출 이벤트가 발생되어 form 태그 동작 -->
 				<!-- 
-				<td colspan="2"><button type="submit">�α���</button></td>
+				<td colspan="2"><button type="submit">로그인</button></td>
 				 -->
-				<!-- �ƹ��� �̺�Ʈ�� �߻����� �ʴ� button �±� -->
-				<td colspan="2"><button type="button" id="loginBtn">�α���</button></td>
+				<!-- 아무런 이벤트가 발생하지 않는 button 태그 -->
+				<td colspan="2"><button type="button" id="loginBtn">로그인</button></td>
 			</tr>
 		</table>
 	</form>
 
 	<script type="text/javascript">
-		//form �±׿� �Է� �±��� name �Ӽ����� Element ��ü�� ǥ�� ����
+		//form 태그와 입력 태그의 name 속성값을 Element 객체로 표현 가능
 		alert(loginForm); //[object HTMLFormElement]
 		alert(loginForm.id); //[object HTMLInputElement]
 
-		//InputElement.focus(): �Է� �±׿� �Է� ������ �����ϴ� �޼ҵ�
+		//InputElement.focus(): 입력 태그에 입력 촛점을 제공하는 메소드
 		loginForm.id.focus();
 
 		document.getElementById("loginBtn").onclick = function() {
-			//����� �Է°� ����
-			//InputElement.value: �Է� �±��� ����� �Է°��� ����� ������Ƽ
-			if (loginForm.id.value == "") { //���̵� �Է°��� ���� ���
-				alert("���̵� �Է��� �ּ���!");
+			//사용자 입력값 검증
+			//InputElement.value: 입력 태그의 사용자 입력값이 저장된 프로퍼티
+			if (loginForm.id.value == "") { //아이디 입력값이 없는 경우
+				alert("아이디를 입력해 주세욧!");
 				loginForm.id.focus();
-				return; //�̺�Ʈ ó�� �Լ� ���� - form �±� �̽���
+				return; //이벤트 처리 함수 종료 - form 태그 미실행
 			}
 
-			//�ڹٽ�ũ��Ʈ������ ���� ǥ������ / / �ȿ� �ۼ��ϸ� RegExp ��ü�� ��� ����
+			//자바스크립트에서는 정규 표현식을 / / 안에 작성하면 RegExp 객체로 사용 가능
 			var idReg = /^[a-zA-Z]\w{5,19}$/g;
-			//RegExp.test(input): RegExp ��ü�� ����� ���� ǥ�������� �Ű������� ���޹��� �Է°��� ������ �˻��Ͽ� ���Ŀ� ���� ���� ��� [false] ��ȯ, ���Ŀ� ���� ��� [true]��ȯ
-			if (!idReg.test(loginForm.id.value)) { //���� ǥ���İ� �Է°��� ������ ���� �ʴٸ�,
-				alert("���̵� ���Ŀ� �°� �Է��� �ּ���!");
+			//RegExp.test(input): RegExp 객체에 저장된 정규 표현식으로 매개변수로 전달받은 입력값의 패턴을 검사하여 형식에 맞지 않을 경우 [false] 반환, 형식에 맞을 경우 [true]반환
+			if (!idReg.test(loginForm.id.value)) { //정규 표현식과 입력값의 패턴이 같지 않다면,
+				alert("아이디를 형식에 맞게 입력해 주세욧!");
 				loginForm.id.focus();
 				return;
 			}
 
-			if (loginForm.pw.value == "") { //��й�ȣ �Է°��� ���� ���
-				alert("��й�ȣ�� �Է��� �ּ���!");
+			if (loginForm.pw.value == "") { //비밀번호 입력값이 없는 경우
+				alert("비밀번호를 입력해 주세욧!");
 				loginForm.pw.focus();
 				return;
 			}
 
-			//form �±��� �Ӽ��� �Ӽ����� �ڹٽ�ũ��Ʈ�� ���� ����
+			//form 태그의 속성과 속성값을 자바스크립트로 설정 가능
 			loginForm.action = "47_form_action.html";
 			loginForm.method = "post";
 
-			//FormElement.submit(): form �±׸� �����ϱ� ���� ���� �̺�Ʈ�� �߻���Ű�� �޼ҵ�			
+			//FormElement.submit(): form 태그를 실행하기 위한 제출 이벤트를 발생시키는 메소드			
 			loginForm.submit();
 		}
 	</script>

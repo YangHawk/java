@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 <style type="text/css">
 #displayDiv {
@@ -16,24 +16,24 @@
 </style>
 </head>
 <body>
-	<h1>DOM(Document Object Model) - ½Ã°è</h1>
+	<h1>DOM(Document Object Model) - ì‹œê³„</h1>
 	<hr>
 	<div id="displayDiv"></div>
 	<script type="text/javascript">
 		var displayDiv = document.getElementById("displayDiv");
 
 		var displayClock = function() {
-			//Å¬¶óÀÌ¾ğÆ®ÀÇ ÇöÀç ³¯Â¥¿Í ½Ã°£ÀÌ ÀúÀåµÈ Date °´Ã¼¸¦ »ı¼ºÇÏ¿© º¯¼ö¿¡ ÀúÀå
+			//í´ë¼ì´ì–¸íŠ¸ì˜ í˜„ì¬ ë‚ ì§œì™€ ì‹œê°„ì´ ì €ì¥ëœ Date ê°ì²´ë¥¼ ìƒì„±í•˜ì—¬ ë³€ìˆ˜ì— ì €ì¥
 			var now = new Date();
-			//Date °´Ã¼¸¦ ÀÌ¿ë¾Æ¿© ÅÂ±× ³»¿ëÀ¸·Î Ãâ·ÂµÉ °ªÀ» º¯¼ö¿¡ ÀúÀå
-			var printNow = now.getFullYear() + "³â " + (now.getMonth() + 1) + "¿ù " + now.getDate() + "ÀÏ " + now.getHours() + "½Ã " + now.getMinutes() + "ºĞ " + now.getSeconds() + "ÃÊ";
-			//dic ÅÂ±×¿¡ ÅÂ±× ³»¿ëÀ» º¯°æÇÏ¿© Ãâ·Â 
-			displayDiv.innerHTML = ''; //±âº»°ªÀ» 1ÃÊ ¡æ °ø¹éÀ¸·Î º¯°æÇßÀ» ½Ã ¼³Á¤ÇØÁÖ¾î¾ß ÇÑ´Ù.
+			//Date ê°ì²´ë¥¼ ì´ìš©ì•„ì—¬ íƒœê·¸ ë‚´ìš©ìœ¼ë¡œ ì¶œë ¥ë  ê°’ì„ ë³€ìˆ˜ì— ì €ì¥
+			var printNow = now.getFullYear() + "ë…„ " + (now.getMonth() + 1) + "ì›” " + now.getDate() + "ì¼ " + now.getHours() + "ì‹œ " + now.getMinutes() + "ë¶„ " + now.getSeconds() + "ì´ˆ";
+			//dic íƒœê·¸ì— íƒœê·¸ ë‚´ìš©ì„ ë³€ê²½í•˜ì—¬ ì¶œë ¥ 
+			displayDiv.innerHTML = ''; //ê¸°ë³¸ê°’ì„ 1ì´ˆ â†’ ê³µë°±ìœ¼ë¡œ ë³€ê²½í–ˆì„ ì‹œ ì„¤ì •í•´ì£¼ì–´ì•¼ í•œë‹¤.
 			displayDiv.innerHTML = printNow;
 		}
 
-		//displayClock(); //ÇÔ¼ö È£Ãâ - ÇöÀç ³¯Â¥¿Í ½Ã°£ÀÌ ÅÂ±×¿¡ Ãâ·Â - ½ÃÀÛÇÏÀÚ¸¶ÀÚ ¹Ù²î°Ô ÇÏ±â À§ÇÏ¿© - ¾øÀ¸¸é ÃÊ±â°ªÀº div ÅÂ±× ³»¿ëÀÌ Ãâ·ÂµÇ°í 1ÃÊ µÚ¿¡ ¹Ù²ï´Ù!
-		setInterval(displayClock, 1000); //1ÃÊ¸¶´Ù ÇÔ¼ö È£Ãâ
+		//displayClock(); //í•¨ìˆ˜ í˜¸ì¶œ - í˜„ì¬ ë‚ ì§œì™€ ì‹œê°„ì´ íƒœê·¸ì— ì¶œë ¥ - ì‹œì‘í•˜ìë§ˆì ë°”ë€Œê²Œ í•˜ê¸° ìœ„í•˜ì—¬ - ì—†ìœ¼ë©´ ì´ˆê¸°ê°’ì€ div íƒœê·¸ ë‚´ìš©ì´ ì¶œë ¥ë˜ê³  1ì´ˆ ë’¤ì— ë°”ë€ë‹¤!
+		setInterval(displayClock, 1000); //1ì´ˆë§ˆë‹¤ í•¨ìˆ˜ í˜¸ì¶œ
 	</script>
 </body>
 </html>

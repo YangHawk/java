@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 <style type="text/css">
 div {
@@ -20,55 +20,55 @@ div {
 </style>
 </head>
 <body>
-	<h1>ÀÌº¥Æ®(Event) - ÀÌº¥Æ® Àü´Ş</h1>
+	<h1>ì´ë²¤íŠ¸(Event) - ì´ë²¤íŠ¸ ì „ë‹¬</h1>
 	<hr>
-	<!-- ÅÂ±×ÀÇ ÀÌº¥Æ® ¸®½º³Ê ¼Ó¼º°ªÀ¸·Î ´Ù¼öÀÇ ÀÌº¥Æ® Ã³¸® ÇÔ¼ö È£Ãâ °¡´É -->
-	<button type="button" onclick="eventHandleOne(); eventHandleTwo();">ÀÌº¥Æ® ¹öÆ° - 1</button>
-	<button type="button" id="btn2">ÀÌº¥Æ® ¹öÆ° - 2</button>
-	<button type="button" id="btn3">ÀÌº¥Æ® ¹öÆ° - 3</button>
+	<!-- íƒœê·¸ì˜ ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ì†ì„±ê°’ìœ¼ë¡œ ë‹¤ìˆ˜ì˜ ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ í˜¸ì¶œ ê°€ëŠ¥ -->
+	<button type="button" onclick="eventHandleOne(); eventHandleTwo();">ì´ë²¤íŠ¸ ë²„íŠ¼ - 1</button>
+	<button type="button" id="btn2">ì´ë²¤íŠ¸ ë²„íŠ¼ - 2</button>
+	<button type="button" id="btn3">ì´ë²¤íŠ¸ ë²„íŠ¼ - 3</button>
 	<hr>
 	<div id="red">
 		<div id="green"></div>
 	</div>
 	<script type="text/javascript">
 		function eventHandleOne() {
-			alert("eventHandleOne ÇÔ¼öÀÇ ¸í·É ½ÇÇà");
+			alert("eventHandleOne í•¨ìˆ˜ì˜ ëª…ë ¹ ì‹¤í–‰");
 		}
 
 		function eventHandleTwo() {
-			alert("eventHandleTwo ÇÔ¼öÀÇ ¸í·É ½ÇÇà");
+			alert("eventHandleTwo í•¨ìˆ˜ì˜ ëª…ë ¹ ì‹¤í–‰");
 		}
 
-		//Node(Element) °´Ã¼ÀÇ ÀÌº¥Æ® ¸®½º³Ê ¼Ó¼º¿¡ ÀÌº¥Æ® Ã³¸® ÇÔ¼ö µî·Ï
-		//¡æ Node(Element) °´Ã¼ÀÇ ÀÌº¥Æ® ¸®½º³Ê ¼Ó¼º¿¡´Â ÇÏ³ªÀÇ ÀÌº¥Æ® Ã³¸® ÇÔ¼ö¸¸ µî·Ï °¡´É
-		document.getElementById("btn2").onclick = eventHandleOne; //½ÇÇàµÇÁö ¾ÊÀ½
-		document.getElementById("btn2").onclick = eventHandleTwo; //½ÇÇàµÊ
-		//Node(Element) °´Ã¼·Î addEventListener() ¸Ş¼Òµå¸¦ È£ÃâÇÏ¿© ÀÌº¥Æ® Ã³¸® ÇÔ¼ö µî·Ï
-		//¡æ Node(Element) °´Ã¼ÀÇ addEventListener() ¸Ş¼Òµå¸¦ »ç¿ëÇÏ¸é ´Ù¼öÀÇ ÀÌº¥Æ® Ã³¸® ÇÔ¼ö µî·Ï °¡´É
+		//Node(Element) ê°ì²´ì˜ ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ì†ì„±ì— ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ ë“±ë¡
+		//â†’ Node(Element) ê°ì²´ì˜ ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ì†ì„±ì—ëŠ” í•˜ë‚˜ì˜ ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ë§Œ ë“±ë¡ ê°€ëŠ¥
+		document.getElementById("btn2").onclick = eventHandleOne; //ì‹¤í–‰ë˜ì§€ ì•ŠìŒ
+		document.getElementById("btn2").onclick = eventHandleTwo; //ì‹¤í–‰ë¨
+		//Node(Element) ê°ì²´ë¡œ addEventListener() ë©”ì†Œë“œë¥¼ í˜¸ì¶œí•˜ì—¬ ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ ë“±ë¡
+		//â†’ Node(Element) ê°ì²´ì˜ addEventListener() ë©”ì†Œë“œë¥¼ ì‚¬ìš©í•˜ë©´ ë‹¤ìˆ˜ì˜ ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ ë“±ë¡ ê°€ëŠ¥
 		document.getElementById("btn3").addEventListener("click", eventHandleOne);
 		document.getElementById("btn3").addEventListener("click", eventHandleTwo);
 
-		//Node.addEventListener(eventName, callback[, useCapture])¸¦ ÀÌ¿ëÇÏ¸é ÀÌº¥Æ® Ã³¸® ÇÔ¼ö¸¦ µî·ÏÇÒ ¼ö ÀÖÀ½
-		//¡æ Node(Element) °´Ã¼·Î addEventListener() ¸Ş¼Òµå¸¦ È£ÃâÇÒ ¶§ useCapture ¸Å°³º¯¼ö¸¦ ÀÌ¿ëÇÏ¸é Ä¸Ã³¸µ ¶Ç´Â ¹öºí¸µ ´Ü°è¿¡¼­ Äİ¹é ÇÔ¼ö¸¦ È£ÃâÇÏ¿© ÀÌº¥Æ® Ã³¸® ¸í·É ½ÇÇà °¡´É
-		//¡æ useCapture ¸Å°³º¯¼ö¿¡ [false]¸¦ Àü´ŞÇÏ¸é ¹öºí¸µ ´Ü°è¿¡¼­ ÀÌº¥Æ® Äİ¹é ÇÔ¼ö¸¦ È£ÃâÇÏ¿© ÀÌº¥Æ® Ã³¸® ¸í·ÉÀ» ½ÇÇàÇÏ°í [true]¸¦ Àü´ŞÇÏ¸é Ä¸Ã³¸µ ´Ü°è¿¡¼­ Äİ¹é ÇÔ¼ö¸¦ È£ÃâÇÏ¿© ÀÌº¥Æ® Ã³¸®
+		//Node.addEventListener(eventName, callback[, useCapture])ë¥¼ ì´ìš©í•˜ë©´ ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ë¥¼ ë“±ë¡í•  ìˆ˜ ìˆìŒ
+		//â†’ Node(Element) ê°ì²´ë¡œ addEventListener() ë©”ì†Œë“œë¥¼ í˜¸ì¶œí•  ë•Œ useCapture ë§¤ê°œë³€ìˆ˜ë¥¼ ì´ìš©í•˜ë©´ ìº¡ì²˜ë§ ë˜ëŠ” ë²„ë¸”ë§ ë‹¨ê³„ì—ì„œ ì½œë°± í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ì—¬ ì´ë²¤íŠ¸ ì²˜ë¦¬ ëª…ë ¹ ì‹¤í–‰ ê°€ëŠ¥
+		//â†’ useCapture ë§¤ê°œë³€ìˆ˜ì— [false]ë¥¼ ì „ë‹¬í•˜ë©´ ë²„ë¸”ë§ ë‹¨ê³„ì—ì„œ ì´ë²¤íŠ¸ ì½œë°± í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ì—¬ ì´ë²¤íŠ¸ ì²˜ë¦¬ ëª…ë ¹ì„ ì‹¤í–‰í•˜ê³  [true]ë¥¼ ì „ë‹¬í•˜ë©´ ìº¡ì²˜ë§ ë‹¨ê³„ì—ì„œ ì½œë°± í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ì—¬ ì´ë²¤íŠ¸ ì²˜ë¦¬
 		document.getElementById("red").addEventListener("click", function() {
-			//event.currentTarget: ÀÌº¥Æ®°¡ ¹ß»ıµÈ ÅÂ±×¿¡ ´ëÇÑ Element °´Ã¼¸¦ ÀúÀåÇÑ ÇÁ·ÎÆÛÆ¼
+			//event.currentTarget: ì´ë²¤íŠ¸ê°€ ë°œìƒëœ íƒœê·¸ì— ëŒ€í•œ Element ê°ì²´ë¥¼ ì €ì¥í•œ í”„ë¡œí¼í‹°
 			var tag = event.currentTarget.tagName;
 			var id = event.currentTarget.getAttribute("id");
-			//event.type: ÅÂ±×¿¡¼­ ¹ß»ıµÈ ÀÌº¥Æ®¸¦ ÀúÀåÇÑ ÇÁ·ÎÆÛÆ¼			
-			alert("Ä¸Ã³¸µ ´Ü°è = " + tag + " ÅÂ±×(" + id + ")¿¡¼­ " + event.type + " ÀÌº¥Æ® ¹ß»ı");
+			//event.type: íƒœê·¸ì—ì„œ ë°œìƒëœ ì´ë²¤íŠ¸ë¥¼ ì €ì¥í•œ í”„ë¡œí¼í‹°			
+			alert("ìº¡ì²˜ë§ ë‹¨ê³„ = " + tag + " íƒœê·¸(" + id + ")ì—ì„œ " + event.type + " ì´ë²¤íŠ¸ ë°œìƒ");
 		}, true);
 
 		document.getElementById("green").addEventListener("click", function() {
 			var tag = event.currentTarget.tagName;
 			var id = event.currentTarget.getAttribute("id");
-			alert("¹öºí¸µ ´Ü°è = " + tag + " ÅÂ±×(" + id + ")¿¡¼­ " + event.type + " ÀÌº¥Æ® ¹ß»ı");
+			alert("ë²„ë¸”ë§ ë‹¨ê³„ = " + tag + " íƒœê·¸(" + id + ")ì—ì„œ " + event.type + " ì´ë²¤íŠ¸ ë°œìƒ");
 		}, false);
 
 		document.getElementById("red").addEventListener("click", function() {
 			var tag = event.currentTarget.tagName;
 			var id = event.currentTarget.getAttribute("id");
-			alert("¹öºí¸µ ´Ü°è = " + tag + " ÅÂ±×(" + id + ")¿¡¼­ " + event.type + " ÀÌº¥Æ® ¹ß»ı");
+			alert("ë²„ë¸”ë§ ë‹¨ê³„ = " + tag + " íƒœê·¸(" + id + ")ì—ì„œ " + event.type + " ì´ë²¤íŠ¸ ë°œìƒ");
 		}, false);
 	</script>
 </body>

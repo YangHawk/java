@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 </head>
 <body>
-	<h1>String Å¬·¡½º ÇÔ¼ö</h1>
+	<h1>String í´ë˜ìŠ¤ í•¨ìˆ˜</h1>
 	<hr>
-	<p>¹®ÀÚ°ªÀÌ ÀúÀåµÈ °´Ã¼¸¦ »ı¼ºÇÏ±â À§ÇÑ Å¬·¡½º ÇÔ¼ö - String Å¬·¡½º ÇÔ¼öÀÇ ÇÁ·ÎÆÛÆ¼¿Í ¸Ş¼Òµå Á¦°ø</p>
+	<p>ë¬¸ìê°’ì´ ì €ì¥ëœ ê°ì²´ë¥¼ ìƒì„±í•˜ê¸° ìœ„í•œ í´ë˜ìŠ¤ í•¨ìˆ˜ - String í´ë˜ìŠ¤ í•¨ìˆ˜ì˜ í”„ë¡œí¼í‹°ì™€ ë©”ì†Œë“œ ì œê³µ</p>
 
 	<script type="text/javascript">
-		//¸Å°³º¯¼ö¿¡ Àü´ŞµÈ ¹®ÀÚ°ªÀÌ ÀúÀåµÈ String °´Ã¼¸¦ »ı¼ºÇÏ¿© º¯¼ö¿¡ ÀúÀå	
+		//ë§¤ê°œë³€ìˆ˜ì— ì „ë‹¬ëœ ë¬¸ìê°’ì´ ì €ì¥ëœ String ê°ì²´ë¥¼ ìƒì„±í•˜ì—¬ ë³€ìˆ˜ì— ì €ì¥	
 		var str = new String("Hello, JavaScript!!!");
-		alert("º¯¼öÀÇ ÀÚ·áÇü = " + typeof (str)); //º¯¼öÀÇ ÀÚ·áÇü = object
-		//String.toString(): String °´Ã¼¿¡ ÀúÀåµÈ ¹®ÀÚ°ªÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+		alert("ë³€ìˆ˜ì˜ ìë£Œí˜• = " + typeof (str)); //ë³€ìˆ˜ì˜ ìë£Œí˜• = object
+		//String.toString(): String ê°ì²´ì— ì €ì¥ëœ ë¬¸ìê°’ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 		alert("str.toString() = " + str.toString()); //str.toString() = Hello, JavaScript!!!
-		//String °´Ã¼°¡ ÀúÀåµÈ º¯¼ö¸¦ Ãâ·ÂÇÏ¸é toString() ¸Ş¼Òµå ÀÚµ¿ È£Ãâ
+		//String ê°ì²´ê°€ ì €ì¥ëœ ë³€ìˆ˜ë¥¼ ì¶œë ¥í•˜ë©´ toString() ë©”ì†Œë“œ ìë™ í˜¸ì¶œ
 		alert("str = " + str); //str = Hello, JavaScript!!!
-		//String.length: String °´Ã¼¿¡ ÀúÀåµÈ ¹®ÀÚ°ªÀÇ ¹®ÀÚ °¹¼ö¸¦ ÀúÀåÇÑ ÇÁ·ÎÆÛÆ¼
+		//String.length: String ê°ì²´ì— ì €ì¥ëœ ë¬¸ìê°’ì˜ ë¬¸ì ê°¯ìˆ˜ë¥¼ ì €ì¥í•œ í”„ë¡œí¼í‹°
 		alert("str.length = " + str.length); //str.length = 20
-		//String.charAt(index): String °´Ã¼¿¡ ÀúÀåµÈ ¹®ÀÚ°ª¿¡¼­ ¸Å°³º¯¼ö·Î Àü´Ş¹ŞÀº Ã·ÀÚ À§Ä¡ÀÇ ¹®ÀÚ¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+		//String.charAt(index): String ê°ì²´ì— ì €ì¥ëœ ë¬¸ìê°’ì—ì„œ ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ë°›ì€ ì²¨ì ìœ„ì¹˜ì˜ ë¬¸ìë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 		alert("str.charAt(7) = " + str.charAt(7)); //str.charAt(7) = J
-		//¹®ÀÚ°ªÀº ³»ºÎÀûÀ¸·Î ¹è¿­Ã³·³ Ã³¸®µÇ¹Ç·Î [] ¿¬»êÀÚ·Î Ã·ÀÚ¸¦ »ç¿ëÇÏ¿© ¿ä¼Ò°ª(¹®ÀÚ) »ç¿ë °¡´É
+		//ë¬¸ìê°’ì€ ë‚´ë¶€ì ìœ¼ë¡œ ë°°ì—´ì²˜ëŸ¼ ì²˜ë¦¬ë˜ë¯€ë¡œ [] ì—°ì‚°ìë¡œ ì²¨ìë¥¼ ì‚¬ìš©í•˜ì—¬ ìš”ì†Œê°’(ë¬¸ì) ì‚¬ìš© ê°€ëŠ¥
 		alert("str[7] = " + str[7]); //str[7] = J
-		//String.indexOf(string): String °´Ã¼¿¡ ÀúÀåµÈ ¹®ÀÚ°ª¿¡¼­ ¸Å°³º¯¼ö·Î Àü´Ş¹ŞÀº ¹®ÀÚ°ªÀ» °Ë»öÇÏ¿© ½ÃÀÛÃ·ÀÚ¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå - °Ë»ö ¹®ÀÚ°ªÀÌ ¾ø´Â °æ¿ì -1 ¹İÈ¯
+		//String.indexOf(string): String ê°ì²´ì— ì €ì¥ëœ ë¬¸ìê°’ì—ì„œ ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ë°›ì€ ë¬¸ìê°’ì„ ê²€ìƒ‰í•˜ì—¬ ì‹œì‘ì²¨ìë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ - ê²€ìƒ‰ ë¬¸ìê°’ì´ ì—†ëŠ” ê²½ìš° -1 ë°˜í™˜
 		alert("str.indexOf('Script') = " + str.indexOf('Script')); //str.indexOf('Script') = 11
 		alert("str.indexOf('script') = " + str.indexOf('script')); //str.indexOf('script') = -1
-		//String.replace(search, replace): String °´Ã¼¿¡ ÀúÀåµÈ ¹®ÀÚ°ª¿¡¼­ ¸Å°³º¯¼ö·Î Àü´Ş¹ŞÀº Ã¹¹øÂ° ¹®ÀÚ°ªÀ» °Ë»öÇÏ¿© µÎ¹øÂ° ¹®ÀÚ°ªÀ¸·Î º¯È¯ÇÏ¿© ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+		//String.replace(search, replace): String ê°ì²´ì— ì €ì¥ëœ ë¬¸ìê°’ì—ì„œ ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ë°›ì€ ì²«ë²ˆì§¸ ë¬¸ìê°’ì„ ê²€ìƒ‰í•˜ì—¬ ë‘ë²ˆì§¸ ë¬¸ìê°’ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 		alert("str.replace('Hello', 'Howdy') = "+ str.replace('Hello', 'Howdy')); //str.replace('Hello', 'Howdy') = Howdy, JavaScript!!!
-		//String.toUpperCase(): String °´Ã¼¿¡ ÀúÀåµÈ ¹®ÀÚ°ªÀ» ´ë¹®ÀÚ·Î º¯È¯ÇÏ¿© ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-		//String.toLowerCase(): String °´Ã¼¿¡ ÀúÀåµÈ ¹®ÀÚ°ªÀ» ¼Ò¹®ÀÚ·Î º¯È¯ÇÏ¿© ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+		//String.toUpperCase(): String ê°ì²´ì— ì €ì¥ëœ ë¬¸ìê°’ì„ ëŒ€ë¬¸ìë¡œ ë³€í™˜í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+		//String.toLowerCase(): String ê°ì²´ì— ì €ì¥ëœ ë¬¸ìê°’ì„ ì†Œë¬¸ìë¡œ ë³€í™˜í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 		alert("str.toUpperCase() = " + str.toUpperCase()); //str.toUpperCase() = HELLO, JAVASCRIPT!!!
 		alert("str.toLowerCase() = " + str.toLowerCase()); //str.toLowerCase() = hello, javascript!!!
-		//String.substring(from, to): String °´Ã¼¿¡ ÀúÀåµÈ ¹®ÀÚ°ªÀ» ¸Å°³º¯¼ö·Î Àü´Ş¹ŞÀº ½ÃÀÛÃ·ÀÚ(from -Æ÷ÇÔ)·ÎºÎÅÍ Á¾·áÃ·ÀÚ(to - ¹ÌÆ÷ÇÔ)±îÁöÀÇ ¹®ÀÚ°ªÀ» Àß¶ó³»¾î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+		//String.substring(from, to): String ê°ì²´ì— ì €ì¥ëœ ë¬¸ìê°’ì„ ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ë°›ì€ ì‹œì‘ì²¨ì(from -í¬í•¨)ë¡œë¶€í„° ì¢…ë£Œì²¨ì(to - ë¯¸í¬í•¨)ê¹Œì§€ì˜ ë¬¸ìê°’ì„ ì˜ë¼ë‚´ì–´ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 		alert("str.substring(7, 11) = " + str.substring(7, 11)); //str.substring(7, 11) = Java
-		//String.substring(from, length): String °´Ã¼¿¡ ÀúÀåµÈ ¹®ÀÚ°ªÀ» ¸Å°³º¯¼ö·Î Àü´Ş¹ŞÀº ½ÃÀÛÃ·ÀÚ(from -Æ÷ÇÔ)·ÎºÎÅÍ ±æÀÌ¸¸Å­ÀÇ ¹®ÀÚ°ªÀ» Àß¶ó³»¾î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+		//String.substring(from, length): String ê°ì²´ì— ì €ì¥ëœ ë¬¸ìê°’ì„ ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ë°›ì€ ì‹œì‘ì²¨ì(from -í¬í•¨)ë¡œë¶€í„° ê¸¸ì´ë§Œí¼ì˜ ë¬¸ìê°’ì„ ì˜ë¼ë‚´ì–´ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 		alert("str.substr(7, 4) = " + str.substr(7, 4)); //str.substr(7, 4) = Java
 
-		//String.split(pattern): String °´Ã¼¿¡ ÀúÀåµÈ ¹®ÀÚ°ªÀ» ¸Å°³º¯¼ö·Î Àü´Ş¹ŞÀº ¹®ÀÚ°ªÀ¸·Î ±¸ºĞ ºĞ¸®ÇÏ¿© Array °´Ã¼·Î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-		var [str1, str2] = str.split(" "); //±¸Á¶ ºĞÇØ ÇÒ´çÀ» »ç¿ëÇÏ¿© Array °´Ã¼ÀÇ ¿ä¼Ò°ªÀ» º¯¼ö¿¡ ÀúÀå
+		//String.split(pattern): String ê°ì²´ì— ì €ì¥ëœ ë¬¸ìê°’ì„ ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ë°›ì€ ë¬¸ìê°’ìœ¼ë¡œ êµ¬ë¶„ ë¶„ë¦¬í•˜ì—¬ Array ê°ì²´ë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+		var [str1, str2] = str.split(" "); //êµ¬ì¡° ë¶„í•´ í• ë‹¹ì„ ì‚¬ìš©í•˜ì—¬ Array ê°ì²´ì˜ ìš”ì†Œê°’ì„ ë³€ìˆ˜ì— ì €ì¥
 		alert("str1 = " + str1+", str2 = "+str2); //str1 = Hello,, str2 = JavaScript!!!
 	
 		var str = "ABCDEFG";
-		alert("º¯¼öÀÇ ÀÚ·áÇü = "+typeof(str)); //º¯¼öÀÇ ÀÚ·áÇü = string
-		//string º¯¼ö¿¡ ÀúÀåµÈ ¹®ÀÚ°ªÀº ³»ºÎÀûÀ¸·Î String °´Ã¼·Î Ã³¸®µÇ¹Ç·Î ÇÁ·ÎÆÛÆ¼ ¹× ¸Ş¼Òµå »ç¿ë °¡´É - number º¯¼ö¿Í´Â ´Ù¸£´Ù!
+		alert("ë³€ìˆ˜ì˜ ìë£Œí˜• = "+typeof(str)); //ë³€ìˆ˜ì˜ ìë£Œí˜• = string
+		//string ë³€ìˆ˜ì— ì €ì¥ëœ ë¬¸ìê°’ì€ ë‚´ë¶€ì ìœ¼ë¡œ String ê°ì²´ë¡œ ì²˜ë¦¬ë˜ë¯€ë¡œ í”„ë¡œí¼í‹° ë° ë©”ì†Œë“œ ì‚¬ìš© ê°€ëŠ¥ - number ë³€ìˆ˜ì™€ëŠ” ë‹¤ë¥´ë‹¤!
 		alert("str.length = "+str.length); //str.length = 7
 				
 		</script>

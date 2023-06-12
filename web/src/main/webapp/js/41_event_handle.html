@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 </head>
 <body>
-	<h1>�̺�Ʈ(Event) - �̺�Ʈ ó��</h1>
+	<h1>이벤트(Event) - 이벤트 처리</h1>
 	<hr>
-	<p>�̺�Ʈ: �±�(�ڽ� �� - Element ��ü)���� �߻��Ǵ� �پ��� ���</p>
-	<p>�̺�Ʈ ó��(Event Handle): �±׿��� �߻��� �̺�Ʈ�� ���� ó���� �ڹٽ�ũ��Ʈ �������� �ۼ��Ͽ� ����</p>
-	<p>1. �±��� �̺�Ʈ ������ �Ӽ�(onXXX)�� �Ӽ������� �̺�Ʈ ó�� ���� �ۼ� - �±׿��� �̺�Ʈ�� �߻��� ��� �Ӽ������� ������ ���� ����</p>
-	<p>2. �±׸� �˻��Ͽ� Element ��ü�� �����޾� Element ��ü�� �̺�Ʈ ������ �Ӽ��� �̺�Ʈ ó�� �Լ� ��� - �±׿��� �̺�Ʈ ������ �Ӽ��� �̺�Ʈ�� �߻��� �̺�Ʈ ó�� �Լ� ȣ��</p>
-	<p>3. �±׸� �˻��Ͽ� Element ��ü�� �����޾� addEventListener() �޼ҵ带 ȣ���Ͽ� �̺�Ʈ ó�� �Լ��� ��� - �±׿��� addEventListener() �޼ҵ��� �̺�Ʈ�� �߻��� �̺�Ʈ ó�� �Լ� ȣ��</p>
+	<p>이벤트: 태그(박스 모델 - Element 객체)에서 발생되는 다양한 사건</p>
+	<p>이벤트 처리(Event Handle): 태그에서 발생된 이벤트에 대한 처리를 자바스크립트 명령으로 작성하여 실행</p>
+	<p>1. 태그의 이벤트 리스너 속성(onXXX)의 속성값으로 이벤트 처리 명령 작성 - 태그에서 이벤트가 발생될 경우 속성값으로 설정된 명령 실행</p>
+	<p>2. 태그를 검색하여 Element 객체로 제공받아 Element 객체에 이벤트 리스너 속성에 이벤트 처리 함수 등록 - 태그에서 이벤트 리스너 속성의 이벤트가 발생될 이벤트 처리 함수 호출</p>
+	<p>3. 태그를 검색하여 Element 객체로 제공받아 addEventListener() 메소드를 호출하여 이벤트 처리 함수를 등록 - 태그에서 addEventListener() 메소드의 이벤트가 발생될 이벤트 처리 함수 호출</p>
 	<hr>
-	<!-- <button type="button" onclick="alert('�̺�Ʈ ó�� ���� ����');">��ư - 1</button> -->
-	<button type="button" onclick="eventHandle();">��ư - 1</button>
-	<button type="button" id="eventBtn">��ư - 2</button>
-	<!-- �̺�Ʈ ó�� �������� �̺�Ʈ ó�� �Լ� ȣ�� -->
-	<button type="button" id="eventB">��ư - 3</button>
+	<!-- <button type="button" onclick="alert('이벤트 처리 명령 실행');">버튼 - 1</button> -->
+	<button type="button" onclick="eventHandle();">버튼 - 1</button>
+	<button type="button" id="eventBtn">버튼 - 2</button>
+	<!-- 이벤트 처리 명령으로 이벤트 처리 함수 호출 -->
+	<button type="button" id="eventB">버튼 - 3</button>
 	<script type="text/javascript">
-		//�̺�Ʈ ó�� �Լ�
+		//이벤트 처리 함수
 		function eventHandle() {
-			alert("�̺�Ʈ ó�� ���� ���� - 1");
+			alert("이벤트 처리 명령 실행 - 1");
 		}
 
-		//Element ��ü�� �̺�Ʈ ������ �Ӽ��� �̺�Ʈ ó�� �Լ� ����(���)
+		//Element 객체의 이벤트 리스너 속성에 이벤트 처리 함수 저장(등록)
 		document.getElementById("eventBtn").onclick = function() {
-			alert("�̺�Ʈ ó�� ���� ���� - 2");
+			alert("이벤트 처리 명령 실행 - 2");
 		}
 
-		//Node.addEventListener(evetName, callback[, useCapture]) : Node(Element) ��ü���� �̺�Ʈ(eventName)�� �߻��� ��� �ݹ��Լ�(�̺�Ʈ ó�� �Լ�)�� ȣ���ϴ� �޼ҵ�
+		//Node.addEventListener(evetName, callback[, useCapture]) : Node(Element) 객체에서 이벤트(eventName)가 발생할 경우 콜백함수(이벤트 처리 함수)를 호출하는 메소드
 		document.getElementById("eventB").addEventListener("click", function(e) {
-			alert("�̺�Ʈ ó�� ���� ���� - 3");
+			alert("이벤트 처리 명령 실행 - 3");
 		});
 	</script>
 

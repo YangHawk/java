@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>JavaScript</title>
 <script type="text/javascript">
 	/*
 	
-	function load() { //ÀÌº¥Æ® Ã³¸® ÇÔ¼ö
-		alert("µ¿ÀûÀÎ ÆäÀÌÁö¸¦ ±¸ÇöÇÏ±â À§ÇÏ¿© HTML ÅÂ±×¸¦ Á¶ÀÛÇÏ´Â ¸í·É ½ÇÇà")
+	function load() { //ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜
+		alert("ë™ì ì¸ íŽ˜ì´ì§€ë¥¼ êµ¬í˜„í•˜ê¸° ìœ„í•˜ì—¬ HTML íƒœê·¸ë¥¼ ì¡°ìž‘í•˜ëŠ” ëª…ë ¹ ì‹¤í–‰")
 	}
 	
 	*/
 
-	//ÀÚ¹Ù½ºÅ©¸³Æ® °´Ã¼¿¡ ÀÌº¥Æ® ¸®½º³Ê ¼Ó¼ºÀ» ¿ä¼Ò·Î ÇÏ¿© ÀÌº¥Æ® Ã³¸® ÇÔ¼ö ÀúÀå
-	//¡æ ÀÚ¹Ù½ºÅ©¸³Æ® °´Ã¼¿¡¼­ ÇØ´ç ÀÌº¥Æ®°¡ ¹ß»ýµÉ °æ¿ì ÀÌº¥Æ® Ã³¸® ÇÔ¼ö È£Ãâ
-	window.onload = function() { //ºê¶ó¿ìÀúÀÇ ¸ðµç ÅÂ±×µéÀÌ load°¡ µÇ¾ú´Ù¸é
-		alert("µ¿ÀûÀÎ ÆäÀÌÁö¸¦ ±¸ÇöÇÏ±â À§ÇÏ¿© HTML ÅÂ±×¸¦ Á¶ÀÛÇÏ´Â ¸í·É ½ÇÇà - µÎ¹øÂ°·Î ½ÇÇàµÊ")
+	//ìžë°”ìŠ¤í¬ë¦½íŠ¸ ê°ì²´ì— ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ì†ì„±ì„ ìš”ì†Œë¡œ í•˜ì—¬ ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ ì €ìž¥
+	//â†’ ìžë°”ìŠ¤í¬ë¦½íŠ¸ ê°ì²´ì—ì„œ í•´ë‹¹ ì´ë²¤íŠ¸ê°€ ë°œìƒë  ê²½ìš° ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ í˜¸ì¶œ
+	window.onload = function() { //ë¸Œë¼ìš°ì €ì˜ ëª¨ë“  íƒœê·¸ë“¤ì´ loadê°€ ë˜ì—ˆë‹¤ë©´
+		alert("ë™ì ì¸ íŽ˜ì´ì§€ë¥¼ êµ¬í˜„í•˜ê¸° ìœ„í•˜ì—¬ HTML íƒœê·¸ë¥¼ ì¡°ìž‘í•˜ëŠ” ëª…ë ¹ ì‹¤í–‰ - ë‘ë²ˆì§¸ë¡œ ì‹¤í–‰ë¨")
 	}
 </script>
 
 </head>
-<!-- body ÅÂ±×ÀÇ onload ÀÌº¥Æ® ¸®½º³Ê ¼Ó¼º: ÅÂ±×°¡ ¸Þ¸ð¸®¿¡ ÀúÀåµÈ °æ¿ì ½ÇÇàµÉ ÀÌº¥Æ® Ã³¸® ¸í·É(ÀÚ¹Ù½ºÅ©¸³Æ® ¸í·É)À» ¼Ó¼º°ªÀ¸·Î ¼³Á¤ÇÏ´Â ¼Ó¼º -->
-<!-- body ÅÂ±×°¡ ¸Þ¸ð¸®¿¡ ÀúÀåµÇ¸é ÀÚ¹Ù½ºÅ©¸³Æ®ÀÇ load() ÇÔ¼ö È£Ãâ -->
+<!-- body íƒœê·¸ì˜ onload ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ì†ì„±: íƒœê·¸ê°€ ë©”ëª¨ë¦¬ì— ì €ìž¥ëœ ê²½ìš° ì‹¤í–‰ë  ì´ë²¤íŠ¸ ì²˜ë¦¬ ëª…ë ¹(ìžë°”ìŠ¤í¬ë¦½íŠ¸ ëª…ë ¹)ì„ ì†ì„±ê°’ìœ¼ë¡œ ì„¤ì •í•˜ëŠ” ì†ì„± -->
+<!-- body íƒœê·¸ê°€ ë©”ëª¨ë¦¬ì— ì €ìž¥ë˜ë©´ ìžë°”ìŠ¤í¬ë¦½íŠ¸ì˜ load() í•¨ìˆ˜ í˜¸ì¶œ -->
 <!-- <body onload="load();">  -->
 
 <body>
 	<h1>DOM(Document Object Model) - onload Event Listener</h1>
 	<hr>
-	<p>¿äÃ» À¥ ÇÁ·Î±×·¥ÀÇ ½ÇÇà °á°ú¸¦ À¥¹®¼­·Î Àü´Þ¹Þ¾Æ ºê¶ó¿ìÀúÀÇ ÀÀ´ä ¿µ¿ª¿¡ Ãâ·Â</p>
-	<p>ºê¶ó¿ìÀú´Â DOM Parser¸¦ »ç¿ëÇÏ¿© À¥¹®¼­ÀÇ HTML ÅÂ±×¸¦ DOM Tree·Î »ý¼º - ÀÚ¹Ù½ºÅ©¸³Æ®´Â DOM Tree¿¡ HTML ÅÂ±×¸¦ Element °´Ã¼·Î Á¦°ø¹Þ¾Æ »ç¿ë °¡´É</p>
-	<p>DOM: document °´Ã¼¸¦ ±â¹ÝÀ¸·Î Á¦°øµÇ´Â HTML ÅÂ±×ÀÇ Element °´Ã¼</p>
-	<p>ÀÚ¹Ù½ºÅ©¸³Æ®¸¦ »ç¿ëÇÏ¿© ÅÂ±×¿¡¼­ ÀÌº¥Æ®°¡ ¹ß»ýµÉ °æ¿ì ÀÌº¥Æ® Ã³¸® ÇÔ¼ö¸¦ »ç¿ëÇÏ¿© ÅÂ±×¸¦ Element °´Ã¼·Î Á¦°ø¹Þ¾Æ Á¶ÀÛ °¡´É - µ¿ÀûÀÎ ÆäÀÌÁö ±¸Çö(DHTML: Dynamic HTML)</p>
-	<p>¹Ýµå½Ã DOM Tree°¡ ¿Ï¼ºµÈ ÈÄ µ¿ÀûÀÎ ÆäÀÌÁö ±¸Çö °¡´É</p>
+	<p>ìš”ì²­ ì›¹ í”„ë¡œê·¸ëž¨ì˜ ì‹¤í–‰ ê²°ê³¼ë¥¼ ì›¹ë¬¸ì„œë¡œ ì „ë‹¬ë°›ì•„ ë¸Œë¼ìš°ì €ì˜ ì‘ë‹µ ì˜ì—­ì— ì¶œë ¥</p>
+	<p>ë¸Œë¼ìš°ì €ëŠ” DOM Parserë¥¼ ì‚¬ìš©í•˜ì—¬ ì›¹ë¬¸ì„œì˜ HTML íƒœê·¸ë¥¼ DOM Treeë¡œ ìƒì„± - ìžë°”ìŠ¤í¬ë¦½íŠ¸ëŠ” DOM Treeì— HTML íƒœê·¸ë¥¼ Element ê°ì²´ë¡œ ì œê³µë°›ì•„ ì‚¬ìš© ê°€ëŠ¥</p>
+	<p>DOM: document ê°ì²´ë¥¼ ê¸°ë°˜ìœ¼ë¡œ ì œê³µë˜ëŠ” HTML íƒœê·¸ì˜ Element ê°ì²´</p>
+	<p>ìžë°”ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì‚¬ìš©í•˜ì—¬ íƒœê·¸ì—ì„œ ì´ë²¤íŠ¸ê°€ ë°œìƒë  ê²½ìš° ì´ë²¤íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•˜ì—¬ íƒœê·¸ë¥¼ Element ê°ì²´ë¡œ ì œê³µë°›ì•„ ì¡°ìž‘ ê°€ëŠ¥ - ë™ì ì¸ íŽ˜ì´ì§€ êµ¬í˜„(DHTML: Dynamic HTML)</p>
+	<p>ë°˜ë“œì‹œ DOM Treeê°€ ì™„ì„±ëœ í›„ ë™ì ì¸ íŽ˜ì´ì§€ êµ¬í˜„ ê°€ëŠ¥</p>
 	<script type="text/javascript">
-		//body ÅÂ±×ÀÇ ¸¶Áö¸· ÀÚ½Ä ÅÂ±×·Î script ÅÂ±×¸¦ ¼±¾ðÇÏ¸é onload ÀÌº¥Æ® ¸®½º³Ê ¼Ó¼ºÀ» ÀÌ¿ëÇÏÁö ¾Ê¾Æµµ HTML ÅÂ±×¸¦ Á¶ÀÛÇÏ¿© µ¿ÀûÀÎ ÆäÀÌÁö ±¸Çö °¡´É - ±ÇÀå(°¡µ¶¼º¡è)
-		alert("µ¿ÀûÀÎ ÆäÀÌÁö¸¦ ±¸ÇöÇÏ±â À§ÇÏ¿© HTML ÅÂ±×¸¦ Á¶ÀÛÇÏ´Â ¸í·É ½ÇÇà - Ã¹¹øÂ°·Î ½ÇÇàµÊ");
+		//body íƒœê·¸ì˜ ë§ˆì§€ë§‰ ìžì‹ íƒœê·¸ë¡œ script íƒœê·¸ë¥¼ ì„ ì–¸í•˜ë©´ onload ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ì†ì„±ì„ ì´ìš©í•˜ì§€ ì•Šì•„ë„ HTML íƒœê·¸ë¥¼ ì¡°ìž‘í•˜ì—¬ ë™ì ì¸ íŽ˜ì´ì§€ êµ¬í˜„ ê°€ëŠ¥ - ê¶Œìž¥(ê°€ë…ì„±â†‘)
+		alert("ë™ì ì¸ íŽ˜ì´ì§€ë¥¼ êµ¬í˜„í•˜ê¸° ìœ„í•˜ì—¬ HTML íƒœê·¸ë¥¼ ì¡°ìž‘í•˜ëŠ” ëª…ë ¹ ì‹¤í–‰ - ì²«ë²ˆì§¸ë¡œ ì‹¤í–‰ë¨");
 	</script>
 </body>
 </html>
