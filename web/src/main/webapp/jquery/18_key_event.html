@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+	<h1>Key Event</h1>
+	<hr>
+	<p>keydown: 태그에서 키보드의 키(Key)를 누른 순간 발생되는 이벤트 - 모든 키에 대한 동작</p>
+	<p>keypress: 태그에서 키보드의 키(Key)를 누른 순간 발생되는 이벤트 - 문자키와 [Enter], [Space], [Esc]에 대한 동작: KeyCode 제공</p>
+	<p>keyup: 태그에서 키보드의 키(Key)를 놓는 순간 발생되는 이벤트: KeyCode 제공</p>
+	<hr>
+	<form name="loginForm" id="loginForm">
+		<table>
+			<tr>
+				<td>아이디</td>
+				<td><input type="text" name="id" id="id"></td>
+			</tr>
+			<tr>
+				<td>비밀번호</td>
+				<td><input type="password" name="pw" id="pw"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><button type="button" id="loginBtn">로그인</button></td>
+			</tr>
+		</table>
+	</form>
+	<hr>
+	<div>
+		현재 입력된 글자 수: <span id="count">0</span>
+	</div>
+	<textarea rows="7" cols="70" id="content"></textarea>
+	<script type="text/javascript">
+		//form 태그와 입력 태그(input, select, textarea)의 name 속성값을 Node(Element) 객체로 표현하여 사용 가능
+
+		//1. 자바스크립트 이용 (name 속성값 사용)
+		loginForm.id.focus(); //loginForm 태그에 id 태그(입력 태그)에 입력 촛점을 제공
+
+		//2. jQuery 이용 (id 속성값 사용)
+		//$(selector).focue(): 선택자로 검색된 태그(입력 태그)에 입력 촛점을 제공하는 메소드
+		$("#id").focus();
+
+		function submitFunction() { // Enter 키를 눌러 제출 시 이 함수를 거쳐야 하기 때문에 내가 만들었어!
+			/*
+			
+			//1. 자바스크립트 이용
+			if (loginForm.id.value == "") {
+				alert("아이디를 입력하여 주십시옷!");
+				loginForm.id.focus();
+				return;
+			}
+			
+			*/
+
+			//$(selector).val(): 선택자로 검색된 태그(입력 태그)의 입력값을 반환하는 메소드
+			if ($("#id").val() == "") {
+				alert("아이디를 입력하여 주십시옷!");
+				$("#id").focus();
+				return;
+			}
+
+			if ($("#pw").val() == "") {
+				alert("비밀번호를 입력하여 주십시옷!");
+				$("#pw").focus();
+				return;
+			}
+
+			//선택자로 검색된 Form 태그의 속성값 변경
+			$("#loginForm").attr("action", "17_mouse_event.html");
+			$("#loginForm").attr("method", "post");
+
+			//$(selector).submit(): 선택자로 검색된 태그(Form 태그)로 제출 이벤트를 발생시키는 메소드
+			//→ 제출 이벤트(Submit Event)가 발생되면 Form 태그가 실행되어 웹프로그램 요청
+			$("#loginForm").submit();
+		}
+
+		$("#loginBtn").click(submitFunction());
+
+		//선택자로 검색된 입력 태그에서 키보드의 키를 누르는 이벤트가 발생될 경우 콜백 함수 호출
+		//1. id 태그에서 Enter를 누르면 pw 태그로 입력 촛점 이동
+		$("#id").keypress(function() {
+			//event.keyCode: 이벤트가 발생된 키보드의 키를 구분하기 위한 값이 저장된 프로퍼티
+			//alert(event.keyCode); //Enter를 누르면 13
+			if (event.keyCode == 13) {
+				$("#pw").focus();
+			}
+		});
+
+		//2. pw 태그에서 Enter 누르면 제출
+		$("#pw").keypress(function() {
+			if (event.keyCode == 13) {
+				$("#loginBtn").click(submitFunction());
+			}
+		});
+
+		$("#content").keyup(function() {
+			//입력 태그의 입력된 문자 갯수를 제공받아 변수에 저장
+			var count = $(this).val().length;
+
+			$("#count").text(count);
+		});
+	</script>
+</body>
+</html>
