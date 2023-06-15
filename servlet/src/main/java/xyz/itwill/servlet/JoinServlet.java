@@ -64,7 +64,7 @@ public class JoinServlet extends HttpServlet {
 		String gender = request.getParameter("gender");
 
 		// 동일한 이름으로 전달되는 값이 여러 개 있는 경우 getParameterValues() 메소드 호출
-		// HttpServletRequest.getParameter(String name) : 매개변수로 전달받은 이름의 모든 전달값을 문자열 배열(String[])로 반환하는 메소드
+		// HttpServletRequest.getParameterValues(String name): 매개변수로 전달받은 이름의 모든 전달값을 문자열 배열(String[])로 반환하는 메소드
 		// String hobby = request.getParameter("hobby"); // 첫번째 전달값만 반환받아 저장
 		String[] hobby = request.getParameterValues("hobby");
 
