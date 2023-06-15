@@ -22,15 +22,13 @@ public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	// 2. doGet() 메소드 또는 doPost() 메소드를 오버라이드 선언
-	// → 클라이언트 요청에 대한 처리 명령과 실행 결과를 웹문서로 생성하는 명령을 작성하는 메소드 - 요청 처리 메소드: WAS에 의하여 자동
-	// 호출되는 메소드
+	// → 클라이언트 요청에 대한 처리 명령과 실행 결과를 웹문서로 생성하는 명령을 작성하는 메소드 - 요청 처리 메소드: WAS에 의하여 자동 호출되는 메소드
 	// → doGet(): 클라이언트가 서블릿 프로그램을 GET 방식으로 요청한 경우 호출되는 메소드
 	// → doPost(): 클라이언트가 서블릿 프로그램을 POST 방식으로 요청한 경우 호출되는 메소드
 	// doGet() 메소드 또는 doPost() 메소드 대신 service() 메소드를 오버라이드 선언 가능
 	// → service() 메소드: 클라이언트가 서블릿 프로그램을 모든 방식으로 요청한 경우 호출되는 메소드
 	// → doGet() 메소드 또는 doPost() 메소드보다 service() 메소드의 호출 우선순위가 높게 설정
-	// WAS 프로그램에 의해 요청 처리 메소드가 호출될 때 메소드의 매개변수에는 HttpServletRequest 객체(request 객체)와
-	// HttpServletResponse 객체(response 객체)가 전달되어 저장
+	// WAS 프로그램에 의해 요청 처리 메소드가 호출될 때 메소드의 매개변수에는 HttpServletRequest 객체(request 객체)와 HttpServletResponse 객체(response 객체)가 전달되어 저장
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
