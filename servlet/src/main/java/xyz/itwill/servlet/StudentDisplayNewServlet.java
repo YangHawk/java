@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import xyz.itwill.dto.StudentDAO;
+import xyz.itwill.dao.StudentDAO;
 import xyz.itwill.dto.StudentDTO;
 
 //STUDENT 테이블에 저장된 모든 학생 정보를 검색하여 클라이언트에게 전달하여 응답하는 서블릿 - DAO
@@ -22,7 +22,7 @@ public class StudentDisplayNewServlet extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 
-		// STUDENT 테이블에 저장된 모든 학생정보를 검색하여 List 객체로 반환하는 DAO 클래스의 ???
+		// STUDENT 테이블에 저장된 모든 학생정보를 검색하여 List 객체로 반환하는 DAO 클래스의 메소드 호출
 		List<StudentDTO> studentList = StudentDAO.getDAO().selectStudentList();
 
 		out.println("<!DOCTYPE html>");

@@ -1,4 +1,4 @@
-package xyz.itwill.dto;
+package xyz.itwill.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import xyz.itwill.dto.GuestDTO;
 
 //GUEST 테이블에 행을 삽입, 삭제, 검색하기 위한 기능을 제공하는 클래스
 public class GuestDAO extends JdbcDAO {
@@ -130,7 +132,7 @@ public class GuestDAO extends JdbcDAO {
 		List<GuestDTO> guestList = new ArrayList<>();
 		try {
 			con = getConnection();
-			String sql = "select * from guest order by num";
+			String sql = "select * from guest order by num desc";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
