@@ -1,0 +1,100 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%-- 비로그인 상태의 사용자인 경우 사용자로부터 로그인 처리에 필요한 인증 정보(아이디 / 비밀번호)를 입력받기 위한 JSP 문서 --%>
+<%-- → [로그인] 태그를 클릭한 경우 [login_action.jsp] 문서를 요청하여 페이지 이동 - 입력값(인증 정보) 전달 --%>
+<%-- 로그인 상태의 사용자인 경우 환영 메세지를 전달하여 응답하는 JSP 문서 --%>
+<%
+//로그인 상태의 사용자인 경우를 추가
+String loginId = (String) session.getAttribute("loginId");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JSP</title>
+</head>
+<body>
+	<%
+	if (loginId == null) {
+	%>
+	<%
+	/*
+	//login_action.jsp 에서의 두번째 방법
+
+	//전달된 에러 메세지를 반환받아 저장
+	String message = request.getParameter("message");
+	if (message == null) { //전달값이 없는 경우
+		message = ""; //null 문자값 출력을 방지하기 위하여 nullString
+	}
+
+	*/
+
+	//바인딩된 세션에 저장된 에러 메세지를 반환받아 저장
+	String message = (String) session.getAttribute("message");
+	if (message == null) {
+		message = "";
+	} else {
+		//session.removeAttribute(String attributeName): 클라이언트의 정보(JSESSIONID 쿠키)로 바인딩된 세션(session 객체)에 이름(속성명)과 객체(속성값)를 전달받아 삭제하는 메소드
+		//→ 바인딩된 세션에 저장된 객체는 세션 소멸 전까지 유지됨 - 세션은 30분동안 가만히 있거나, 브라우저를 종료해야 소멸됨
+		//→ 다른 JSP 문서에서 세션에 저장된 에러 메세지를 사용할 수 없도록 삭제 처리를 해주어야 함
+		//→ 이 객체는(세션은) 이 때만 사용할려고 만든 거잖아!
+		session.removeAttribute("message");
+	}
+
+	String id = (String) session.getAttribute("id");
+	if (id == null) {
+		id = "";
+	} else {
+		session.removeAttribute("id");
+	}
+	%>
+	<h1>로그인</h1>
+	<hr>
+	<form action="login_action.jsp" method="post" name="loginForm">
+		<table>
+			<tr>
+				<td>아이디</td>
+				<td><input type="text" name="id" value="<%=id%>"></td>
+			</tr>
+			<tr>
+				<td>비밀번호</td>
+				<td><input type="password" name="passwd"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><button type="button" id="loginBtn">로그인</button></td>
+			</tr>
+		</table>
+	</form>
+	<p id="message" style="color: red;"><%=message%></p>
+	<script type="text/javascript">
+		loginForm.id.focus();
+		loginForm.id.setSelectionRange(loginForm.id.value.length, loginForm.id.value.length);
+
+		document.getElementById("loginBtn").onclick = function() {
+			if (loginForm.id.value == "") {
+				document.getElementById("message").innerHTML = "아이디를 입력해 주세요.";
+				loginForm.id.focus();
+				return;
+			}
+			if (loginForm.passwd.value == "") {
+				document.getElementById("message").innerHTML = "비밀번호를 입력해 주세요.";
+				loginForm.passwd.focus();
+				return;
+			}
+
+			loginForm.submit();
+		}
+	</script>
+	<%
+	} else {//로그인 상태의 사용자인 경우
+	%>
+	<h1>메인페이지</h1>
+	<hr>
+	<p>
+		<%=loginId%>님, 환영합니다.&nbsp;&nbsp;<a href="logout_action.jsp">[로그아웃]</a>&nbsp;&nbsp; <a href="login_user.jsp">[내 정보]</a>
+	</p>
+	<%
+	}
+	%>
+
+</body>
+</html>

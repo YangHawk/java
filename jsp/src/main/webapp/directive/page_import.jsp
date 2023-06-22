@@ -23,7 +23,7 @@ nameList.add("장길산");
 	<hr>
 	<p>page Directive의 import 속성에는 JSP 문서에서 사용할 클래스 또는 인터페이스를 속성값으로 설정 - 클래스 또는 인터페이스를 패키지를 사용하여 명확하게 표현하여 제공하기 위한 사용</p>
 	<hr>
-	<UL>
+	<ul>
 		<%
 		for (String name : nameList) {
 		%>
@@ -31,6 +31,6 @@ nameList.add("장길산");
 		<%
 		}
 		%>
-	</UL>
+	</ul>
 </body>
 </html>
