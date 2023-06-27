@@ -50,8 +50,8 @@ div {
 	<script type="text/javascript">
 	function selectId() {
 		//opener 객체 : 팝업창을 실행한 부모창을 표현하는 자바스크립트 객체
-		opener.join.id.value="<%=id%>
-		";//입력태그(아이디)의 초기값 변경
+		opener.join.id.value="<%=id%>";
+		//입력태그(아이디)의 초기값 변경
 			opener.join.idCheckResult.value = "1";//입력태그(검사결과)의 초기값 변경
 			window.close();//창닫기 - 팝업창 종료
 		}

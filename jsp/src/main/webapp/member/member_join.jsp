@@ -177,7 +177,7 @@ $("#join").submit(function() {
 });
 
 $("#idCheck").click(function() {
-	//아이디 관련 에러메세지가 보여지지 않도록 설정	
+	//아이디 관련 에러메세지가 보여지지 않도록 설정
 	$("#idMsg").css("display","none");
 	$("#idRegMsg").css("display","none");
 	
@@ -191,22 +191,22 @@ $("#idCheck").click(function() {
 	}
 	
 	//팝업창을 실행하여 [id_check.jsp] 문서 요청
-	window.open("<%=request.getContextPath()%>
-	/member/id_check.jsp?id=" + $("#id").val(), "idCheck", "width=450, height=130, left=700, top=400");
-	});
+	window.open("<%=request.getContextPath()%>/member/id_check.jsp?id=" + $("#id").val(), "idCheck", "width=450, height=130, left=700, top=400");
 
-	//입력태그(아이디)의 입력값이 변경된 경우 호출되는 이벤트 처리 함수 등록
-	$("#id").change(function() {
-		//아이디 중복 검사 결과값을 저장한 입력태그의 입력값 변경 - 아이디 중복 검사 미실행
-		$("#idCheckResult").val("0");
-	});
+  });
 
-	$("#postSearch").click(function() {
-		new daum.Postcode({
-			oncomplete : function(data) {
-				$("#zipcode").val(data.zonecode);
-				$("#address1").val(data.address);
-			}
-		}).open();
-	});
+  //입력태그(아이디)의 입력값이 변경된 경우 호출되는 이벤트 처리 함수 등록
+  $("#id").change(function() {
+    //아이디 중복 검사 결과값을 저장한 입력태그의 입력값 변경 - 아이디 중복 검사 미실행
+    $("#idCheckResult").val("0");
+  });
+
+  $("#postSearch").click(function() {
+    new daum.Postcode({
+      oncomplete : function(data) {
+        $("#zipcode").val(data.zonecode);
+        $("#address1").val(data.address);
+      }
+    }).open();
+  });
 </script>
