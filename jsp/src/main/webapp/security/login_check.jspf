@@ -1,0 +1,19 @@
+<%@page import="xyz.itwill.dto.MemberDTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%-- 비로그인 상태의 사용자가 JSP 문서를 요청한 경우 에러 메세지를 출력하기 위한 JSP 문서로 이동하도록 URL 주소를 전달하는 JSPF 파일 
+- include Directive에서 사용하기 위한 파일 --%>
+<%
+MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+
+if (loginMember == null) {
+  //템플릿 페이지 몸체부에 포함되는 JSP 문서에서는 에러코드 및 URL 주소로 응답 처리 불가능
+  //response.sendRedirect(request.getContextPath()+"/index.jsp?group=error&worker=error_400");
+
+  //자바스트립트를 이용하여 응답 처리
+  out.println("<script type='text/javascript'>");
+  out.println(
+  "location.href='" + request.getContextPath() + "/index.jsp?group=error&worker=error_400'");
+  out.println("</script>");
+  return;
+}
+%>
