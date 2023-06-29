@@ -3,6 +3,8 @@
 <%-- ▶ 클라이언트의 모든 요청에 대한 응답 결과를 제공하는 JSP 문서 --%>
 <%-- ▶ 템플릿 페이지의 몸체부에는 클라이언트 요청에 의해 전달된 값을 이용하여 JSP 문서의 실행 결과를 제공받아 포함 --%>
 <%
+request.setCharacterEncoding("utf-8"); //이거 id 때문에 추가!
+
 String group = request.getParameter("group");
 if (group == null)
   group = "main";
