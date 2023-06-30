@@ -8,6 +8,9 @@
     pageEncoding="UTF-8"%>
 <%-- REVIEW 테이블에 저장된 게시글을 검색하여 게시글 목록을 클라이언트에게 전달하여 응답하는 JSP 문서 --%>
 <%-- => 게시글을 페이지로 구분하여 검색 처리 - 페이징 처리 --%>
+<%-- => [페이지번호] 태그를 클릭한 경우 [review/review_list.jsp] 문서 요청 - 페이지번호,검색대상,검색단어 전달 --%>
+<%-- => [검색] 태그를 클릭한 경우 [review/review_list.jsp] 문서 요청 - 검색대상,검색단어 전달 --%>
+<%-- ▶ [글쓰기] 태그를 클릭한 경우 [review/review_write.jsp] 문서 요청 - 로그인 상태의 사용자에게만  --%>
 <%
 	//게시글 검색 기능에 필요한 전달값(검색대상과 검색단어)을 반환받아 저장
 	String search=request.getParameter("search");
@@ -137,13 +140,20 @@ td {
 <h1>제품후기</h1>
 <div id="review_list">
 	<div id="review_title">제품후기목록(<%=totalReview%>)</div>
-	
+	<%-- 원래는 로그인 상태의 사용자에게만 글쓰기 태그가 보여지지만, 글쓰기 태그를 누른 경우
+	비로그인 사용자가 login_returnUrl.jspf 요청하도록
 	<% if(loginMember!=null) {//로그인 상태의 사용자인 경우 %>
 	<div style="text-align: right;">
 		<button type="button">글쓰기</button>
 	</div>
 	<% } %>
-	
+	--%>
+	<div style="text-align: right;">
+		<button type="button" onclick="location.href='<%=request.getContextPath()%>/index.jsp?group=review&worker=review_write';">글쓰기</button>
+		<a href="<%=request.getContextPath()%>/index.jsp?group=review&worker=review_write">글쓰기</a>
+	</div>
+
+
 	<%-- 게시글 목록 출력 --%>
 	<table>
 		<tr>
@@ -175,12 +185,12 @@ td {
 					<% } %>
 					<%-- 게시글의 상태를 비교하여 제목과 링크를 구분하여 응답 처리 --%>
 					<% if(review.getStatus()==1) {//일반 게시글인 경우 %>
-						<a href="#"><%=review.getSubject()%></a>					
+						<a href="<%=request.getContextPath()%>/index.jsp?group=review&worker=review_detail&num=<%=review.getNum()%>&pageNum=<%=pageNum%>&search=<%=search%>&keyword=<%=keyword%>"><%=review.getSubject()%></a>					
 					<% } else if(review.getStatus()==2) {//비밀 게시글인 경우 %>
 						<span class="subject_hidden">비밀글</span>
 						<%-- 로그인 상태의 사용자가 게시글 작성자이거나 관리자인 경우 --%>
-						<% if(loginMember!=null && (loginMember.getId().equals(review.getId()) || loginMember.getMemberStatus()==9)) { %>)
-							<a href="#"><%=review.getSubject()%></a>					
+						<% if(loginMember!=null && (loginMember.getId().equals(review.getReviewId()) || loginMember.getMemberStatus()==9)) { %>)
+							<a href="<%=request.getContextPath()%>/index.jsp?group=review&worker=review_detail&num=<%=review.getNum()%>&pageNum=<%=pageNum%>&search=<%=search%>&keyword=<%=keyword%>"><%=review.getSubject()%></a>					
 						<% } else { %>
 							게시글 작성자 또는 관리자만 확인 가능합니다.
 						<% } %>
