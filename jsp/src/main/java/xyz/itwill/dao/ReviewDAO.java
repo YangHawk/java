@@ -173,7 +173,8 @@ public class ReviewDAO extends JdbcDAO {
     return rows;
   }
 
-  //부모글 관련 정보를 전달받아 REVIEW 테이블에 저장된 게시글에서 부모글의 글그룹과 같은 게시글 중 부모글의 글순서보다 큰 게시글의 RESTEP 컬럼값을 1 증가되도록 변경하고 변경행의 갯수를 반환하는 메소드
+  // 부모글 관련 정보를 전달받아 REVIEW 테이블에 저장된 게시글에서 부모글의 글그룹과 같은 게시글 중 부모글의 글순서보다 큰 게시글의 RESTEP 컬럼값을 1 증가되도록
+  // 변경하고 변경행의 갯수를 반환하는 메소드
   public int updateRestep(int ref, int restep) {
     Connection con = null;
     PreparedStatement pstmt = null;
@@ -193,6 +194,105 @@ public class ReviewDAO extends JdbcDAO {
       close(con, pstmt);
     }
     return rows;
+  }
+
+  // 글번호를 전달받아 REVIEW 테이블에 저장된 게시글을 검색하여 DTO 객체로 반환하는 메소드
+  public ReviewDTO selectReview(int num) {
+    Connection con = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    ReviewDTO review = null;
+    try {
+      con = getConnection();
+
+      String sql = "select num, reviewid, name, subject, content, reviewimg, regdate, readcount"
+          + ", ref, restep, relevel, ip, status, from review join member on reviewid=id"
+          + " where num=? and status<>0";
+      pstmt = con.prepareStatement(sql);
+      pstmt.setInt(1, num);
+
+      rs = pstmt.executeQuery();
+
+      if (rs.next()) {
+        review = new ReviewDTO();
+        review.setNum(rs.getInt("num")); // 검색행이 많다면 컬럼명을 쓰는것을 권장 1, 2, 3... 말고!
+        review.setReviewId(rs.getString("reviewid")); // join한 거라서 id 적어도 돼!
+        review.setName(rs.getString("name"));
+        review.setSubject(rs.getString("subject"));
+        review.setContent(rs.getString("content"));
+        review.setReviewImg(rs.getString("reviewimg"));
+        review.setRegdate(rs.getString("regdate"));
+        review.setReadcount(rs.getInt("readcount"));
+        review.setRef(rs.getInt("ref"));
+        review.setRestep(rs.getInt("restep"));
+        review.setRelevel(rs.getInt("relevel"));
+        review.setIp(rs.getString("ip"));
+        review.setStatus(rs.getInt("status"));
+      }
+    } catch (SQLException e) {
+      System.out.println("[에러]selectReview() 메소드의 SQL 오류 = " + e.getMessage());
+    } finally {
+      close(con, pstmt, rs);
+    }
+    return review;
+  }
+
+  // 글번호를 전달받아 REVIEW 테이블에 저장된 게시글의 조회수를 1 증가되도록 변경하고 변경행의 갯수를 반환하는 메소드
+  public int updateReadcount(int num) {
+    Connection con = null;
+    PreparedStatement pstmt = null;
+    int rows = 0;
+    try {
+      con = getConnection();
+
+      String sql = "update review set readcount=readcount+1 where num=?";
+      pstmt = con.prepareStatement(sql);
+      pstmt.setInt(1, num);
+
+      rows = pstmt.executeUpdate();
+    } catch (SQLException e) {
+      System.out.println("[에러]updateReadcount() 메소드의 SQL 오류 = " + e.getMessage());
+    } finally {
+      close(con, pstmt);
+    }
+    return rows;
+
+  }
+
+  // 게시글을 전달받아 REVIEW 테이블에 저장된 게시글 변경하고 변경행의 갯수를 반환하는 메소드
+  public int updateReview(ReviewDTO review) {
+    Connection con = null;
+    PreparedStatement pstmt = null;
+    int rows = 0;
+    try {
+      con = getConnection();
+
+      // 동적 SQL 기능을 사용하여 컬럼값 변경을 다르게 설정
+      if (review.getReviewImg() != null) {
+        String sql = "update review set subject=?,content=?,reviewimg=?,status=? where num=?";
+        pstmt = con.prepareStatement(sql);
+        pstmt.setString(1, review.getSubject());
+        pstmt.setString(2, review.getContent());
+        pstmt.setString(3, review.getReviewImg());
+        pstmt.setInt(4, review.getStatus());
+        pstmt.setInt(5, review.getNum());
+      } else {
+        String sql = "update review set subject=?,content=?,status=? where num=?";
+        pstmt = con.prepareStatement(sql);
+        pstmt.setString(1, review.getSubject());
+        pstmt.setString(2, review.getContent());
+        pstmt.setInt(3, review.getStatus());
+        pstmt.setInt(4, review.getNum());
+      }
+
+      rows = pstmt.executeUpdate();
+    } catch (SQLException e) {
+      System.out.println("[에러]updateReView() 메소드의 SQL 오류 = " + e.getMessage());
+    } finally {
+      close(con, pstmt);
+    }
+    return rows;
+
   }
 }
 
