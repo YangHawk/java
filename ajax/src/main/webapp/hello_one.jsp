@@ -37,19 +37,21 @@
 		*/
 
 		//AJAX 프로그램: 비동기식 통신 기능을 이용하여 DHTML 기능을 구현한 프로그램
+		//▶ XMLHttpRequest 객체를 사용하여 비동기식으로 웹프로그램을 요청하고 실행 결과를 HTML / XML 로 응답받아 페이지의 태그 변경 처리
 		//▶ XMLHttpRequest 객체: 비동기식으로 웹 프로그램을 요청하여 응답받아 처리하기 위한 객체
+		
 		//XMLHttpRequest 객체를 생성하기 위한 전역변수 선언
 		var xhr = null;
 		//페이지에서 검색된 태그를 Element 객체로 반환받아 Click 이벤트가 발생될 경우 호출되는 이벤트 처리 함수 등록
 		document.getElementById("btn1").onclick = function() {
 			//AJAX(Asynchronous Javascript + XML) 기능을 이용하여 응답 결과를 제공받아 페이지의 태그 변경
-			//▶ XMLHttpRequest 객체를 사용하여 비동기식으로 웹프로그램을 요청하고 실행 결과를 HTML / XML 로 응답받아 페이지의 태그 변경 처리
-
+			
 			//1. XMLHttpRequest 객체(AJAX Engine)를 생성하여 전역변수에 저장 - 준비 상태: 0
 			xhr = new XMLHttpRequest();
 
 			//2. XMLHttpRequest 객체의 준비 상태(ReadyState)가 변경될 경우 호출될 이벤트 처리 함수 등록
-			//XMLHttpRequest.onreadystatechange: XMLHttpRequest 객체의 준비 상태 정보를 저장한 프로퍼티
+			//XMLHttpRequest.onreadystatechange: XMLHttpRequest 객체의 준비 상태가 변경되는 이벤트에 대한 이벤트 리스너 속성(프로퍼티)
+			//XMLHttpRequest.readyState: XMLHttpRequest 객체의 준비상태 정보를 저장한 프로퍼티
 			//▶ XMLHttpRequest 객체의 준비 상태는 순차적으로 자동 변경
 			//▶ 0: XMLHttpRequest 객체 생성 / 1: 웹 프로그램 요청 설정 - open() 메소드 호출
 			//▶ 2: 웹 프로그램 요청 - send() 메소드 호출 / 3: 웹 프로그램 처리 - 응답 전 / 4: 실행 결과 응답
