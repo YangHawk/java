@@ -36,7 +36,7 @@
 		select id, name, phone, email from mymember where id=#{id}
 	</select>
 
-	<!-- SELECT 명령으로 다수행이 검색되어도 resultType 속성에는 하나의 검색행을 객체로 매핑하기 위한 Java 클래스를 속성값으로 설정 -->
+	<!-- SELECT 명령으로 다수행을 검색하여도 resultType 속성에는 하나의 검색행을 객체로 매핑하기 위한 Java 클래스를 속성값으로 설정 -->
 	<select id="selectMyMemberList" resultType="MyMember">
 		select * from mymember order by id
 	</select>

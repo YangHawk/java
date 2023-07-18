@@ -8,20 +8,20 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import xyz.itwill.dto.MyMember;
-import xyz.itwill.mapper.MymemberInterfaceMapper;
+import xyz.itwill.mapper.MyMemberMapper;
 
-public class MyMemberInterfaceDAO {
-  private static MyMemberInterfaceDAO _dao;
+public class MyMemberDAO {
+  private static MyMemberDAO _dao;
 
-  public MyMemberInterfaceDAO() {
+  public MyMemberDAO() {
     // TODO Auto-generated constructor stub
   }
 
   static {
-    _dao = new MyMemberInterfaceDAO();
+    _dao = new MyMemberDAO();
   }
 
-  public static MyMemberInterfaceDAO getDAO() {
+  public static MyMemberDAO getDAO() {
     return _dao;
   }
 
@@ -40,12 +40,7 @@ public class MyMemberInterfaceDAO {
   public int insertMyMember(MyMember member) {
     SqlSession sqlSession = getSqlSessionFactory().openSession(true);
     try {
-      // SqlSession.getMapper(Class<T> clazz): 매개변수에 Class 객체(Clazz - 메모리에 저장된 인터페이스 매퍼)를 전달받아
-      // Mapper 객체로 생성하여 반환하는 메소드
-      // ▶ 매개 변수에 [XXX.class] 형식으로 인터페이스를 Class 객체로 직접 표현하여 전달
-      // Mapper 객체: 인터페이스 기반의 매퍼 파일을 제공받아 Mapper 객체로 생성되어 추상 메소드를 호출하여 추상 메소드에 등록된 SQL 명령을 DBMS 서버에
-      // 전달하여 실행하고 실행 결과를 Java 객체로 매핑하여 반환하는 기능을 제공하는 객체
-      return sqlSession.getMapper(MymemberInterfaceMapper.class).insertMyMember(member);
+      return sqlSession.getMapper(MyMemberMapper.class).insertMyMember(member);
     } finally {
       sqlSession.close();
     }
@@ -56,7 +51,7 @@ public class MyMemberInterfaceDAO {
   public int updateMyMember(MyMember member) {
     SqlSession sqlSession = getSqlSessionFactory().openSession(true);
     try {
-      return sqlSession.getMapper(MymemberInterfaceMapper.class).updateMyMember(member);
+      return sqlSession.getMapper(MyMemberMapper.class).updateMyMember(member);
     } finally {
       sqlSession.close();
     }
@@ -66,7 +61,7 @@ public class MyMemberInterfaceDAO {
   public int deleteMyMember(String id) {
     SqlSession sqlSession = getSqlSessionFactory().openSession(true);
     try {
-      return sqlSession.getMapper(MymemberInterfaceMapper.class).deleteMyMember(id);
+      return sqlSession.getMapper(MyMemberMapper.class).deleteMyMember(id);
     } finally {
       sqlSession.close();
     }
@@ -76,7 +71,7 @@ public class MyMemberInterfaceDAO {
   public MyMember selectMyMember(String id) {
     SqlSession sqlSession = getSqlSessionFactory().openSession(true);
     try {
-      return sqlSession.getMapper(MymemberInterfaceMapper.class).selectMyMember(id);
+      return sqlSession.getMapper(MyMemberMapper.class).selectMyMember(id);
     } finally {
       sqlSession.close();
     }
@@ -86,7 +81,7 @@ public class MyMemberInterfaceDAO {
   public List<MyMember> selectMyMemberList() {
     SqlSession sqlSession = getSqlSessionFactory().openSession(true);
     try {
-      return sqlSession.getMapper(MymemberInterfaceMapper.class).selectMyMemberList();
+      return sqlSession.getMapper(MyMemberMapper.class).selectMyMemberList();
     } finally {
       sqlSession.close();
     }
