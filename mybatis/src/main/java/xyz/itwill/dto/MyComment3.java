@@ -1,30 +1,21 @@
 package xyz.itwill.dto;
 
-// 테이블의 컬럼명과 다른 이름으로 클래스의 필드명을 작성한 클래스 - 수동 매핑
-public class MyComment2 {
+// MYCOMMENT 테이블과 MYUSER 테이블의 컬럼값을 저장하기 위한 클래스
+// ▶ 1:1 관계의 TABLE JOIN에 대한 검색 결과를 저장하기 위한 클래스
+public class MyComment3 {
+  // MYCOMMENT 테이블의 컬럼값을 저장하기 위한 필드
   private int no;
   private String id;
   private String content;
   private String date;
 
-  public MyComment2() {
+  // MYUSER 테이블의 컬럼값을 저장하기 위한 필드
+  private String name;
+
+  public MyComment3() {
     // TODO Auto-generated constructor stub
   }
- 
-  public MyComment2(int no, String id) {
-    super();
-    this.no = no;
-    this.id = id;
-  }
-
-  public MyComment2(int no, String id, String content, String date) {
-    super();
-    this.no = no;
-    this.id = id;
-    this.content = content;
-    this.date = date;
-  }
-
+  
   public int getNo() {
     return no;
   }
@@ -56,4 +47,14 @@ public class MyComment2 {
   public void setDate(String date) {
     this.date = date;
   }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+  
+  
 }

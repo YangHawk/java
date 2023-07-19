@@ -42,6 +42,7 @@
 	
 	<!-- resultMap 엘리먼트를 이용하여 검색행의 컬럼값을 객체 필드에 저장되도록 설정 -->
 	<!-- ▶ type 속성값으로 설정된 클래스의 기본 생성자를 이용하여 객체를 생성하고 id 엘리먼트 또는 result 엘리먼트를 사용하여 객체의 Setter 메소드를 호출하여 검색행의 컬럼값으로 필드값 변경 -->
+	<!-- ▶ resultMap 엘리먼트의 하위 엘리먼트로 id 엘리먼트 또는 result 엘리먼트는 0개 이상 설정 가능 -->
 	<resultMap type="MyComment2" id="myComment2ResultMap">
 		<id column="comment_no" property = "no"/>
 		<result column="comment_id" property = "id"/>
@@ -50,7 +51,98 @@
 	</resultMap>
 
 	<!-- select 엘리먼트의 resultMap 속성을 사용하여 검색행을 Java 객체로 수동 매핑하여 제공 -->
+	<!--
 	<select id="selectCommentList2" resultMap="myComment2ResultMap">
 		select comment_no, comment_id, comment_content, comment_date from mycomment order by comment_no desc
-	</select>	
+	</select>
+	-->
+	
+	<!-- constructor 엘리먼트를 사용하여 type 속성값으로 설정된 클래스의 매개 변수가 작성된 생성자로 객체를 생성하고 생성자 매개 변수에 검색행의 컬럼값을 전달하여 객체 필드에 저장 -->
+	<!-- ▶ resultMap 엘리먼트의 하위 엘리먼트로 constructor 엘리먼트는 0개 또는 1개만 작성 가능 -->
+	<resultMap type="MyComment2" id="myComment2ConstructorResultMap">
+		<!-- constructor: resultMap 엘리먼트의 type 속성값으로 설정된 Java 클래스의 생성자를 이용하여 매핑 처리하기 위한 정보를 제공하는 엘리먼트 -->
+		<!-- ▶ 하위 엘리먼트: idArg / arg 엘리먼트 -->
+		<!-- ▶ 생성자의 매개 변수의 갯수와 constructor 엘리먼트의 하위 엘리먼트의 갯수와 자료형이 반드시 동일해야 함! -->
+		<constructor>
+			<!-- idArg: 검색행의 컬럼값을 생성자 매개 변수에 전달하기 위한 엘리먼트 -->			
+			<!-- ▶ PK 제약 조건이 설정된 컬럼값을 제공받아 생성자 매개 변수에 저장 -->
+			<!-- column 속성: 검색행의 컬럼명을 속성값으로 설정 -->
+			<!-- javaType 속성: 검색행의 컬럼값을 저장할 매개 변수의 Java 자료형을 속성값으로 설정 -->
+			<!-- ▶ Java 자료형 대신 typeAlias로 설정된 별칭 사용 가능 -->
+			<idArg column="comment_no" javaType="_int" />
+			<!-- _int 를 해야 int 원시형! / int는 Integer 클래스의 별칭! -->
+			<!-- Arg: 검색행의 컬럼값을 생성자 매개 변수에 전달하기 위한 엘리먼트 -->			
+			<arg column="comment_id" javaType="string"/>
+			
+			<!--
+			<arg column="comment_content" javaType="string"/>
+			<arg column="comment_date" javaType="string"/>
+			-->
+		</constructor>
+		<!-- constructor 엘리먼트와 id 엘리먼트(result 엘리먼트)를 같이 사용하여 매핑 정보 제공 가능 -->
+		<result column="comment_content" property = "content"/>
+		<result column="comment_date" property = "date"/>
+	</resultMap>
+	
+	<!-- resultMap 변경 -->
+	<select id="selectCommentList2" resultMap="myComment2ConstructorResultMap">
+		select comment_no, comment_id, comment_content, comment_date from mycomment order by comment_no desc
+	</select>
+	
+	<!--  
+	<select id="selectCommentList3" resultType="MyComment3">
+		select comment_no "no", comment_id "id", user_name "name", comment_content "content", comment_date "date" from mycomment join myuser on comment_id=user_id order by comment_no desc
+	</select>
+	-->
+	
+	<resultMap type="MyComment3" id="myComment3ResultMap">
+		<id column="comment_no" property="no"/>
+		<result column="comment_id" property="id"/>
+		<result column="comment_content" property="content"/>
+		<result column="comment_date" property="date"/>
+		
+		<result column="user_name" property="name"/>
+	</resultMap>
+	
+	<select id="selectCommentList3" resultMap="myComment3ResultMap">
+		select comment_no, comment_id, user_name, comment_content, comment_date from mycomment join myuser on comment_id=user_id order by comment_no desc
+	</select>
+	
+	<select id="selectCommentUserList1" resultType="MyCommentUser1">
+		select comment_no, comment_id, comment_content, comment_date, user_id, user_name from mycomment join myuser on comment_id=user_id order by comment_no desc
+	</select>
+	
+	<resultMap type="MyCommentUser2" id="myCommentUser2ResultMap">
+		<!-- association: 1:1 관계의 TABLE JOIN에서 1개의 검색행을 Java 객체로 생성하여 type 속성값으로 설정된 클래스의 필드에 저장되도록 매핑 처리하는 엘리먼트 -->		
+		<!-- ▶ id 엘리먼트 또는 result 엘리먼트를 하위 엘리먼트로 사용하여 association 엘리먼트에 생성될 객체의 필드의 검색행의 컬럼값이 저장되도록 매핑 설정 -->
+		<!-- property 속성: 객체가 저장될 클래스의 필드명을 속성값으로 설정 -->
+		<!-- javaType 속성: 검색행을 이용하여 생성될 객체의 Java 자료형을 속성값으로 설정 -->
+		<!-- ▶ Java 자료형 대신 typeAlias로 설정된 별칭 사용 가능 -->
+		<association property="comment" javaType="Mycomment1">
+			<id column="comment_no" property="commentNo"/>
+			<result column="comment_id" property="commentId"/>
+			<result column="comment_content" property="commentContent"/>
+			<result column="comment_date" property="commentDate"/>
+		</association>
+		<association property="user" javaType="MyUser">
+			<id column="user_id" property="userId"/>
+			<result column="user_name" property="userName"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectCommentUserList2" resultMap="myCommentUser2ResultMap">
+		select comment_no, comment_id, comment_content, comment_date, user_id, user_name from mycomment join myuser on comment_id=user_id order by comment_no desc
+	</select>
+	
+	<!-- 게시글 번호를 전달받아 MYCOMMENT 테이블에 저장된 게시글 정보를 검색하여 MyComment1 객체로 제공하는 엘리먼트 작성 -->
+	<!-- ▶ 검색행 1개 -->
+	<select id="selectComment" parameterType="int" resultType="MyComment1">
+		select comment_no, comment_id, comment_content, comment_date from mycomment where comment_no=#{commentNo}
+	</select>
+	
+	<!-- 게시글 번호를 전달받아 MYREPLY 테이블에 저장된 댓글 정보를 검색하여 MyReply 객체로 제공하는 엘리먼트 -->
+	<!-- ▶ 검색행 0개 이상 -->
+	<select id="selectCommentNoReplyList" parameterType="int" resultType="MyReply">
+		select reply_no, reply_id, reply_content, reply_date, reply_comment_no from myreply where reply_comment_no=#{replyCommentNo} order by reply_no desc
+	</select>
 </mapper>
