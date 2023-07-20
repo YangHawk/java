@@ -30,6 +30,4 @@ public class MyCommentReply {
   public void setReplyList(List<MyReply> replyList) {
     this.replyList = replyList;
   }
-
-
 }

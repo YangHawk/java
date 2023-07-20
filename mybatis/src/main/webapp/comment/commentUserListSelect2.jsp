@@ -4,7 +4,7 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	List<MyCommentUser2> commentUserList = MyCommentDAO.getDAO().selectCommentUserList2();
+	List<MyCommentUser2> commentUserList=MyCommentDAO.getDAO().selectCommentUserList2();
 %>
 <!DOCTYPE html>
 <html>
@@ -53,21 +53,24 @@ td {
 		<% for(MyCommentUser2 commentUser : commentUserList) { %>
 		<tr>
 			<td><%=commentUser.getComment().getCommnetNo() %></td>
-			
-			
 			<td><%=commentUser.getUser().getUserName()%>[<%=commentUser.getComment().getCommentId() %>]</td>
-			
 			
 			<%--
 			
 			<td><%=commentUser.getComment().getCommentContent() %></td>
 			
 			--%>
+			
 			<td>
-				<a href="commentReplySelect1.jsp?commentNo=<%=commentUser.getComment().getCommnetNo() %>">
-					<%=commentUser.getComment().getCommentContent() %>
-				</a>
-			</td>
+			
+			<%--
+				<a href="commentReplySelect2.jsp?commentNo=<%=commentUser.getComment().getCommnetNo() %>"><%=commentUser.getComment().getCommentContent() %></a>
+			--%>
+			<%--
+				<a href="commentReplySelect2.jsp?commentNo=<%=commentUser.getComment().getCommnetNo() %>"><%=commentUser.getComment().getCommentContent() %></a>
+			--%>
+			
+				<a href="commentReplyUserSelect.jsp?commentNo=<%=commentUser.getComment().getCommnetNo()%>"><%=commentUser.getComment().getCommentContent() %></a></td>
 			<td><%=commentUser.getComment().getCommentDate() %></td>
 		</tr>
 		<% } %>
