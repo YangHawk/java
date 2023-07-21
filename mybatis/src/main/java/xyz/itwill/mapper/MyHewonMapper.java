@@ -27,4 +27,20 @@ public interface MyHewonMapper {
   // value 속성: 매개 변수에 저장된 값을 XML 기반 매퍼 파일의 엘리먼트에 등록된 SQL 명령에서 사용할 수 있는 식별자를 속성값으로 설정
   // ▶ 다름 속성이 없는 경우 속성값만 설정 가능
   String selectParamHewonId(@Param(value = "name") String name, @Param("email") String email);
+
+  List<MyHewon> selectSearchHewonList(Map<String, Object> map);
+
+  List<MyHewon> selectSearchHewonList2(Map<String, Object> map);
+
+  List<MyHewon> selectNameHewonList(String name);
+
+  List<MyHewon> selectDynamicNameHewonList(String name);
+
+  List<MyHewon> selectDynamicHewonList(Map<String, Object> map);
+
+  int updateHewon(MyHewon hewon);
+
+  int updateDynamicHewon(MyHewon hewon);
+  
+  List<MyHewon> selectMultiDynamicHewonList(List<String> idList);
 }

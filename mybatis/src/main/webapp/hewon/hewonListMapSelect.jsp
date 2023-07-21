@@ -46,6 +46,12 @@ td {
 		<% } else { %>
 			<% for(Map<String, Object> hewon : hewonList) { %>
 			<tr>
+				<%--
+				<% for(String column : hewon.keySet()) { %>
+					<td><%=hewon.get(column) %></td>
+				<% } %>
+				--%>
+						
 				<td><%=hewon.get("HEWON_ID") %></td>
 				<td><%=hewon.get("HEWON_NAME") %></td>
 				<td><%=hewon.get("HEWON_PHONE") %></td>
