@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import xyz.itwill.dto.MyHewon;
 
 // mybatis 프레임워크는 Interface 기반 매퍼 파일만 사용하여 매퍼 등록 가능
@@ -31,10 +32,6 @@ public interface MyHewonInterfaceMapper {
   List<MyHewon> selectHewonList();
 
   @Results(value = {
-      // @Result: 검색행의 컬럼값을 객체 필드에 저장하기 위한 정보를 제공하는 어노테이션
-      // ▶ XML 기반 매퍼 파일에서 id 엘리먼트(result 엘리먼트)와 유사한 기능 제공
-      // column 속성: 검색행의 컬럼명(컬럼값)을 속성값으로 설정
-      // property 속성: 검색행의 컬럼값이 저장될 객체의 필드명을 속성값으로 설정
       @Result(column = "hewon_id", property = "id"),
       @Result(column = "hewon_name", property = "name"),
       @Result(column = "hewon_phone", property = "phone"),
@@ -42,4 +39,37 @@ public interface MyHewonInterfaceMapper {
       @Result(column = "hewon_status", property = "status")})
   @Select(value = "select * from myhewon where hewon_name=#{name} order by hewon_id")
   List<MyHewon> selectNameHewonList(String name);
+
+
+  @Results(value = {
+      @Result(column = "hewon_id", property = "id"),
+      @Result(column = "hewon_name", property = "name"),
+      @Result(column = "hewon_phone", property = "phone"),
+      @Result(column = "hewon_email", property = "email"),
+      @Result(column = "hewon_status", property = "status")})
+  // @SelectProvider: SQL 명령을 생헝하여 반환하는 (SQL Builder)클래스의 메소드를 호출하여 SELECT 명령을 반환받아 등록하는 어노테이션
+  // ▶ Interface 기반 매퍼 파일에서 동적 SQL 기능을 구현하기 위하여 사용하는 어노테이션
+  // SQL Builder 클래스: SQL 객체의 메소드를 호출하여 SQL 명령을 작성하고 객체에 저장된 SQL 명령을 반환하는 기능을 제공하는 클래스
+  // type 속성: SQL Builder 클래스(Class 객체)를 속성값으로 설정
+  // method 속성: SQL Builder 클래스의 SQL 명령을 생성하여 반환하는 메소드를 속성값으로 설정
+  @SelectProvider(type = MyHewonProvider.class, method = "selectDynamicName")
+  List<MyHewon> selectDynamicHewonList(String name);
+
+  /*
+  ↑와 동일한 기능을 가진다 
+  
+  @Results(value = {
+      @Result(column = "hewon_id", property = "id"),
+      @Result(column = "hewon_name", property = "name"),
+      @Result(column = "hewon_phone", property = "phone"),
+      @Result(column = "hewon_email", property = "email"),
+      @Result(column = "hewon_status", property = "status")})
+  // @Select 어노테이션의 value 속성값으로 script 엘리먼트를 사용하면 SQL 명령 작성 시 Interface 매퍼 파일에서 동적 SQL 관련 엘리먼트 사용 가능
+  // ▶ value 속성값으로 배열을 설정하여 SQL 명령을 순차적으로 작성 가능
+  @Select({
+      "<script>select hewon_id, hewon_name, hewon_phone, hewon_email, hewon_status from myhewon",
+      "<if test=\"name != null and name != ''\">where hewon_name = #{name}</if>",
+      "order by hewon_id</script>"})
+  List<MyHewon> selectDynamicHewonList(String name);
+  */
 }

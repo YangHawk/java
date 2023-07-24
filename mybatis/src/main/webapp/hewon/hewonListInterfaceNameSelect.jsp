@@ -7,6 +7,8 @@
 
 	String name = request.getParameter("name");
 	
+	/*
+	
 	List<MyHewon> hewonList = null ;
 	
 	if(name == null || name.equals("")) { //전달값이 없을 경우
@@ -14,6 +16,10 @@
 	} else {
 	  hewonList = MyHewonInterfaceDAO.getDAO().selectNameHewonList(name); //조건 검색
 	}
+	
+	*/
+	
+	List<MyHewon> hewonList = MyHewonInterfaceDAO.getDAO().selectDynamicHewonList(name);
 %>
 <!DOCTYPE html>
 <html>
