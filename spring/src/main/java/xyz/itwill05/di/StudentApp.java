@@ -10,7 +10,7 @@ public class StudentApp {
 		System.out.println("=============== Spring Container 초기화 후 ===============");
 
 		Student student1 = context.getBean("student1", Student.class);
-		// 참조 변수를 출력할 경우 참조 변수에 저장된 객체로 toString() 메소드 자동 호출 - 객체의 ????????
+		// 참조 변수를 출력할 경우 참조 변수에 저장된 객체로 toString() 메소드 자동 호출 - 객체의 필드값 확인
 		System.out.println(student1);
 		System.out.println("==========================================================");
 		Student student2 = context.getBean("student2", Student.class);

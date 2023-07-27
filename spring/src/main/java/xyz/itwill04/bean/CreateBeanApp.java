@@ -31,12 +31,10 @@ public class CreateBeanApp {
 		// ApplicationContext 인터페이스를 상속받은 자식 클래스로 객체 생성 - ApplicationContext 객체
 		// ▶ ApplicationContext 객체를 생성할 때 Spring Bean Configuration File을 제공받아 스프링 컨테이너 생성 - 스프링 컨테이너 초기화 작업
 		// ▶ 클래스가 참조 가능한 폴더(ClassPath)에 저장된 Spring Bean Configuration File을 제공받아 사용 가능
-		// ▶ ApplicationContext 객체는 Spring Bean Configuration File에 등록된 클래스로 미리 객체를 생성하여
-		// Spring Bean 요청 시 미리 생성된 객체를 제공
+		// ▶ ApplicationContext 객체는 Spring Bean Configuration File에 등록된 클래스로 미리 객체를 생성하여 Spring Bean 요청 시 미리 생성된 객체를 제공
 		ApplicationContext context = new ClassPathXmlApplicationContext("04-1_beanCreate.xml");
 		System.out.println("=============== Spring Container 초기화 후 ===============");
-		// ApplicationContext.getBean(String beanName): 매개 변수로 Spring Bean을 구분하기 위한
-		// 식별자(beanName)을 전달받아 스프링 컨테이너로부터 Spring Bean(객체)를 반환하는 메소드
+		// ApplicationContext.getBean(String beanName): 매개 변수로 Spring Bean을 구분하기 위한 식별자(beanName)을 전달받아 스프링 컨테이너로부터 Spring Bean(객체)를 반환하는 메소드
 		// ▶ Object 타입의 객체를 반환하기 때문에 반드시 명시적 객체 형변환 사용
 		// ▶ 매개 변수로 전달받은 식별자(beanName)의 Spring Bean이 없을 경우 NoSuchBeanDefinitionException 예외 발생
 		CreateBean bean2 = (CreateBean) context.getBean("createBean");

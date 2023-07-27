@@ -11,4 +11,5 @@
 	<!-- base-package 속성: 스프링 컨테이너가 스프링 어노테이션을 사용한 클래스를 검색하기 위한 패키지를 속성값으로 설정 - 상위 패키지를 설정하면 하위 패키지도 포함 처리 -->
 	<!-- <context:component-scan base-package="xyz.itwill*" /> -->
 	<context:component-scan base-package="xyz.itwill04.bean" />
+	<!-- xyz/itwill04/bean 경로에서 작성된 클래스에서 사용된 모든 어노테이션을 읽어들이세요! -->
 </beans>

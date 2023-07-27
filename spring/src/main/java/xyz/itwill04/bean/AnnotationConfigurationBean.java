@@ -12,10 +12,11 @@ public class AnnotationConfigurationBean {
 	// ▶ Spring Bean Configuration File의 bean 엘리먼트와 유사한 기능을 제공하는 어노테이션
 	// ▶ 메소드의 이름이 Spring Bean의 식별자(beanName)로 사용됨
 	// ▶ @Bean 어노테이션의 name 속성을 이용하여 식별자(beanName) 변경 가능 - e.g: @Bean(name = "name")
-	@Bean
+	@Bean //← 이 메소드가 반환하는 객체를 스프링 컨테이너가 관리할 수 있도록 해주세요~
 	public AnnotationBean annotationBean() {
 		return new AnnotationBean();
 	}
+	
 	/*
 	@Component 어노테이션을 이용!
 	

@@ -11,8 +11,7 @@ public class BeanAttributeApp {
 		// ApplicationContext.getBean(String beanName): 스프링 컨테이너로부터 매개 변수로 전달받은
 		// beanName의 Spring Bean(객체)를 검색하여 반환하는 메소드
 		// ▶ Object 타입의 객체를 반환하므로 반드시 명시적 객체 형변환 사용
-		// InitDestroyMethodBean bean = (InitDestroyMethodBean)
-		// context.getBean("InitDestroyMethodBean");
+		// InitDestroyMethodBean bean = (InitDestroyMethodBean) context.getBean("InitDestroyMethodBean");
 
 		// ApplicationContext.getBean(String beanName, Class<T> clazz): 스프링 컨테이너로부터 매개
 		// 변수로 전달받은 beanName의 Spring Bean(객체)를 Class 객체로 형변환하여 반환하는 메소드
