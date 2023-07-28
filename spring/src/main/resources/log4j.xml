@@ -2,7 +2,6 @@
 <!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
 <!-- log4j: 로그 구현체가 실행하기 위한 정보를 제공하는 환경 설정 파일 -->
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
-
 	<!-- Appenders -->
 	<!-- appender: 로그 구현체로 실행하기 위한 클래스를 설정하는 엘리먼트 -->
 	<!-- name 속성: appender 엘리먼트를 구분하기 위한 식별자를 속성값으로 설정 - 중복만 안되면 돼! -->
@@ -87,6 +86,10 @@
 		<appender-ref ref="helloLog" />
 		<appender-ref ref="dailyLogFile" />
 	</logger>
+	
+	<logger name="xyz.itwill05.lombok">
+		<level value="info" />
+	</logger>
 
 	<!-- Root Logger -->
 	<!-- root: 모든 클래스에서 발생되는 로그 이벤트를 기록하기 위한 엘리먼트 -->
@@ -100,5 +103,4 @@
 		<appender-ref ref="console" />
 		<!-- console이라는 이름에 appender로 기록해줄게요~ -->
 	</root>
-
 </log4j:configuration>
