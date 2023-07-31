@@ -62,11 +62,22 @@
 		</dependency>
 
 		<!-- AspectJ -->
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+		<!-- ▶ AspectJ 컴파일러로 생성된 결과물(핵심 관심 코드 + 횡단 관심 코드)을 실행하기 위한 라이브러리 -->
 		<!-- ▶ Spring AOP(Aspect Oriented Programming) 기능을 제공하기 위한 라이브러리 -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<!-- ▶ AspectJ 컴파일러로 핵심 관심 코드와 횡단 관심 코드가 결합된 클래스(Proxy 클래스)를 생성하기 위한 라이브러리 -->
+		<!-- aspectjrt 과 aspectjweaver의 version이 동일해야 하므로 ${org.aspectj-version}를 사용해 맞춰줌! -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${org.aspectj-version}</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- Logging -->
@@ -167,6 +178,8 @@
 			<version>1.18.28</version>
 			<scope>provided</scope>
 		</dependency>
+
+
 	</dependencies>
 
 	<build>
