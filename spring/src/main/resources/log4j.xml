@@ -86,8 +86,12 @@
 		<appender-ref ref="helloLog" />
 		<appender-ref ref="dailyLogFile" />
 	</logger>
-	
+
 	<logger name="xyz.itwill05.lombok">
+		<level value="info" />
+	</logger>
+
+	<logger name="xyz.itwill07.aop">
 		<level value="info" />
 	</logger>
 
