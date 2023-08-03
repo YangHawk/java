@@ -11,10 +11,11 @@ import org.springframework.jdbc.core.RowMapper;
 import lombok.Setter;
 
 // SpringDAO 기능을 이용하여 DAO 클래스 작성 - spring-jdbc 라이브러리를 프로젝트에 빌드 처리해야 함
-// ▶ JdbcTemplate 객체의 메소드를 호출하여 DAO 클래스의 메소드를 작성
+// ▶ JdbcTemplate 객체의 메소드를 호출하여 DAO 클래스의 메소드를 작성 - Template Method Pattern
 
 public class StudentDAOImpl implements StudentDAO {
 	// JdbcTemplate 객체를 저장하기 위한 필드 선언
+	// ▶ SpringDI 기능을 사용하여 JdbcTemplate 객체를 스프링 컨테이너로부터 제공받아 필드에 저장
 	// ▶ Spring Bean Configuration File에서 DAO 클래스를 Spring Bean으로 등록할 때 JdbcTemplate를
 	// 필드에 저장하여 클래스의 Spring Bean을 제공받아 의존성 주입 - Setter Injection
 	@Setter
@@ -40,19 +41,18 @@ public class StudentDAOImpl implements StudentDAO {
 				student.getNo());
 	}
 
-	// 학생 정보를 전달받아 STUDENT 테이블에 학생 정보를 삭세하고 삭제행의 갯수를 반환하는 메소드
+	// 학생 번호를 전달받아 STUDENT 테이블에 학생 정보를 삭세하고 삭제행의 갯수를 반환하는 메소드
 	@Override
 	public int deleteStudent(int no) {
 		return jdbcTemplate.update("delete from student where no=?", no);
 	}
 
-	// 학생 번호를 전달받아 STUDENT 테이블에 저장된 학생 정보를 검색하여 DTO 객체로 반환하는 메소드
+	// 학생 번호를 전달받아 STUDENT 테이블에 저장된 학생 정보를 검색하여 DTO 객체(Object)로 반환하는 메소드
 	@Override
 	public Student selectStudent(int no) {
 		try {
 			String sql = "select no, name, email, phone, address from student where no=?";
-			// JdbcTemplate.queryForObject(String sql, RowMapper<T> rowMapper, Object ...
-			// args)
+			// JdbcTemplate.queryForObject(String sql, RowMapper<T> rowMapper, Object ... args)
 			// ▶ SQL 명령(SELECT)을 DBMS 서버에 전달하여 실행하는 메소드
 			// ▶ 단일행의 검색 결과를 하나의 Java 객체로 반환하기 위하여 사용
 			// ▶ 매개 변수에는 DBMS 서버에 전달하여 실행할 SQL 명령과 검색행을 Java 객체로 변환하기 위한 매핑 정보를 제공하는
@@ -63,7 +63,19 @@ public class StudentDAOImpl implements StudentDAO {
 			// ▶ RowMapper 객체를 생성할 때 사용되는 제네릭에는 변환할 Java 객체의 자료형을 설정
 			// ▶ RowMapper 인터페이스를 상속받은 자식 클래스는 mapRow() 추상 메소드를 오버라이드 선언
 			// ▶ mapRow() 메소드의 매개 변수 검색 결과(ResultSet 객체)를 제공받아 Java 객체로 변환하는 명령 작성
-			return jdbcTemplate.queryForObject(sql, new StudentRowMapper(), no);
+			return jdbcTemplate.queryForObject(sql, new RowMapper<Student>() {
+				@Override
+				public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
+					Student student = new Student();
+					student.setNo(rs.getInt("no"));
+					student.setName(rs.getString("name"));
+					student.setEmail(rs.getString("email"));
+					student.setPhone(rs.getString("phone"));
+					student.setAddress(rs.getString("address"));
+					return student;
+				}
+			}, no);
+			//return jdbcTemplate.queryForObject(sql, new StudentRowMapper(), no);
 		} catch (EmptyResultDataAccessException e) {
 			// EmptyResultDataAccessException: queryForObject() 메소드로 전달된 SELECT 명령에 대한 검색행이
 			// 존재하지 않는 경우 발생되는 예외
@@ -83,7 +95,14 @@ public class StudentDAOImpl implements StudentDAO {
 		return jdbcTemplate.query(sql, new StudentRowMapper());
 	}
 
-	// RowMapper 객체를 생성하기 위한 클래스
+	// RowMapper 객체: 검색행을 Java 객체로 변환하여 제공하기 위한 매핑 정보가 저장된 객체
+	// ▶ 검색행의 컬럼값을 Java 객체 필드에 저장하기 위한 매핑 정보 제공
+	// ▶ RowMapper 인터페이스를 상속받은 자식 클래스로 객체 생성 - 익명의 내부 클래스로 객체 생성 가능(Anonymous)
+	// ▶ RowMapper 객체를 생성할 때 사용되는 제네릭에는 변환할 Java 객체의 자료형을 설정
+	// ▶ RowMapper 인터페이스를 상속받은 자식 클래스는 mapRow() 추상 메소드를 오버라이드 선언
+	// ▶ mapRow() 메소드의 매개 변수 검색 결과(ResultSet 객체)를 제공받아 Java 객체로 변환하는 명령 작성
+	
+	// RowMapper 객체를 생성하기 위한 내부 클래스 선언
 	public class StudentRowMapper implements RowMapper<Student> {
 		@Override
 		public Student mapRow(ResultSet rs, int rowNum) throws SQLException {

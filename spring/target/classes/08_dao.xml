@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- DataSource 인터페이스를 상속받은 자식 클래스를 Spring Bean으로 등록 -->
-	<!-- ▶ spring-jdbc 라이브러리의 DriverManagerDataSource 클래스 사용 -->
+	<!-- ▶ spring-jdbc 라이브러리의 DriverManagerDataSource 클래스 사용 - 데이터 소스 객체 -->
 	<!-- ▶ DBCP(DataBase Connection Pool) 기능을 제공하는 DataSource 객체 생성 -->
 	<!-- ▶ DataSource 객체 필드에 Connection 객체를 생성하기 위한 값을 전달하여 저장 - Setter Injection -->
 	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
