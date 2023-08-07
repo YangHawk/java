@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<!-- Maven: 빌드 툴(Build Tool) - 프로젝트의 라이브러리를 관리하는 프로그램 -->
 	<!-- pom.xml: 메이븐을 이용하여 프로젝트에 라이브러리를 빌드 처리하기 위한 정보를 제공하는 환경 설정 파일 -->
@@ -7,7 +8,8 @@
 	<!-- ▶ 로컬 저장소에 라이브러리 파일이 없는 경우 메이븐 저장소에서 라이브러리 파일을 다운로드 받아 로컬 저장소에 저장 -->
 	<!-- 로컬 저장소(Local Repository): 프로젝트에 빌드 처리될 라이브러리 파일을 저장하는 폴더 -->
 	<!-- ▶ 기본적으로 사용자 폴더의 [.m2] 폴더를 로컬 저장소 사용 -->
-	<!-- ▶ 라이브러리 파일에 문제가 있어 프로그램 실행시 에러가 발생될 경우 이클립스 종료 후 해당 라이브러리 파일(폴더)을 삭제하고 이클립스 재실행 -->
+	<!-- ▶ 라이브러리 파일에 문제가 있어 프로그램 실행시 에러가 발생될 경우 이클립스 종료 후 해당 라이브러리 파일(폴더)을 삭제하고 
+		이클립스 재실행 -->
 	<!-- 메이블 저장소(Maven Repository): 라이브러리 파일이 저장된 인터넷상의 저장소 -->
 	<!-- ▶ https://mvnrepository.com 사이트 참조 -->
 
@@ -37,7 +39,8 @@
 		<!-- Spring -->
 		<!-- ▶ Spring 프레임워크를 이용하여 프로그램을 작성하기 위하여 필요한 라이브러리 -->
 		<!-- dependency: 라이브러리 파일을 제공받아 프로젝트에 빌드 처리하기 위한 엘리먼트 -->
-		<!-- ▶ 라이브러리 의존 관계에 의해 다른 라이브러리 파일을 프로젝트에 자동으로 빌드 처리 - 의존 전이(Transitive Dependencies) -->
+		<!-- ▶ 라이브러리 의존 관계에 의해 다른 라이브러리 파일을 프로젝트에 자동으로 빌드 처리 - 의존 전이(Transitive 
+			Dependencies) -->
 		<dependency>
 			<!-- groupId: 라이브러리 파일을 제공하는 그룹의 도메인을 설정하기 위한 엘리먼트 -->
 			<groupId>org.springframework</groupId>
@@ -72,7 +75,8 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
 		<!-- ▶ AspectJ 컴파일러로 핵심 관심 코드와 횡단 관심 코드가 결합된 클래스(Proxy 클래스)를 생성하기 위한 라이브러리 -->
-		<!-- aspectjrt 과 aspectjweaver의 version이 동일해야 하므로 ${org.aspectj-version}를 사용해 맞춰줌! -->
+		<!-- aspectjrt 과 aspectjweaver의 version이 동일해야 하므로 ${org.aspectj-version}를 
+			사용해 맞춰줌! -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
@@ -163,7 +167,8 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/xerces/xercesImpl -->
-		<!-- ▶ 로그 구현체가 환경설정파일을 읽어 실행할 때 파일 경로에 인식할 수 없는 문자가 존재하면 예외 발생 - 파일 경로를 부호화 처리하는 기능을 제공하는 라이브러리 -->
+		<!-- ▶ 로그 구현체가 환경설정파일을 읽어 실행할 때 파일 경로에 인식할 수 없는 문자가 존재하면 예외 발생 - 파일 경로를 
+			부호화 처리하는 기능을 제공하는 라이브러리 -->
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
@@ -212,6 +217,22 @@
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc11</artifactId>
 			<version>23.2.0.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+		<!-- ▶ Mybatis 프레임워크 관련 기능을 제공하는 라이브러리 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.5.13</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+		<!-- ▶ Spring 프레임워크에서 Mybatis 프레임워크 관련 기능을 제공하는 라이브러리 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>2.0.7</version>
 		</dependency>
 	</dependencies>
 

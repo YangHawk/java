@@ -1,9 +1,11 @@
-package xyz.itwill08.dao;
+package xyz.itwill10.dao;
 
 import java.util.List;
 
+import xyz.itwill10.dto.Student;
+
 public interface StudentDAO {
-	int insertStudent(Student student);
+	int insertStuedent(Student student);
 
 	int updateStudent(Student student);
 

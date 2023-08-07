@@ -55,7 +55,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- servlet: 클래스를 서블릿으로 등록하기 위한 에릴먼트 -->
+	<!-- servlet: 클래스를 서블릿으로 등록하기 위한 엘리먼트 -->
 	<servlet>
 		<!-- servlet-name: 서블릿을 구분하기 위한 식별자를 설정하기 위한 엘리먼트 -->
 		<servlet-name>mvc</servlet-name>
@@ -77,7 +77,7 @@
 		<servlet-name>springMVC</servlet-name>
 		<!-- Spring 프레임워크의 라이브러리에 의하여 제공되는 DispatcherServlet 클래스 사용 - Front Controller -->
 		<!-- ▶ Front Controller 기능의 클래스에서만 사용할 수 있는 스프링 컨테이너를 생성 -->
-		<!-- 직접 객체를 만드는 것이 아니라 스프링 컨테이너를 만드는 거야! COntextLoaderListener 랑은 다른거야! 쟤는 모든 웹자원이고, 얘는 이 서블릿만! -->
+		<!-- 직접 객체를 만드는 것이 아니라 스프링 컨테이너를 만드는 거야! ContextLoaderListener 랑은 다른거야! 쟤는 모든 웹자원이고, 얘는 이 서블릿만! -->
 		<!-- 그래서 이걸 읽어들일 수 있는 Spring Bean Configuration File이 필요해! - init-param으로 만들자! -->
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<!-- init-param: 클래스의 필요한 값을 제공하는 엘리먼트 -->
