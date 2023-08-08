@@ -79,6 +79,7 @@ public class SessionController {
 	@RequestMapping(value = "/hewon_update", method = RequestMethod.POST)
 	public String update(@ModelAttribute Hewon hewon, SessionStatus sessionStatus) { // 저 회원은 위에 회원이 전달되는 거야! 근데 변경값만 바뀌는거야!
 		// SessionStatus.setComplete(): @SessionAttributes 어노테이션에 의하여 제공된 제한적인 Session Scope 속성값을 제거하는 메소드
+		// ▶ 다른 요청 처리 메소드와 뷰에서 제한적인 Session Scope 속성값을 더 이상 사용하지 않도록 설정하는
 		sessionStatus.setComplete();
 		return "hewon_result";
 	}
