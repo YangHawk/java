@@ -50,7 +50,7 @@
 		<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
 		<!-- order 필드에 ViewResolver 객체의 우선 순위를 설정하기 위한 정수값을 주입 -->
 		<!-- ▶ 다수의 ViewResolver 객체가 있는 경우 반드시 우선 순위를 설정 -->
-		<!-- ▶ 필드에 저장된 정수값이 작을수록 우선 순위가 높ㄹ게 설정 -->
+		<!-- ▶ 필드에 저장된 정수값이 작을수록 우선 순위가 높게 설정 -->
 		<beans:property name="order" value="2"/>
 	</beans:bean>
 	
@@ -64,6 +64,14 @@
 				<beans:value>/WEB-INF/spring/appServlet/tiles.xml</beans:value>
 			</beans:list>
 		</beans:property>
+	</beans:bean>
+
+	<!-- BeanNameViewResolver 클래스를 Spring Bean으로 등록 -->
+	<!-- BeanNameViewResolver 객체: 요청 처리 메소드에서 반환되는 문자열(ViewName)을 제공받아 Spring 
+		Bean(객체) 중 같은 이름의 식별자(beanName)를 가진 객체(Spring Bean)로 실행 메소드를 호출하여 클라이언트에게 응답 처리 -->
+	<!-- ▶ JSP 문서를 이용하여 응답 처리하지 않고 메소드의 명령을 실행하여 응답 처리 -->	
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="1" />
 	</beans:bean>
 
 	<!-- 이거 안쓸거에요!(기본) <context:component-scan base-package="xyz.itwill.controller" /> -->
@@ -154,4 +162,8 @@
 		<!-- defaultEncoding 필드에 전달값에 문자 형태(CharacterSet)가 저장되도록 값을 주입 -->
 		<beans:property name="defaultEncoding" value="utf-8"/>
 	</beans:bean>
+	
+	<!-- 파일 다운로드 기능을 제공하는 클래스를 Spring Bean으로 등록 - @Component 어노테이션을 사용해도 됨! -->
+	<!-- ▶ Spring Bean의 식별자(beanName)을 반드시 요청 처리 메소드의 반환값가 같도록 작성 -->
+	<beans:bean class="xyz.itwill10.util.FileDownload" id="fileDownload" />
 </beans:beans>

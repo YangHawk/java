@@ -1,7 +1,5 @@
 package xyz.itwill10.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import lombok.Data;
 
 /*
@@ -27,5 +25,6 @@ public class FileBoard {
 	private String upload;
 
 	// 사용자로부터 입력되어 전달된 파일 정보를 저장하기 위한 필드 - TABLE로 사용하진 않음!
-	private MultipartFile multipartFile;
+	// ▶ 요청 처리 메소드의 매개 변수로 전달 파일을 제공받아 저장 가능
+	// private MultipartFile multipartFile;
 }

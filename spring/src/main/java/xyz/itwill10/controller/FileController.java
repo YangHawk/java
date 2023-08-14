@@ -117,6 +117,7 @@ public class FileController {
 	}
 
 	// 전달 파일이 여러 개인 경우 매개 변수를 List 인터페이스로 선언하여 전달 파일이 저장된 MultipartFile 객첼가 여러 개 저장된 List 객체로 제공받아 처리
+	// ▶ List 인터페이스 대신 배열을 사용하여 여러 개의 전달 파일을 배열로 제공받아 저장 가능
 	@RequestMapping(value = "/upload2", method = RequestMethod.POST)
 	public String uploadTwo(@RequestParam String uploaderName, @RequestParam List<MultipartFile> uploadFileList, Model model) throws IOException {
 		String uploadDirectory = context.getServletContext().getRealPath("/resources/images/upload");
@@ -152,8 +153,8 @@ public class FileController {
 	}
 	
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String fileBoardWrite(@ModelAttribute FileBoard fileBoard) throws IllegalStateException, IOException {
-		if(fileBoard.getMultipartFile().isEmpty()) {
+	public String fileBoardWrite(@ModelAttribute FileBoard fileBoard, @RequestParam MultipartFile multipartFile) throws IllegalStateException, IOException {
+		if(multipartFile.isEmpty()) {
 			return "file/board_write";
 		}
 		
@@ -162,17 +163,19 @@ public class FileController {
 		String uploadDirectory = context.getServletContext().getRealPath("/WEB-INF/upload");
 		
 		// 사용자로부터 입력받아 전달받은 파일의 이름을 반환받아 Command 객체의 필드값 변경
-		String orgin=fileBoard.getMultipartFile().getOriginalFilename();
-		fileBoard.setOrigin(orgin);
+		// String origin=fileBoard.getMultipartFile().getOriginalFilename();
+		String origin=multipartFile.getOriginalFilename();
+		fileBoard.setOrigin(origin);
 		
 		// 서버 디렉토리에 업로드 처리되어 저장된 파일의 이름을 반환받아 Command 객체의 필드값 변경
 		// ▶ 서버 디렉토리에 저장된 파일 이름은 중복되지 않도록 고유값 사용
 		// ▶ 중복되지 않는 고유값으로 시스템의 현재 날짜와 시간에 대한 정수값(TimeStamp)을 사용
-		String upload = System.currentTimeMillis()+"";
+		String upload=System.currentTimeMillis()+"";
 		fileBoard.setUpload(upload);
 		
 		// 파일 업로드 처리
-		fileBoard.getMultipartFile().transferTo(new File(uploadDirectory, upload));
+		// fileBoard.getMultipartFile().transferTo(new File(uploadDirectory, upload));
+		multipartFile.transferTo(new File(uploadDirectory, upload));
 		
 		// FILEBOARD 테이블에 행 삽입
 		fileBoardService.addFileBoard(fileBoard);
@@ -181,8 +184,42 @@ public class FileController {
 	}
 		
 	@RequestMapping("/list")
-	public String fileBoardList(Model model) {
+	public String fileBoardList(@RequestParam(defaultValue = "1") int pageNum, Model model) {
+		model.addAttribute("fileBoardList", fileBoardService.getFileBoardList());
+		// System.out.println("pageNum = " + pageNum);
+		
+		
+		
 		model.addAttribute("fileBoardList", fileBoardService.getFileBoardList());
 		return "file/board_list";
+	}
+	
+	@RequestMapping("/delete")
+	public String fileBoardDelete(@RequestParam int idx) {
+		FileBoard fileBoard = fileBoardService.getFileBoard(idx);
+		String uploadDirectory = context.getServletContext().getRealPath("/WEB-INF/upload");
+		// 서버 디렉토리에 저장된 업로드 파일을 삭제 처리
+		new File(uploadDirectory, fileBoard.getUpload()).delete();
+		fileBoardService.removeFileBoard(idx);
+		return "redirect:/file/list";
+	}
+	
+	// 다운로드(Download): 서버 디렉토리에 존재하는 파일을 클라이언트에게 전달하여 저장하는 기능
+	// 요청 처리 메소드에 의하여 반환되는 문자열(ViewName)로 다운로드 프로그램을 실행하여 서버 디렉토리에 저장된 파일을 클라이언트에게 전달되도록 응답 처리
+	// ▶ BeanNameViewResolver 객체를 사용하여 반환되는 문자열(ViewName)로 특정 프로그램 실행
+	// ▶ Spring Bean Configuration File(servlet-context.xml)에 BeanNameViewResolver 클래스를 Spring Bean으로 등록
+	// ▶ 현재 사용 중인 ViewResolver 객체(JSP 문서로 응답 처리)보다 먼저 실행될 수 있도록 우선권 설정
+	@RequestMapping("/download")
+	public String fileBoardDownload(@RequestParam int idx, Model model) {
+		FileBoard fileBoard = fileBoardService.getFileBoard(idx);
+		
+		// Model 객체를 이용하여 실행될 프로그램(Spring Bean)에서 사용될 객체를 속성값으로 저장
+		model.addAttribute("uploadDirectory", context.getServletContext().getRealPath("/WEB-INF/upload"));
+		model.addAttribute("originalFilename", fileBoard.getOrigin());
+		model.addAttribute("uploadFilename", fileBoard.getUpload());
+		
+		// 실행될 프로그램(Spring Bean)의 식별자(beanName) 반환
+		// ▶ 실행될 프로그램에 대한 클래스를 작성하여 Spring Bean Configuration File(servlet-context.xml)에 Spring Bean으로 등록해야 함 - @Component 어노테이션 사용 가능
+		return "fileDownload";
 	}
 }

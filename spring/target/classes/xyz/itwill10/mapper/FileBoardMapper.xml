@@ -8,15 +8,23 @@
 		insert into fileboard values(#{idx}, #{writer}, #{subject}, #{origin}, #{upload})
 	</insert>
 	
-	<delete id="delectFileBoard">
+	<delete id="deleteFileBoard">
 		delete from fileboard where idx=#{idx}
 	</delete>
+	
 	
 	<select id="selectFileBoard" resultType="FileBoard">
 		select idx, writer, subject, origin, upload from fileboard where idx=#{idx}
 	</select>
-	
+
 	<select id="selectFileBoardList" resultType="FileBoard">
-		select idx, writer, subject, origin, upload from fileboard order by idx desc
+		select * from (select rownum rn, board.* from (select idx, writer, subject, origin,
+		upload from fileboard order by idx desc) board) where rn between
+		#{startRow} and #{endRow}
 	</select>
+
+	<select id="selectFileBoardCount" resultType="int">
+		select count(*) from fileboard
+	</select>
+	
 </mapper>
