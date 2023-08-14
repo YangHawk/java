@@ -15,7 +15,7 @@
 		<tr>
 			<td>작성자</td>
 			<td><input type="text" name="writer" value="${fileBoard.write }"></td>
-		</tr>
+		</tr> 
 		<tr>
 			<td>제목</td>
 			<td><input type="text" name="subject" value="${fileBoard.subject }"></td>
