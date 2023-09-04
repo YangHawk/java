@@ -22,7 +22,6 @@
 	min-height: 450px;
 	margin: 10px;
 	padding: 10px;
-	text-align: center;
 }
 
 #footer {

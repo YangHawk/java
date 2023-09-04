@@ -76,6 +76,7 @@ public class RestBoardController {
 	// ▶ [application/json] 형식의 문자열로 전달된 게시글을 Java 객체로 제공받아 매개 변수에 저장하기 위하여 @RequestBody 어노테이션을 사용
 	@PutMapping("/board_modify")
 	public String restBoardModify(@RequestBody RestBoard restBoard) {
+		restBoard.setContent(HtmlUtils.htmlEscape(restBoard.getContent()));
 		restBoardService.modifyRestBoard(restBoard);
 		return "success";
 	}
