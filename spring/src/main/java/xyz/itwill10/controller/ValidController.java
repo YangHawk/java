@@ -21,7 +21,6 @@ import xyz.itwill10.dto.Employee;
 // 2. HTML 태그 대신 Spring 태그를 사용하여 페이지 요청 시 입력값이 전달되도록 뷰 작성
 // 3. Controller 클래스의 요청 처리 메소드에서 전달값이 저장된 Command 객체를 저장하는 매개 변수에 @Valid 어노테이션을 사용하여 Command 객체를 생성하는 VO 클래스에서 유효성 검증이 되도록 설정
 
-
 @Controller
 @RequestMapping("/valid")
 public class ValidController {

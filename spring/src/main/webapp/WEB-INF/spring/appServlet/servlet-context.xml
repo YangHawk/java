@@ -168,7 +168,7 @@
 	<!-- 메세지 처리 기능을 제공하는 클래스를 Spring Bean으로 등록 -->
 	<!-- ▶ Spring Bean의 식별자(beanName)를 반드시 [messageSource]로 설정 -->
 	<beans:bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" id="messageSource">
-		<!-- basenames 필드에 List 객체를 생성하여 Injection 처리 -->
+		<!-- basenames 필드에 List 객체를 생성하여 저장되도록 Injection 처리(의존성 주입) -->
 		<!-- ▶ List 객체의 요소에는 메세지가 저장된 Properties 파일의 경로를 저장 -->
 		<beans:property name="basenames">
 			<beans:list>
