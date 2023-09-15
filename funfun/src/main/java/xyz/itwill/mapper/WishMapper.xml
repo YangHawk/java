@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.itwill.mapper.WishMapper">
+	<insert id="insertWish">
+		<selectKey resultType="int" keyProperty="idx" order="BEFORE">
+			SELECT WISH_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO WISH(
+			IDX,
+			FESTIVAL_IDX,
+			ACCOUNT_ID
+		)VALUES(
+			#{idx},
+			#{festivalIdx},
+			#{accountId}
+		)
+	</insert>
+	
+	<delete id="deleteWish" parameterType="hashMap">
+		DELETE FROM WISH
+		WHERE FESTIVAL_IDX = #{arg0} AND ACCOUNT_ID = #{arg1}
+	</delete>
+	
+	<select id="selectWishCount" resultType="Wish">
+		SELECT
+			FESTIVAL_IDX,
+			COUNT(*) AS WISH_COUNT
+		FROM WISH
+		WHERE FESTIVAL_IDX = #{festivalIdx}
+		GROUP BY FESTIVAL_IDX
+	</select>
+	
+	<select id="selectMyWishFestival" parameterType="hashMap" resultType="Wish">
+		SELECT
+			IDX,
+			FESTIVAL_IDX,
+			ACCOUNT_ID
+		FROM WISH
+		WHERE FESTIVAL_IDX = #{arg0} AND ACCOUNT_ID = #{arg1}
+	</select>
+	
+	<select id="selectMyWishList" resultType="Wish">
+		SELECT
+			IDX,
+			FESTIVAL_IDX,
+			ACCOUNT_ID
+		FROM WISH
+		WHERE ACCOUNT_ID = #{accountId}
+	</select>
+	
+	<!-- 추가 : 08-29 -->
+	<select id="selectMyWishCount" resultType="int">
+		SELECT
+			COUNT(*) AS WISH_COUNT
+		FROM WISH
+		WHERE ACCOUNT_ID = #{accountId}
+	</select>
+	
+	<!-- 추가 -->
+	<!-- WISH 목록 조회 -->
+    <select id="selectWishList" resultType="Wish">
+        SELECT * FROM (
+          SELECT ROWNUM RN, BOARD.* FROM (
+          	SELECT
+            	W.IDX,
+             	W.ACCOUNT_ID,
+             	W.FESTIVAL_IDX, 
+             	F.SUBJECT, 
+             	F.MAIN_IMG 
+            FROM WISH W JOIN (
+            	SELECT
+            		IDX,
+            		SUBJECT,
+            		MAIN_IMG
+            	FROM FESTIVAL
+            ) F ON W.FESTIVAL_IDX = F.IDX 
+            WHERE ACCOUNT_ID = #{accountId}
+            ORDER BY W.IDX DESC
+          ) BOARD
+      ) WHERE RN BETWEEN #{startRow} and #{endRow}<!-- 페이징 처리 -->
+    </select>
+</mapper>

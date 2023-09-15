@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.itwill.mapper.DonationMapper">
+   <!-- 후원 결제하기를 누르면 state는 결제 대기(2)로 insert 되도록 작성 -->
+   <insert id="insertDonation">
+      <selectKey resultType="int" keyProperty="idx" order="BEFORE">
+         SELECT DONATION_SEQ.NEXTVAL FROM DUAL
+      </selectKey>
+      INSERT INTO DONATION(
+         IDX, 
+         FESTIVAL_IDX,
+         ACCOUNT_ID,
+         MONEY,
+         DAY,
+         STATE,
+         PAY_TYPE,
+         REFUND_ACCOUNT,
+         REFUND_BANK
+      )VALUES(
+         #{idx},
+         #{festivalIdx},
+         #{accountId},
+         #{money},
+         sysdate,
+         2,
+         #{payType},
+         #{refundAccount},
+         #{refundBank}
+      )
+   </insert>
+   <!-- 변경 -->
+   <select id="selectDonation" resultType="Donation">
+      SELECT
+         IDX, 
+         FESTIVAL_IDX,
+         ACCOUNT_ID,
+         MONEY,
+         TO_CHAR(DAY,'YYYY-MM-DD') AS DAY,
+         STATE,
+         TO_CHAR(CANCLE_DAY,'YYYY-MM-DD') AS CANCLE_DAY,
+         TO_CHAR(PAY_DAY,'YYYY-MM-DD') AS PAY_DAY,
+         PAY_TYPE,
+         REFUND_ACCOUNT,
+         REFUND_BANK
+      FROM DONATION
+      WHERE ACCOUNT_ID = #{arg0} AND FESTIVAL_IDX = #{arg1}
+   </select>
+   
+   <select id="selectMyDonationCount" resultType="int">
+      SELECT
+         COUNT(*) AS DONATION_COUNT
+      FROM DONATION
+      WHERE ACCOUNT_ID = #{accountId}
+   </select>
+   
+   <!-- WISH 목록 조회 -->
+    <select id="selectMyDonationList" resultType="Donation">
+        SELECT * FROM (
+          SELECT ROWNUM RN, BOARD.* FROM (
+             SELECT
+               D.IDX, 
+            D.FESTIVAL_IDX,
+            D.ACCOUNT_ID,
+            D.MONEY,
+            TO_CHAR(DAY,'yyyy-mm-dd') AS DAY,
+            D.STATE,
+            TO_CHAR(CANCLE_DAY,'yyyy-mm-dd') AS CANCLE_DAY,
+            TO_CHAR(PAY_DAY,'yyyy-mm-dd') AS PAY_DAY,
+            D.PAY_TYPE,
+            D.REFUND_ACCOUNT,
+            D.REFUND_BANK,
+            F.SUBJECT,
+            F.MAIN_IMG
+            FROM DONATION D JOIN (
+               SELECT
+                  IDX,
+                  SUBJECT,
+                  MAIN_IMG
+               FROM FESTIVAL
+            ) F ON D.FESTIVAL_IDX = F.IDX 
+            WHERE ACCOUNT_ID = #{accountId}
+            ORDER BY D.IDX DESC
+          ) BOARD
+      ) WHERE RN BETWEEN #{startRow} and #{endRow}<!-- 페이징 처리 -->
+    </select>
+
+</mapper>

@@ -1,0 +1,1187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.itwill.mapper.FestivalMapper">
+   <!-- STATE 컬럼에 DEFAULT 0(승인 전)값이 저장되도록 작성 -->
+   <insert id="insertFestival">
+      <selectKey resultType="int" keyProperty="idx" order="BEFORE">
+         SELECT FESTIVAL_SEQ.NEXTVAL FROM DUAL
+      </selectKey>
+      INSERT INTO FESTIVAL (
+         IDX,
+         ACCOUNT_ID,
+         SUBJECT,
+         SITE,
+         START_DAY,
+         END_DAY,
+         ADDRESS1,
+         ADDRESS2,
+         ADDRESS3,
+         HOST,
+         MAIN_IMG,
+         SUB_IMG,
+         TARGET,
+         FUNDING_START,
+         FUNDING_END,
+         STATE,
+         OPTION1,
+         OPTION2,
+         OPTION3,
+         OPTION4,
+         INDEX_SHOW1,
+         INDEX_SHOW2
+      )VALUES(
+         #{idx},
+         #{accountId},
+         #{subject},
+         #{site},
+         #{startDay},
+         #{endDay},
+         #{address1},
+         #{address2},
+         #{address3},
+         #{host},
+         #{mainImg},
+         #{subImg},
+         #{target},
+         #{fundingStart},
+         #{fundingEnd},
+         0,
+         #{option1},
+         #{option2},
+         #{option3},
+         #{option4},
+         0,
+         0
+      )
+   </insert>
+   
+   <!-- 사용자가 festival 정보를 변경하도록 하는 update 문 : state는 admin만 수정 가능 -->
+   <update id="updateFestival">
+      UPDATE FESTIVAL
+      SET SUBJECT = #{subject},
+         SITE = #{site},
+         START_DAY = #{startDay},
+         END_DAY = #{endDay},
+         ADDRESS1 = #{address1},
+         ADDRESS2 = #{address2},
+         ADDRESS3 = #{address3},
+         HOST = #{host},
+         MAIN_IMG = #{mainImg},
+         SUB_IMG = #{subImg},
+         TARGET = #{target},
+         FUNDING_START = #{fundingStart}, 
+         FUNDING_END = #{fundingEnd},
+         OPTION1 = #{option1},
+         OPTION2 = #{option2},
+         OPTION3 = #{option3},
+         OPTION4 = #{option4}
+      WHERE IDX = #{idx}
+   </update>
+   
+   <!-- festival 상태(승인전, 펀딩예정, 펀딩진행중, 펀딩종료, 펀딩삭제)를 변경하기 위한 update문을 따로 작성 -->
+   <update id="updateFestivalState">
+      UPDATE FESTIVAL
+      SET STATE = #{state}
+      WHERE IDX = #{idx}
+   </update>
+   
+   <select id="selectFestival" resultType="Festival">
+      SELECT 
+         F.IDX, 
+         F.ACCOUNT_ID, 
+         F.SUBJECT, 
+         F.SITE,
+         TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+         TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+         F.ADDRESS1,
+         F.ADDRESS2,
+         F.ADDRESS3,
+         F.HOST,
+         F.MAIN_IMG,
+         F.SUB_IMG,
+         F.TARGET,
+         TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+         TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+         F.STATE,
+         F.OPTION1,
+         F.OPTION2,
+         F.OPTION3,
+         F.OPTION4,
+         D.COLLECTED,
+         D.SPONSOR,
+         ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+      FROM FESTIVAL F LEFT JOIN (
+         SELECT
+            FESTIVAL_IDX,
+            SUM(MONEY) AS COLLECTED,
+            COUNT(*) AS SPONSOR
+         FROM DONATION GROUP BY FESTIVAL_IDX
+      ) D ON F.IDX = D.FESTIVAL_IDX
+       WHERE F.IDX=#{idx} 
+   </select>
+
+   <select id="selectFestivalCount" resultType="int">
+    SELECT COUNT(*) FROM (
+        SELECT 
+           F.IDX, 
+           F.ACCOUNT_ID, 
+           F.SUBJECT, 
+             F.SITE,
+              F.START_DAY,
+            F.END_DAY,
+           F.ADDRESS1,
+           F.ADDRESS2,
+           F.ADDRESS3,
+           F.HOST,
+           F.MAIN_IMG,
+           F.SUB_IMG,
+           F.TARGET,
+           F.FUNDING_START,
+            F.FUNDING_END,
+           F.STATE,
+           F.OPTION1,
+           F.OPTION2,
+           F.OPTION3,
+           F.OPTION4,
+           D.COLLECTED,
+           D.SPONSOR,
+         ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+        FROM FESTIVAL F
+        LEFT JOIN (
+            SELECT
+                FESTIVAL_IDX,
+                SUM(MONEY) AS COLLECTED,
+                COUNT(*) AS SPONSOR
+            FROM DONATION
+            GROUP BY FESTIVAL_IDX
+        ) D ON F.IDX = D.FESTIVAL_IDX
+        WHERE
+            <choose>
+                <when test="selectKeyword != null and selectKeyword != ''">
+                    (F.ACCOUNT_ID LIKE '%' || #{selectKeyword} || '%' OR
+                     F.SUBJECT LIKE '%' || #{selectKeyword} || '%' OR
+                     F.SITE LIKE '%' || #{selectKeyword} || '%' OR
+                     F.HOST LIKE '%' || #{selectKeyword} || '%' OR
+                     F.ADDRESS1 LIKE '%' || #{selectKeyword} || '%' OR
+                     F.ADDRESS2 LIKE '%' || #{selectKeyword} || '%' OR
+                     F.ADDRESS3 LIKE '%' || #{selectKeyword} || '%' OR
+                     D.COLLECTED LIKE '%' || #{selectKeyword} || '%' OR
+                     D.SPONSOR LIKE '%' || #{selectKeyword} || '%')
+                </when>
+                <otherwise>
+                    1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+                </otherwise>
+            </choose>
+       )
+   </select>
+   
+   <select id="selectFestivalList" resultType="Festival">
+      SELECT * FROM (
+          SELECT ROWNUM RN, BOARD.* FROM (
+            SELECT 
+               F.IDX,
+               F.ACCOUNT_ID,
+               F.SUBJECT,
+               F.SITE,
+               TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+               TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+               F.ADDRESS1,
+               F.ADDRESS2,
+               F.ADDRESS3,
+               F.HOST,
+               F.MAIN_IMG,
+               F.SUB_IMG,
+               F.TARGET,
+               TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+               TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+               F.STATE,
+               F.OPTION1,
+               F.OPTION2,
+               F.OPTION3,
+               F.OPTION4,
+               D.COLLECTED,
+               D.SPONSOR,
+               ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+            FROM FESTIVAL F LEFT JOIN (
+               SELECT
+                  FESTIVAL_IDX,
+                  SUM(MONEY) AS COLLECTED,
+                  COUNT(*) AS SPONSOR
+               FROM DONATION
+               GROUP BY FESTIVAL_IDX
+            ) D ON F.IDX = D.FESTIVAL_IDX
+         WHERE
+      <choose>
+         <when test="selectKeyword != null and selectKeyword != ''">
+            (F.ACCOUNT_ID LIKE '%' || #{selectKeyword} || '%' OR
+                 F.SUBJECT LIKE '%' || #{selectKeyword} || '%' OR
+                 F.SITE LIKE '%' || #{selectKeyword} || '%' OR
+                 F.START_DAY LIKE '%' || #{selectKeyword} || '%' OR
+                 F.END_DAY LIKE '%' || #{selectKeyword} || '%' OR
+                 F.HOST LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS1 LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS2 LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS3 LIKE '%' || #{selectKeyword} || '%' OR
+                 D.COLLECTED LIKE '%' || #{selectKeyword} || '%' OR
+                 D.SPONSOR LIKE '%' || #{selectKeyword} || '%')
+         </when>
+         <otherwise>
+            1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+         </otherwise>
+      </choose>
+            ORDER BY IDX DESC
+         ) BOARD
+      ) WHERE RN BETWEEN #{startRow} and #{endRow}
+   </select>
+   
+   <select id="selectAllFestivalCount" resultType="int">
+    SELECT COUNT(*) FROM (
+        SELECT 
+           F.IDX, 
+           F.ACCOUNT_ID, 
+           F.SUBJECT, 
+             F.SITE,
+              F.START_DAY,
+            F.END_DAY,
+           F.ADDRESS1,
+           F.ADDRESS2,
+           F.ADDRESS3,
+           F.HOST,
+           F.MAIN_IMG,
+           F.SUB_IMG,
+           F.TARGET,
+           F.FUNDING_START,
+            F.FUNDING_END,
+           F.STATE,
+           F.OPTION1,
+           F.OPTION2,
+           F.OPTION3,
+           F.OPTION4,
+           D.COLLECTED,
+           D.SPONSOR,
+         ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+        FROM FESTIVAL F
+        LEFT JOIN (
+            SELECT
+                FESTIVAL_IDX,
+                SUM(MONEY) AS COLLECTED,
+                COUNT(*) AS SPONSOR
+            FROM DONATION
+            GROUP BY FESTIVAL_IDX
+        ) D ON F.IDX = D.FESTIVAL_IDX
+        WHERE F.STATE IN (1, 2) AND
+            <choose>
+                <when test="selectKeyword != null and selectKeyword != ''">
+                    (F.ACCOUNT_ID LIKE '%' || #{selectKeyword} || '%' OR
+                     F.SUBJECT LIKE '%' || #{selectKeyword} || '%' OR
+                     F.SITE LIKE '%' || #{selectKeyword} || '%' OR
+                     F.HOST LIKE '%' || #{selectKeyword} || '%' OR
+                     F.ADDRESS1 LIKE '%' || #{selectKeyword} || '%' OR
+                     F.ADDRESS2 LIKE '%' || #{selectKeyword} || '%' OR
+                     F.ADDRESS3 LIKE '%' || #{selectKeyword} || '%' OR
+                     D.COLLECTED LIKE '%' || #{selectKeyword} || '%' OR
+                     D.SPONSOR LIKE '%' || #{selectKeyword} || '%')
+                </when>
+                <otherwise>
+                    1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+                </otherwise>
+            </choose>
+       )
+   </select>
+   
+   <select id="selectAllFestivalList" resultType="Festival">
+      SELECT * FROM (
+          SELECT ROWNUM RN, BOARD.* FROM (
+            SELECT 
+               F.IDX,
+               F.ACCOUNT_ID,
+               F.SUBJECT,
+               F.SITE,
+               TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+               TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+               F.ADDRESS1,
+               F.ADDRESS2,
+               F.ADDRESS3,
+               F.HOST,
+               F.MAIN_IMG,
+               F.SUB_IMG,
+               F.TARGET,
+               TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+               TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+               F.STATE,
+               F.OPTION1,
+               F.OPTION2,
+               F.OPTION3,
+               F.OPTION4,
+               D.COLLECTED,
+               D.SPONSOR,
+               ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+            FROM FESTIVAL F LEFT JOIN (
+               SELECT
+                  FESTIVAL_IDX,
+                  SUM(MONEY) AS COLLECTED,
+                  COUNT(*) AS SPONSOR
+               FROM DONATION
+               GROUP BY FESTIVAL_IDX
+            ) D ON F.IDX = D.FESTIVAL_IDX
+         WHERE F.STATE IN (1, 2)
+      <choose>
+         <when test="selectKeyword != null and selectKeyword != ''">
+            AND (F.ACCOUNT_ID LIKE '%' || #{selectKeyword} || '%' OR
+                 F.SUBJECT LIKE '%' || #{selectKeyword} || '%' OR
+                 F.SITE LIKE '%' || #{selectKeyword} || '%' OR
+                 F.START_DAY LIKE '%' || #{selectKeyword} || '%' OR
+                 F.END_DAY LIKE '%' || #{selectKeyword} || '%' OR
+                 F.HOST LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS1 LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS2 LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS3 LIKE '%' || #{selectKeyword} || '%' OR
+                 D.COLLECTED LIKE '%' || #{selectKeyword} || '%' OR
+                 D.SPONSOR LIKE '%' || #{selectKeyword} || '%')
+         </when>
+         <otherwise>
+            AND 1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+         </otherwise>
+      </choose>
+            ORDER BY IDX DESC
+         ) BOARD
+      ) WHERE RN BETWEEN #{startRow} and #{endRow}
+   </select>
+   
+   <select id="selectOngoingFestivalCount" resultType="int">
+    SELECT COUNT(*) FROM (
+        SELECT 
+           F.IDX, 
+           F.ACCOUNT_ID, 
+           F.SUBJECT, 
+             F.SITE,
+              F.START_DAY,
+            F.END_DAY,
+           F.ADDRESS1,
+           F.ADDRESS2,
+           F.ADDRESS3,
+           F.HOST,
+           F.MAIN_IMG,
+           F.SUB_IMG,
+           F.TARGET,
+           F.FUNDING_START,
+            F.FUNDING_END,
+           F.STATE,
+           F.OPTION1,
+           F.OPTION2,
+           F.OPTION3,
+           F.OPTION4,
+           D.COLLECTED,
+           D.SPONSOR,
+         ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+        FROM FESTIVAL F
+        LEFT JOIN (
+            SELECT
+                FESTIVAL_IDX,
+                SUM(MONEY) AS COLLECTED,
+                COUNT(*) AS SPONSOR
+            FROM DONATION
+            GROUP BY FESTIVAL_IDX
+        ) D ON F.IDX = D.FESTIVAL_IDX
+        WHERE F.STATE = 2 AND
+            <choose>
+                <when test="selectKeyword != null and selectKeyword != ''">
+                    (F.ACCOUNT_ID LIKE '%' || #{selectKeyword} || '%' OR
+                     F.SUBJECT LIKE '%' || #{selectKeyword} || '%' OR
+                     F.SITE LIKE '%' || #{selectKeyword} || '%' OR
+                     F.HOST LIKE '%' || #{selectKeyword} || '%' OR
+                     F.ADDRESS1 LIKE '%' || #{selectKeyword} || '%' OR
+                     F.ADDRESS2 LIKE '%' || #{selectKeyword} || '%' OR
+                     F.ADDRESS3 LIKE '%' || #{selectKeyword} || '%' OR
+                     D.COLLECTED LIKE '%' || #{selectKeyword} || '%' OR
+                     D.SPONSOR LIKE '%' || #{selectKeyword} || '%')
+                </when>
+                <otherwise>
+                    1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+                </otherwise>
+            </choose>
+       )
+   </select>
+   
+   <select id="selectOngoingFestivalList" resultType="Festival">
+      SELECT * FROM (
+          SELECT ROWNUM RN, BOARD.* FROM (
+            SELECT 
+               F.IDX,
+               F.ACCOUNT_ID,
+               F.SUBJECT,
+               F.SITE,
+               TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+               TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+               F.ADDRESS1,
+               F.ADDRESS2,
+               F.ADDRESS3,
+               F.HOST,
+               F.MAIN_IMG,
+               F.SUB_IMG,
+               F.TARGET,
+               TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+               TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+               F.STATE,
+               F.OPTION1,
+               F.OPTION2,
+               F.OPTION3,
+               F.OPTION4,
+               D.COLLECTED,
+               D.SPONSOR,
+               ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+            FROM FESTIVAL F LEFT JOIN (
+               SELECT
+                  FESTIVAL_IDX,
+                  SUM(MONEY) AS COLLECTED,
+                  COUNT(*) AS SPONSOR
+               FROM DONATION
+               GROUP BY FESTIVAL_IDX
+            ) D ON F.IDX = D.FESTIVAL_IDX
+         WHERE F.STATE = 2
+      <choose>
+         <when test="selectKeyword != null and selectKeyword != ''">
+            AND (F.ACCOUNT_ID LIKE '%' || #{selectKeyword} || '%' OR
+                 F.SUBJECT LIKE '%' || #{selectKeyword} || '%' OR
+                 F.SITE LIKE '%' || #{selectKeyword} || '%' OR
+                 F.START_DAY LIKE '%' || #{selectKeyword} || '%' OR
+                 F.END_DAY LIKE '%' || #{selectKeyword} || '%' OR
+                 F.HOST LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS1 LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS2 LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS3 LIKE '%' || #{selectKeyword} || '%' OR
+                 D.COLLECTED LIKE '%' || #{selectKeyword} || '%' OR
+                 D.SPONSOR LIKE '%' || #{selectKeyword} || '%')
+         </when>
+         <otherwise>
+            AND 1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+         </otherwise>
+      </choose>
+            ORDER BY IDX DESC
+         ) BOARD
+      ) WHERE RN BETWEEN #{startRow} and #{endRow}
+   </select>
+   
+   <select id="selectUpcomingFestivalCount" resultType="int">
+    SELECT COUNT(*) FROM (
+        SELECT 
+           F.IDX, 
+           F.ACCOUNT_ID, 
+           F.SUBJECT, 
+             F.SITE,
+              F.START_DAY,
+            F.END_DAY,
+           F.ADDRESS1,
+           F.ADDRESS2,
+           F.ADDRESS3,
+           F.HOST,
+           F.MAIN_IMG,
+           F.SUB_IMG,
+           F.TARGET,
+           F.FUNDING_START,
+            F.FUNDING_END,
+           F.STATE,
+           F.OPTION1,
+           F.OPTION2,
+           F.OPTION3,
+           F.OPTION4,
+           D.COLLECTED,
+           D.SPONSOR,
+         ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+        FROM FESTIVAL F
+        LEFT JOIN (
+            SELECT
+                FESTIVAL_IDX,
+                SUM(MONEY) AS COLLECTED,
+                COUNT(*) AS SPONSOR
+            FROM DONATION
+            GROUP BY FESTIVAL_IDX
+        ) D ON F.IDX = D.FESTIVAL_IDX
+        WHERE F.STATE = 1 AND
+            <choose>
+                <when test="selectKeyword != null and selectKeyword != ''">
+                    (F.ACCOUNT_ID LIKE '%' || #{selectKeyword} || '%' OR
+                     F.SUBJECT LIKE '%' || #{selectKeyword} || '%' OR
+                     F.SITE LIKE '%' || #{selectKeyword} || '%' OR
+                     F.HOST LIKE '%' || #{selectKeyword} || '%' OR
+                     F.ADDRESS1 LIKE '%' || #{selectKeyword} || '%' OR
+                     F.ADDRESS2 LIKE '%' || #{selectKeyword} || '%' OR
+                     F.ADDRESS3 LIKE '%' || #{selectKeyword} || '%' OR
+                     D.COLLECTED LIKE '%' || #{selectKeyword} || '%' OR
+                     D.SPONSOR LIKE '%' || #{selectKeyword} || '%')
+                </when>
+                <otherwise>
+                    1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+                </otherwise>
+            </choose>
+       )
+   </select>
+   
+   <select id="selectUpcomingFestivalList" resultType="Festival">
+      SELECT * FROM (
+          SELECT ROWNUM RN, BOARD.* FROM (
+            SELECT 
+               F.IDX,
+               F.ACCOUNT_ID,
+               F.SUBJECT,
+               F.SITE,
+               TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+               TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+               F.ADDRESS1,
+               F.ADDRESS2,
+               F.ADDRESS3,
+               F.HOST,
+               F.MAIN_IMG,
+               F.SUB_IMG,
+               F.TARGET,
+               TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+               TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+               F.STATE,
+               F.OPTION1,
+               F.OPTION2,
+               F.OPTION3,
+               F.OPTION4,
+               D.COLLECTED,
+               D.SPONSOR,
+               ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+            FROM FESTIVAL F LEFT JOIN (
+               SELECT
+                  FESTIVAL_IDX,
+                  SUM(MONEY) AS COLLECTED,
+                  COUNT(*) AS SPONSOR
+               FROM DONATION
+               GROUP BY FESTIVAL_IDX
+            ) D ON F.IDX = D.FESTIVAL_IDX
+         WHERE F.STATE = 1
+      <choose>
+         <when test="selectKeyword != null and selectKeyword != ''">
+            AND (F.ACCOUNT_ID LIKE '%' || #{selectKeyword} || '%' OR
+                 F.SUBJECT LIKE '%' || #{selectKeyword} || '%' OR
+                 F.SITE LIKE '%' || #{selectKeyword} || '%' OR
+                 F.START_DAY LIKE '%' || #{selectKeyword} || '%' OR
+                 F.END_DAY LIKE '%' || #{selectKeyword} || '%' OR
+                 F.HOST LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS1 LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS2 LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS3 LIKE '%' || #{selectKeyword} || '%' OR
+                 D.COLLECTED LIKE '%' || #{selectKeyword} || '%' OR
+                 D.SPONSOR LIKE '%' || #{selectKeyword} || '%')
+         </when>
+         <otherwise>
+            AND 1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+         </otherwise>
+      </choose>
+            ORDER BY IDX DESC
+         ) BOARD
+      ) WHERE RN BETWEEN #{startRow} and #{endRow}
+   </select>
+   
+   <select id="selectSponsorFestivalList" resultType="Festival">
+      SELECT * FROM (
+          SELECT ROWNUM RN, BOARD.* FROM (
+            SELECT 
+               F.IDX,
+               F.ACCOUNT_ID,
+               F.SUBJECT,
+               F.SITE,
+               TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+               TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+               F.ADDRESS1,
+               F.ADDRESS2,
+               F.ADDRESS3,
+               F.HOST,
+               F.MAIN_IMG,
+               F.SUB_IMG,
+               F.TARGET,
+               TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+               TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+               F.STATE,
+               F.OPTION1,
+               F.OPTION2,
+               F.OPTION3,
+               F.OPTION4,
+               D.COLLECTED,
+               D.SPONSOR,
+               ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+            FROM FESTIVAL F LEFT JOIN (
+               SELECT
+                  FESTIVAL_IDX,
+                  SUM(MONEY) AS COLLECTED,
+                  COUNT(*) AS SPONSOR
+               FROM DONATION
+               GROUP BY FESTIVAL_IDX
+            ) D ON F.IDX = D.FESTIVAL_IDX
+         WHERE F.STATE IN (1, 2)
+      <choose>
+         <when test="selectKeyword != null and selectKeyword != ''">
+            AND (F.ACCOUNT_ID LIKE '%' || #{selectKeyword} || '%' OR
+                 F.SUBJECT LIKE '%' || #{selectKeyword} || '%' OR
+                 F.SITE LIKE '%' || #{selectKeyword} || '%' OR
+                 F.START_DAY LIKE '%' || #{selectKeyword} || '%' OR
+                 F.END_DAY LIKE '%' || #{selectKeyword} || '%' OR
+                 F.HOST LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS1 LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS2 LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS3 LIKE '%' || #{selectKeyword} || '%' OR
+                 D.COLLECTED LIKE '%' || #{selectKeyword} || '%' OR
+                 D.SPONSOR LIKE '%' || #{selectKeyword} || '%')
+         </when>
+         <otherwise>
+            AND 1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+         </otherwise>
+      </choose>
+            ORDER BY D.SPONSOR DESC NULLS LAST
+         ) BOARD
+      ) WHERE RN BETWEEN #{startRow} and #{endRow}
+   </select>
+   
+   <select id="selectCollectedFestivalList" resultType="Festival">
+      SELECT * FROM (
+          SELECT ROWNUM RN, BOARD.* FROM (
+            SELECT 
+               F.IDX,
+               F.ACCOUNT_ID,
+               F.SUBJECT,
+               F.SITE,
+               TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+               TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+               F.ADDRESS1,
+               F.ADDRESS2,
+               F.ADDRESS3,
+               F.HOST,
+               F.MAIN_IMG,
+               F.SUB_IMG,
+               F.TARGET,
+               TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+               TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+               F.STATE,
+               F.OPTION1,
+               F.OPTION2,
+               F.OPTION3,
+               F.OPTION4,
+               D.COLLECTED,
+               D.SPONSOR,
+               ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+            FROM FESTIVAL F LEFT JOIN (
+               SELECT
+                  FESTIVAL_IDX,
+                  SUM(MONEY) AS COLLECTED,
+                  COUNT(*) AS SPONSOR
+               FROM DONATION
+               GROUP BY FESTIVAL_IDX
+            ) D ON F.IDX = D.FESTIVAL_IDX
+         WHERE F.STATE IN (1, 2)
+      <choose>
+         <when test="selectKeyword != null and selectKeyword != ''">
+            AND (F.ACCOUNT_ID LIKE '%' || #{selectKeyword} || '%' OR
+                 F.SUBJECT LIKE '%' || #{selectKeyword} || '%' OR
+                 F.SITE LIKE '%' || #{selectKeyword} || '%' OR
+                 F.START_DAY LIKE '%' || #{selectKeyword} || '%' OR
+                 F.END_DAY LIKE '%' || #{selectKeyword} || '%' OR
+                 F.HOST LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS1 LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS2 LIKE '%' || #{selectKeyword} || '%' OR
+                 F.ADDRESS3 LIKE '%' || #{selectKeyword} || '%' OR
+                 D.COLLECTED LIKE '%' || #{selectKeyword} || '%' OR
+                 D.SPONSOR LIKE '%' || #{selectKeyword} || '%')
+         </when>
+         <otherwise>
+            AND 1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+         </otherwise>
+      </choose>
+            ORDER BY D.COLLECTED DESC NULLS LAST
+         ) BOARD
+      ) WHERE RN BETWEEN #{startRow} and #{endRow}
+   </select>
+   
+   <!-- 메인화면에 출력될 진행중인 영화제 8개 검색 -->
+   <select id="selectOngoingFestival" resultType="Festival">
+      SELECT * 
+      FROM
+         (SELECT
+            F.IDX,
+            F.ACCOUNT_ID,
+            F.SUBJECT,
+            F.SITE,
+            TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+         TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+            F.ADDRESS1,
+            F.ADDRESS2,
+            F.ADDRESS3,
+            F.HOST,
+            F.MAIN_IMG,
+            F.SUB_IMG,
+            F.TARGET,
+            TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+         TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+            F.STATE,
+            F.OPTION1,
+            F.OPTION2,
+            F.OPTION3,
+            F.OPTION4,
+            D.COLLECTED,
+            D.SPONSOR,
+         ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+         FROM FESTIVAL F LEFT JOIN (
+            SELECT
+               FESTIVAL_IDX,
+               SUM(MONEY) AS COLLECTED,
+               COUNT(*) AS SPONSOR
+            FROM DONATION
+            GROUP BY FESTIVAL_IDX
+         ) D ON F.IDX = D.FESTIVAL_IDX
+         WHERE F.STATE = 2 AND SYSDATE BETWEEN FUNDING_START AND FUNDING_END 
+         ORDER BY DBMS_RANDOM.VALUE)
+      WHERE ROWNUM <![CDATA[ <= ]]> 8
+   </select>
+
+   <!-- 메인화면에 상태가 6인 영화제 3개 랜덤으로 검색 -->
+   <!-- 
+   <select id="selectIndexMainFestival" resultType="Festival">
+      SELECT * 
+      FROM
+         (SELECT
+            F.IDX,
+            F.ACCOUNT_ID,
+            F.SUBJECT,
+            F.SITE,
+            TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+         TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+            F.ADDRESS1,
+            F.ADDRESS2,
+            F.ADDRESS3,
+            F.HOST,
+            F.MAIN_IMG,
+            F.SUB_IMG,
+            F.TARGET,
+            TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+         TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+            F.STATE,
+            F.OPTION1,
+            F.OPTION2,
+            F.OPTION3,
+            F.OPTION4,
+            D.COLLECTED,
+            D.SPONSOR
+         FROM FESTIVAL F LEFT JOIN (
+            SELECT
+               FESTIVAL_IDX,
+               SUM(MONEY) AS COLLECTED,
+               COUNT(*) AS SPONSOR
+            FROM DONATION
+            GROUP BY FESTIVAL_IDX
+         ) D ON F.IDX = D.FESTIVAL_IDX
+         WHERE F.STATE = 6
+         ORDER BY DBMS_RANDOM.VALUE)
+      WHERE ROWNUM <![CDATA[ <= ]]> 3
+   </select>
+   -->
+   
+   <update id="autoUpdateFestivalState">
+      UPDATE FESTIVAL
+      SET STATE = 
+        CASE 
+          WHEN SYSDATE <![CDATA[<]]> FUNDING_START THEN 1
+          WHEN SYSDATE BETWEEN FUNDING_START AND FUNDING_END THEN 2
+          WHEN SYSDATE <![CDATA[>]]> FUNDING_END THEN 3
+        END
+      WHERE STATE NOT IN (0, 4)
+   </update>
+   
+   <update id="updateFestivalIndexShow1To0">
+       <!-- 모든 아이템의 index_show 값을 0으로 초기화 -->
+       UPDATE FESTIVAL SET INDEX_SHOW1 = 0
+   </update>
+   
+   <update id="updateFestivalIndexShow1To1" parameterType="list">
+       <choose>
+           <when test="list != null and list.size() > 0">
+               <!-- list가 null이 아니고 비어있지 않은 경우에만 실행 -->
+               UPDATE FESTIVAL SET INDEX_SHOW1 = 1
+               WHERE IDX IN
+               <foreach collection="list" item="idx" open="(" separator="," close=")">
+                   #{idx}
+               </foreach>
+           </when>
+           <otherwise>
+               <!-- list가 null인 경우 아무 작업도 수행하지 않음 -->
+               <!-- 예를 들어, WHERE IDX IN 다음 내용을 생략 -->
+               UPDATE FESTIVAL SET INDEX_SHOW1 = 0
+           </otherwise>
+       </choose>
+   </update>
+
+   <update id="updateFestivalIndexShow2To0">
+       <!-- 모든 아이템의 index_show 값을 0으로 초기화 -->
+       UPDATE FESTIVAL SET INDEX_SHOW2 = 0
+   </update>
+   
+   <update id="updateFestivalIndexShow2To1" parameterType="list">
+       <choose>
+           <when test="list != null and list.size() > 0">
+               <!-- list가 null이 아니고 비어있지 않은 경우에만 실행 -->
+               UPDATE FESTIVAL SET INDEX_SHOW2 = 1
+               WHERE IDX IN
+               <foreach collection="list" item="idx" open="(" separator="," close=")">
+                   #{idx}
+               </foreach>
+           </when>
+           <otherwise>
+               <!-- list가 null인 경우 아무 작업도 수행하지 않음 -->
+               <!-- 예를 들어, WHERE IDX IN 다음 내용을 생략 -->
+               UPDATE FESTIVAL SET INDEX_SHOW2 = 0
+           </otherwise>
+       </choose>
+   </update>
+   
+   <!-- 현재 상영 중인 영화제 중 INDEX_SHOW1 = 1인 영화제 3개 검색 -->
+   <select id="selectIndexMainFestival" resultType="Festival">
+      SELECT * 
+      FROM
+         (SELECT
+            F.IDX,
+            F.ACCOUNT_ID,
+            F.SUBJECT,
+            F.SITE,
+            TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+         TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+            F.ADDRESS1,
+            F.ADDRESS2,
+            F.ADDRESS3,
+            F.HOST,
+            F.MAIN_IMG,
+            F.SUB_IMG,
+            F.TARGET,
+            TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+         TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+            F.STATE,
+            F.OPTION1,
+            F.OPTION2,
+            F.OPTION3,
+            F.OPTION4,
+            F.INDEX_SHOW1,
+            D.COLLECTED,
+            D.SPONSOR,
+            ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE,
+			TO_CHAR((F.FUNDING_END) - TRUNC(SYSDATE)) AS DEADLINE        
+         FROM FESTIVAL F LEFT JOIN (
+            SELECT
+               FESTIVAL_IDX,
+               SUM(MONEY) AS COLLECTED,
+               COUNT(*) AS SPONSOR
+            FROM DONATION
+            GROUP BY FESTIVAL_IDX
+         ) D ON F.IDX = D.FESTIVAL_IDX
+         WHERE F.STATE = 2 AND F.INDEX_SHOW1 = 1
+         ORDER BY DBMS_RANDOM.VALUE)
+      WHERE ROWNUM <![CDATA[ <= ]]> 3
+   </select>
+   
+   <!-- 현재 상영 중인 영화제 중 마감 임박(일주일 전)인 영화제 검색 -->
+   <select id="selectMainFestivalList" resultType="Festival">
+      SELECT * FROM (
+         SELECT ROWNUM RN, BOARD.* FROM (
+         SELECT 
+            F.IDX,
+            F.ACCOUNT_ID,
+            F.SUBJECT,
+            F.SITE,
+            TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+            TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+            F.ADDRESS1,
+            F.ADDRESS2,
+            F.ADDRESS3,
+            F.HOST,
+            F.MAIN_IMG,
+            F.SUB_IMG,
+            F.TARGET,
+            TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+            TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+            F.STATE,
+            F.OPTION1,
+            F.OPTION2,
+            F.OPTION3,
+            F.OPTION4,
+            F.INDEX_SHOW1,
+            D.COLLECTED,
+               D.SPONSOR,
+            ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+              FROM FESTIVAL F LEFT JOIN (
+                 SELECT
+                  FESTIVAL_IDX,
+                  SUM(MONEY) AS COLLECTED,
+                  COUNT(*) AS SPONSOR
+               FROM DONATION
+               GROUP BY FESTIVAL_IDX
+            ) D ON F.IDX = D.FESTIVAL_IDX
+           WHERE
+              F.STATE = 2 
+           ORDER BY F.FUNDING_END
+      ) BOARD
+   ) WHERE RN BETWEEN #{startRow} and #{endRow}
+   </select>
+   
+   <!-- 그 행의 수! -->
+   <select id="selectMainFestivalCount" resultType="int">
+    SELECT COUNT(*) FROM (
+        SELECT 
+         F.IDX,
+         F.ACCOUNT_ID,
+         F.SUBJECT,
+         F.SITE,
+         TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+         TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+         F.ADDRESS1,
+         F.ADDRESS2,
+         F.ADDRESS3,
+         F.HOST,
+         F.MAIN_IMG,
+         F.SUB_IMG,
+         F.TARGET,
+         TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+         TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+         F.STATE,
+         F.OPTION1,
+         F.OPTION2,
+         F.OPTION3,
+         F.OPTION4,
+         F.INDEX_SHOW1,
+         D.COLLECTED,
+             D.SPONSOR,
+         ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+          FROM FESTIVAL F LEFT JOIN (
+             SELECT
+                FESTIVAL_IDX,
+                SUM(MONEY) AS COLLECTED,
+                COUNT(*) AS SPONSOR
+             FROM DONATION
+             GROUP BY FESTIVAL_IDX
+        ) D ON F.IDX = D.FESTIVAL_IDX
+        WHERE 
+           F.STATE = 2)
+   </select>
+   
+   <!-- 현재 상영 중인 영화제 중 INDEX_SHOW2 = 1(기대평 많은 순)인 영화제 검색 3개 검색 -->
+   <select id="selectIndexExpectFestival" resultType="Festival">
+      SELECT * 
+      FROM (
+          SELECT
+              F.IDX,
+              F.ACCOUNT_ID,
+              F.SUBJECT,
+              F.SITE,
+              TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+              TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+              F.ADDRESS1,
+              F.ADDRESS2,
+              F.ADDRESS3,
+              F.HOST,
+              F.MAIN_IMG,
+              F.SUB_IMG,
+              F.TARGET,
+              TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+              TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+              F.STATE,
+              F.OPTION1,
+              F.OPTION2,
+              F.OPTION3,
+              F.OPTION4,
+              F.INDEX_SHOW2,
+              D.COLLECTED,
+              D.SPONSOR,
+            E.AVGSTAR,              
+              E.SPONSOR2,
+            ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+          FROM FESTIVAL F 
+          LEFT JOIN (
+              SELECT
+                  FESTIVAL_IDX,
+                  SUM(MONEY) AS COLLECTED,
+                  COUNT(*) AS SPONSOR
+              FROM DONATION
+              GROUP BY FESTIVAL_IDX
+          ) D ON F.IDX = D.FESTIVAL_IDX
+          LEFT JOIN (
+              SELECT
+                  FESTIVAL_IDX,
+               AVG(STAR) AS AVGSTAR,
+                  COUNT(*) AS SPONSOR2
+              FROM EXPECT
+              GROUP BY FESTIVAL_IDX
+          ) E ON F.IDX = E.FESTIVAL_IDX
+          WHERE F.STATE = 2 AND F.INDEX_SHOW2 = 1
+          ORDER BY DBMS_RANDOM.VALUE
+      )
+      WHERE ROWNUM <![CDATA[ <= ]]> 3
+   </select>
+   
+   <!-- 상영 중인 영화제 중 기대평이 있는 영화제 검색 - 기대평의 평균 별점 순으로 -->
+   <select id="selectExpectFestivalList" resultType="Festival">
+      SELECT * FROM (
+         SELECT ROWNUM RN, BOARD.* FROM (
+         SELECT 
+            F.IDX,
+            F.ACCOUNT_ID,
+            F.SUBJECT,
+            F.SITE,
+            TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+            TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+            F.ADDRESS1,
+            F.ADDRESS2,
+            F.ADDRESS3,
+            F.HOST,
+            F.MAIN_IMG,
+            F.SUB_IMG,
+            F.TARGET,
+            TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+            TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+            F.STATE,
+            F.OPTION1,
+            F.OPTION2,
+            F.OPTION3,
+            F.OPTION4,
+            F.INDEX_SHOW2,
+            E.AVGSTAR
+         FROM FESTIVAL F LEFT JOIN (
+            SELECT
+               FESTIVAL_IDX,
+               AVG(STAR) AS AVGSTAR
+            FROM EXPECT
+            GROUP BY FESTIVAL_IDX
+         ) E ON F.IDX = E.FESTIVAL_IDX
+      WHERE F.STATE = 2 AND AVGSTAR IS NOT NULL ORDER BY AVGSTAR DESC
+      ) BOARD
+   ) WHERE RN BETWEEN #{startRow} and #{endRow}
+   </select>
+   
+   <!-- 그 행의 수! -->
+   <select id="selectExpectFestivalCount" resultType="int">
+    SELECT COUNT(*) FROM (
+        SELECT
+           F.IDX,
+         F.ACCOUNT_ID,
+         F.SUBJECT,
+         F.SITE,
+         TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+         TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+         F.ADDRESS1,
+         F.ADDRESS2,
+         F.ADDRESS3,
+         F.HOST,
+         F.MAIN_IMG,
+         F.SUB_IMG,
+         F.TARGET,
+         TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+         TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+         F.STATE,
+         F.OPTION1,
+         F.OPTION2,
+         F.OPTION3,
+         F.OPTION4,
+         F.INDEX_SHOW2,
+         E.AVGSTAR
+      FROM FESTIVAL F LEFT JOIN (
+         SELECT
+            FESTIVAL_IDX,
+            AVG(STAR) AS AVGSTAR
+         FROM EXPECT
+         GROUP BY FESTIVAL_IDX
+      ) E ON F.IDX = E.FESTIVAL_IDX
+   WHERE F.STATE = 2 AND AVGSTAR IS NOT NULL
+      )
+   </select>
+   
+   <!-- 등록자가 등록한 영화제 목록 - [승인된 영화제 목록] -->
+  <select id="selectApprovedFestivalList" resultType="Festival">
+   SELECT 
+      F.IDX,
+      F.ACCOUNT_ID,
+      F.SUBJECT,
+      F.SITE,
+      TO_CHAR(F.START_DAY, 'yyyy-mm-dd') AS START_DAY,
+      TO_CHAR(F.END_DAY, 'yyyy-mm-dd') AS END_DAY,
+      F.ADDRESS1,
+      F.ADDRESS2,
+      F.ADDRESS3,
+      F.HOST,
+      F.MAIN_IMG,
+      F.SUB_IMG,
+      F.TARGET,
+      TO_CHAR(F.FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+      TO_CHAR(F.FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+      F.STATE,
+      F.OPTION1,
+      F.OPTION2,
+      F.OPTION3,
+      F.OPTION4,
+      D.COLLECTED,
+      D.SPONSOR,
+      ROUND(COLLECTED/TARGET*100, 2) AS PERCENTAGE
+   FROM FESTIVAL F LEFT JOIN (
+      SELECT
+         FESTIVAL_IDX,
+         SUM(MONEY) AS COLLECTED,
+         COUNT(*) AS SPONSOR
+      FROM DONATION
+      GROUP BY FESTIVAL_IDX
+   ) D ON F.IDX = D.FESTIVAL_IDX
+   WHERE F.STATE IN (1, 2) AND F.ACCOUNT_ID = #{accountId}
+   ORDER BY IDX DESC
+  </select>
+  
+  <!-- 등록자가 등록한 영화제 목록 - [보류중 영화제 목록] -->
+  <select id="selectPendingFestivalList" resultType="Festival">
+   SELECT 
+      IDX,
+      ACCOUNT_ID,
+      SUBJECT,
+      SITE,
+      TO_CHAR(START_DAY, 'yyyy-mm-dd') AS START_DAY,
+      TO_CHAR(END_DAY, 'yyyy-mm-dd') AS END_DAY,
+      ADDRESS1,
+      ADDRESS2,
+      ADDRESS3,
+      HOST,
+      MAIN_IMG,
+      SUB_IMG,
+      TARGET,
+      TO_CHAR(FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+      TO_CHAR(FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+      STATE,
+      OPTION1,
+      OPTION2,
+      OPTION3,
+      OPTION4
+   FROM FESTIVAL
+   WHERE STATE = 0 AND ACCOUNT_ID = #{accountId}
+   ORDER BY IDX DESC
+  </select>
+  
+  <!-- 등록자가 등록한 영화제 목록 - [거부당한 영화제 목록] -->
+  <select id="selectRejectedFestivalList" resultType="Festival">
+   SELECT 
+      IDX,
+      ACCOUNT_ID,
+      SUBJECT,
+      SITE,
+      TO_CHAR(START_DAY, 'yyyy-mm-dd') AS START_DAY,
+      TO_CHAR(END_DAY, 'yyyy-mm-dd') AS END_DAY,
+      ADDRESS1,
+      ADDRESS2,
+      ADDRESS3,
+      HOST,
+      MAIN_IMG,
+      SUB_IMG,
+      TARGET,
+      TO_CHAR(FUNDING_START, 'yyyy-mm-dd') AS FUNDING_START,
+      TO_CHAR(FUNDING_END, 'yyyy-mm-dd') AS FUNDING_END,
+      STATE,
+      OPTION1,
+      OPTION2,
+      OPTION3,
+      OPTION4
+   FROM FESTIVAL
+   WHERE STATE = 4 AND ACCOUNT_ID = #{accountId}
+   ORDER BY IDX DESC
+   </select>
+</mapper>

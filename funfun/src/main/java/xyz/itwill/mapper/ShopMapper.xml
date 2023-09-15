@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.itwill.mapper.ShopMapper">
+
+	<select id="selectAllFestivalList" resultType="Festival">
+		SELECT * FROM (
+		SELECT ROWNUM RN, BOARD.* FROM (
+		SELECT
+		F.IDX,
+		F.ACCOUNT_ID,
+		F.SUBJECT,
+		F.SITE,
+		F.START_DAY,
+		F.END_DAY,
+		F.ADDRESS1,
+		F.ADDRESS2,
+		F.ADDRESS3,
+		F.HOST,
+		F.MAIN_IMG,
+		F.SUB_IMG,
+		F.TARGET,
+		F.FUNDING_START,
+		F.FUNDING_END,
+		F.STATE,
+		F.OPTION1,
+		F.OPTION2,
+		F.OPTION3,
+		F.OPTION4,
+		D.COLLECTED,
+		D.SPONSOR
+		FROM FESTIVAL F LEFT JOIN (
+		SELECT
+		FESTIVAL_IDX,
+		SUM(MONEY) AS COLLECTED,
+		COUNT(*) AS SPONSOR
+		FROM DONATION
+		GROUP BY FESTIVAL_IDX
+		) D ON F.IDX = D.FESTIVAL_IDX
+		WHERE
+		<choose>
+			<when test="selectKeyword != null and selectkeyword != ''">
+				(F.ACCOUNT_ID LIKE '%' || #{selectKeyword} || '%' OR
+				F.SUBJECT LIKE '%' || #{selectKeyword} || '%' OR
+				F.SITE LIKE '%' || #{selectKeyword} || '%' OR
+				F.START_DAY LIKE '%' || #{selectKeyword} || '%' OR
+				F.END_DAY LIKE '%' || #{selectKeyword} || '%' OR
+				F.HOST LIKE '%' || #{selectKeyword} || '%' OR
+				F.ADDRESS1 LIKE '%' || #{selectKeyword} || '%' OR
+				F.ADDRESS2 LIKE '%' || #{selectKeyword} || '%' OR
+				F.ADDRESS3 LIKE '%' || #{selectKeyword} || '%' OR
+				D.COLLECTED LIKE '%' || #{selectKeyword} || '%' OR
+				D.SPONSOR LIKE '%' || #{selectKeyword} || '%')
+			</when>
+			<otherwise>
+				1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+			</otherwise>
+		</choose>
+		ORDER BY IDX DESC
+		) BOARD
+		)WHERE RN BETWEEN #{startRow} and #{endRow}
+	</select>
+
+
+
+
+
+
+</mapper>

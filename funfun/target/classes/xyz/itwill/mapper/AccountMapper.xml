@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.itwill.mapper.AccountMapper">
+	<insert id="insertAccount">
+	<selectKey resultType="int" keyProperty="idx" order="BEFORE">
+         SELECT ACCOUNT_SEQ.NEXTVAL FROM DUAL
+      </selectKey>
+		INSERT INTO ACCOUNT (
+			IDX,
+			ID,
+			PASSWORD,
+			NAME,
+			PHONE,
+			EMAIL,
+			GENDER,
+			BIRTH,
+			ADDRESS1,
+			ADDRESS2,
+			ADDRESS3,
+			STATUS,
+			SUB_DAY
+		) VALUES (
+			#{idx},
+			#{id},
+			#{password},
+			#{name},
+			#{phone},
+			#{email},
+			#{gender},
+			#{birth},
+			#{address1},
+			#{address2},
+			#{address3},
+			#{status},
+			sysdate
+		 )
+	</insert>
+
+	<update id="updateAccount">
+		UPDATE ACCOUNT SET
+			ID = #{id},
+			PASSWORD = #{password},
+			NAME = #{name},
+			PHONE = #{phone},
+			EMAIL = #{email},
+			GENDER = #{gender},
+			BIRTH = #{birth},
+			ADDRESS1 = #{address1},
+			ADDRESS2 = #{address2},
+			ADDRESS3 = #{address3},
+			STATUS = #{status}
+		WHERE IDX = #{idx}
+	</update>
+	
+	<update id="updateAccountByAdmin">
+		UPDATE ACCOUNT SET
+			ID = #{id},
+			NAME = #{name},
+			PHONE = #{phone},
+			EMAIL = #{email},
+			ADDRESS1 = #{address1},
+			ADDRESS2 = #{address2},
+			ADDRESS3 = #{address3},
+		WHERE IDX = #{idx}
+	</update>	
+
+	<update id="deleteAccount">
+		UPDATE ACCOUNT SET STATUS = 9 WHERE ID = #{id}
+	</update>
+
+	<select id="selectAccount" resultType="Account">
+		SELECT 
+			IDX,
+			ID,
+			PASSWORD,
+			NAME,
+			PHONE,
+			EMAIL,
+			GENDER,
+			BIRTH,
+			ADDRESS1,
+			ADDRESS2,
+			ADDRESS3,
+			STATUS,
+			SUB_DAY
+		FROM ACCOUNT WHERE ID = #{id}
+	</select>
+
+	<select id="selectAccountCount">
+		SELECT COUNT(*) FROM ACCOUNT
+	</select>
+	
+	<select id="selectAccountList" resultType="Account">
+		SELECT * FROM (
+    		SELECT ROWNUM RN, BOARD.* FROM (
+		    	SELECT
+		        	IDX,
+		            ID,
+		            NAME,
+		            PHONE,
+		            EMAIL,
+		            GENDER,
+		            TO_CHAR(BIRTH,'yyyy-mm-dd') AS BIRTH,
+		            ADDRESS1,
+		            ADDRESS2,
+		            ADDRESS3,
+		            STATUS,
+		            TO_CHAR(SUB_DAY,'yyyy-mm-dd') AS SUB_DAY
+		        FROM ACCOUNT 
+       		 WHERE
+        <choose>
+            <when test="selectKeyword != null and selectKeyword != ''">
+                (ID LIKE '%' || #{selectKeyword} || '%' OR
+                 NAME LIKE '%' || #{selectKeyword} || '%' OR
+                 PHONE LIKE '%' || #{selectKeyword} || '%' OR
+                 EMAIL LIKE '%' || #{selectKeyword} || '%' OR
+                 GENDER LIKE '%' || #{selectKeyword} || '%' OR
+                 BIRTH LIKE '%' || #{selectKeyword} || '%' OR
+                 ADDRESS1 LIKE '%' || #{selectKeyword} || '%' OR
+                 ADDRESS2 LIKE '%' || #{selectKeyword} || '%' OR
+                 ADDRESS3 LIKE '%' || #{selectKeyword} || '%' OR
+                 STATUS LIKE '%' || #{selectKeyword} || '%' OR
+                 SUB_DAY LIKE '%' || #{selectKeyword} || '%')
+            </when>
+            <otherwise>
+                1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+            </otherwise>
+        </choose>
+        		ORDER BY IDX DESC
+    		) BOARD
+		) WHERE RN BETWEEN #{startRow} and #{endRow}
+	</select>
+	<!-- 아이디 찾기 -->
+	<select id="idSearch" parameterType="Account" resultType="Account">
+	<![CDATA[
+	    select
+	        *
+	    from
+	        Account
+	    where
+	        name = #{name}
+	    and
+	        email = #{email}
+	]]>    
+	</select>
+	
+	<!-- 새 비밀번호로 업데이트 -->
+	<update id="updatePassword" parameterType="xyz.itwill.dto.Account">
+		UPDATE Account
+		SET password = #{password}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 현재 암호화된 비밀번호를 조회 -->
+	<select id="getHashedPassword" resultType="string" parameterType="string">
+		SELECT password FROM Account WHERE id = #{id}
+	</select>
+</mapper>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<!-- log4j: 로그 구현체가 실행하기 위한 정보를 제공하는 환경 설정 파일 -->
+<log4j:configuration
+	xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- Appenders -->
+	<!-- appender: 로그 구현체로 실행하기 위한 클래스를 설정하는 엘리먼트 -->
+	<!-- name 속성: appender 엘리먼트를 구분하기 위한 식별자를 속성값으로 설정 - 중복만 안되면 돼! -->
+	<!-- class 속성: 로그 구현체로 실행하기 위한 클래스를 속성값으로 설정 -->
+	<!-- ▶ class 속성값으로 설정하기 위한 클래스는 반드시 Appender 인터페이스를 상속받아 작성 ▷ Appender 클래스라고 
+		부름 -->
+	<!-- ▶ class 속성값으로 설정된 클래스에 따라 로깅 정보를 기록하는 방식이 다르게 설정됨 -->
+	<!-- ▶ ConsoleAppender: 로깅 정보를 서버 콘솔에 기록하기 위한 클래스 -->
+	<appender name="console"
+		class="org.apache.log4j.ConsoleAppender">
+		<!-- param: Appender 클래스에 필요한 값을 제공하기 위한 엘리먼트 -->
+		<param name="Target" value="System.out" />
+		<!-- param 엘리먼트의 기본값: Target / Sytem.out ▷ 제거해도 OK | System.error 하면 Console에 
+			빨간색으로 출력됨... -->
+		<!-- layout: 로깅 정보를 제공받아 (기록)로그 형식을 설정하기 위한 엘리먼트 -->
+		<!-- class 속성: 로그 형식 관련 정보를 제공하기 위한 클래스를 속성값으로 설정 -->
+		<!-- PatternLayout 클래스를 이용하여 기록해 줄게요~ -->
+		<!-- ▶ PatternLayout 클래스: 로그 형식을 작성하기 위하여 변환 문자를 제공하는 클래스 -->
+		<!-- # 변환 문자(Conversion Character) - 변환 문자를 일반 문자와 구분하기 위하여 % 기호로 시작 -->
+		<!-- %c: 로그 이벤트가 발생한 카테고리를 기록 - 패키지가 포함된 클래스로 표현 가능 - {정수값}을 이용하여 원하는 형식으로 
+			기록 -->
+		<!-- ▶ %c{1}: 패키지를 제외한 클래스의 이름을 기록 -->
+		<!-- %C: 패키지를 포함한 클래스의 이름을 기록할 때 사용하는 변환 문자 -->
+		<!-- %d: 날짜와 시간을 기록 - {SimpleDateFormat}을 이용하여 원하는 형식으로 기록 -->
+		<!-- ▶ %d{yyyy-MM-dd}: [년 - 월 - 일] 형식으로 기록 -->
+		<!-- %m: 로그 이벤트에 의하여 생성된 로그 메세지를 기록 -->
+		<!-- %n: [Enter]를 기록 - 로그 줄 바꿈 -->
+		<!-- %M: 로그 이벤트가 발생된 메소드의 이름을 기록 -->
+		<!-- %p: 로깅 정보를 제공한 로그 이벤트를 기록 -->
+		<!-- ▶ 로그 이벤트: TRACE ▷ DEBUG ▷ INFO ▷ WARN ▷ ERROR ▷ FATAL -->
+		<!-- %t: 로그 이벤트를 발생시킨 스레드의 이름을 기록 -->
+		<!-- %r: 프로그램 시작 이후부터 로깅 정보를 제공받아 기록되어지는 시점의 시간(ms)을 기록 -->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%-5p[%d{yy-MM-dd}]: %c{1} - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="helloLog"
+		class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%c{1} 클래스의 %M 메소드 - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="dailyLogFile"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="dailyLog" />
+		<param name="DatePattern" value=".yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%d{HH:mm:ss}]%-5p : %c - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- Application Loggers -->
+	<!-- logger: 특정 패키지의 클래스에서 발생되는 로그 이벤트를 기록하기 위한 엘리먼트 -->
+	<!-- name 속성: 패키지 경로를 속성값으로 설정 -->
+	<logger name="xyz.itwill.controller">
+		<!-- level: 로그 이벤트를 설정하기 위한 엘리먼트 -->
+		<!-- ▶ 속성값으로 설정된 로그 이벤트 및 상위 로그 이벤트에 대한 로깅 정보 기록 -->
+		<!-- info ▷ INFO / WARN / ERROR / FATAL 기록 -->
+		<level value="info" />
+	</logger>
+
+	<!-- 3rdparty Loggers -->
+	<logger name="org.springframework.core">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.beans">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.context">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.web">
+		<level value="info" />
+	</logger>
+
+	<!-- SpyLogDelegator 객체에 의하여 발생된 로그 이벤트를 기록하기 위한 logger 엘리먼트 -->
+	<!-- jdbc.sqlonly: 완성된 SQL 명령 기록 -->
+	<logger name="jdbc.sqlonly">
+		<level value="info" />
+	</logger>
+	
+	<!-- jdbc.sqltiming: SQL 명령의 실행 시간(ms) 기록 -->
+	<logger name="jdbc.sqltiming">
+		<level value="info" />
+	</logger>
+	
+	<!-- jdbc.audit: ResultSet 관련 매핑 정보를 제외한 모든 JDBC 관련 정보 기록 -->
+	<logger name="jdbc.audit">
+		<level value="info" />
+	</logger>
+	
+	<!-- jdbc.resultset: ResultSet 관련 매핑 정보를 포함한 모든 JDBC 관련 정보 기록 -->
+	<!--	
+	너무 길어서 생략
+	<logger name="jdbc.resultset">
+		<level value="info" />
+	</logger>
+	-->
+	
+	<!-- jdbc.resultsettable: ResultSet 관련 매핑 정보를 표 형식(TABLE)로 기록 -->
+	<logger name="jdbc.resultsettable">
+		<level value="info" />
+	</logger>
+	
+	<!-- jdbc.connection: Connection 관련 매핑 정보를 기록 -->
+	<logger name="jdbc.connection">
+		<level value="info" />
+	</logger>
+	
+	
+	<!-- Root Logger -->
+	<!-- root: 모든 클래스에서 발생되는 로그 이벤트를 기록하기 위한 엘리먼트 -->
+	<!-- ▶ 모든 logger 엘리먼트는 root 엘리먼트의 정보를 상속받아 사용 -->
+	<root>
+		<!-- priority: 기본적으로 적용하기 위한 로그 이벤트를 설정하는 엘리먼트 -->
+		<priority value="warn" />
+		<!-- warn ▷ WARN / ERROR / FATAL 기록 -->
+		<!-- appender-ref: 참조할 Appender를 설정하기 위한 엘리먼트 -->
+		<!-- ref 속성: appender 엘리먼트의 식별자를 속성값으로 설정 -->
+		<appender-ref ref="console" />
+		<!-- console이라는 이름에 appender로 기록해줄게요~ -->
+	</root>
+</log4j:configuration>

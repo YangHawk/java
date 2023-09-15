@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.itwill.mapper.ExpectMapper">
+	<!-- 처음 insert될 때 상태(삭제:0, 일반:1)가 일반글로 들어갈 수 있도록 작성  -->
+	<insert id="insertExpect">
+		<selectKey resultType="int" keyProperty="idx" order="BEFORE">
+			SELECT EXPECT_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO EXPECT(
+			IDX,
+			FESTIVAL_IDX,
+			ACCOUNT_ID,
+			STAR,
+			CONTENT,
+			DAY,
+			STATUS
+		) VALUES(
+			#{idx},
+			#{festivalIdx},
+			#{accountId},
+			#{star},
+			#{content},
+			sysdate,
+			1
+		)
+	</insert>
+	
+	<update id="updateExpect">
+		UPDATE EXPECT
+		SET STAR = #{star}.
+			CONTENT = #{content},
+			DAY = sysdate,
+			STATUS = #{status}
+		WHERE IDX = #{idx}
+	</update>
+	
+	<delete id="deleteExpect">
+		DELETE
+		FROM EXPECT
+		WHERE IDX = #{idx}
+	</delete>
+
+	<select id="selectExpect" resultType="Expect">
+		SELECT 
+			IDX,
+			FESTIVAL_IDX,
+			ACCOUNT_ID,
+			STAR,
+			CONTENT,
+			TO_CHAR(DAY, 'YYYY-MM-DD'),
+			STATUS
+		FROM EXPECT
+		WHERE IDX = #{idx}
+	</select>
+	
+	<select id="selectExpectAccountId" resultType="Expect">
+		SELECT 
+			IDX,
+			FESTIVAL_IDX,
+			ACCOUNT_ID,
+			STAR,
+			CONTENT,
+			TO_CHAR(DAY, 'YYYY-MM-DD') AS DAY,
+			STATUS
+		FROM EXPECT
+		WHERE ACCOUNT_ID = #{arg0} AND FESTIVAL_IDX = #{arg1}
+	</select>
+	
+	<select id="selectExpectList" resultType="Expect">
+		SELECT 
+			IDX,
+			FESTIVAL_IDX,
+			ACCOUNT_ID,
+			STAR,
+			CONTENT,
+			TO_CHAR(DAY, 'YYYY-MM-DD') AS DAY,
+			STATUS
+		FROM EXPECT
+		WHERE FESTIVAL_IDX = #{idx}
+	</select>
+	
+	<!--
+	<select id="selectRandomExpectList" resultType="Expect">
+		SELECT *
+		FROM
+			(SELECT
+				E.IDX,
+				E.FESTIVAL_IDX,
+				E.ACCOUNT_ID,
+				E.STAR,
+				E.CONTENT,
+				TO_CHAR(E.DAY, 'YYYY-MM-DD') AS DAY,
+				E.STATUS,
+				F.SUBJECT,
+				F.MAIN_IMG
+			FROM EXPECT E JOIN (
+				SELECT
+					IDX,
+					SUBJECT,
+					MAIN_IMG
+				FROM FESTIVAL
+			) F ON E.FESTIVAL_IDX = F.IDX
+			ORDER BY DBMS_RANDOM.VALUE)
+		WHERE ROWNUM <![CDATA[ <= ]]> 3
+	</select>
+	-->
+	
+	<select id="selectRandomExpectList" resultType="Expect">
+		SELECT *
+		FROM
+			(SELECT
+				E.IDX,
+				E.FESTIVAL_IDX,
+				E.ACCOUNT_ID,
+				E.STAR,
+				E.CONTENT,
+				TO_CHAR(E.DAY, 'YYYY-MM-DD') AS DAY,
+				E.STATUS,
+				F.SUBJECT,
+				F.STATE,
+				F.INDEX_SHOW2,
+				F.MAIN_IMG
+			FROM EXPECT E JOIN (
+				SELECT
+					IDX,
+					SUBJECT,
+					STATE,
+					INDEX_SHOW2,
+					MAIN_IMG
+				FROM FESTIVAL
+			) F ON E.FESTIVAL_IDX = F.IDX
+			WHERE F.STATE = 2 AND F.INDEX_SHOW2 = 1
+			ORDER BY DBMS_RANDOM.VALUE)
+		WHERE ROWNUM <![CDATA[ <= ]]> 3
+	</select>
+	
+	<select id="selectStarAvg" resultType="Double">
+		SELECT 
+			ROUND(AVG(STAR), 2)
+		FROM
+			EXPECT
+		WHERE FESTIVAL_IDX = #{festivalIdx}
+	</select>
+</mapper>

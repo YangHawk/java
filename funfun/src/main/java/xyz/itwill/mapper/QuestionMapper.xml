@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.itwill.mapper.QuestionMapper">
+   <insert id="insertQuestion" parameterType="xyz.itwill.dto.Question">
+      <selectKey resultType="int" keyProperty="idx" order="BEFORE">
+        SELECT QUESTION_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO QUESTION (
+           IDX, 
+           ACCOUNT_ID,
+           TITLE, 
+           CONTENT, 
+           DAY, 
+           SECRET,
+           FILE_DATA,
+           ANSWER_CONTENT,
+           ANSWER_DAY,
+           COUNT,
+           STATUS)
+       VALUES(
+           #{idx}, 
+           #{accountId},
+           #{title}, 
+           #{content}, 
+           SYSDATE, 
+           0, 
+           #{fileData}, 
+           #{answerContent},
+           #{answerDay},
+           #{count},
+           1)
+   </insert>
+   
+   <insert id="insertSecretQuestion" parameterType="xyz.itwill.dto.Question">
+      <selectKey resultType="int" keyProperty="idx" order="BEFORE">
+        SELECT QUESTION_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO QUESTION (
+           IDX, 
+           ACCOUNT_ID,
+           TITLE, 
+           CONTENT, 
+           DAY, 
+           SECRET,
+           FILE_DATA,
+           ANSWER_CONTENT,
+           ANSWER_DAY,
+           COUNT,
+           STATUS)
+       VALUES(
+           #{idx}, 
+           #{accountId},
+           #{title}, 
+           #{content}, 
+           SYSDATE, 
+           1, 
+           #{fileData}, 
+           #{answerContent},
+           #{answerDay},
+           #{count},
+           1)
+   </insert>
+   
+   <update id="updateQuestionByUser" parameterType="xyz.itwill.dto.Question">
+        UPDATE QUESTION SET
+        	TITLE=#{title},
+            CONTENT=#{content}, 
+            FILE_DATA=#{fileData},
+            DAY=SYSDATE
+        WHERE IDX=#{idx}
+   </update>
+   
+   <update id="updateQuestionByAdmin" parameterType="xyz.itwill.dto.Question">
+        UPDATE QUESTION SET 
+        	ANSWER_CONTENT=#{answerContent},
+        	ANSWER_DAY=SYSDATE
+        WHERE IDX=#{idx}
+   </update>
+   
+   <update id="updateQuestionCount" parameterType="xyz.itwill.dto.Question">
+        UPDATE QUESTION SET
+        	COUNT = COUNT + 1
+        WHERE IDX=#{idx}
+   </update>
+   
+   <update id="deleteQuestion" parameterType="int">
+        UPDATE QUESTION SET STATUS = 0 WHERE IDX=#{idx}
+   </update>
+   
+   <update id="deleteQuestionByAdmin" parameterType="int">
+        UPDATE QUESTION SET ANSWER_CONTENT = NULL, ANSWER_DAY = NULL WHERE IDX=#{idx}
+   </update>
+    
+   <!-- QNA 상세정보 조회 -->
+   <select id="selectQuestion" resultType="xyz.itwill.dto.Question" parameterType="int">
+   		SELECT
+   			IDX,
+            ACCOUNT_ID,
+            TITLE, 
+            CONTENT, 
+            TO_CHAR(DAY, 'yyyy-mm-dd HH24:MI:SS') AS DAY, 
+            FILE_DATA, 
+            COUNT,
+            ANSWER_CONTENT,
+            SECRET,
+           	TO_CHAR(ANSWER_DAY, 'yyyy-mm-dd HH24:MI:SS') AS ANSWER_DAY,
+           	STATUS
+        FROM QUESTION WHERE IDX=#{idx}
+    </select>
+    
+     <!-- QNA 목록 조회 -->
+    <select id="selectQuestionList" resultType="xyz.itwill.dto.Question">
+        SELECT * FROM (
+          SELECT ROWNUM RN, BOARD.* FROM (
+          	SELECT
+            	IDX,
+             	ACCOUNT_ID,
+             	TITLE, 
+             	CONTENT, 
+             	TO_CHAR(DAY, 'yyyy-mm-dd') AS DAY, 
+             	FILE_DATA, 
+             	COUNT,
+             	SECRET,
+             	ANSWER_CONTENT,
+            	TO_CHAR(ANSWER_DAY, 'yyyy-mm-dd') AS ANSWER_DAY,
+            	STATUS
+            FROM QUESTION
+            WHERE STATUS = 1 AND
+        <choose>
+        <!-- 검색어 조건 처리 -->
+            <when test="selectKeyword != null and selectKeyword != ''">
+                (TITLE LIKE '%' || #{selectKeyword} || '%' OR
+                 CONTENT LIKE '%' || #{selectKeyword} || '%')
+            </when>
+            <otherwise>
+                1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+            </otherwise>
+        </choose>
+              ORDER BY IDX DESC
+          ) BOARD
+      ) WHERE RN BETWEEN #{startRow} and #{endRow}<!-- 페이징 처리 -->
+    </select>
+    
+     <select id="selectQuestionCount" resultType="int">
+        SELECT COUNT(*) FROM QUESTION
+         WHERE STATUS = 1 AND
+        <choose>
+        <!-- 검색어 조건 처리 -->
+            <when test="selectKeyword != null and selectKeyword != ''">
+                (TITLE LIKE '%' || #{selectKeyword} || '%' OR
+                 CONTENT LIKE '%' || #{selectKeyword} || '%')
+            </when>
+            <otherwise>
+                1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->
+            </otherwise>
+      </choose>
+     </select>
+     
+       <!-- 이전글, 다음글 번호 가져오기 -->
+     <!-- lag('컬럼명' , '몇번째' , '기본값(null일 경우 들어가는 값)') -->
+     <!-- => 글번호 기준 오름차순 정렬, 1씩 이동, 이전글이 없는(null) 경우 글번호에 0 저장 -->
+     <!-- lead('컬럼명' , '몇번째' , '기본값(null일 경우 들어가는 값)') -->
+     <!-- => 글번호 기준 오름차순 정렬, 1씩 이동, 다음글이 없는(null) 경우 글번호에 0 저장 -->
+     <select id="selectPreNextidx" resultType="Question">
+        SELECT * 
+      FROM (
+          SELECT
+              IDX,
+              LAG(IDX, 1, 0) OVER(ORDER BY IDX ASC) PREVNUM,
+              LEAD(IDX, 1, 0) OVER(ORDER BY IDX ASC) NEXTNUM
+          FROM QUESTION
+          WHERE SECRET != 1 AND STATUS = 1
+      )
+      WHERE IDX=#{idx} 
+      ORDER BY IDX ASC
+     </select>
+     
+</mapper>
