@@ -1,6 +1,7 @@
 package xyz.itwill.service;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import xyz.itwill.dao.AccountDAO;
 import xyz.itwill.dto.Account;
+import xyz.itwill.dto.AccountAuth;
 import xyz.itwill.exception.ExistsUserinfoException;
 import xyz.itwill.exception.LoginAuthFailException;
 import xyz.itwill.exception.UserinfoNotFoundException;
@@ -43,6 +45,12 @@ public class AccountServiceImpl implements AccountService {
 		account.setPassword(hashedPassword);
 
 		accountDAO.insertAccount(account);
+		if (account.getStatus() == 1) {
+			accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_USER"));
+			accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_REGISTER"));
+		} else if (account.getStatus() == 2) {
+			accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_USER"));
+		}			
 	}
 
 	// 회원 정보 수정 기능
@@ -57,6 +65,19 @@ public class AccountServiceImpl implements AccountService {
 			account.setPassword(hashedPassword);
 		}
 		accountDAO.updateAccount(account);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public void modifyAccountByAdmin(Account account) throws UserinfoNotFoundException {
+		if (accountDAO.selectAccount(account.getId()) == null) {
+			throw new UserinfoNotFoundException("아이디의 회원 정보가 존재하지 않습니다.");
+		}
+		if (account.getPassword() != null && account.getPassword().equals("")) {
+			String hashedPassword = BCrypt.hashpw(account.getPassword(), BCrypt.gensalt());
+			account.setPassword(hashedPassword);
+		}
+		accountDAO.updateAccountByAdmin(account);
 	}
 
 	// 회원 탈퇴 기능
@@ -136,30 +157,6 @@ public class AccountServiceImpl implements AccountService {
 	 */
 
 	// 비밀번호 찾기
-	/*
-	 * @Override public void findPassword(HttpServletResponse response, Account
-	 * account) throws Exception {
-	 * response.setContentType("text/html;charset=utf-8"); Account check =
-	 * accountDAO.selectAccount(account.getId()); PrintWriter out =
-	 * response.getWriter();
-	 * 
-	 * if(check == null) { out.print("등록되지 않은 아이디 입니다."); out.close(); return;
-	 * 
-	 * }
-	 * 
-	 * if(!account.getEmail().equals(check.getEmail())) {
-	 * out.print("등록되지 않은 이메일입니다."); out.close(); return; }
-	 * 
-	 * 
-	 * String temporaryPassword = generateTemporaryPassword();
-	 * 
-	 * sendTemporaryPasswordByEmail(account.getEmail(), temporaryPassword);
-	 * 
-	 * saveHashedTemporaryPasswordToServer(check, temporaryPassword);
-	 * 
-	 * out.print("이메일로 임시 비밀번호를 발송하였습니다. 확인 후 로그인해주세요."); out.close(); }
-	 */
-
 	@Override
 	public String findPassword(Account account) throws Exception {
 		Account check = accountDAO.selectAccount(account.getId());
@@ -183,6 +180,7 @@ public class AccountServiceImpl implements AccountService {
 		return "이메일로 임시 비밀번호를 발송하였습니다. 로그인 후 비밀번호를 변경해주세요.";
 	}
 
+	// 임시 비밀번호 발송
 	private void sendTemporaryPasswordByEmail(String recipientEmail, String temporaryPassword) {
 		// SMTP 서버 설정
 		String host = "smtp.gmail.com";
@@ -214,7 +212,6 @@ public class AccountServiceImpl implements AccountService {
 			mimeMessage.setFrom(new InternetAddress(senderEmail));
 			mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
 			mimeMessage.setSubject("클라우드펀펀 임시 비밀번호 입니다.");
-			// mimeMessage.setText("임시 비밀번호는'" + temporaryPassword + "' 입니다.");
 
 			// HTML 형식으로 본문 작성
 			String htmlContent = "<html><body>";
@@ -267,20 +264,7 @@ public class AccountServiceImpl implements AccountService {
 
 	}
 
-	@Transactional(rollbackFor = Exception.class)
-	@Override
-	public void modifyAccountByAdmin(Account account) throws UserinfoNotFoundException {
-		if (accountDAO.selectAccount(account.getId()) == null) {
-			throw new UserinfoNotFoundException("아이디의 회원 정보가 존재하지 않습니다.");
-		}
-		if (account.getPassword() != null && account.getPassword().equals("")) {
-			String hashedPassword = BCrypt.hashpw(account.getPassword(), BCrypt.gensalt());
-			account.setPassword(hashedPassword);
-		}
-		accountDAO.updateAccountByAdmin(account);
-	}
-
-	// 비밀번호 변경
+	// 비밀번호 변경 메소드
 	@Override
 	public void modifyPassword(Account account) {
 		accountDAO.updateAccount(account);

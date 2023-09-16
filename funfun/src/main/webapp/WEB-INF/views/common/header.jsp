@@ -1,5 +1,6 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
    <!-- header -->
     <div class="top-menu top-menu-inverse">
         <div class="container">
@@ -22,7 +23,9 @@
                         <a href="${pageContext.request.contextPath}/account/myaccount"><i class="lnr lnr-user"></i> <span>마이페이지</span></a>
                     </c:otherwise>
                 </c:choose>
-                <c:choose><%-- 세션이 있는 경우 --%>
+                <%-- 세션이 있는 경우 --%>
+				<%--                
+                <c:choose>
                    <c:when test="${sessionScope.loginAccount.id != null}">
                        <a href="${pageContext.request.contextPath}/account/logout"><span class="lnr lnr-exit"></span> <span>로그아웃</span></a>
                     </c:when>
@@ -30,6 +33,16 @@
                        <a href="${pageContext.request.contextPath}/account/login"><i class="lnr lnr-lock"></i> <span>로그인 / 회원가입</span></a>
                    </c:otherwise>
                 </c:choose>
+				--%>                   
+                <sec:authorize access="isAnonymous()">
+                       <a href="${pageContext.request.contextPath}/account/login"><i class="lnr lnr-lock"></i> <span>로그인 / 회원가입</span></a>
+				</sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                     <form id="logoutForm" action="<c:url value="/account/logout"/>" method="post">
+				            <sec:csrfInput/>
+				            <button type="submit" class="logout-button"><i class="lnr lnr-exit"></i> <span>로그아웃</span></button>
+			        </form>
+				</sec:authorize>
                     <a href="${pageContext.request.contextPath}/donation/wishlist"><i class="lnr lnr-cart"></i> <span>위시리스트</span></a>
                 </span>
             </p>

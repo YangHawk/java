@@ -1,7 +1,5 @@
 package xyz.itwill.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
-import xyz.itwill.dto.Account;
 import xyz.itwill.exception.FestivalinfoNotFoundException;
 import xyz.itwill.exception.UserinfoNotFoundException;
 import xyz.itwill.service.AccountService;
@@ -31,46 +28,37 @@ public class AdminController {
 	private final NoticeService noticeService;
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	public String getInfoList(HttpSession session) {
-		Account loginAccount = (Account) session.getAttribute("loginAccount");
-		if (loginAccount == null) {
-			return "redirect:/account/login";
-		}
-		if (loginAccount.getStatus() != 0) {
-			return "redirect:/";
-		}
+	public String getInfoList() {
 		return "admin/admin"; // JSP 파일의 경로와 이름
 	}
 
 	@RequestMapping(value = "/account_detail", method = RequestMethod.GET)
-	public String getAccountDetail(@RequestParam String id, Model model, HttpSession session)
+	public String getAccountDetail(@RequestParam String id, Model model)
 			throws UserinfoNotFoundException {
 		model.addAttribute("account", accountService.getAccount(id));
 		return "admin/detail/account_detail";
 	}
 
 	@RequestMapping(value = "/page_manage", method = RequestMethod.GET)
-	public String getManagePage(HttpSession session) throws UserinfoNotFoundException {
+	public String getManagePage() throws UserinfoNotFoundException {
 		return "admin/detail/page_manage";
 	}
 
 	@RequestMapping(value = "/account_add", method = RequestMethod.GET)
-	public String getAccountAdd(HttpSession session) {
+	public String getAccountAdd() {
 		return "admin/detail/account_add";
 	}
 
 	@RequestMapping(value = "/notice_add", method = RequestMethod.GET)
-	public String getNoticeAdd(HttpSession session) {
+	public String getNoticeAdd() {
 		return "admin/detail/notice_add";
 	}
 
 	@RequestMapping(value = "/festival_detail", method = RequestMethod.GET)
-	public String getFestivalDetail(@RequestParam int idx, Model model, HttpSession session)
+	public String getFestivalDetail(@RequestParam int idx, Model model)
 			throws FestivalinfoNotFoundException {
 
 		model.addAttribute("festival", festivalService.getFestival(idx));
-		Account loginAccount = (Account) session.getAttribute("loginAccount");
-		model.addAttribute("loginAccount", loginAccount);
 		double achievementPercentage = festivalService.calcAchievementPercentage(idx);
 		model.addAttribute("filminfo", filmService.getFilmList(idx));
 		model.addAttribute("expectinfo", expectService.getExpectList(idx));
@@ -80,16 +68,14 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/question_detail", method = RequestMethod.GET)
-	public String getQuestionDetail(@RequestParam int idx, Model model, HttpSession session) {
+	public String getQuestionDetail(@RequestParam int idx, Model model) {
 		model.addAttribute("question", questionService.getQuestion(idx));
-		Account loginAccount = (Account) session.getAttribute("loginAccount");
-		model.addAttribute("loginAccount", loginAccount);
 
 		return "admin/detail/question_detail";
 	}
 
 	@RequestMapping(value = "/notice_detail", method = RequestMethod.GET)
-	public String getnoticeDetail(@RequestParam int idx, Model model, HttpSession session) {
+	public String getnoticeDetail(@RequestParam int idx, Model model) {
 		model.addAttribute("notice", noticeService.getNotice(idx));
 
 		return "admin/detail/notice_detail";

@@ -47,7 +47,4 @@ public class DonationController{
 		model.addAttribute("message", message);
 		return "donation/pay_completion";
 	}
-	
-	
-	
 }

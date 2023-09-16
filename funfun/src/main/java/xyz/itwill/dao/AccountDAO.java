@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import xyz.itwill.dto.Account;
+import xyz.itwill.dto.AccountAuth;
 
 public interface AccountDAO {
 	int insertAccount(Account account);
 
+	int insertAccountAuth(AccountAuth auth);
+	
 	int updateAccount(Account account);
 
 	int updateAccountByAdmin(Account account);
@@ -27,5 +30,5 @@ public interface AccountDAO {
 	int updatePassword(Account account);
 
 	// 비밀번호를 해시화하여 반환하는 메소드
-	String getHashedPassword(String id);
+	String getHashedPassword(String id); 
 }

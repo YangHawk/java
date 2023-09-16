@@ -38,10 +38,10 @@
 		</form>
 	</sec:authorize>
 	<hr>
+	
 	<%-- authentication: 인증된 사용자에 대한 정보(UserDetails 객체)를 제공하기 위한 태그 --%>
 	<%-- ▶ 인증된 사용자에게만 필요한 정보를 제공 가능(authorize) --%>
 	<%-- property 속성: 인증된 사용자에 대한 정보를 제공받기 위한 속성명(필드명)을 속성값으로 설정 --%>
-	
 	
 	<sec:authorize access="isAuthenticated()">
 		<%-- principal: UserDetails 인터페이스를 상속받은 User 객체가 저장된 속성  --%>

@@ -18,7 +18,8 @@
 			ADDRESS2,
 			ADDRESS3,
 			STATUS,
-			SUB_DAY
+			SUB_DAY,
+			ENABLED
 		) VALUES (
 			#{idx},
 			#{id},
@@ -32,8 +33,13 @@
 			#{address2},
 			#{address3},
 			#{status},
-			sysdate
+			sysdate,
+			1
 		 )
+	</insert>
+	
+	<insert id="insertAccountAuth">
+		INSERT INTO ACCOUNT_AUTH VALUES(#{idx}, #{id}, #{auth})
 	</insert>
 
 	<update id="updateAccount">
@@ -68,8 +74,30 @@
 		UPDATE ACCOUNT SET STATUS = 9 WHERE ID = #{id}
 	</update>
 
-	<select id="selectAccount" resultType="Account">
-		SELECT 
+	<resultMap type="Account" id="accountResultMap">
+		<id column="id" property="id"/>
+		<result column="idx" property="idx"/>
+		<result column="password" property="password"/>
+		<result column="name" property="name"/>
+		<result column="phone" property="phone"/>
+		<result column="email" property="email"/>
+		<result column="gender" property="gender"/>
+		<result column="birth" property="birth"/>
+		<result column="address1" property="address1"/>
+		<result column="address2" property="address2"/>
+		<result column="address3" property="address3"/>
+		<result column="status" property="status"/>
+		<result column="subDay" property="subDay"/>
+		<result column="enabled" property="enabled"/>
+		<collection property="accountAuthList" select="selectAccountAuthById" column="id"/>
+	</resultMap>
+	
+	<select id="selectAccountAuthById" resultType="AccountAuth">
+		SELECT IDX, ID, AUTH FROM ACCOUNT_AUTH WHERE ID=#{id}
+	</select>
+
+	<select id="selectAccount" resultMap="accountResultMap">
+		SELECT
 			IDX,
 			ID,
 			PASSWORD,
@@ -82,8 +110,9 @@
 			ADDRESS2,
 			ADDRESS3,
 			STATUS,
-			SUB_DAY
-		FROM ACCOUNT WHERE ID = #{id}
+			SUB_DAY,
+			ENABLED
+		FROM ACCOUNT WHERE ID=#{id}
 	</select>
 
 	<select id="selectAccountCount">

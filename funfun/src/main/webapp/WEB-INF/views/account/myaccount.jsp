@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,7 +88,7 @@
 					</div>
                     </div><!-- / row -->
                     
-                    <div id="passwordChangeform" style="display: none;">
+                  <div id="passwordChangeform" style="display: none;">
                     	<br>
                     	<h3>수정하세요</h3>
                     	<p> 현재 비밀번호 </p>
@@ -102,7 +103,7 @@
                     	<!-- 수정 버튼 -->
                     	<button id="modifypasswordBtn" type="submit">저장</button>
                     	<button id="cancelModifypasswordBtn" type="button">취소</button>
-                   	</div>
+                   	</div> 
                 </div><!-- / personal-info -->
                 
                 
@@ -457,94 +458,81 @@
 	    	});
 	    });
 		
-		//비밀번호 수정
-  			$('#modify-password').click(function() {
-  				$('#passwordChangeform').toggle();
-  			});	
-  		
-		$('#cancelModifypasswordBtn').click(function(){
-			$('#passwordChangeform').hide();
-		});
+			//비밀번호 수정
+   			$('#modify-password').click(function() {
+   				$('#passwordChangeform').toggle();
+   			});	
+   		
+			$('#cancelModifypasswordBtn').click(function(){
+				$('#passwordChangeform').hide();
+			});
+			
+			$('#modifypasswordBtn').click(function() {
+				var currentPassword = $('#currentPassword').val();
+   				var newPassword = $('#newPassword').val();
+   				var confirmPassword = $('#confirmPassword').val();
+   				
+   				
+   				
+   				
+   				
+   				// PUT 요청을 서버로 보냄
+   		        $.ajax({
+   		            type: "PUT",
+   		            url: "<c:url value='/changePassword'/>", // 변경할 비밀번호 엔드포인트 URL로 변경해야 합니다.
+   		            contentType: "application/json",
+   		            data: JSON.stringify({
+   		            	"id": id,
+   		            	"currentPassword": currentPassword,
+   		                "newPassword": newPassword,
+   		             	"confirmPassword": confirmPassword
+   		            }),
+   		            dataType: "text",
+   		            success: function(result) {
+   		            	if(result == "success") {
+   		            		console.log(result);
+   		            		window.location.href = "<c:url value='/account/login'/>";	   		       
+	   		                alert("비밀번호가 성공적으로 변경되었습니다. 재로그인 해주세요.");
+   		            	} else if(result.startsWith("error")) {
+   		            		console.log(result);
+   		            		alert("오류: "+result);
+   		            	} else if(result == "error1") {
+   		            		console.log(result);
+   		            	} else if(result == "error2") {
+   		            		console.log(result);
+   		            	} else if(result == "error3") {
+   		            		console.log(result);
+   		            	}
+   		                // 비밀번호 변경 성공 시 처리
+   		            },
+   		            error: function(xhr) {
+   		                // 오류 발생 시 처리
+   		    			alert("비밀번호 변경 중 오류가 발생하였습니다. ("+ xhr.status+")");
+   		                $("#resultMessage").text("비밀번호 변경 중 오류가 발생하였습니다.");
+   		            }
+   		        });
+   		    });
+	   			
+ 			$("#remove-account").click(function() {
+ 		        if (confirm("정말로 삭제하시겠습니까?")) {
+ 		            
+ 		            $.ajax({
+ 		                type: "DELETE",
+ 		                url: "<c:url value='/account_remove?id='/>" + id,
+ 		                success: function(result) {
+ 		                    if(result == "success") {
+ 		                    	 window.location.href = "<c:url value='/'/>";
+ 		                    } else {
+ 		                        alert("회원 정보 삭제 중 오류가 발생하였습니다.");
+ 		                    }
+ 		                },
+ 		                error: function(xhr) {
+ 		                    alert("회원 정보  삭제 중 오류가 발생하였습니다("+ xhr.status+")");
+ 		                }
+ 		            });
+ 		        }
+ 		    });
 		
-		$('#modifypasswordBtn').click(function() {
-			var currentPassword = $('#currentPassword').val();
-			var newPassword = $('#newPassword').val();
-			var confirmPassword = $('#confirmPassword').val();
-			/*if(currentPassword == "") {
-				alert("현재 비밀번호를 입력해주세요.");
-				return;
-			}
-			
-			if(newPassword == "") {
-				alert("새 비밀번호를 입력해주세요.");
-				return;
-			} 
-			
-			if(confirmPassword == "") {
-				alert("새 비밀번호 확인을 입력해주세요.");
-				return;
-			}
-			
-			if(newPassword !== confirmPassword ) {
-				alert("새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다.");
-				return;
-			}*/
-			
-			// PUT 요청을 서버로 보냄
-	        $.ajax({
-	            type: "PUT",
-	            url: "<c:url value='/changePassword'/>", // 변경할 비밀번호 엔드포인트 URL로 변경해야 합니다.
-	            contentType: "application/json",
-	            data: JSON.stringify({
-	            	"id": id,
-	            	"currentPassword": currentPassword,
-	                "newPassword": newPassword,
-	             	"confirmPassword": confirmPassword
-	            }),
-	            dataType: "text",
-	            success: function(result) {
-	            	if(result == "success") {
-	            		console.log(result);
-	            		window.location.href = "<c:url value='/account/myaccount'/>";	   		       
-		                alert("비밀번호가 성공적으로 변경되었습니다.");
-	            	} else if(result == "error1") {
-	            		console.log(result);
-	            	} else if(result == "error2") {
-	            		console.log(result);
-	            	} else if(result == "error3") {
-	            		console.log(result);
-	            	}
-	                // 비밀번호 변경 성공 시 처리
-	            },
-	            error: function(xhr) {
-	                // 오류 발생 시 처리
-	    			alert("비밀번호 변경 중 오류가 발생하였습니다. ("+ xhr.status+")");
-	                $("#resultMessage").text("비밀번호 변경 중 오류가 발생하였습니다.");
-	            }
-	        });
-	    });
-
-
-		$("#remove-account").click(function() {
-	        if (confirm("정말로 삭제하시겠습니까?")) {
-	            
-	            $.ajax({
-	                type: "DELETE",
-	                url: "<c:url value='/account_remove?id='/>" + id,
-	                success: function(result) {
-	                    if(result == "success") {
-	                    	 window.location.href = "<c:url value='/'/>";
-	                    } else {
-	                        alert("회원 정보 삭제 중 오류가 발생하였습니다.");
-	                    }
-	                },
-	                error: function(xhr) {
-	                    alert("회원 정보  삭제 중 오류가 발생하였습니다("+ xhr.status+")");
-	                }
-	            });
-	        }
-	    });
-
 	});
 
 </script>

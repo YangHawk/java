@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import xyz.itwill.dto.Account;
+import xyz.itwill.dto.AccountAuth;
 import xyz.itwill.mapper.AccountMapper;
 
 @Repository
@@ -18,6 +19,11 @@ public class AccountDAOImpl implements AccountDAO {
 	@Override
 	public int insertAccount(Account account) {
 		return sqlSession.getMapper(AccountMapper.class).insertAccount(account);
+	}
+	
+	@Override
+	public int insertAccountAuth(AccountAuth auth) {
+		return sqlSession.getMapper(AccountMapper.class).insertAccountAuth(auth);
 	}
 
 	@Override

@@ -44,7 +44,6 @@ public class AccountController {
       accountService.addAccount(account); //회원 등록 서비스 실행
       return "redirect:/account/login"; // 회원 등록 후 로그인 페이지로 리다이렉트
    }
-   
 
    // 로그인 페이지를 GET 요청 시에 보여주는 메소드
    @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -52,6 +51,7 @@ public class AccountController {
       return "account/login"; // account/login.jsp 뷰로 이동
    }
    
+   /*
    //로그인 시 아이디랑 비밀번호가 서버에 등록되어있는지 확인하는 메소드
    @PostMapping("/login")
    public ResponseEntity<String> login(@RequestBody Account account,
@@ -74,8 +74,9 @@ public class AccountController {
          return new ResponseEntity<>("아이디 또는 비밀번호를 확인해주세요.", HttpStatus.UNAUTHORIZED);
       }
    }
+   */
    
-   
+   /*
    //로그아웃 처리 메소드
    @RequestMapping(value = "/logout", method = {RequestMethod.GET, RequestMethod.POST})
    public String logout(HttpServletRequest request){ 
@@ -86,7 +87,8 @@ public class AccountController {
       }
       
       return "redirect:/";
-   }   
+   }
+   */
    
    // 아이디 및 비밀번호 찾기 페이지 요청 처리
     @GetMapping("/find")

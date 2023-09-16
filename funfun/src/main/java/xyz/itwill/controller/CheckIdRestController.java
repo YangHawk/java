@@ -17,7 +17,7 @@ import xyz.itwill.service.AccountService;
 public class CheckIdRestController {
 	@Autowired
 	private AccountService accountService;
-
+	
 	@GetMapping("/checkId")
 	public Map<String, Boolean> checkIdAvailabilty(@ModelAttribute Account account) {
 		Map<String, Boolean> response = new HashMap<>();

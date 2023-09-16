@@ -34,7 +34,7 @@ public class CustomAccountDetails implements UserDetails {
 	private String address3;
 	private int status;
 	private String subDay;
-	
+
 	private String enabled;
 	// private List<SecurityAuth> securityAuths; ◀ 실제로 권한이 저장되지 않음
 	// 인증된 사용자의 권한 정보가 저장될 필드 선언
@@ -42,19 +42,28 @@ public class CustomAccountDetails implements UserDetails {
 
 	// 매개 변수로 전달받은 SecurityUsers 객체의 필드값을 CustomAccountDetails 클래스의 필드에 저장
 	public CustomAccountDetails(Account account) {
+		this.idx = account.getIdx();
 		this.id = account.getId();
-		this.password= account.getPassword();
-		this.name= account.getName();
-		this.email= account.getEmail();
-		this.enabled= account.getEnabled();
-		
+		this.password = account.getPassword();
+		this.name = account.getName();
+		this.phone = account.getPhone();
+		this.email = account.getEmail();
+		this.gender = account.getGender();
+		this.birth = account.getBirth();
+		this.address1 = account.getAddress1();
+		this.address2 = account.getAddress2();
+		this.address3 = account.getAddress3();
+		this.status = account.getStatus();
+		this.subDay = account.getSubDay();
+		this.enabled = account.getEnabled();
+
 		// 검색된 사용자의 권한(String 객체)은 GrantedAuthority 객체로 생성하여 저장
 		this.accountAuthList = new ArrayList<GrantedAuthority>();
-		for(AccountAuth auth : account.getAccountAuthList()) {
+		for (AccountAuth auth : account.getAccountAuthList()) {
 			accountAuthList.add(new SimpleGrantedAuthority(auth.getAuth()));
 		}
 	}
-	
+
 	// 인증된 사용자의 권한 정보를 반환하는 메소드
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -98,7 +107,7 @@ public class CustomAccountDetails implements UserDetails {
 	// ▶ false: 사용자 비활성화 상태 / true: 사용자 활성화 상태
 	@Override
 	public boolean isEnabled() {
-		if(enabled.equals("0")) {
+		if (enabled.equals("0")) {
 			return false;
 		} else {
 			return true;

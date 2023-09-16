@@ -9,7 +9,8 @@
 		insert into security_auth values(#{userid}, #{auth})
 	</insert>
 	
-	<!--  
+	<!-- 
+	
 	<resultMap type="SecurityUsers" id="securityUsersResultMap">
 		<id column="userid" property="userid"/>
 		<result column="passwd" property="passwd"/>
@@ -26,6 +27,7 @@
 		select users.userid, passwd, name, email, enabled, auth from security_users users
 			left join security_auth auth on users.userid=auth.userid where users.userid=#{userid}
 	</select>
+	
 	-->
 	
 	<resultMap type="SecurityUsers" id="securityUsersResultMap">

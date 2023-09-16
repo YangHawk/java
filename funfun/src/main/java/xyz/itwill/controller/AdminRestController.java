@@ -8,9 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.HtmlUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -146,7 +143,7 @@ public class AdminRestController {
 	}
 
 	@PutMapping("/festival_accept")
-	public String modifyNotice(@RequestBody Festival festival, HttpSession httpSession)
+	public String modifyNotice(@RequestBody Festival festival)
 			throws FestivalinfoNotFoundException {
 		festival.setState(1);
 		festivalService.modifyFestivalState(festival);
@@ -155,7 +152,7 @@ public class AdminRestController {
 	}
 
 	@PutMapping("/festival_reject")
-	public String acceptFestival(@RequestBody Festival festival, HttpSession httpSession)
+	public String acceptFestival(@RequestBody Festival festival)
 			throws FestivalinfoNotFoundException {
 		festival.setState(4);
 		festivalService.modifyFestivalState(festival);
@@ -170,8 +167,7 @@ public class AdminRestController {
 	}
 
 	@PostMapping("/question_add")
-	public String addQuestion(@RequestBody Question question, @RequestPart MultipartFile uploadFile,
-			HttpSession httpSession) throws IllegalStateException, IOException {
+	public String addQuestion(@RequestBody Question question, @RequestPart MultipartFile uploadFile) throws IllegalStateException, IOException {
 		String uploadDirectory = context.getServletContext().getRealPath("/resources/upload");
 		String uploadFilename = UUID.randomUUID().toString() + "_" + uploadFile.getOriginalFilename();
 
@@ -185,7 +181,7 @@ public class AdminRestController {
 
 
 	@PutMapping("/question_modify_by_user")
-	public String modifyQuestionByUser(@RequestBody Question question, HttpSession httpSession) {
+	public String modifyQuestionByUser(@RequestBody Question question) {
 		question.setTitle(HtmlUtils.htmlEscape(question.getTitle()));
 		question.setContent(HtmlUtils.htmlEscape(question.getContent()));
 
@@ -195,7 +191,7 @@ public class AdminRestController {
 	}
 
 	@PutMapping("/question_modify_by_admin")
-	public String modifyQuestionByAdmin(@RequestBody Question question, HttpSession httpSession) {
+	public String modifyQuestionByAdmin(@RequestBody Question question) {
 		question.setAnswerContent(HtmlUtils.htmlEscape(question.getAnswerContent()));
 
 		questionService.modifyQuestionByAdmin(question);
@@ -204,7 +200,7 @@ public class AdminRestController {
 	}
 
 	@PutMapping("/question_remove")
-	public String removeQuestion(@RequestParam int idx, HttpSession httpSession) {
+	public String removeQuestion(@RequestParam int idx) {
 		questionService.removeQuestion(idx);
 		return "success";
 	}
@@ -282,7 +278,7 @@ public class AdminRestController {
 	}
 
 	@PutMapping("/notice_remove")
-	public String removeNotice(@RequestParam int idx, HttpSession httpSession) {
+	public String removeNotice(@RequestParam int idx) {
 		noticeService.removeNotice(idx);
 		return "success";
 	}

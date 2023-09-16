@@ -6,18 +6,15 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.HtmlUtils;
 
 import lombok.RequiredArgsConstructor;
 import xyz.itwill.dto.Notice;
@@ -52,7 +49,7 @@ public class CommunityRestController {
        return "success";
     }
    */
-   
+   @PreAuthorize("hasRole('ROLE_ADMIN')")
    @PostMapping("/notice/notice_modify")
    public String modifyNotice(@ModelAttribute Notice notice,
                               @RequestParam("uploadFile") MultipartFile uploadFile,
@@ -86,7 +83,8 @@ public class CommunityRestController {
 
        return "success"; // 클라이언트에게 성공 메시지를 반환
    }
-
+   
+   @PreAuthorize("hasRole('ROLE_USER')")
    @PostMapping("/question_modify")
    public String modifyQuestion(@ModelAttribute Question question,
            @RequestParam("uploadFile") MultipartFile uploadFile,
@@ -117,6 +115,4 @@ public class CommunityRestController {
 
        return "success"; // 클라이언트에게 성공 메시지를 반환
    }
-   
-
 }

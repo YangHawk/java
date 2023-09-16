@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <body>
@@ -18,35 +20,38 @@
 					<!-- 로그인 폼 코드 -->
 					<div id="login-form">
 						<h3 class="log-title">로그인</h3>
-						<form action="${pageContext.request.contextPath}/account/login" method="post">
+						<form id="loginForm" action="${pageContext.request.contextPath}/account/login" method="post">
 						<!-- 아이디 입력 -->
-						<div class="form-group">
-							<input type="text" class="form-control" id="userId"
-							name="id" placeholder="아이디" required data-error="아이디를 반드시 입력해야 합니다">
-							<div class="help-block with-errors"></div>
-						</div>
-						<!-- 비밀번호 입력 -->
-						<div class="form-group">
-							<input type="password" class="form-control" id="userPassword"
-							name="password" placeholder="비밀번호" required data-error="비밀번호를 반드시 입력해야 합니다">
-							<div class="help-block with-errors"></div>
-						</div>
-						<!-- 자동로그인 체크 -->
-						<div class="log-line">
-							<div class="pull-left">
-								<div class="checkbox checkbox-primary space-bottom">
-									<label class="hide"><input type="checkbox"></label>
-									<input id="checkbox1" type="checkbox" name="autoLogin">
-									<label for="checkbox1"><span>자동 로그인</span></label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="userId"
+								name="id" placeholder="아이디" required data-error="아이디를 반드시 입력해야 합니다">
+								<div class="help-block with-errors"></div>
+								<c:remove var="userId"/>
+							</div>
+							<!-- 비밀번호 입력 -->
+							<div class="form-group">
+						        <input type="password" class="form-control" id="userPassword"
+						        name="password" placeholder="비밀번호" required data-error="비밀번호를 반드시 입력해야 합니다">
+						        <div class="help-block with-errors"></div>
+						    </div>
+							<!-- 자동로그인 체크 -->
+							<div class="log-line">
+								<div class="pull-left">
+									<div class="checkbox checkbox-primary space-bottom">
+										<label class="hide"><input type="checkbox"></label>
+										<input id="checkbox1" type="checkbox" name="remember-me">
+										<label for="checkbox1"><span>자동 로그인</span></label>
+									</div>
+								</div>
+								<!-- 로그인 버튼 -->
+								<div class="pull-right">
+									<button type="submit" class="btn btn-md btn-primary-filled btn-log btn-rounded" id="loginButton">로그인</button>
+									<div id="msgSubmit" class="h3 text-center hidden"></div>
+									<div class="clearfix"></div>
 								</div>
 							</div>
-							<!-- 로그인 버튼 -->
-							<div class="pull-right">
-								<button type="button" class="btn btn-md btn-primary-filled btn-log btn-rounded" id="loginButton">로그인</button>
-								<div id="msgSubmit" class="h3 text-center hidden"></div>
-								<div class="clearfix"></div>
-							</div>
-						</div>
+							
+							<sec:csrfInput/>
 						</form>
 						<!-- 회원가입 버튼 및 아이디,비밀번호 찾기 버튼 -->
 						<a href="register" class="register">회원 가입하기</a>
@@ -58,8 +63,22 @@
 		</div>
 	</section>
 	
-	<!-- 로그인 기능!!!!!!!!! --> 
+		<!-- 로그인 기능!!!!!!!!! --> 
 		<script>
+		
+		$("#loginForm").submit(function() {
+			if($("#userId").val()=="") {
+				alert("아이디를 입력해 주세요.");
+				return false;
+			}
+			
+			if($("#userPassword").val()=="") {
+				alert("비밀번호를 입력해 주세요.");
+				return false;
+			}
+		});
+		
+		<%--
 		//로그인 버튼 클릭시 처리
 		document.getElementById('loginButton').addEventListener('click', function() {
             var userId = document.getElementById('userId').value;
@@ -78,7 +97,7 @@
      		xhr.onreadystatechange = function() {
             	if(xhr.readyState == 4) {
             		if(xhr.status == 200) {
-            			alert("로그인 되었습니다.");
+            			//alert("로그인 되었습니다.");
             			window.location.href= '${pageContext.request.contextPath}/';
             		} else if(xhr.status == 401 ){
             			alert("아이디 또는 비밀번호를 확인해주세요.");
@@ -93,6 +112,14 @@
             });
      		xhr.send(jsonData);
         });
+		--%>
+		
+		// 엔터 키를 눌렀을 때도 로그인 버튼을 클릭한 것과 같은 동작 수행
+		document.getElementById('loginForm').addEventListener('keyup', function (event) {
+		    if (event.key === "Enter") {
+		        document.getElementById('loginButton').click(); // 로그인 버튼 클릭 이벤트 발생
+		    }
+		});
 	
 		// 아이디 및 비밀번호 찾기 버튼 클릭 이벤트 리스너
 		var findButton = document.getElementById("find_btn");

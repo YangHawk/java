@@ -11,7 +11,7 @@ public interface AccountService {
 	void addAccount(Account account) throws ExistsUserinfoException;
 
 	void modifyAccount(Account account) throws UserinfoNotFoundException;
-
+	
 	void modifyAccountByAdmin(Account account) throws UserinfoNotFoundException;
 
 	void removeAccount(String id) throws UserinfoNotFoundException;
