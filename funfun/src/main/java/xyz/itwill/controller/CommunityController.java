@@ -112,14 +112,14 @@ public class CommunityController {
 	}
 	
 	/*QNA 작성 페이지*/
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/community/qna_form", method = RequestMethod.GET)
 	public String getQnaForm() {
 		return "community/qna_form";
 	}
 	
 	/*QNA 제출 시*/
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/community/qna_form", method = RequestMethod.POST)
 	public String getQnaForm(@RequestParam("title") String title,
 			@RequestParam("content") String content,
@@ -156,7 +156,7 @@ public class CommunityController {
 	}
 	
 	/*QNA 비밀글 제출 시*/
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/community/qna_form_secret", method = RequestMethod.POST)
 	public String getSecretQnaForm(@RequestParam("title") String title,
             @RequestParam("content") String content,
@@ -220,7 +220,7 @@ public class CommunityController {
 	   }
 	
 	/*QNA 글 삭제*/
-	@PreAuthorize("hasRole('ROLE_ADMIN') or (hasRole('ROLE_USER') and #loginAccount.id == #question.accountId)")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or principal.id eq #question.accountId)")
 	@RequestMapping(value = "/community/question/delete", method = RequestMethod.GET)
 	public String deleteQuestion(@RequestParam("idx") int idx) {
 	    questionService.removeQuestion(idx);

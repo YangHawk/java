@@ -18,7 +18,7 @@ import xyz.itwill.dto.Account;
 import xyz.itwill.dto.Expect;
 import xyz.itwill.dto.Festival;
 import xyz.itwill.exception.FestivalinfoNotFoundException;
-import xyz.itwill.security.CustomAcconutDetailsService;
+import xyz.itwill.security.CustomAccountDetailsService;
 import xyz.itwill.security.CustomAccountDetails;
 import xyz.itwill.service.ExpectService;
 import xyz.itwill.service.FestivalService;

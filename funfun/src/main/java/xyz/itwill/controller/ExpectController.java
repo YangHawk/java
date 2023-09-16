@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +36,7 @@ public class ExpectController {
         return expectinfo;
 	}
 	
-	
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value="/expect_add")
 	public String addExpect(@RequestBody Expect expect){
 		expect.setContent(HtmlUtils.htmlEscape(expect.getContent()));
@@ -43,6 +44,7 @@ public class ExpectController {
 		return "success";
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping(value = "/expect_remove/{idx}")
 	public String removeExpect(@PathVariable int idx) {
 		expectService.removeExpect(idx);

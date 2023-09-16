@@ -162,7 +162,7 @@
 	
 	<!-- user-service-ref 속성: 인증에 필요한 사용자 및 권한 정보(UserDetails 객체)기 저장된 객체를 반환하는 클래스(CustomUserDetailsService)에 대한 Spring Bean의 식별자(beanName)를 속성값으로 설정 -->
 	<authentication-manager>
-		<authentication-provider user-service-ref="customAcconutDetailsService">
+		<authentication-provider user-service-ref="customAccountDetailsService">
 			<password-encoder ref="passwordEncoder"/>			
 		</authentication-provider>
 	</authentication-manager>

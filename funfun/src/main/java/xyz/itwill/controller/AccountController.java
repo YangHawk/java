@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -139,6 +140,7 @@ public class AccountController {
         accountService.findPassword(account);
      }
      
+ 	@PreAuthorize("isAuthenticated()")
      @RequestMapping(value = "/my_festival", method = RequestMethod.GET)
      public String showMyFestival() {
         return "account/my_festival";

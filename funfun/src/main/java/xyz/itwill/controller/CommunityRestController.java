@@ -54,7 +54,8 @@ public class CommunityRestController {
    public String modifyNotice(@ModelAttribute Notice notice,
                               @RequestParam("uploadFile") MultipartFile uploadFile,
                               @RequestParam("fileDeleted") boolean fileDeleted,
-                              HttpServletRequest request) throws IllegalStateException, IOException {
+                              HttpServletRequest request) throws IllegalStateException,
+   							  IOException {
        // 기존 공지사항 정보를 가져옵니다.
        Notice existingNotice = noticeService.getNotice(notice.getIdx());
 
@@ -84,7 +85,7 @@ public class CommunityRestController {
        return "success"; // 클라이언트에게 성공 메시지를 반환
    }
    
-   @PreAuthorize("hasRole('ROLE_USER')")
+   @PreAuthorize("isAuthenticated()")
    @PostMapping("/question_modify")
    public String modifyQuestion(@ModelAttribute Question question,
            @RequestParam("uploadFile") MultipartFile uploadFile,

@@ -13,7 +13,7 @@ import xyz.itwill.dto.Account;
 // ▶ UserDetailsService 인터페이스를 상속받아 작성
 @Service
 @RequiredArgsConstructor
-public class CustomAcconutDetailsService implements UserDetailsService {
+public class CustomAccountDetailsService implements UserDetailsService {
 	private final AccountDAO accountDAO;
 
 	// 매개 변수로 아이디를 전달받아 DB에 저장된 사용자 정보를 검색하여 검색된 사용자 정보로 UserDetails 객체를 생성하여 반환하는 메소드

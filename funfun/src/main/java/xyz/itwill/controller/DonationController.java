@@ -1,5 +1,6 @@
 package xyz.itwill.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ public class DonationController{
 	private final DonationService donationService;
 	private final FestivalService festivalService;
 	
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/pay")
 	public String donationDisplay(@ModelAttribute Donation donation, Model model) throws FestivalinfoNotFoundException {
 		System.out.println(donation.getMoney());
@@ -30,6 +32,7 @@ public class DonationController{
 		return "donation/pay";
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/pay_update", method = RequestMethod.POST)
 	public String donationAdd(@ModelAttribute Donation donation, RedirectAttributes redirectAttributes) {
 		if(donation == null) {
@@ -42,6 +45,7 @@ public class DonationController{
 		return "redirect:/donation/pay_completion";
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping(value = "/pay_completion")
 	public String donationCompletion(@ModelAttribute("message") String message, Model model) {
 		model.addAttribute("message", message);
