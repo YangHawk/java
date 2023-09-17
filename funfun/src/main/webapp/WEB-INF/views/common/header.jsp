@@ -6,6 +6,7 @@
         <div class="container">
             <p>
                 <span class="right">
+                <%--
                 <c:choose>
                     <c:when test="${sessionScope.loginAccount.status == 1}">
                         <a href="${pageContext.request.contextPath}/donation/festival_register"><span class="lnr lnr-pencil"></span> <span>영화제 등록하기</span></a>
@@ -23,6 +24,22 @@
                         <a href="${pageContext.request.contextPath}/account/myaccount"><i class="lnr lnr-user"></i> <span>마이페이지</span></a>
                     </c:otherwise>
                 </c:choose>
+                --%>
+                <sec:authorize access="hasRole('ROLE_REGISTER')">
+				    <a href="${pageContext.request.contextPath}/donation/festival_register"><span class="lnr lnr-pencil"></span> <span>영화제 등록하기</span></a>
+				    <a href="${pageContext.request.contextPath}/account/my_festival"><span>나의 영화제</span></a>
+				</sec:authorize>
+				
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+				    <a href="${pageContext.request.contextPath}/admin/admin"><i class="lnr lnr-user"></i> <span>관리자페이지</span></a>
+				</sec:authorize>
+				
+			    <a href="${pageContext.request.contextPath}/account/myaccount"><i class="lnr lnr-user"></i> <span>마이페이지</span></a>
+				
+				<sec:authorize access="isAuthenticated()">
+					<sec:authentication property="principal.username"/> 님 환영합니다.
+				</sec:authorize>
+                
                 <%-- 세션이 있는 경우 --%>
 				<%--                
                 <c:choose>
