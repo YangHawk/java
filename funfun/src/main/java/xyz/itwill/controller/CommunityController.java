@@ -220,9 +220,10 @@ public class CommunityController {
 	   }
 	
 	/*QNA 글 삭제*/
-	@PreAuthorize("hasRole('ROLE_ADMIN') or principal.id eq #question.accountId)")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or principal.id eq #question.accountId")
 	@RequestMapping(value = "/community/question/delete", method = RequestMethod.GET)
 	public String deleteQuestion(@RequestParam("idx") int idx) {
+		Question question = questionService.getQuestion(idx);
 	    questionService.removeQuestion(idx);
 	    return "redirect:/community/qna_list";
 	}
