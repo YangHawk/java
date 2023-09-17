@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <body>
@@ -78,17 +79,28 @@
 <!-- / preloader -->
 
 <script type="text/javascript">
-	var id = "${loginAccount.id}"; // 전달받은 아이디
-	var festivalUrl = "${pageContext.request.contextPath}/my_festival"
-	
-
-	function getMyFestivalsData(id) {
-
 		
+	//CSRF 토큰 관련 정보를 자바스트립트 변수에 저장 
+	//var csrfHeaderName="${_csrf.headerName}";
+	//var csrfTokenValue="${_csrf.token}";
+	
+	<sec:authorize access="isAuthenticated()">
+		var loginId="<sec:authentication property="principal.id"/>";
+	</sec:authorize>
+		
+	//ajaxSend() 메소드를 호출하여 페이지에서 Ajax 기능으로 요청하는 모든 웹프로그램에게 CSRF 토큰 전달
+	// => Ajax 요청시 beforeSend 속성을 설정 불필요
+	//$(document).ajaxSend(function(e, xhr) {
+	//	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	//});
+
+	var festivalUrl = "${pageContext.request.contextPath}/my_festival/"
+
+	function getMyFestivalsData(loginId) {
 	    $.ajax({
 	        method: "GET",
-	        url: festivalUrl,
-	        data: { "id": id },
+	        url: festivalUrl + loginId,
+	        data: { "id": loginId },
 	        dataType: "json",
 	        success: function (result) {
 	            // result 객체에서 approvedFestival, pendingFestival, rejectedFestival 데이터를 추출
@@ -142,8 +154,8 @@
 	            "<td>" + approved.target + "</td>" +
 	            "<td>" + approved.collected + "</td>" +
 	            "<td>" + approved.fundingStart +" ~ "+ approved.fundingEnd + "</td>" +
-	            "<td><a href='${pageContext.request.contextPath}/donation/festival_update?idx="+approved.idx+"' class='btn btn-sm btn-default btn-rounded no-margin'><span>수정</span></a></td>"+
-	            "<td><a class='btn btn-sm btn-default btn-rounded no-margin removeFestival' data-idx='"+approved.idx+ "'><span>삭제</span></a></td>"+ 
+	            "<td><a href='${pageContext.request.contextPath}/donation/festival_update?idx="+approved.idx+"&id="+approved.accountId+"' class='btn btn-sm btn-default btn-rounded no-margin'><span>수정</span></a></td>"+
+	            "<td><a class='btn btn-sm btn-default btn-rounded no-margin removeFestival' data-idx='"+approved.idx+"'><span>삭제</span></a></td>"+ 
 	            "<td><a class='btn btn-sm btn-default btn-rounded no-margin showFilmList' data-idx='"+approved.idx+ "'><span>출품영화</span></a></td>"+ 
 	            "</tr>"+
 		        "<tr><td class='filmListTd' data-idx='"+approved.idx+ "' colspan = '8' style='display: none;'></td></tr>";
@@ -235,20 +247,20 @@
 	
 	
 	$(document).ready(function () {	
-		getMyFestivalsData(id);
+		getMyFestivalsData(loginId);
 		
 		$(document).on("click", ".removeFestival", function () {
 			var idx = $(this).data("idx");
 			if (confirm("정말로 삭제하시겠습니까?")) {
 				$.ajax({
 					type: "get",
-					url: "${pageContext.request.contextPath}/remove_festival/" + idx,
-					data: { "idx": idx },
+					url: "${pageContext.request.contextPath}/remove_festival/" +idx,
+					data: { "idx": idx},
 					contentType: "application/json",
 					dataType: "text",
 					success: function (result) {
 						alert("영화제가 삭제되었습니다.");
-						getMyFestivalsData(id);
+						getMyFestivalsData(loginId);
 					},
 					error: function (xhr) {
 						alert("에러코드(게시글 삽입) = " + xhr.status);
@@ -327,7 +339,7 @@
 					dataType: "text",
 					success: function (result) {
 						alert("영화가 삭제되었습니다.");
-						getMyFestivalsData(id);
+						getMyFestivalsData(loginId);
 					},
 					error: function (xhr) {
 						alert("에러코드(게시글 삽입) = " + xhr.status);

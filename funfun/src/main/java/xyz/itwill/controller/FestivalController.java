@@ -8,6 +8,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,7 @@ import xyz.itwill.dto.Expect;
 import xyz.itwill.dto.Festival;
 import xyz.itwill.dto.Wish;
 import xyz.itwill.exception.FestivalinfoNotFoundException;
+import xyz.itwill.security.CustomAccountDetails;
 import xyz.itwill.service.DonationService;
 import xyz.itwill.service.ExpectService;
 import xyz.itwill.service.FestivalService;
@@ -47,15 +50,19 @@ public class FestivalController {
 	private final DonationService donationService;
 
 	@RequestMapping(value = "/single-festival", method = RequestMethod.GET)
-	public String showSingleFestival(@RequestParam int idx, Model model, HttpSession session) throws FestivalinfoNotFoundException {
-		Account loginAccount = (Account)session.getAttribute("loginAccount");
+	public String showSingleFestival(@RequestParam int idx, Model model, Authentication authentication) throws FestivalinfoNotFoundException {
+		CustomAccountDetails loginAccount = null;
+		    
+		//현재 로그인한 사용자 객체가 CustomAccountDetails 클래스의 인스턴스인지 확인
+		if (authentication != null && authentication.getPrincipal() instanceof CustomAccountDetails) {
+		    loginAccount = (CustomAccountDetails) authentication.getPrincipal();
+		}
 		double achievementPercentage = festivalService.calcAchievementPercentage(idx);
 		model.addAttribute("festivalinfo", festivalService.getFestival(idx));
 		model.addAttribute("filminfo", filmService.getFilmList(idx));
 		model.addAttribute("expectinfo", expectService.getExpectList(idx));
 		model.addAttribute("achievementPercentage", achievementPercentage);
 		if(loginAccount != null) {
-			model.addAttribute("loginAccount", loginAccount);
 			List<Donation> donationinfo = donationService.getDonation(loginAccount.getId(), idx);
 			if (donationinfo != null && !donationinfo.isEmpty()) {
 				model.addAttribute("donationinfo", donationinfo);
@@ -78,12 +85,14 @@ public class FestivalController {
 		return "donation/single-festival";
 	}
 
+	@PreAuthorize("hasRole('ROLE_REGISTER')")
 	@GetMapping(value = "/festival_register")
-	public String addfestival(HttpSession session) {
-		Account loginAccount = (Account)session.getAttribute("loginAccount");
+	public String addfestival(Authentication authentication) {
+		CustomAccountDetails loginAccount = (CustomAccountDetails)authentication.getPrincipal();
 		if(loginAccount == null) {
 			return "redirect:/account/login";
 		}
+		//account_auth에서 가져오기
 		if(loginAccount.getStatus() != 1) {
 			return "redirect:/";
 		}
@@ -91,9 +100,10 @@ public class FestivalController {
 	}
 
 
+	@PreAuthorize("hasRole('ROLE_REGISTER')")
 	@PostMapping(value = "/festival_register")
 	public String addfestival(@ModelAttribute("festival") Festival festival, @RequestParam("mainMultipartFile") MultipartFile mainMultipartFile,
-            @RequestParam("subMultipartFile") MultipartFile subMultipartFile, Model model, HttpSession session, RedirectAttributes redirectAttributes) throws IllegalStateException, IOException, FestivalinfoNotFoundException {
+            @RequestParam("subMultipartFile") MultipartFile subMultipartFile, Model model, RedirectAttributes redirectAttributes) throws IllegalStateException, IOException, FestivalinfoNotFoundException {
 		if (festival.getMainMultipartFile().isEmpty() || festival.getSubMultipartFile().isEmpty()) {
 	        // 이미지 파일이 업로드되지 않은 경우 처리
 			int festivalIdx = festival.getIdx();
@@ -101,7 +111,6 @@ public class FestivalController {
 			model.addAttribute("message", "이미지 파일이 업로드되지 않았습니다.");
 	        return "donation/festival_register";
 	    }
-		
 		//전달파일을 저장하기 위한 서버 디렉토리의 시스템 경로 반환
 		String uploadDirectory=context.getServletContext().getRealPath("/resources/upload");
 		
@@ -115,10 +124,6 @@ public class FestivalController {
 		festival.getMainMultipartFile().transferTo(new File(uploadDirectory, uploadMainImg));
 		festival.getSubMultipartFile().transferTo(new File(uploadDirectory, uploadSubImg));
 		
-		Account loginAccount = (Account)session.getAttribute("loginAccount");
-		
-		festival.setAccountId(loginAccount.getId());
-		
 		//FESTIVAL 테이블에 행 삽입
 		festivalService.addFestival(festival);
 		
@@ -128,17 +133,24 @@ public class FestivalController {
 		return "redirect:/donation/film_register";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_REGISTER') and principal.id eq #id")
 	@RequestMapping(value = "/festival_update", method = RequestMethod.GET)
-	public String modifyFestival(@RequestParam int idx, Model model, HttpServletRequest request) throws FestivalinfoNotFoundException {
-		model.addAttribute("festivalinfo", festivalService.getFestival(idx));
+	public String modifyFestival(@RequestParam int idx, @RequestParam String id, Model model, HttpServletRequest request) throws FestivalinfoNotFoundException {
+		Festival festivalinfo = festivalService.getFestival(idx);
+		if(festivalinfo == null) {
+			throw new FestivalinfoNotFoundException("해당 영화제가 존재하지 않습니다.");
+		}
+		
+		model.addAttribute("festivalinfo",festivalinfo);
 		String command=request.getHeader("referer");
 		model.addAttribute("command", command);
 		return "donation/festival_update";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_REGISTER')")
 	@RequestMapping(value = "/festival_update", method = RequestMethod.POST)
 	public String modifyFestival(@ModelAttribute("festival") Festival festival, @RequestParam("mainMultipartFile") MultipartFile mainMultipartFile,
-            @RequestParam("subMultipartFile") MultipartFile subMultipartFile, Model model, HttpSession session, @RequestParam("command") String command) throws FestivalinfoNotFoundException, IllegalStateException, IOException {
+            @RequestParam("subMultipartFile") MultipartFile subMultipartFile, Model model, @RequestParam("command") String command) throws FestivalinfoNotFoundException, IllegalStateException, IOException {
 		//전달파일을 저장하기 위한 서버 디렉토리의 시스템 경로 반환
 		String uploadDirectory=context.getServletContext().getRealPath("/resources/upload");
 		Festival originalFestival = festivalService.getFestival(festival.getIdx());
@@ -162,10 +174,6 @@ public class FestivalController {
 			festival.setSubImg(uploadSubImg);
 			festival.getSubMultipartFile().transferTo(new File(uploadDirectory, uploadSubImg));
 	    }
-		
-		Account loginAccount = (Account)session.getAttribute("loginAccount");
-		
-		festival.setAccountId(loginAccount.getId());
 		
 		//FESTIVAL 테이블에 행 삽입
 		festivalService.modifyFestival(festival);

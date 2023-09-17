@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.HtmlUtils;
 
 import lombok.RequiredArgsConstructor;
-import xyz.itwill.dto.Account;
 import xyz.itwill.dto.Donation;
 import xyz.itwill.dto.Expect;
+import xyz.itwill.security.CustomAccountDetails;
 import xyz.itwill.service.DonationService;
 import xyz.itwill.service.ExpectService;
 
@@ -51,11 +51,17 @@ public class ExpectController {
 		return "success";
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping(value = "/expect_form/{idx}", produces = "application/json")
 	@ResponseBody
-	public Map<String, Object> showExpectForm(@PathVariable int idx, Model model, HttpSession session) {
+	public Map<String, Object> showExpectForm(@PathVariable int idx, Model model, Authentication authentication) {
 	    Map<String, Object> response = new HashMap<>();
-	    Account loginAccount = (Account) session.getAttribute("loginAccount");
+	    CustomAccountDetails loginAccount = null;
+	    
+		if (authentication != null && authentication.getPrincipal() instanceof CustomAccountDetails) {
+		    loginAccount = (CustomAccountDetails) authentication.getPrincipal();
+		}
+		
 	    if (loginAccount != null) {
 	        List<Donation> donationinfo = donationService.getDonation(loginAccount.getId(), idx);
 	        if (donationinfo != null && !donationinfo.isEmpty()) {

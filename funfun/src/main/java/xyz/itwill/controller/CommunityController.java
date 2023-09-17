@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -218,8 +219,8 @@ public class CommunityController {
 	      
 	      return "community/qna_detail";
 	   }
-	
-	/*QNA 글 삭제*/
+   /*
+    * QNA 글 삭제
 	@PreAuthorize("hasRole('ROLE_ADMIN') or principal.id eq #question.accountId")
 	@RequestMapping(value = "/community/question/delete", method = RequestMethod.GET)
 	public String deleteQuestion(@RequestParam("idx") int idx) {
@@ -227,7 +228,15 @@ public class CommunityController {
 	    questionService.removeQuestion(idx);
 	    return "redirect:/community/qna_list";
 	}
-	
+    * */
+	   /*QNA 글 삭제*/
+		@PreAuthorize("hasRole('ROLE_ADMIN') or principal.id eq #question.accountId")
+		@RequestMapping(value = "/community/question/delete", method = RequestMethod.GET)
+		public String deleteQuestion(@ModelAttribute Question question, Model model) {
+			model.addAttribute("question", question);
+		    questionService.removeQuestion(question.getIdx());
+		    return "redirect:/community/qna_list";
+		}	
 
 	/*QNA 답변 삭제*/
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

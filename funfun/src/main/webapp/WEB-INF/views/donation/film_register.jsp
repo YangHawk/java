@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%> 
 <!-- preloader -->
 <!-- 스피너 -->
 <div id="preloader">
@@ -31,7 +32,9 @@
    <div class="container">
 	<div class="row">
       <form id="film-register" action="film_register" method="post" enctype="multipart/form-data">
+      		<input type="hidden" name="accountId" value="<sec:authentication property="principal.id"/>">
       		<input type="hidden" name = "festivalIdx" value="${festivalIdx }" id="festivalIdxInput">
+      		<sec:csrfInput/>
             <!-- product content area -->
             <div class="col-sm-3"></div>
             <div class="col-sm-6 col-md-7 content-area">

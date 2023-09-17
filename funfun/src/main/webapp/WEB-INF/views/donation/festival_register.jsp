@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%> 
 <!-- 영화제 및 펀딩정보 등록페이지 1 -->
 <div id="page-header" class="faq">
         <div class="container">
@@ -19,6 +20,8 @@
    <div class="container">
       <form id="register" action="festival_register" method="post"
          enctype="multipart/form-data">
+         <input type="hidden" name="accountId" value="<sec:authentication property="principal.id"/>">
+         <sec:csrfInput/>
          <div class="row">
             <!-- product content area -->
             <div class="col-sm-6 col-md-7 content-area">

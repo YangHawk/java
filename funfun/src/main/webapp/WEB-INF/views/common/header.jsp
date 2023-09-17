@@ -21,13 +21,12 @@
                     <a href="${pageContext.request.contextPath}/account/login"><i class="lnr lnr-lock"></i> <span>로그인 / 회원가입</span></a>
                 </sec:authorize>
 
-                <sec:authorize access="isAuthenticated()">
-                     <form id="logoutForm" action="<c:url value="/account/logout"/>" method="post">
-				            <sec:csrfInput/>
-				            <button type="submit" class="logout-button"><i class="lnr lnr-exit"></i> <span>로그아웃</span></button>
-			        </form>
-				</sec:authorize>
-
+				<sec:authorize access="isAuthenticated()">
+                <form id="logoutForm" action="<c:url value="/account/logout"/>" method="post" class="logout-button">
+                    <sec:csrfInput/>
+                    <button type="submit" class="logout-button"><i class="lnr lnr-exit"></i> <span>로그아웃</span></button>
+                </form>
+			</sec:authorize>
                 <a href="${pageContext.request.contextPath}/donation/wishlist"><i class="lnr lnr-cart"></i> <span>위시리스트</span></a>
 
                 <sec:authorize access="isAuthenticated()">
@@ -54,12 +53,12 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">영화제 후원<span class="caret"></span></a>
                         <ul class="dropdown-menu pulse animated">
-                      <li><a href="${pageContext.request.contextPath}/donation/shopfull?select=all">전체 영화제</a></li>
-                      <li><a href="${pageContext.request.contextPath}/donation/shopfull?select=ongoing">진행 중 영화제</a></li>
-                      <li><a href="${pageContext.request.contextPath}/donation/shopfull?select=upcoming">진행 예정 영화제</a></li>
-                      <li><a href="${pageContext.request.contextPath}/donation/shopfull?select=sponsor">후원자 순</a></li>
-                      <li><a href="${pageContext.request.contextPath}/donation/shopfull?select=collected">금액 순 영화제</a></li>
-                  </ul>
+						    <li><a href="${pageContext.request.contextPath}/donation/shopfull?select=all">전체 영화제</a></li>
+						    <li><a href="${pageContext.request.contextPath}/donation/shopfull?select=ongoing">진행 중 영화제</a></li>
+						    <li><a href="${pageContext.request.contextPath}/donation/shopfull?select=upcoming">진행 예정 영화제</a></li>
+						    <li><a href="${pageContext.request.contextPath}/donation/shopfull?select=sponsor">후원자 순</a></li>
+						    <li><a href="${pageContext.request.contextPath}/donation/shopfull?select=collected">금액 순 영화제</a></li>
+						</ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">커뮤니티<span class="caret"></span></a>

@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!-- preloader -->
 <!-- 스피너 -->
 <div id="preloader">
@@ -31,6 +32,7 @@
 		<form id="festival_update" action="festival_update" method="post"
 			enctype="multipart/form-data">
 			<input type="hidden" name="idx" value="${festivalinfo.idx}">
+			<sec:csrfInput/>
 			<div class="row">
 				<!-- product content area -->
 				<div class="col-sm-6 col-md-7 content-area">
