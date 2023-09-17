@@ -113,8 +113,8 @@ public class AdminRestController {
 
 	@PostMapping("/admin_register")
 	public String adminRegister(@RequestBody Account account) throws ExistsUserinfoException {
-		account.setStatus(0);
-		accountService.addAccount(account);
+		//account.setStatus(0);
+		accountService.addAccount(account, "ROLE_ADMIN");
 		return "success";
 	}
 

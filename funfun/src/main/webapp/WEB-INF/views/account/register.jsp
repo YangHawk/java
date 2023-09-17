@@ -36,13 +36,6 @@
 									
 								</div>
 								<div class="help-block with-errors"></div>
-								
-								<div id="idError" class="text-danger" style="display: none;">
-									아이디는 3~12자로 소문자로 시작해야하고 소문자와 문자로만 구성 가능합니다.
-								</div>
-								<div id="idDuplicationMessage" class="text-danger" style="display: none;">
-									아이디 중복체크를 실행해주세요.
-								</div>
 						</div>
 						<!-- 비밀번호 -->
 						<div class="form-group">
@@ -50,9 +43,6 @@
 								name="password" placeholder="비밀번호" title="비밀번호는 대소문자,숫자,특수문자 하나씩 포함해야하며 12자리 이내로 입력해주세요." 
 							required data-error="*비밀번호는 8~12자, 대소문자,특수문자,숫자를 포함해야합니다.">
 							<div class="help-block with-errors"></div>
-							<div id="PasswordError" class="text-danger" style="display: none;">
-									비밀번호는 대소문자,숫자,특수문자를 각 1개씩 포함하여 8~12자로 입력해주세요.
-								</div>
 						</div>
 						<div class="form-group">
 							<input type="password" class="form-control" id="register-password-confirm"
@@ -69,9 +59,6 @@
 								name="name" placeholder="이름" title="이름은 한글로만 입력가능합니다." 
 								required data-error="*올바른 값을 입력해주세요.">
 							<div class="help-block with-errors"></div>
-							<div id="nameError" class="text-danger" style="display: none;">
-									이름은 한글로만 입력 가능합니다.
-								</div>
 						</div>
 						<!-- 전화번호 -->
 						<div class="form-group">
@@ -79,9 +66,6 @@
 						        name="phone" placeholder="010________" title="숫자만 입력해주세요." 
 								required data-error="*전화번호 값은 필수 입니다.">
 						    <div class="help-block with-errors"></div>
-						    <div id="phoneError" class="text-danger" style="display: none;">
-									전화번호를 입력해주세요.
-								</div>
 						</div>
 						<!-- 이메일 -->
 						<div class="form-group">
@@ -89,9 +73,6 @@
 								name="email" placeholder="이메일" required
 								data-error="*올바른 이메일형식으로 입력해주세요.">
 							<div class="help-block with-errors"></div>
-							<div id="emailError" class="text-danger" style="display: none;">
-									이메일은 @를 포함한 형식으로 입력해주세요.
-								</div>
 						</div>
 						<!-- 성별 -->
 						<div class="form-group">
@@ -105,19 +86,13 @@
 							</label>
 							</div>
 							<div class="help-block with-errors"></div>
-							<div id="genderError" class="text-danger" style="display: none;">
-									성별을 체크해주세요.
-								</div>
 							</div>
 						<!-- 생년월일 -->
 						<div class="form-group">
 							<input type="date" class="form-control" id="register-birth"
 								name="birth" placeholder="생년월일" required
 								data-error="*올바른 값을 입력해주세요.">
-							<div class="help-block with-errors"></div>
-							<div id="birthError" class="text-danger" style="display: none;">
-									생년월일을 선택해주세요.
-								</div>	
+							<div class="help-block with-errors"></div>	
 						</div>
 						<!-- 주소 -->
 						<div class="form-group">
@@ -127,41 +102,29 @@
 								<button type="button" id="search-address-button" class="btn btn-primary">주소 검색</button>
 							</div>
 							<div class="help-block with-errors"></div>
-							<div id="addressError" class="text-danger" style="display: none;">
-									주소검색을 통해 주소를 올바르게 입력해주세요.
-								</div>
 						</div>
 						<div class="form-group">
 							<input type="text" class="form-control" id="register-address2"
 								name="address2" placeholder="주소">
 							<div class="help-block with-errors"></div>
-							<div id="addressError" class="text-danger" style="display: none;">
-									주소검색을 통해 주소를 올바르게 입력해주세요.
-								</div>
 						</div>
 						<div class="form-group">
 							<input type="text" class="form-control" id="register-address3"
 								name="address3" placeholder="상세주소">
 							<div class="help-block with-errors"></div>
-							<div id="addressError" class="text-danger" style="display: none;">
-									주소검색을 통해 주소를 올바르게 입력해주세요.
-								</div>
 						</div>
 						<!-- 회원가입 구분 -->
 						<div class="form-group">
 							<label>회원구분</label>
 							<div>
 							<label class="radio-inline" style="width: 30%">
-								<input type="radio" name="status" value="1">등록자				
+								<input type="radio" name="accountRole" value="ROLE_REGISTER">등록자				
 							</label>
 							<label class="radio-inline" style="width: 30%">
-								<input type="radio" name="status" value="2">일반회원
+								<input type="radio" name="accountRole" value="ROLE_USER">일반회원
 							</label>
 							</div>
 							<div class="help-block with-errors"></div>
-							<div id="statusError" class="text-danger" style="display: none;">
-									올바른 회원구분을 선택해주세요.
-								</div>
 							</div>
 						<!-- log-line -->
 						<div class="log-line reg-form-1 no-margin">
@@ -171,14 +134,12 @@
 									<input id="checkbox2" type="checkbox"> 
 										<label for="checkbox2"><span><a href="#x">약관동의</a></span></label>
 								</div>
-								<div id="agreeError" class="text-danger" style="display: none;">
-									약관동의를 체크해주세요.
-								</div>
 							</div>
 							<!-- 회원가입 버튼 -->
 							<div class="pull-right">
 								<button type="submit" id="reg-submit"
 									class="btn btn-md btn-primary-filled btn-log btn-rounded">회원가입</button>
+								<div id="register-msgSubmit" class="h3 text-center hidden"></div>
 								<div class="clearfix"></div>
 								</div>
 							</div>
@@ -217,212 +178,16 @@
 	    });
 	</script>
 	
-	
-		<script>
-		
-		//아이디 중복체크 및 아이디 유효성 관련 검증 코드!!!
-		document.addEventListener('DOMContentLoaded', function () {
-		    var registerIdInput = document.getElementById('register-id');
-		    var checkIdButton = document.getElementById('check-id-button');
-	
-		    // 아이디 입력 필드의 값이 변경될 때 이벤트 리스너 등록
-		    registerIdInput.addEventListener('input', function () {
-		    	var idError = document.getElementById('idError');
-		        var idValue = registerIdInput.value;
-		        var idPattern = /^[a-z][a-z0-9]{3,12}$/;
-	
-		        if (idPattern.test(idValue)) {
-		        	idError.style.display = 'none';
-		            checkIdButton.disabled = false; // 아이디가 유효하면 버튼 활성화
-		        } else {
-		        	idError.style.display = 'block';
-		            checkIdButton.disabled = true; // 아이디가 유효하지 않으면 버튼 비활성화
-		            event.preventDefault(); 
-		        }
-		    });
-		});
-		
-		</script>
-		<!-- 유효성 검사 및 회원가입 버튼 활성화(이벤트 핸들러) -->
-	     <script>
-	     document.getElementById('reg-submit').addEventListener('click', function(event) {
-	     var isIdChecked = false; //ID 중복체크를 추적하기 위한 변수
-	     var isValid = true; //모든 유효성 검사를 통과했는지 확인하는 변수
-	     
-	     //아이디 중복체크 버튼을 누르지 않으면 오류 메세지를 띄우는 코드
-		 if(document.getElementById('check-id-button').disabled) {
-				isIdChecked = true;
-			} else {
-				document.getElementById('idDuplicationMessage').style.display = 'block';
-				event.preventDefault(); //양식 제출 방지
-				return;
-			}
-	     
-	     var passwordInput = document.getElementById('register-password');
-	     var passwordValue = passwordInput.value;
-	     var passwordConfirmInput = document.getElementById('register-password-confirm');
-	     var passwordConfirmValue = passwordConfirmInput.value;
-	     var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/;
-	     
-	     if (!passwordPattern.test(passwordValue)) {
-	     	document.getElementById('PasswordError').style.display = 'block'; // 비밀번호 오류 메시지 표시
-	         passwordInput.focus(); 
-	         event.preventDefault();//회원가입 방지
-	         isValid = false;
-	     } else {
-	     	document.getElementById('PasswordError').style.display = 'none'; // 비밀번호 오류 메시지 제거
-	     }
-	     
-	     
-		if(passwordValue !== passwordConfirmValue) {
-			document.getElementById('password-match-error').style.display = 'block';
-	     	passwordConfirmInput.focus();
-	     	event.preventDefault();//회원가입 방지
-	     	isValid = false;
-	     } else {
-	     	document.getElementById('password-match-error').style.display = 'none';
-	     }
-			
-			var nameInput = document.getElementById('register-name');
-	     var nameValue = nameInput.value;
-	     var namePattern = /^[가-힣]{2,6}$/;
-	     
-	     if (!namePattern.test(nameValue)) {
-	     	document.getElementById('nameError').style.display = 'block';
-	         nameInput.focus();
-	         event.preventDefault();//회원가입 방지
-	         isValid = false;
-	     } else {
-	     	document.getElementById('nameError').style.display = 'none';
-	     }
-			
-	     var phoneInput = document.getElementById('register-phone');
-	     var phoneValue = phoneInput.value;
-	     var phonePattern = /^\d{3}-\d{4}-\d{4}$/;
-	     
-	     if (!phonePattern.test(phoneValue)) {
-	     	document.getElementById('phoneError').style.display = 'block';
-	         phoneInput.focus();
-	         event.preventDefault();//회원가입 방지
-	         isValid = false;
-	     } else {
-	     	document.getElementById('phoneError').style.display = 'none';
-	     }
-	     
-	     var emailInput = document.getElementById('register-email');
-	     var emailValue = emailInput.value;
-	     var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-	     
-	     if (!emailPattern.test(emailValue)) {
-	     	document.getElementById('emailError').style.display = 'block';
-	         emailInput.focus();
-	         event.preventDefault();//회원가입 방지
-	         isValid = false;
-	     } else {
-	     	document.getElementById('emailError').style.display = 'none';
-	     }
-	     
-	     var genderInput = document.querySelector('input[name="gender"]:checked');
-	     if (!genderInput) {
-	     	document.getElementById('genderError').style.display = 'block';
-	     	event.preventDefault();//회원가입 방지
-	     	isValid = false;
-	     } else {
-	     	document.getElementById('genderError').style.display = 'none';
-	     }
-	     
-	     var birthInput = document.getElementById('register-birth');
-	     var birthValue = birthInput.value;
-	     
-	     if (birthValue == "") {
-	     	document.getElementById('birthError').style.display = 'block';
-	     	event.preventDefault();//회원가입 방지
-	     	isValid = false;
-	     } else {
-	     	document.getElementById('birthError').style.display = 'none';
-	     }
-	     
-	     var address1Input = document.getElementById('register-address1');
-	     var address2Input = document.getElementById('register-address2');
-	     var address3Input = document.getElementById('register-address3');
-	     var address1Value = address1Input.value;
-	     var address2Value = address2Input.value;
-	     var address3Value = address3Input.value;
-	     
-	     if (address1Value == "" || address2Value == "" || address3Value == "") {
-	     	document.getElementById('addressError').style.display = 'block';
-	     	event.preventDefault();//회원가입 방지
-	     	isValid = false;
-	     } else {
-	     	document.getElementById('addressError').style.display = 'none';
-	     }
-	     
-	     var statusInput = document.querySelector('input[name="status"]:checked');
-	     if (!statusInput) {
-	     	document.getElementById('statusError').style.display = 'block';
-	     	event.preventDefault();//회원가입 방지
-	     	isValid = false;
-	     } else {
-	     	document.getElementById('statusError').style.display = 'none';
-	     }
-	     
-	     var isAgreed = document.getElementById('checkbox2').checked;
-	     
-	
-	     // 약관 동의 체크 여부 확인
-	     var isAgreed = document.getElementById('checkbox2').checked;
-	     
-	     if (!isAgreed) {
-	     	document.getElementById('agreeError').style.display = 'block';
-	     	event.preventDefault();//회원가입 방지
-	     	isValid = false;
-	     } else {
-	     	document.getElementById('agreeError').style.display = 'none';
-	     }
-	     
-          	//ID 중복체크가 확인되었고 다른 유효성 검사가 통과되면 양식 제출을 허용
-   			if (isIdChecked && isValid == true) {
-             alert("회원가입이 완료 되었습니다.");
-          } else if(!isIdChecked && isValid == false){
-        	  event.preventDefault(); // 회원가입 방지
-          }
-      });
+	<!-- 유효성 검사 및 회원가입 버튼 활성화(이벤트 핸들러) -->
+     <script>
+     	document.getElementById('reg-submit').addEventListener('click', function(event) {
+            if (validateForm()) {
+                alert("회원가입이 완료 되었습니다.");
+            } else {
+	            event.preventDefault(); // 기본 이벤트 동작 방지
+            }
+        });
      	
-	     	//아이디 중복체크 버튼 이벤트 핸들러
-			$('#check-id-button').click(function(){
-				var idValue = $('#register-id').val();
-				var idInput = $('#register-id');
-				var idPattern = /^[a-z][a-z0-9]{3,12}$/;
-			
-				if(!idPattern.test(idValue)) {
-					document.getElementById('idDuplicationMessage').style.display = 'block';
-					idInput.focus();
-					return;
-				}
-				
-				$.ajax({
-					type: 'GET',
-					url: "<c:url value='/checkId'/>",
-					data: {id: idValue},
-					success: function(response) {
-						 if (response.available) {
-							alert('사용 가능한 아이디입니다.');
-							document.getElementById('idDuplicationMessage').style.display = 'none';
-							 $('#check-id-button').prop('disabled', true);
-						} else {
-							alert('이미 사용중인 아이디입니다.');
-							document.getElementById('idDuplicationMessage').style.display = 'block';
-						}
-						isIdChecked = true;
-					},
-					error: function() {
-						alert('서버 오류가 발생하였습니다.');
-					}
-				});
-			});
-
-        
-        
      	//페이지를 다시 로드(뒤로가기 버튼 누를 때)
      	window.onbeforeunload = function() {
      		return null;
@@ -435,6 +200,108 @@
      		}
      	}
     
+        function validateForm() {
+            var idInput = document.getElementById('register-id');
+            var idValue = idInput.value;
+            var idPattern = /^[a-z][a-z0-9]{3,12}$/;
+            
+            if (!idPattern.test(idValue)) {
+                alert('아이디는 소문자로 시작하며 소문자 또는 숫자 조합 3-12자 이내여야 합니다.');
+                idInput.focus(); // 아이디 입력 필드에 포커스 설정
+                return false;
+            }
+            
+            var passwordInput = document.getElementById('register-password');
+            var passwordValue = passwordInput.value;
+            var passwordConfirmInput = document.getElementById('register-password-confirm');
+            var passwordConfirmValue = passwordConfirmInput.value;
+            var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/;
+            
+            if (!passwordPattern.test(passwordValue)) {
+                alert('비밀번호는 8-12자의 영문, 숫자, 특수문자 조합이어야 합니다.');
+                passwordInput.focus(); 
+                return false;
+            }
+            
+            if(passwordValue !== passwordConfirmValue) {
+				document.getElementById('password-match-error').style.display = 'block';
+            	passwordConfirmInput.focus();
+            	return false;
+            }
+            
+            
+            var nameInput = document.getElementById('register-name');
+            var nameValue = nameInput.value;
+            var namePattern = /^[가-힣]{2,6}$/;
+            
+            if (!namePattern.test(nameValue)) {
+                alert('이름은 2~6자 한글로 입력해주세요.');
+                nameInput.focus(); 
+                return false;
+            }
+            
+            var phoneInput = document.getElementById('register-phone');
+            var phoneValue = phoneInput.value;
+            var phonePattern = /^\d{3}-\d{4}-\d{4}$/;
+            
+            if (!phonePattern.test(phoneValue)) {
+                alert('핸드폰 번호는 숫자로만 입력해주세요.');
+                phoneInput.focus(); 
+                return false;
+            }
+            
+            var emailInput = document.getElementById('register-email');
+            var emailValue = emailInput.value;
+            var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+            
+            if (!emailPattern.test(emailValue)) {
+                alert('올바른 이메일 주소를 입력해주세요.');
+                emailInput.focus(); 
+                return false;
+            }
+            
+            var genderInput = document.querySelector('input[name="gender"]:checked');
+            if (!genderInput) {
+	            alert("성별을 선택해주세요.");
+	            return false;
+	        }
+            
+            var birthInput = document.getElementById('register-birth');
+            var birthValue = birthInput.value;
+            
+            if (birthValue == "") {
+                alert('생년월일을 입력해주세요.');
+                return false;
+            }
+            
+            var address1Input = document.getElementById('register-address1');
+            var address2Input = document.getElementById('register-address2');
+            var address3Input = document.getElementById('register-address3');
+            var address1Value = address1Input.value;
+            var address2Value = address2Input.value;
+            var address3Value = address3Input.value;
+            
+            if (address1Value == null&&"" || address2Value == null&&"" || address3Value == null&&"") {
+                alert('주소를 입력해주세요.');
+                return false;
+            }
+            
+            var statusInput = document.querySelector('input[name="accountRole"]:checked');
+            if (!statusInput) {
+	            alert("회원구분을 선택해주세요.");
+	            return false;
+	        }
+            
+            var isAgreed = document.getElementById('checkbox2').checked;
+
+	        // 약관 동의 체크 여부 확인
+	        if (!isAgreed) {
+	            alert("약관에 동의해주세요.");
+	            return false;
+	        } else {
+	        	return true; // 모든 유효성 검사 통과
+	        }
+        }
         
     </script>
     
@@ -450,13 +317,50 @@
 	                document.getElementById('register-address2').value = data.roadAddress; // 도로명 주소 입력
 	                document.getElementById('register-address3').focus();
 	               
-	                document.getElementById('addressError').style.display = 'none';
-	                
 	            }
 	        }).open();
 	    });
 	</script>
 	
+	<script>
+		/*document.getElementById('check-id-button').addEventListener('click', function(){
+			var idInput = document.getElementById('register-id');
+			var idValue = idInput.value;})*/
+		
+		$(document).ready(function() {
+			$('#check-id-button').click(function(){
+				var idValue = $('#register-id').val();
+				var idInput = $('#register-id');
+				var idPattern = /^[a-z][a-z0-9]{3,12}$/;
+			
+				if(!idPattern.test(idValue)) {
+					alert("아이디를 올바른 값으로 입력해주세요.");
+					idInput.focus();
+					return;
+				}
+				
+			$.ajax({
+				type: 'GET',
+				url: "<c:url value='/checkId'/>",
+				data: {id: idValue},
+				success: function(response) {
+					if(idValue.trim()=='') {
+						alert('아이디를 입력해주세요.');
+					} else if (response.available) {
+						alert('사용 가능한 아이디입니다.');
+					} else {
+						alert('이미 사용중인 아이디입니다.');
+					}
+					isIdChecked = true;
+				},
+				error: function() {
+					alert('서버 오류가 발생하였습니다.');
+				}
+			});
+		});
+	});
+		
+	</script>
 	<!-- / javascript -->
 </body>
 

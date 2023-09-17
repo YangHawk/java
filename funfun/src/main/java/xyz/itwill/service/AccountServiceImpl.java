@@ -37,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
 	// 회원가입 기능
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public void addAccount(Account account) throws ExistsUserinfoException {
+	public void addAccount(Account account, String accountRole) throws ExistsUserinfoException {
 		if (accountDAO.selectAccount(account.getId()) != null) {
 			throw new ExistsUserinfoException("이미 사용 중인 아이디를 입력하였습니다.", account);
 		}
@@ -45,12 +45,22 @@ public class AccountServiceImpl implements AccountService {
 		account.setPassword(hashedPassword);
 
 		accountDAO.insertAccount(account);
+		/*
 		if (account.getStatus() == 1) {
 			accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_USER"));
 			accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_REGISTER"));
 		} else if (account.getStatus() == 2) {
 			accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_USER"));
-		}			
+		}*/
+		
+		//Account 테이블에서 status를 삭제할 경우
+	    if (accountRole.equals("ROLE_REGISTER")) {
+	        accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_REGISTER"));
+	        accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_USER"));
+	    } else if (accountRole.equals("ROLE_USER")) {
+	        accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_USER"));
+	    }
+		
 	}
 
 	// 회원 정보 수정 기능

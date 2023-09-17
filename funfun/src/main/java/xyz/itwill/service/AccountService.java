@@ -8,7 +8,7 @@ import xyz.itwill.exception.LoginAuthFailException;
 import xyz.itwill.exception.UserinfoNotFoundException;
 
 public interface AccountService {
-	void addAccount(Account account) throws ExistsUserinfoException;
+	void addAccount(Account account, String accountRole) throws ExistsUserinfoException;
 
 	void modifyAccount(Account account) throws UserinfoNotFoundException;
 	
