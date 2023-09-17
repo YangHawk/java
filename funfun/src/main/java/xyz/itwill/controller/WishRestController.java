@@ -48,7 +48,7 @@ public class WishRestController {
 		if(loginAccount == null) {
 			mywish = null;
 		}else {
-			
+			 
 			mywish = wishService.getMyWishList(pageNum, loginAccount.getId());
 		}
 		return mywish;

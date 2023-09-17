@@ -2284,13 +2284,22 @@ table.shopping-cart>thead>tr>th, table>thead>tr>td {
 }
 
 .top-menu-inverse {
-	background-color: #404040;
-	height: 3.0em;
-	display: flex;
-	align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 세로 중앙 정렬 유지 */
+    text-align: center;
 }
 
 .top-menu-inverse .container {
+    max-height: 100px; /* 최대 높이 설정 */
+    height: 100%;
+    display: flex;
+    justify-content: right; /* 수평 중앙 정렬 유지 */
+    margin-right:2.0em;
+    align-items: center; /* 세로 중앙 정렬 */
+}
+
+.top-menu-inverse .right {
 	height: 2.0em;
 }
 
@@ -2298,7 +2307,7 @@ table.shopping-cart>thead>tr>th, table>thead>tr>td {
 	background-color: #D7D7D9;
 }
 
-.top-menu p {
+.top-menu div {
 	font-size: 12px;
 	margin-bottom: 0;
 	padding: 8px 15px;
@@ -2323,15 +2332,16 @@ table.shopping-cart>thead>tr>th, table>thead>tr>td {
 	color: white !important;
 }
 
+
 .top-menu-primary a:hover {
 	color: #ebebeb !important;
 }
 
-.top-menu-inverse p {
+.top-menu-inverse div {
 	color: #cccccc !important;
 }
 
-.top-menu-primary p {
+.top-menu-primary div {
 	color: white !important;
 }
 
@@ -2360,6 +2370,28 @@ table.shopping-cart>thead>tr>th, table>thead>tr>td {
 	padding: 5px 0;
 }
 
+.logout-button {
+    background-color: transparent;
+    border: none;
+    font-size: 12px !important;
+    font-weight: 400;
+    display: inline-block;
+    margin-left: 10px;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: none;
+    color: #cccccc !important;
+    vertical-align: middle;
+}
+
+.logout-button:hover {
+    color: #AAADBF !important;
+}
+
+.logout-button:active {
+    color: #AAADBF !important;
+}
+
 /*.btn-top-menu:hover {
 	border: 2px solid #AAADF;
 }*/
@@ -2369,6 +2401,7 @@ table.shopping-cart>thead>tr>th, table>thead>tr>td {
 	margin: 0 !important;
 	padding: 8px;
 }
+
 
 .btn-top-menu-inverse {
 	background: transparent;
