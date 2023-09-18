@@ -120,12 +120,6 @@ public class AdminRestController {
 
 	@PutMapping("/account_modify")
 	public String modifyAcocunt(@RequestBody Account account) throws UserinfoNotFoundException {
-		account.setName(account.getName());
-		account.setEmail(account.getEmail());
-		account.setPhone(account.getPhone());
-		account.setAddress1(account.getAddress1());
-		account.setAddress2(account.getAddress2());
-		account.setAddress3(account.getAddress3());
 		accountService.modifyAccountByAdmin(account);
 		return "success";
 	}

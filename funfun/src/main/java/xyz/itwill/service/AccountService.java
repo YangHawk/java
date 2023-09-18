@@ -3,6 +3,7 @@ package xyz.itwill.service;
 import java.util.Map;
 
 import xyz.itwill.dto.Account;
+import xyz.itwill.dto.AccountAuth;
 import xyz.itwill.exception.ExistsUserinfoException;
 import xyz.itwill.exception.LoginAuthFailException;
 import xyz.itwill.exception.UserinfoNotFoundException;
@@ -10,6 +11,8 @@ import xyz.itwill.exception.UserinfoNotFoundException;
 public interface AccountService {
 	void addAccount(Account account, String accountRole) throws ExistsUserinfoException;
 
+	void addAccountAuth(AccountAuth auth);
+	
 	void modifyAccount(Account account) throws UserinfoNotFoundException;
 	
 	void modifyAccountByAdmin(Account account) throws UserinfoNotFoundException;

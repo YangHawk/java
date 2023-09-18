@@ -3,6 +3,13 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
+<style>
+    .naver-login-img {
+        width: 50px; /* 원하는 가로 크기 */
+        height: auto; /* 자동으로 세로 크기 조절하여 비율 유지 */
+       	float: left;
+    }
+</style>
 <body>
 	<!-- preloader -->
 	<div id="preloader">
@@ -54,12 +61,10 @@
 							<sec:csrfInput/>
 						</form>
 						<!-- 회원가입 버튼 및 아이디,비밀번호 찾기 버튼 -->
-						<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION }">
-							<%-- <h3 style="color: red;">아이디 또는 비밀번호가 맞지 않습니다.</h3> --%>
-							<h3 style="color: red;">${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message }</h3>
-							<%-- 예외가 저장된 세션에 속성값을 삭제 --%>
-							<c:remove var="SPRING_SECURITY_LAST_EXCEPTION"/>
-						</c:if>
+						<img class="naver-login-img" alt="네이버로그인" src="<c:url value="/resources/images/btnW_one.png"/>" 
+  								  onclick="location.href='${pageContext.request.contextPath}/naver/login';">
+						<br><br>
+  						<hr>
 						<a href="register" class="register">회원 가입하기</a>
 						<br>
 						<a href="find" class="find" id="find_btn">아이디 및 비밀번호 찾기</a>
@@ -68,6 +73,10 @@
 			</div>
 		</div>
 	</section>
+	
+	
+	
+	
 	
 		<!-- 로그인 기능!!!!!!!!! --> 
 		<script>

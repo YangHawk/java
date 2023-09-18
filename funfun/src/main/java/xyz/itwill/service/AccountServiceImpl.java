@@ -59,12 +59,13 @@ public class AccountServiceImpl implements AccountService {
 	        accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_USER"));
 	    } else if (accountRole.equals("ROLE_USER")) {
 	        accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_USER"));
-	    } else if (accountRole.equals("ROLE_ADMIN")) {
-	    	accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_USER"));
-	    	accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_REGISTER"));
-	    	accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_ADMIN"));
-	    	
 	    }
+		
+	}
+	
+	@Override
+	public void addAccountAuth(AccountAuth auth) {
+		accountDAO.insertAccountAuth(auth);
 		
 	}
 
@@ -112,7 +113,8 @@ public class AccountServiceImpl implements AccountService {
 		if (account == null) {
 			throw new UserinfoNotFoundException("아이디의 회원 정보가 존재하지 않습니다.");
 		}
-		return account;
+		//return account;
+		return accountDAO.selectAccount(id);
 	}
 
 	// 회원 리스트 조회 기능

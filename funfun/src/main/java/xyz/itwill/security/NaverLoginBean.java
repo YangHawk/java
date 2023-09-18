@@ -19,9 +19,9 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 @Component
 public class NaverLoginBean {
 	// 로그인에 필요한 정보를 저장한 필드(상수) 선언
-	private static final String CLIENT_ID = "DdUGl2N7tmnfkPjZQO_T";
-	private static final String CLIENT_SECRET = "O9rJkaBTcM";
-	private static final String REDIRECT_URI = "http://localhost:8000/auth/naver/callback";
+	private static final String CLIENT_ID = "dhsS8GuQWYnziR51CCzl";
+	private static final String CLIENT_SECRET = "Ud6UI8dC4v";
+	private static final String REDIRECT_URI = "http://localhost:8000/funfun";
 	private static final String SESSION_STATE = "naver_state";
 	// 사용자 프로필을 조회하기 위한 API의 URL 주소 저장
 	private static final String PROFILE_API_URI = "https://openapi.naver.com/v1/nid/me";
