@@ -366,13 +366,13 @@ $(document).ready(function() {
             url: "<c:url value='/admin/account_modify'/>",
             contentType: "application/json",
             data: JSON.stringify({
-                "idx": idx,
                 "name": aName,
-                "email": aEmail,
                 "phone": aPhone,
+                "email": aEmail,
                 "address1": aAddress1,
                 "address2": aAddress2,
                 "address3": aAddress3,
+                "idx": idx
             }),
             dataType: "text",
             success: function(result) {
