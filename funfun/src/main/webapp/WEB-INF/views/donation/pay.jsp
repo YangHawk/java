@@ -1,6 +1,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+   
+   <fmt:setLocale value="ko_kr"/>
 <!-- preloader -->
 <div id="preloader">
     <div class="spinner spinner-round"></div>
@@ -23,6 +28,7 @@
 <!-- shopping-cart -->
 <div id="shopping-cart">
 <form id="payForm" action="<c:url value='/donation/pay_update/'/>" method="POST" >
+	<sec:csrfInput/>
     <div class="container">
        <div class="coupon" style="display: flex; align-content: center;">
             <div class="input-group col-sm-9">
@@ -55,10 +61,11 @@
                        <img src="<c:url value='/resources/upload/${festivalinfo.mainImg}' />" width="50px" height="50px" alt=""></a>
                     </td>
                     <td><a href="${pageContext.request.contextPath}/donation/single-festival?idx=${festivalinfo.idx}">${festivalinfo.subject}</a></td>
-                    <td><input type="text" id="moneyInput" value="${money }" class="form-control" readonly></td>
-                    <td>${festivalinfo.fundingEnd}로 부터 2일 뒤</td>
-                    <td class="remove"><a href="#x" class="btn btn-danger-filled x-remove">×</a></td>
-                </tr>
+						                   
+                      <td><input type="text" id="moneyInput" value="${money}" class="form-control" readonly></td>
+						<fmt:parseDate var="fundingEndDay" value="${festivalinfo.fundingEnd}" pattern="yyyy-MM-dd"/> 
+						<td>${fundingEndDay }</td>
+                    </tr>
             </tbody>
         </table>
         <!-- / shopping cart table -->
@@ -186,7 +193,7 @@ $("#payForm").submit(function() {
    
    for (var i = 0; i < radioButtons.length; i++){
       if(radioButtons[i].checked == true){
-         if(radioButtons[i].id == "bnadbook"){
+         if(radioButtons[i].id == "bankbook"){
             if($("#refundAccount").val() == "" || refundaccountPattern.test($("#refundAccount").val())){
                resultSubmit = false;
             }
