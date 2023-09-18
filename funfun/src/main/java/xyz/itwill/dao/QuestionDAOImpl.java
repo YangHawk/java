@@ -62,7 +62,7 @@ public class QuestionDAOImpl implements QuestionDAO {
 
 	@Override
 	public List<Question> selectMyQuestionList(Map<String, Object> map) {
-		return sqlSession.getMapper(QuestionMapper.class).selectQuestionList(map);
+		return sqlSession.getMapper(QuestionMapper.class).selectMyQuestionList(map);
 	}
 
 	@Override

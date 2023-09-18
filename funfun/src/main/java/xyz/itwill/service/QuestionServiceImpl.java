@@ -68,7 +68,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public Map<String, Object> getMyQuestionList(int pageNum, String accountId) {
-		int totalBoard = questionDAO.selectQuestionCount(accountId);
+		int totalBoard = questionDAO.selectMyQuestionCount(accountId);
 		int blockSize = 5;
 		int pageSize = 10;
 		Pager pager = new Pager(pageNum, totalBoard, pageSize, blockSize);
