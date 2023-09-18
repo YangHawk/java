@@ -118,7 +118,7 @@ img {
 	                            <a href="javascript:void(0)" id="modify-question" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
                             </c:if>
                             <c:if test="${loginAccount != null and loginAccount.id == question.accountId || loginAccount.status == 0}">
-								<a href="<c:url value='/community/question/delete'/>?idx=${question.idx}" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</a>
+								<a href="<c:url value='/community/question/delete'/>?idx=${question.idx}&accountId=${question.accountId}" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</a>
                             </c:if>
                         </div>
                     </div><!-- / post-footer -->

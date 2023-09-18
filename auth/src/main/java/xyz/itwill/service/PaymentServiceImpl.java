@@ -68,6 +68,8 @@ public class PaymentServiceImpl implements PaymentService {
 				}
 				br.close();
 
+				System.out.println("result(Token) = " + result);
+
 				// 응답 결과(JSON 형식의 문자열)를 Java 객체로 변환하여 파싱 처리
 				JSONParser parser = new JSONParser();
 				JSONObject jsonObject = (JSONObject) parser.parse(result);
@@ -85,7 +87,8 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public Payment getPayment(String accessToken, Payment payment) {
 		Payment responsePayment = new Payment(); // 응답 결과를 저장하기 위한 객체를 생성
-		String apiUrl = "https://api.iamport.kr/payments";
+		// 결제 번호를 전달하여 결제 정보를 제공받기 위한 API 의 URL 주소
+		String apiUrl = "https://api.iamport.kr/payments/" + payment.getImpUid();
 		try {
 			URL url = new URL(apiUrl);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -106,6 +109,8 @@ public class PaymentServiceImpl implements PaymentService {
 					result += input;
 				}
 				br.close();
+
+				System.out.println("result(payment) = " + result);
 
 				// 응답 결과(JSON 형식의 문자열)를 Java 객체로 변환하여 파싱 처리
 				JSONParser parser = new JSONParser();
@@ -160,7 +165,6 @@ public class PaymentServiceImpl implements PaymentService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return null;
 	}
 }

@@ -26,7 +26,7 @@ public class Donation {
 	private String money;
 	private String day;
 	private int state;
-	private String cancleDay;
+	private String cancelDay;
 	private String payDay;
 	private int payType;
 	private String refundAccount;
