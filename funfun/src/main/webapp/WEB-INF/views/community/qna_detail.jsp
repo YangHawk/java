@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,6 +106,7 @@ img {
 						</c:if>
 					</div>
 						<input type="hidden" name="idx" value="${question.idx}">
+						<input type="hidden" name="accountId" value="${question.accountId}">
                     <hr>
                       <!-- 수정 버튼 -->
                         <button id="modifyBtn" type="submit">저장</button>
@@ -114,12 +116,12 @@ img {
                     <div class="post-footer">
                         <div class="pull-left">
                             <!-- 작성자에게만 보이게 -->
-                            <c:if test="${loginAccount != null and loginAccount.id == question.accountId}">
-	                            <a href="javascript:void(0)" id="modify-question" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
-                            </c:if>
-                            <c:if test="${loginAccount != null and loginAccount.id == question.accountId || loginAccount.status == 0}">
+                            <sec:authorize access="principal.id eq #question.accountId">
+			                    <a href="javascript:void(0)" id="modify-question" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
+			                </sec:authorize>
+                            <sec:authorize access="hasRole('ROLE_ADMIN') or principal.id eq #question.accountId">
 								<a href="<c:url value='/community/question/delete'/>?idx=${question.idx}&accountId=${question.accountId}" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</a>
-                            </c:if>
+			                </sec:authorize>
                         </div>
                     </div><!-- / post-footer -->
                 </div><!-- / blog-block -->
@@ -172,10 +174,12 @@ img {
                                 <br>
                                 
                                 <div class="comment">
-                                	<c:if test="${loginAccount.status == 0 and question.answerContent != null }">
+	                                <sec:authorize access="hasRole('ROLE_ADMIN')">
+	                                	<c:if test="${question.answerContent != null }">
 	                                    <a id="modify-answer" href="javascript:void(0)" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
 	                            		<a href="<c:url value='/community/question/delete_by_admin'/>?idx=${question.idx}" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</a>
-                            		</c:if>
+	                            		</c:if>
+					                </sec:authorize>
                                 </div><!-- / comment -->
 
                             </div><!-- / parent media-body -->
@@ -183,37 +187,39 @@ img {
                     </ul><!-- / media-list -->
 
                     <!-- comment form -->
-                    <c:if test="${loginAccount.status == 0 and question.answerContent == null }">
-	                    <div id="comment-form">
-	                        <form id="commentForm" data-toggle="validator">
-	                            <h4 class="space-left">답변 작성</h4>
-	                            <div class="row">
-	                                <div class="col-sm-12">
-	                                    <div class="form-group">
-	                                        <textarea id="ansmessage" class="form-control" rows="5" placeholder="답변을 입력해주세요." required></textarea>
-	                                    </div>
-	                                </div>
-	                                    <button type="submit" id="form-submit" class="anbtn-btn btn-primary-filled btn-form-submit btn-rounded">답변 등록</button>
-	                            </div><!-- / row -->
-	                        </form>
-	                    </div>
-                    </c:if>
-					<c:if test="${loginAccount.status == 0 and question.answerContent != null }">                    	
-                    	<div id="comment-form2">
-	                        <form id="commentForm2" data-toggle="validator">
-	                            <h4 class="space-left">답변 수정</h4>
-	                            <div class="row">
-	                               
-	                                <div class="col-sm-12">
-	                                    <div class="form-group">
-	                                        <textarea id="ansmessage2" class="form-control" rows="5" required>${question.answerContent }</textarea>
-	                                    </div>
-	                                </div>
-	                                    <button type="submit" id="form-submit2" class="anbtn-btn btn-primary-filled btn-form-submit btn-rounded">답변 등록</button>
-	                            </div><!-- / row -->
-	                        </form>
-	                    </div>
-                    </c:if>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+	                    <c:if test="${question.answerContent == null }">
+		                    <div id="comment-form">
+		                        <form id="commentForm" data-toggle="validator">
+		                            <h4 class="space-left">답변 작성</h4>
+		                            <div class="row">
+		                                <div class="col-sm-12">
+		                                    <div class="form-group">
+		                                        <textarea id="ansmessage" class="form-control" rows="5" placeholder="답변을 입력해주세요." required></textarea>
+		                                    </div>
+		                                </div>
+		                                    <button type="submit" id="form-submit" class="anbtn-btn btn-primary-filled btn-form-submit btn-rounded">답변 등록</button>
+		                            </div><!-- / row -->
+		                        </form>
+		                    </div>
+	                    </c:if>
+						<c:if test="${question.answerContent != null }">                    	
+	                    	<div id="comment-form2">
+		                        <form id="commentForm2" data-toggle="validator">
+		                            <h4 class="space-left">답변 수정</h4>
+		                            <div class="row">
+		                               
+		                                <div class="col-sm-12">
+		                                    <div class="form-group">
+		                                        <textarea id="ansmessage2" class="form-control" rows="5" required>${question.answerContent }</textarea>
+		                                    </div>
+		                                </div>
+		                                    <button type="submit" id="form-submit2" class="anbtn-btn btn-primary-filled btn-form-submit btn-rounded">답변 등록</button>
+		                            </div><!-- / row -->
+		                        </form>
+		                    </div>
+	                    </c:if>
+                    </sec:authorize>
                     <!-- / comment form -->
                 </div><!-- / comments -->
             </div> <!-- / col-sm-8 -->
@@ -254,6 +260,7 @@ $(document).ready(function() {
 	    
 	 //수정 버튼 클릭 시
 	    $("#modifyBtn").click(function() {
+	    	var accountId = "${question.accountId}";
 	       var title=$("#title").val();
 	       var content=$("#nContent").val();
 	       var idx = "${question.idx}";
@@ -272,6 +279,7 @@ $(document).ready(function() {
 	       formData.append("title", title);
 	       formData.append("content", content);
 	       formData.append("idx", idx);
+	       formData.append("accountId", accountId);
 	       
 	    	
 	       if (uploadFile) {

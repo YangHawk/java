@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,13 +113,13 @@ img {
                     <div class="post-footer">
                         <div class="pull-left">
                             <!-- 관리자에게만 보이게 -->
-                        <c:if test="${loginAccount.status == 0 and question.answerContent == null }">
-                            <a href="javascript:void(0)" id="modify-notice" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
-                        <form action="${pageContext.request.contextPath}/community/notice/delete" method="POST" style="display: inline;">
-                       <input type="hidden" name="idx" value="${notice.idx}">
-                       <button type="submit" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</button>
-                   </form>
-                   </c:if>
+                            <sec:authorize access="hasRole('ROLE_ADMIN')">
+	                            <a href="javascript:void(0)" id="modify-notice" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
+		                        <form action="${pageContext.request.contextPath}/community/notice/delete" method="POST" style="display: inline;">
+			                       <input type="hidden" name="idx" value="${notice.idx}">
+			                       <button type="submit" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</button>
+			                   </form>
+                            </sec:authorize>
                         </div>
                     </div><!-- / post-footer -->
                 </div><!-- / blog-block -->

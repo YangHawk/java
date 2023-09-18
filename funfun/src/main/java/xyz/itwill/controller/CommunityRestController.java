@@ -85,7 +85,7 @@ public class CommunityRestController {
        return "success"; // 클라이언트에게 성공 메시지를 반환
    }
    
-   @PreAuthorize("isAuthenticated()")
+   @PreAuthorize("principal.id eq #question.accountId")
    @PostMapping("/question_modify")
    public String modifyQuestion(@ModelAttribute Question question,
            @RequestParam("uploadFile") MultipartFile uploadFile,
