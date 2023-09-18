@@ -65,7 +65,7 @@
 			EMAIL = #{email},
 			ADDRESS1 = #{address1},
 			ADDRESS2 = #{address2},
-			ADDRESS3 = #{address3},
+			ADDRESS3 = #{address3}
 		WHERE IDX = #{idx}
 	</update>	
 

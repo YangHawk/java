@@ -39,7 +39,6 @@ public class MyAccountRestController {
 	public Map<String, Object> getMyAccount(@RequestParam int questionPageNum, @RequestParam int donationPageNum,
 			@RequestParam int wishPageNum, Model model, Authentication authentication) {
 		CustomAccountDetails loginAccount = (CustomAccountDetails)authentication.getPrincipal();
-		model.addAttribute("loginAccount", loginAccount);
 		Map<String, Object> myWish;
 		myWish = wishService.getMyWishList(wishPageNum, loginAccount.getId());
 		Map<String, Object> myQuestion;
@@ -67,7 +66,7 @@ public class MyAccountRestController {
 		loginAccount2.setAddress2(account.getAddress2());
 		loginAccount2.setAddress3(account.getAddress3());
 
-		accountService.modifyAccount(account);
+		accountService.modifyAccount(loginAccount2);
 
 		return "success";
 	}

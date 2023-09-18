@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>       
 <!DOCTYPE html>
 <html lang="en">
 <body>
@@ -25,18 +26,18 @@
                     	<br>
                     	<h3>수정하세요</h3>
                     	<p> 이름 </p>
-                    	<input id="aName" name="aName" value="${account.name }">
+                    	<input id="name" name="name" value="${account.name }">
                     	<hr>
                     	<p> 이메일 </p>
-                    	<input id="aEmail" name="aEmail" value="${account.email }">
+                    	<input id="email" name="email" value="${account.email }">
                     	<hr>
                     	<p> 전화번호 </p>
-                    	<input id="aPhone" name="aPhone" value="${account.phone }">
+                    	<input id="phone" name="phone" value="${account.phone }">
                     	<hr>
                     	<p> 주소 </p>
-                    	<input id="aAddress1" name="aAddress1" value="${account.address1 }">
-                    	<input id="aAddress2" name="aAddress2" value="${account.address2 }">
-                    	<input id="aAddress3" name="aAddress3" value="${account.address3 }">
+                    	<input id="address1" name="address1" value="${account.address1 }">
+                    	<input id="address2" name="address2" value="${account.address2 }">
+                    	<input id="address3" name="address3" value="${account.address3 }">
                     	<hr>
                     	<!-- 수정 버튼 -->
                     	<button id="modifyBtn" type="submit">저장</button>
@@ -334,29 +335,29 @@ $(document).ready(function() {
     });
 
     $("#modifyBtn").click(function() {
-        var aName = $("#aName").val();
-        var aEmail = $("#aEmail").val();
-        var aPhone = $("#aPhone").val();
-        var aAddress1 = $("#aAddress1").val();
-        var aAddress2 = $("#aAddress2").val();
-        var aAddress3 = $("#aAddress3").val();
+        var name = $("#name").val();
+        var email = $("#email").val();
+        var phone = $("#phone").val();
+        var address1 = $("#address1").val();
+        var address2 = $("#address2").val();
+        var address3 = $("#address3").val();
 
-        if (aName == "") {
+        if (name == "") {
             alert("이름을 입력해 주세요.");
             return;
         }
 
-        if (aEmail == "") {
+        if (email == "") {
             alert("이메일을 입력해 주세요.");
             return;
         }
 
-        if (aPhone == "") {
+        if (phone == "") {
             alert("전화번호를 입력해 주세요.");
             return;
         }
 
-        if (aAddress1 == null || aAddress2 == null || aAddress3 == null || aAddress1 === "" || aAddress2 === "" || aAddress3 === "") {
+        if (address1 == null || address2 == null || address3 == null || address1 === "" || address2 === "" || address3 === "") {
             alert("주소를 입력해 주세요.");
             return;
         }
@@ -366,12 +367,13 @@ $(document).ready(function() {
             url: "<c:url value='/admin/account_modify'/>",
             contentType: "application/json",
             data: JSON.stringify({
-                "name": aName,
-                "phone": aPhone,
-                "email": aEmail,
-                "address1": aAddress1,
-                "address2": aAddress2,
-                "address3": aAddress3,
+            	"id": id,
+                "name": name,
+                "phone": phone,
+                "email": email,
+                "address1": address1,
+                "address2": address2,
+                "address3": address3,
                 "idx": idx
             }),
             dataType: "text",
@@ -401,6 +403,7 @@ $(document).ready(function() {
                     }
                 },
                 error: function(xhr) {
+
                     alert("회원 정보  삭제 중 오류가 발생하였습니다(" + xhr.status + ")");
                 }
             });

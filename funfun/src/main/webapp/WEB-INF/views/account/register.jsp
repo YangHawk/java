@@ -180,6 +180,16 @@
 	
 	<!-- 유효성 검사 및 회원가입 버튼 활성화(이벤트 핸들러) -->
      <script>
+	   //CSRF 토큰 관련 정보를 자바스크립트 변수에 저장
+	     var csrfHeaderName = "${_csrf.headerName}";
+	     var csrfTokenValue = "${_csrf.token}";
+	
+	     // Ajax 기능을 사용하여 요청하는 모든 웹 프로그램에게 CSRF 토큰 전달 가능
+	     // ▶ Ajax 요청 시 beforeSend 속성을 설정할 필요 없음
+	     $(document).ajaxSend(function(e, xhr){
+	     	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	     });
+     
      	document.getElementById('reg-submit').addEventListener('click', function(event) {
             if (validateForm()) {
                 alert("회원가입이 완료 되었습니다.");

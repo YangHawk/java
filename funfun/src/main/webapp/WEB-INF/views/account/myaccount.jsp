@@ -2,6 +2,7 @@
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,18 +59,18 @@
                     	<br>
                     	<h3>수정하세요</h3>
                     	<p> 이름 </p>
-                    	<input id="aName" name="aName" value="${loginAccount.name }">
+                    	<input id="name" name="name" value="${loginAccount.name }">
                     	<hr>
                     	<p> 이메일 </p>
-                    	<input id="aEmail" name="aEmail" value="${loginAccount.email }">
+                    	<input id="email" name="email" value="${loginAccount.email }">
                     	<hr>
                     	<p> 전화번호 </p>
-                    	<input id="aPhone" name="aPhone" value="${loginAccount.phone }">
+                    	<input id="phone" name="phone" value="${loginAccount.phone }">
                     	<hr>
                     	<p> 주소 </p>
-                    	<input id="aAddress1" name="aAddress1" value="${loginAccount.address1 }">
-                    	<input id="aAddress2" name="aAddress2" value="${loginAccount.address2 }">
-                    	<input id="aAddress3" name="aAddress3" value="${loginAccount.address3 }">
+                    	<input id="address1" name="address1" value="${loginAccount.address1 }">
+                    	<input id="address2" name="address2" value="${loginAccount.address2 }">
+                    	<input id="address3" name="address3" value="${loginAccount.address3 }">
                     	<hr>
                     	<!-- 수정 버튼 -->
                     	<button id="modifyBtn" type="submit">저장</button>
@@ -153,14 +154,26 @@
 <!-- / preloader -->
 
 <script type="text/javascript">
-	var id = "${loginAccount.id}"; // 전달받은 아이디
+	//CSRF 토큰 관련 정보를 자바스트립트 변수에 저장 
+	var csrfHeaderName="${_csrf.headerName}";
+	var csrfTokenValue="${_csrf.token}";
+	
+	<sec:authorize access="isAuthenticated()">
+	   var loginId="<sec:authentication property="principal.id"/>";
+	</sec:authorize>
+	   
+	//ajaxSend() 메소드를 호출하여 페이지에서 Ajax 기능으로 요청하는 모든 웹프로그램에게 CSRF 토큰 전달
+	// => Ajax 요청시 beforeSend 속성을 설정 불필요
+	$(document).ajaxSend(function(e, xhr) {
+	   xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	});
+
 	var donationPage = 1;
 	var questionPage = 1;
 	var wishPage = 1;
 	
 	function getMyAccountsData(accountId, donationPageNum, questionPageNum, wishPageNum) {
-
-		id = accountId;
+		loginId = accountId;
 		questionPage = questionPageNum;
 		donationPage = donationPageNum;
 		wishPage = wishPage;
@@ -169,7 +182,7 @@
 	        method: "GET",
 	        url: "<c:url value ='/account_detail'/>",
 	        data: {
-	            "id": id,
+	            "id": loginId,
 	            "donationPageNum": donationPageNum,
 	            "questionPageNum": questionPageNum,
 	            "wishPageNum": wishPageNum
@@ -325,7 +338,7 @@
 	function donationPageNumDisplay(pager) {
 		 var html = "";
 		 if (pager.startPage > pager.blockSize) {
-			 html += "<a href=\"javascript:getMyAccountsData('" + id + "', " + pager.prevPage + ", " + questionPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
+			 html += "<a href=\"javascript:getMyAccountsData('" + loginId + "', " + pager.prevPage + ", " + questionPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
 		 } else {
 			 html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-left'/></a>";
 		 }
@@ -339,7 +352,7 @@
 		 }
 	
 		 if (pager.endPage != pager.totalPage) {
-		     html += "<a href=\"javascript:getMyAccountsData('" + id + "', " + pager.nextPage + ", " + questionPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-right'/></a>";
+		     html += "<a href=\"javascript:getMyAccountsData('" + loginId + "', " + pager.nextPage + ", " + questionPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-right'/></a>";
 		 } else {
 		     html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-right'/></a>";
 		 }
@@ -350,21 +363,21 @@
 	function questionPageNumDisplay(pager) {
 	 var html = "";
 	 if (pager.startPage > pager.blockSize) {
-	     html += "<a href=\"javascript:getMyAccountsData('" + id + "', " + donationPage + ", " + pager.prevPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
+	     html += "<a href=\"javascript:getMyAccountsData('" + loginId + "', " + donationPage + ", " + pager.prevPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
 	 } else {
 		 html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-left'/></a>";
 	 }
 	
 	 for (var i = pager.startPage; i <= pager.endPage; i++) {
 	     if (pager.pageNum != i) {
-	         html += "<a class='btn btn-direction btn-default btn-rounded' href=\"javascript:getMyAccountsData('" + id + "', " + donationPage + ", " + i + ", " + wishPage + ");\">" + i + "</a>";
+	         html += "<a class='btn btn-direction btn-default btn-rounded' href=\"javascript:getMyAccountsData('" + loginId + "', " + donationPage + ", " + i + ", " + wishPage + ");\">" + i + "</a>";
 	     } else {
 	         html += "<a class='btn btn-direction btn-default btn-rounded' disabled>" + i + "</a>";
 	     }
 	 }
 	
 	 if (pager.endPage != pager.totalPage) {
-	     html += "<a href=\"javascript:getMyAccountsData('" + id + "', " + donationPage + ", " + pager.nextPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-right'/></a>";
+	     html += "<a href=\"javascript:getMyAccountsData('" + loginId + "', " + donationPage + ", " + pager.nextPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-right'/></a>";
 	 } else {
 	     html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-right'/></a>";
 	 }
@@ -375,21 +388,21 @@
 	function wishPageNumDisplay(pager) {
 		 var html = "";
 		 if (pager.startPage > pager.blockSize) {
-		     html += "<a href=\"javascript:getMyAccountsData('" + id + "', " + donationPage + ", " + questionPage + ", " + pager.prevPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
+		     html += "<a href=\"javascript:getMyAccountsData('" + loginId + "', " + donationPage + ", " + questionPage + ", " + pager.prevPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
 		 } else {
 			 html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-left'/></a>";
 		 }
 	
 		 for (var i = pager.startPage; i <= pager.endPage; i++) {
 		     if (pager.pageNum != i) {
-		         html += "<a class='btn btn-direction btn-default btn-rounded' href=\"javascript:getMyAccountsData('" + id + "', " + donationPage + ", " + questionPage + ", " + i + ");\">" + i + "</a>";
+		         html += "<a class='btn btn-direction btn-default btn-rounded' href=\"javascript:getMyAccountsData('" + loginId + "', " + donationPage + ", " + questionPage + ", " + i + ");\">" + i + "</a>";
 		     } else {
 		         html += "<a class='btn btn-direction btn-default btn-rounded' disabled>" + i + "</a>";
 		     }
 		 }
 	
 		 if (pager.endPage != pager.totalPage) {
-		     html += "<a href=\"javascript:getMyAccountsData('" + id + "', " + donationPage + ", " + questionPage + ", " + pager.nextPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-right'/></a>";
+		     html += "<a href=\"javascript:getMyAccountsData('" + loginId + "', " + donationPage + ", " + questionPage + ", " + pager.nextPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-right'/></a>";
 		 } else {
 		     html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-right'/></a>";
 		 }
@@ -400,7 +413,7 @@
 	
 	$(document).ready(function () {
 		
-		getMyAccountsData(id, donationPage, questionPage, wishPage);
+		getMyAccountsData(loginId, donationPage, questionPage, wishPage);
 		
 		$("#cancelModifyBtn").click(function(){
 	        $("#edit-form").toggle();
@@ -412,29 +425,29 @@
 	    });
 		
 		$("#modifyBtn").click(function() {
-	    	var aName = $("#aName").val();
-	    	var aEmail = $("#aEmail").val();
-	    	var aPhone = $("#aPhone").val();
-	    	var aAddress1 = $("#aAddress1").val();
-	    	var aAddress2 = $("#aAddress2").val();
-	    	var aAddress3 = $("#aAddress3").val();
+	    	var name = $("#name").val();
+	    	var email = $("#email").val();
+	    	var phone = $("#phone").val();
+	    	var address1 = $("#address1").val();
+	    	var address2 = $("#address2").val();
+	    	var address3 = $("#address3").val();
 	    	
-	    	if(aName == "") {
+	    	if(name == "") {
 	    		alert("이름을 입력해 주세요.");
 	    		return;
 	    	}
 	    	
-	    	if(aEmail == "") {
+	    	if(email == "") {
 	    		alert("이메일을 입력해 주세요.");
 	    		return;
 	    	}
 	    	
-	    	if(aPhone == "") {
+	    	if(phone == "") {
 	    		alert("전화번호를 입력해 주세요.");
 	    		return;
 	    	}
 	    	
-	    	if (aAddress1 == null || aAddress2 == null || aAddress3 == null || aAddress1 === "" || aAddress2 === "" || aAddress3 === "") {
+	    	if (address1 == null || address2 == null || address3 == null || address1 === "" || address2 === "" || address3 === "") {
 	    	    alert("주소를 입력해 주세요.");
 	    	    return;
 	    	}
@@ -443,7 +456,7 @@
 	    		type: "PUT",
 	    		url: "<c:url value="/account_modify"/>",
 	    		contentType: "application/json",
-	    		data: JSON.stringify({"id":id, "name":aName, "email":aEmail, "phone":aPhone, "address1":aAddress1, "address2":aAddress2, "address3":aAddress3, }),
+	    		data: JSON.stringify({"id":loginId, "name":name, "email":email, "phone":phone, "address1":address1, "address2":address2, "address3":address3, }),
 	    		dataType: "text",
 	    		success: function(result) {
 	    			
@@ -472,17 +485,13 @@
    				var newPassword = $('#newPassword').val();
    				var confirmPassword = $('#confirmPassword').val();
    				
-   				
-   				
-   				
-   				
    				// PUT 요청을 서버로 보냄
    		        $.ajax({
    		            type: "PUT",
    		            url: "<c:url value='/changePassword'/>", // 변경할 비밀번호 엔드포인트 URL로 변경해야 합니다.
    		            contentType: "application/json",
    		            data: JSON.stringify({
-   		            	"id": id,
+   		            	"id": loginId,
    		            	"currentPassword": currentPassword,
    		                "newPassword": newPassword,
    		             	"confirmPassword": confirmPassword

@@ -55,7 +55,7 @@ public class CommunityRestController {
                               @RequestParam("uploadFile") MultipartFile uploadFile,
                               @RequestParam("fileDeleted") boolean fileDeleted,
                               HttpServletRequest request) throws IllegalStateException,
-   							  IOException {
+                          IOException {
        // 기존 공지사항 정보를 가져옵니다.
        Notice existingNotice = noticeService.getNotice(notice.getIdx());
 
@@ -63,8 +63,8 @@ public class CommunityRestController {
        if (fileDeleted) {
            notice.setFileData(null); // 파일을 삭제하므로 null로 설정
        } else {
-    	   if(!uploadFile.isEmpty()) {
-    	   String uploadDirectory = request.getServletContext().getRealPath("/resources/upload"); // 업로드할 디렉토리 경로
+          if(!uploadFile.isEmpty()) {
+          String uploadDirectory = request.getServletContext().getRealPath("/resources/upload"); // 업로드할 디렉토리 경로
                String originalFilename = uploadFile.getOriginalFilename();
                String uniqueFilename = UUID.randomUUID().toString() + "_" + originalFilename;
                //String filePath = uploadDirectory + File.separator + uniqueFilename;
@@ -74,18 +74,18 @@ public class CommunityRestController {
                // 파일 저장
                uploadFile.transferTo(new File(uploadDirectory, uniqueFilename));
 
-    	   		} else {
-    	   			// 이미지 파일이 업로드되지 않았을 때 기존 파일 정보를 그대로 사용
-    	   			notice.setFileData(existingNotice.getFileData());
-    	   		}
-       		}
+                } else {
+                   // 이미지 파일이 업로드되지 않았을 때 기존 파일 정보를 그대로 사용
+                   notice.setFileData(existingNotice.getFileData());
+                }
+             }
        // 공지사항 수정 로직
        noticeService.modifyNotice(notice);
 
        return "success"; // 클라이언트에게 성공 메시지를 반환
    }
    
-   @PreAuthorize("principal.id eq #question.accountId")
+   @PreAuthorize("isAuthenticated() and principal.id eq #question.accountId")
    @PostMapping("/question_modify")
    public String modifyQuestion(@ModelAttribute Question question,
            @RequestParam("uploadFile") MultipartFile uploadFile,
@@ -94,22 +94,22 @@ public class CommunityRestController {
        Question existingQuestion = questionService.getQuestion(question.getIdx());
 
        if (fileDeleted) { // 파일 삭제되었을 경우
-    	    question.setFileData(null); // 파일을 삭제하므로 null로 설정
-    	} else { // 파일 삭제되지 않았을 경우
-    	    if (!uploadFile.isEmpty()) { // 업로드 파일이 있을 경우에만 업로드 처리
-    	        String uploadDirectory = request.getServletContext().getRealPath("/resources/upload");
-    	        String originalFilename = uploadFile.getOriginalFilename();
-    	        String uniqueFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+           question.setFileData(null); // 파일을 삭제하므로 null로 설정
+       } else { // 파일 삭제되지 않았을 경우
+           if (!uploadFile.isEmpty()) { // 업로드 파일이 있을 경우에만 업로드 처리
+               String uploadDirectory = request.getServletContext().getRealPath("/resources/upload");
+               String originalFilename = uploadFile.getOriginalFilename();
+               String uniqueFilename = UUID.randomUUID().toString() + "_" + originalFilename;
 
-    	        // 새로 업로드한 파일로 설정
-    	        question.setFileData(uniqueFilename);
+               // 새로 업로드한 파일로 설정
+               question.setFileData(uniqueFilename);
 
-    	        // 파일 저장
-    	        uploadFile.transferTo(new File(uploadDirectory, uniqueFilename));
-    	    } else { // 업로드 파일이 없으면 기존 파일 정보를 그대로 사용
-    	        question.setFileData(existingQuestion.getFileData());
-    	    }
-    	}
+               // 파일 저장
+               uploadFile.transferTo(new File(uploadDirectory, uniqueFilename));
+           } else { // 업로드 파일이 없으면 기존 파일 정보를 그대로 사용
+               question.setFileData(existingQuestion.getFileData());
+           }
+       }
 
        // 문의글 수정 로직
        questionService.modifyQuestionByUser(question);

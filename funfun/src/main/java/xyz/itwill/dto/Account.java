@@ -43,21 +43,21 @@ public class Account {
 	private String address3;
 	private int status;
 	private String subDay;
-
-	// 비밀번호 변경을 위한 필드 추가
-	@NotEmpty(message = "현재 비밀번호를 반드시 입력해주세요.")
-	@Size(min = 6, max = 6, message = "발급받은 임시비밀번호를 입력해주세요.")
-	@Pattern(regexp = "^(?=.*[0-9a-zA-Z@#$%^&+=!]).{6,}$")
-	private String currentPassword;
-
-	@NotEmpty(message = "새 비밀번호를 반드시 입력해주세요.")
+	
+   // 비밀번호 변경을 위한 필드 추가
+   @NotEmpty(message = "현재 비밀번호를 반드시 입력해주세요.")
+   @Size(min = 8, max = 12, message = "현재 비밀번호를 입력해주세요.")
+   @Pattern(regexp = "^(?=.*[0-9a-zA-Z@#$%^&+=!]).{6,}$")
+   private String currentPassword;
+	
+   @NotEmpty(message = "새 비밀번호를 반드시 입력해주세요.")
 	@Size(min = 8, max = 12, message = "비밀번호는 8자~12자 사이여야 합니다.")
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,12}$", message = "새로운 비밀번호는 영어 대소문자, 숫자, 특수문자가 꼭 포함되어야 합니다.")
 	private String newPassword;
 
 	@NotEmpty(message = "새 비밀번호 확인을 반드시 입력해주세요.")
 	private String confirmPassword;
-	
+   
 	private String enabled;
 	private List<AccountAuth> accountAuthList;
 }

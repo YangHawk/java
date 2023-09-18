@@ -162,6 +162,16 @@
 <script src="${pageContext.request.contextPath}/resources/js/preloader.js"></script>
 
 <script type="text/javascript">
+//CSRF 토큰 관련 정보를 자바스크립트 변수에 저장
+var csrfHeaderName = "${_csrf.headerName}";
+var csrfTokenValue = "${_csrf.token}";
+
+// Ajax 기능을 사용하여 요청하는 모든 웹 프로그램에게 CSRF 토큰 전달 가능
+// ▶ Ajax 요청 시 beforeSend 속성을 설정할 필요 없음
+$(document).ajaxSend(function(e, xhr){
+	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+});
+
 var page = 1; // 기본 페이지 번호 설정
 var size = 10; // 기본 페이지 크기 설정
 var keyword = ''; // 기본 검색어 = NULL String

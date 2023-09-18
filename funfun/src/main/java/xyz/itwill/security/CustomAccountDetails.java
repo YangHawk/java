@@ -34,6 +34,9 @@ public class CustomAccountDetails implements UserDetails {
 	private String address3;
 	private int status;
 	private String subDay;
+	private String currentPassword;
+	private String newPassword;
+	private String confirmPassword;
 
 	private String enabled;
 	// private List<SecurityAuth> securityAuths; ◀ 실제로 권한이 저장되지 않음
@@ -56,6 +59,9 @@ public class CustomAccountDetails implements UserDetails {
 		this.status = account.getStatus();
 		this.subDay = account.getSubDay();
 		this.enabled = account.getEnabled();
+		this.currentPassword = account.getCurrentPassword();
+		this.newPassword = account.getNewPassword();
+		this.confirmPassword = account.getConfirmPassword();
 
 		// 검색된 사용자의 권한(String 객체)은 GrantedAuthority 객체로 생성하여 저장
 		this.accountAuthList = new ArrayList<GrantedAuthority>();

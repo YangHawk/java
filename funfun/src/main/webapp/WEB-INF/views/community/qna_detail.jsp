@@ -102,7 +102,6 @@ img {
                      <button id="deleteFileBtn">파일 삭제</button>
                   </c:if>
                </div>
-                  <input type="hidden" name="idx" value="${question.idx}">
                     <hr>
                       <!-- 수정 버튼 -->
                         <button id="modifyBtn" type="submit">저장</button>
@@ -119,7 +118,7 @@ img {
                     </sec:authorize>
                     
                      <sec:authorize access="hasRole('ROLE_ADMIN') or principal.id eq #question.accountId">
-               <a href="<c:url value='/community/question/delete'/>?idx=${question.idx}" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</a>
+               <a href="<c:url value='/community/question/delete'/>?idx=${question.idx}&accountId=${question.accountId}" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</a>
                     </sec:authorize>
                 </div>
                         
@@ -234,6 +233,16 @@ img {
 
 
 <script type="text/javascript">
+//CSRF 토큰 관련 정보를 자바스크립트 변수에 저장
+var csrfHeaderName = "${_csrf.headerName}";
+var csrfTokenValue = "${_csrf.token}";
+
+// Ajax 기능을 사용하여 요청하는 모든 웹 프로그램에게 CSRF 토큰 전달 가능
+// ▶ Ajax 요청 시 beforeSend 속성을 설정할 필요 없음
+$(document).ajaxSend(function(e, xhr){
+	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+});
+
 $(document).ready(function() {
     var fileDeleted = false; 
     
@@ -262,8 +271,8 @@ $(document).ready(function() {
           var title=$("#title").val();
           var content=$("#nContent").val();
           var idx = "${question.idx}";
+          var accountId = "${question.accountId}";
           var uploadFile = $("#uploadFile")[0].files[0];
-          
           if(title == "") {
              alert("제목을 입력해 주세요.");
              return;
@@ -277,6 +286,7 @@ $(document).ready(function() {
           formData.append("title", title);
           formData.append("content", content);
           formData.append("idx", idx);
+          formData.append("accountId",accountId);
           
           
           if (uploadFile) {

@@ -86,6 +86,7 @@ public class AccountServiceImpl implements AccountService {
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void modifyAccountByAdmin(Account account) throws UserinfoNotFoundException {
+		
 		if (accountDAO.selectAccount(account.getId()) == null) {
 			throw new UserinfoNotFoundException("아이디의 회원 정보가 존재하지 않습니다.");
 		}
