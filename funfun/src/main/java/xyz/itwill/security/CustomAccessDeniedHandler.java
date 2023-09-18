@@ -16,6 +16,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		// 접근 제한에 대한 명령 실행 - 계정 잠금 기능 활성화 등의 명령 작성
-		response.sendRedirect(request.getContextPath() + "/accessDenied");
+		response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().println("<script>alert('권한이 없습니다!');history.go(-1);</script>");
 	}
 }
