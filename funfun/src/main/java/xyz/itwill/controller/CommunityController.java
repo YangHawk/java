@@ -40,8 +40,6 @@ public class CommunityController {
 	/* 공지사항 목록 페이지 접속 */
 	@RequestMapping(value = "/community/notice", method = RequestMethod.GET)
 	public String getNoticeList(Model model, Authentication authentication) {
-		CustomAccountDetails loginAccount = (CustomAccountDetails) authentication.getPrincipal();
-		model.addAttribute("loginAccount", loginAccount);
 		return "community/list";
 	}
 

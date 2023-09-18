@@ -176,9 +176,9 @@ img {
                                 <div class="comment">
 	                                <sec:authorize access="hasRole('ROLE_ADMIN')">
 	                                	<c:if test="${question.answerContent != null }">
+	                            		</c:if>
 	                                    <a id="modify-answer" href="javascript:void(0)" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
 	                            		<a href="<c:url value='/community/question/delete_by_admin'/>?idx=${question.idx}" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</a>
-	                            		</c:if>
 					                </sec:authorize>
                                 </div><!-- / comment -->
 
