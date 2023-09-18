@@ -17,10 +17,7 @@ public class WishController {
 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/wishlist")
-	public String getWish(Authentication authentication, Model model) {
-		CustomAccountDetails loginAccount = (CustomAccountDetails) authentication.getPrincipal();
-
-		model.addAttribute("loginAccount", loginAccount);
+	public String getWish() {
 		return "donation/wishlist";
 	}
 }

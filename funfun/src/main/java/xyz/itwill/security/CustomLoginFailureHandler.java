@@ -14,13 +14,14 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 // ▶ AUthenticationFailureHandler 인터페이스를 상속받아 작성 또는
 // ▶ SimpleUrlAuthenticationFailureHandler 인터페이스를 상속받은 클래스를 상속받아 작성
 public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-		AuthenticationException exception) throws IOException, ServletException {
+			AuthenticationException exception) throws IOException, ServletException {
+
 		request.getSession().setAttribute("id", request.getParameter("id"));
+
 		setDefaultFailureUrl("/account/login");
-		response.setContentType("text/html;charset=UTF-8");
-		response.getWriter().println("<script>alert('로그인 실패!');</script>");
 		super.onAuthenticationFailure(request, response, exception);
 	}
 }

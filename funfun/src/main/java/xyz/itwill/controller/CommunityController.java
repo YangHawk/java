@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,15 +40,14 @@ public class CommunityController {
 
 	/* 공지사항 목록 페이지 접속 */
 	@RequestMapping(value = "/community/notice", method = RequestMethod.GET)
-	public String getNoticeList(Model model, Authentication authentication) {
+	public String getNoticeList() {
 		return "community/list";
 	}
 
 	/* 공지사항 작성 페이지 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/community/notice/form", method = RequestMethod.GET)
-	public String getNoticeForm(Authentication authentication) {
-
+	public String getNoticeForm() {
 		return "community/notice/form";
 	}
 
@@ -188,30 +188,36 @@ public class CommunityController {
 	/* QNA 글 상세 페이지 */
 	@RequestMapping(value = "/community/qna_detail", method = RequestMethod.GET)
 	public String questionDetail(@RequestParam int idx, Model model, Authentication authentication) {
-		CustomAccountDetails loginAccount = (CustomAccountDetails) authentication.getPrincipal();
+		CustomAccountDetails loginAccount = null;
 		Question question = questionService.getQuestion(idx);
 
-		model.addAttribute("loginAccount", loginAccount);
-		model.addAttribute("question", question);
-		questionService.modifyQuestionCount(idx);
 		// 비밀글이라면
 		if (question.getSecret() == 1) {
-			// 비로그인 사용자라면
-			if (loginAccount == null) {
-				return "account/login"; // 로그인 페이지로 리다이렉트
+			// 비밀글인데 로그인 사용자라면
+			if (authentication != null && authentication.getPrincipal() instanceof CustomAccountDetails) {
+				loginAccount = (CustomAccountDetails) authentication.getPrincipal();
+				model.addAttribute("question", question);
+
+				// 비밀글인데 로그인 사용자가 있고 그게 작성자 혹은 관리자라면
+				if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")) || loginAccount.getId().equals(question.getAccountId())) {
+					questionService.modifyQuestionCount(idx);
+					model.addAttribute("preNextIdx", questionService.getPreNextidx(idx));
+					return "community/qna_detail";
+				}
+
+				// 비밀글인데 로그인 사용자가 있고 작성자 혹은 관리자가 아니라면
+				throw new AccessDeniedException("권한이 없습니다.");
 			}
-			// 관리자 계정이거나, 글 작성자라면
-			if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
-					|| loginAccount.getId().equals(question.getAccountId())) {
-				return "community/qna_detail";
-			}
-			return "redirect:/community/qna_list";
+			// 비밀글인데 로그인 사용자가 아니라면
+			return "account/login"; // 로그인 페이지로 리다이렉트
 		}
-
-		// 이전글 다음글 - 추가
+		
+		// 비밀글이 아니라면
+		model.addAttribute("question", question);
+		questionService.modifyQuestionCount(idx);
 		model.addAttribute("preNextIdx", questionService.getPreNextidx(idx));
-
 		return "community/qna_detail";
+
 	}
 
 	/* QNA 글 삭제 */

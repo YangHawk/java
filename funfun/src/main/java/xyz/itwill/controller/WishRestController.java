@@ -23,8 +23,7 @@ public class WishRestController {
 
 	@PreAuthorize("isAuthenticated()")
 	@PutMapping("/wish_add")
-	public String addWish(@RequestBody Wish wish, Authentication authentication) {
-
+	public String addWish(@RequestBody Wish wish) {
 		wishService.addWish(wish);
 		return "success";
 	}
@@ -32,7 +31,6 @@ public class WishRestController {
 	@PreAuthorize("isAuthenticated()")
 	@DeleteMapping("/wish_remove")
 	public String removeWish(@RequestBody Wish wish) {
-
 		wishService.removeWish(wish.getFestivalIdx(), wish.getAccountId());
 		return "success";
 	}

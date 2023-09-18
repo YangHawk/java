@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <body>
@@ -72,6 +73,12 @@
 <script src="${pageContext.request.contextPath}/resources/js/preloader.js"></script>
 <!-- / preloader -->
 <script type="text/javascript">
+var loginAccountId = null;
+
+<sec:authorize access="isAuthenticated()">
+	var loginAccountId="<sec:authentication property="principal.id"/>";
+</sec:authorize>
+
 var page = 1;
 var size = 12;
 var keyword = '';
@@ -316,7 +323,7 @@ $(document).ready(function() {
            type: "PUT",
            url: "<c:url value='/donation/wish_add'/>",
            contentType: "application/json",
-           data: JSON.stringify({"accountId": "${loginAccount.id}", "festivalIdx": festivalIdx }),
+           data: JSON.stringify({"accountId": loginAccountId, "festivalIdx": festivalIdx }),
            dataType: "text",
            success: function(result) {
                if(result == "success") {
@@ -338,7 +345,7 @@ $(document).ready(function() {
            type: "DELETE",
            url: "<c:url value='/donation/wish_remove'/>",
            contentType: "application/json",
-           data: JSON.stringify({"accountId": "${loginAccount.id}", "festivalIdx": festivalIdx }),
+           data: JSON.stringify({"accountId": loginAccountId, "festivalIdx": festivalIdx }),
            dataType: "text",
            success: function(result) {
                if(result == "success") {

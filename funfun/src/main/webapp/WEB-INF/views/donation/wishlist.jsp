@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <body>
@@ -59,6 +60,10 @@
 
 <!-- / javascript -->
 <script type="text/javascript">
+<sec:authorize access="isAuthenticated()">
+	var loginAccountId="<sec:authentication property="principal.id"/>";
+</sec:authorize>
+
 var page = 1; // 기본 페이지 번호 설정
 var size = 10; // 기본 페이지 크기 설정
 //var viewType = 'list'; // 기본 보기 설정 = 목록으로 보기
@@ -148,7 +153,7 @@ $(document).ready(function () {
 	        type: "DELETE",
 	        url: "${pageContext.request.contextPath}/wish_remove",
 	        contentType: "application/json",
-	        data: JSON.stringify({"accountId": "${loginAccount.id}", "festivalIdx": festivalIdx }),
+	        data: JSON.stringify({"accountId": loginAccountId, "festivalIdx": festivalIdx }),
 	        dataType: "text",
 	        success: function(result) {
 	            if(result == "success") {

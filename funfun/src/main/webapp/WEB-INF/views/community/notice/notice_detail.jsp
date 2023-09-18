@@ -25,9 +25,6 @@
    display: inline-block;
    margin-right: 4px;
 }
-.pagination {
-   margin-left: 500px;
-}
 img {
    max-width: 500px;
     height: auto;
@@ -69,21 +66,24 @@ img {
                             <p class="right-align">${notice.day}</p>
                             <hr>
                             <c:if test="${not empty notice.fileData}">
-							    <img src="<c:url value='/resources/upload/${notice.fileData}' />" >
-							</c:if>
+                         <img src="<c:url value='/resources/upload/${notice.fileData}' />" >
+                     </c:if>
                             <p>${notice.content}</p>
                             <hr>
                             <c:if test="${not empty notice.fileData}">
-							    <p>첨부파일: ${notice.fileData}</p>
-							    <!-- 파일 다운로드 링크 -->
-							    <a href="<c:url value='/resources/upload/${notice.fileData}' />" download="${notice.fileData}">첨부 파일 다운로드</a>
+                         <p>첨부파일: ${notice.fileData}</p>
+                         <!-- 파일 다운로드 링크 -->
+                         <a href="<c:url value='/resources/upload/${notice.fileData}' />" download="${notice.fileData}">첨부 파일 다운로드</a>
                              <hr>
-							</c:if>
+                     </c:if>
+                        </div><!-- / media-body -->
+                    </div><!-- / media -->
+                    
                             <!-- 수정 폼을 감싸는 div -->
                             <div id="edit-form" style="display: none;">
                             <label>수정하기</label>
                             <br><br>
-                                 <div class="form-group">
+                            <div class="form-group">
                             <label for="title">제목</label>
                             <textarea id="title" name="title" class="form-control">${notice.title}</textarea>
                         </div>
@@ -93,62 +93,57 @@ img {
                             <textarea id="nContent" name="content" class="form-control">${notice.content}</textarea>
                         </div>
                         <div class="form_group">
-						    <label>파일 첨부</label>
-						    <input type="file" id="uploadFile" name="uploadFile">
-						     <c:if test="${not empty notice.fileData}">
-							    <img src="<c:url value='/resources/upload/${notice.fileData}' />" id="fileimg" style="display: block;">
-								<button id="deleteFileBtn">파일 삭제</button>
-							</c:if>
-						</div>
-						<input type="hidden" name="idx" value="${notice.idx}">
+                      <label>파일 첨부</label>
+                      <input type="file" id="uploadFile" name="uploadFile">
+                       <c:if test="${not empty notice.fileData}">
+                         <img src="<c:url value='/resources/upload/${notice.fileData}' />" id="fileimg" style="display: block;">
+                        <button id="deleteFileBtn">파일 삭제</button>
+                     </c:if>
+                  </div>
+                     <input type="hidden" name="idx" value="${notice.idx}">
                         <hr>
 
                               <!-- 수정 버튼 -->
                                  <button id="modifyBtn" type="submit">저장</button>
                                  <button id="cancelModifyBtn" type="button">취소</button>
                             </div>
-                        </div><!-- / media-body -->
-                    </div><!-- / media -->
+                      </div><!-- / blog-block -->
 
-                    <div class="post-footer">
-                        <div class="pull-left">
-                            <!-- 관리자에게만 보이게 -->
-                            <sec:authorize access="hasRole('ROLE_ADMIN')">
-	                            <a href="javascript:void(0)" id="modify-notice" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
-		                        <form action="${pageContext.request.contextPath}/community/notice/delete" method="POST" style="display: inline;">
-			                       <input type="hidden" name="idx" value="${notice.idx}">
-			                       <button type="submit" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</button>
-			                   </form>
-                            </sec:authorize>
-                        </div>
-                    </div><!-- / post-footer -->
-                </div><!-- / blog-block -->
+                
 
                 <!-- post pagination -->
-                <div class="pagination">
-                <c:choose>
-                   <c:when test="${preNextIdx.prevnum != 0 }">
-                       <a href="<c:url value='/community/notice/notice_detail'/>?idx=${preNextIdx.prevnum}" class="btn btn-direction btn-default btn-rounded" id="prevButton"><i class="fa fa-long-arrow-left"></i><span>이전글</span></a>
-                   </c:when>
-                   <c:otherwise>
-                      <div class="space"></div>
-                   </c:otherwise>
-                </c:choose>
-                     <div class="space"></div>
-                    <button type="button" class="btn btn-direction btn-default btn-rounded" id="list_btn"><i class="fa fa-long-arrow-center"></i><span>목록</span></button>
-                     <div class="space"></div>
-                <c:choose>
-                   <c:when test="${preNextIdx.nextnum != 0 }">
-                     <a href="<c:url value='/community/notice/notice_detail'/>?idx=${preNextIdx.nextnum}" class="btn btn-direction btn-default btn-rounded" id="nextButton"><span>다음글</span><i class="fa fa-long-arrow-right"></i></a>
-                   </c:when>
-                   <c:otherwise>
-                    <div class="space"></div>
-                   </c:otherwise>
-                </c:choose>
+                <div class="pagination" style="width:100%;">
+                <div class="pull-left">
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                       <a href="javascript:void(0)" id="modify-notice" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
+                      <form action="${pageContext.request.contextPath}/community/notice/delete" method="POST" style="display: inline;">
+                        <input type="hidden" name="idx" value="${notice.idx}">
+                        <button type="submit" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</button>
+                    </form>
+                    </sec:authorize>
                 </div>
-                <!-- / post pagination -->
-           
-              
+                 
+                 <div class="pagination" style="width:100%;"> 
+                     <div class="text-right" style="margin-right: 20px;">  
+                      <c:choose>
+                         <c:when test="${preNextIdx.prevnum != 0 }">
+                             <a href="<c:url value='/community/notice/notice_detail'/>?idx=${preNextIdx.prevnum}" class="btn btn-direction btn-default btn-rounded" id="prevButton"><i class="fa fa-long-arrow-left"></i><span>이전글</span></a>
+                         </c:when>
+                         <c:otherwise>
+                            <div class="space"></div>
+                         </c:otherwise>
+                      </c:choose>
+                           <div class="space"></div>
+                          <button type="button" class="btn btn-direction btn-default btn-rounded" id="list_btn"><i class="fa fa-long-arrow-center"></i><span>목록</span></button>
+                           <div class="space"></div>
+                      <c:choose>
+                         <c:when test="${preNextIdx.nextnum != 0 }">
+                           <a href="<c:url value='/community/notice/notice_detail'/>?idx=${preNextIdx.nextnum}" class="btn btn-direction btn-default btn-rounded" id="nextButton"><span>다음글</span><i class="fa fa-long-arrow-right"></i></a>
+                         </c:when>
+                      </c:choose>
+                      </div>
+                </div>
+              </div><!-- / post pagination -->
             </div><!-- / col-sm-8 -->
         </div><!-- / row -->
     </section>
@@ -165,8 +160,8 @@ img {
 
 <script type="text/javascript">
 $(document).ready(function() {
-	var fileDeleted = false;
-	
+   var fileDeleted = false;
+   
     $("#list_btn").click(function(){
         var listPageURL = "/funfun/community/notice";
         window.location.href = listPageURL;
@@ -182,14 +177,14 @@ $(document).ready(function() {
     });
     
     
- 	// 파일 삭제 버튼을 누른 경우
+    // 파일 삭제 버튼을 누른 경우
     $("#deleteFileBtn").click(function() {
-    	var uploadFileInput = $("#uploadFile");
+       var uploadFileInput = $("#uploadFile");
         // 파일 삭제 버튼을 누르면 파일 입력 필드를 초기화
         uploadFileInput.val("");
-    	$("#fileimg").css("display", "none");
-    	$("#deleteFileBtn").css("display", "none");
-    	fileDeleted = true;
+       $("#fileimg").css("display", "none");
+       $("#deleteFileBtn").css("display", "none");
+       fileDeleted = true;
     });
     
     //수정 버튼 클릭 시
@@ -214,12 +209,12 @@ $(document).ready(function() {
        formData.append("idx", idx);
        
        if (uploadFile) {
-    	  formData.append("uploadFile", uploadFile);
- 	      fileDeleted = false;
+         formData.append("uploadFile", uploadFile);
+          fileDeleted = false;
        } else { 
            formData.append("uploadFile", new Blob(), "placeholder");
        }
-    	
+       
        formData.append("fileDeleted", fileDeleted);
        $.ajax({
           type: "POST",
@@ -229,7 +224,7 @@ $(document).ready(function() {
           contentType: false,
           enctype: 'multipart/form-data',
           success: function(result) {
- 	    	    window.location.reload();
+               window.location.reload();
           },
           error: function(xhr) {
              alert("공지 사항 수정 중 오류가 발생하였습니다("+ xhr.status+")");
