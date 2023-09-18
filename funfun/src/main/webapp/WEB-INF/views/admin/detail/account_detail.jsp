@@ -37,8 +37,6 @@
                     	<input id="aAddress1" name="aAddress1" value="${account.address1 }">
                     	<input id="aAddress2" name="aAddress2" value="${account.address2 }">
                     	<input id="aAddress3" name="aAddress3" value="${account.address3 }">
-                    	<input type="hidden" name="aBirth" value="${account.birth }">
-                    	<input type="hidden" name="aPassword" value="${account.password }">
                     	<hr>
                     	<!-- 수정 버튼 -->
                     	<button id="modifyBtn" type="submit">저장</button>
@@ -342,8 +340,6 @@ $(document).ready(function() {
         var aAddress1 = $("#aAddress1").val();
         var aAddress2 = $("#aAddress2").val();
         var aAddress3 = $("#aAddress3").val();
-        var aPassword = $("#aPassword").val();
-        var aBirth = $("#aBirth").val();
 
         if (aName == "") {
             alert("이름을 입력해 주세요.");
@@ -371,9 +367,6 @@ $(document).ready(function() {
             contentType: "application/json",
             data: JSON.stringify({
                 "idx": idx,
-                "password": aPassword,
-                "birth": aBirth,
-                "id": id,
                 "name": aName,
                 "email": aEmail,
                 "phone": aPhone,

@@ -58,7 +58,6 @@
                     <div class="post-footer">
                         <div class="pull-left">
                             <!-- 작성자에게만 보이게 -->
-	                            <a href="#" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
 								<a href="<c:url value='/community/question/delete'/>?idx=${question.idx}" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</a>
                         </div>
                     </div><!-- / post-footer -->

@@ -4,8 +4,6 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-   
-   <fmt:setLocale value="ko_kr"/>
 <!-- preloader -->
 <div id="preloader">
     <div class="spinner spinner-round"></div>
@@ -28,7 +26,7 @@
 <!-- shopping-cart -->
 <div id="shopping-cart">
 <form id="payForm" action="<c:url value='/donation/pay_update/'/>" method="POST" >
-	<sec:csrfInput/>
+   <sec:csrfInput/>
     <div class="container">
        <div class="coupon" style="display: flex; align-content: center;">
             <div class="input-group col-sm-9">
@@ -61,10 +59,9 @@
                        <img src="<c:url value='/resources/upload/${festivalinfo.mainImg}' />" width="50px" height="50px" alt=""></a>
                     </td>
                     <td><a href="${pageContext.request.contextPath}/donation/single-festival?idx=${festivalinfo.idx}">${festivalinfo.subject}</a></td>
-						                   
+                                     
                       <td><input type="text" id="moneyInput" value="${money}" class="form-control" readonly></td>
-						<fmt:parseDate var="fundingEndDay" value="${festivalinfo.fundingEnd}" pattern="yyyy-MM-dd"/> 
-						<td>${fundingEndDay }</td>
+                  <td>${festivalinfo.fundingEnd}로 부터 2일 뒤</td>
                     </tr>
             </tbody>
         </table>
@@ -74,7 +71,8 @@
             <div class="cart-total">
                 <h4>결제정보입력</h4>
                 <input type="hidden" name="festivalIdx" value="${festivalinfo.idx}">
-                <p><span class="font-bold">후원자명: </span><span>${sessionScope.loginAccount.name}</span><input type="hidden" name="accountId" value="${sessionScope.loginAccount.id}"></p>
+                <sec:authentication property="principal" var="pinfo"/>   
+                <p><span class="font-bold">후원자명: </span><span>${pinfo.name}</span><input type="hidden" name="accountId" value="${pinfo}"></p>
                 <p><span class="font-bold">후원금액: </span><span><input type="text" name="money" id="moneypay" value="${money }" class="form-control" readonly></span></p>
                 <p><span class="font-bold">결제방법: </span>
                     <input type="radio" id="card" name="payType" value="0">

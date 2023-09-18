@@ -60,7 +60,6 @@
 	
 	<update id="updateAccountByAdmin">
 		UPDATE ACCOUNT SET
-			ID = #{id},
 			NAME = #{name},
 			PHONE = #{phone},
 			EMAIL = #{email},

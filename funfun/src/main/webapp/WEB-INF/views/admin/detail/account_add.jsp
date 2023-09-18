@@ -259,8 +259,9 @@
 		                if(result == "success") {
 		                    alert("새로운 관리자 계정이 생성되었습니다.");
 		                    accountDetail(aid);
-		                } 
+		                } else {
 		            	 alert("중복된 계정입니다.");
+		                }
 		            	 return;
 		            },
 		            error: function(xhr) {
