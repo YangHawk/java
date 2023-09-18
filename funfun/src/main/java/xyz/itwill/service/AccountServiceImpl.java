@@ -59,6 +59,11 @@ public class AccountServiceImpl implements AccountService {
 	        accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_USER"));
 	    } else if (accountRole.equals("ROLE_USER")) {
 	        accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_USER"));
+	    } else if (accountRole.equals("ROLE_ADMIN")) {
+	    	accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_USER"));
+	    	accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_REGISTER"));
+	    	accountDAO.insertAccountAuth(new AccountAuth(account.getIdx(), account.getId(), "ROLE_ADMIN"));
+	    	
 	    }
 		
 	}

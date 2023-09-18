@@ -32,6 +32,7 @@
 		<form id="festival_update" action="festival_update" method="post"
 			enctype="multipart/form-data">
 			<input type="hidden" name="idx" value="${festivalinfo.idx}">
+			<input type="hidden" name="accountId" value="${festivalinfo.accountId}">
 			<sec:csrfInput/>
 			<div class="row">
 				<!-- product content area -->

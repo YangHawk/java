@@ -30,6 +30,7 @@
       <form id="film_update" action="film_update" method="post" enctype="multipart/form-data">
       <input type="hidden" name="festivalIdx" value="${filminfo.festivalIdx }">
       <input type="hidden" name="idx" value="${filminfo.idx }">
+      <input type="hidden" name="accountId" value="${filminfo.accountId}">
       <sec:csrfInput/>
             <!-- product content area -->
             <div class="col-sm-3"></div>

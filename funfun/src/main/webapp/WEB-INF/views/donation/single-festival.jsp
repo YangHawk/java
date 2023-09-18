@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <div id="preloader">
     <div class="spinner spinner-round"></div>
 </div>
@@ -30,12 +31,9 @@
 
                <!-- 영화제 포스터 아래 영화제 정보, 영화제 출품작 정보, 기대평이 출력될 영역 -->
                <ul class="nav nav-tabs" role="tablist">
-                  <li class="active"><a href="#festivalinfo" role="tab"
-                     data-toggle="tab" aria-expanded="true">영화제 정보</a></li>
-                  <li class=""><a href="#filminfo" role="tab" data-toggle="tab"
-                     aria-expanded="true">영화제 출품작 및 감독</a></li>
-                  <li class=""><a href="#reviews" role="tab" data-toggle="tab"
-                     aria-expanded="true">후원자 기대평</a></li>
+                  <li class="active"><a href="#festivalinfo" role="tab" class="page-scroll">영화제 정보</a></li>
+                  <li class=""><a href="#filminfo" role="tab" class="page-scroll">영화제 출품작 및 감독</a></li>
+                  <li class=""><a href="#reviews" role="tab" class="page-scroll">후원자 기대평</a></li>
                </ul>
                <!-- / nav-tabs -->
 
@@ -47,10 +45,13 @@
                      <table>
                         <tbody>
                            <tr>
+                           	<sec:authorize access="permitAll">
+                           		<sec:authorize access="hasRole('ROLE_REGISTER')" var='registerRole'/>
+                           		<sec:authentication property="principal" var='pinfo'/>
                               <c:choose>
-                                 <c:when test="${(loginAccount.id == festivalinfo.accountId || loginAccount.status == 0) && festivalinfo.state != 4}">
+                                 <c:when test="${registerRole and pinfo.id eq festivalinfo.accountId and festivalinfo.state != 4}">
                                     <th colspan="2" class="funding-register-fontsize">영화제 정보 
-                                    <span class="pull-right"><a href="<c:url value='/donation/festival_update?idx=${festivalinfo.idx}' />"
+                                    <span class="pull-right"><a href="<c:url value='/donation/festival_update?idx=${festivalinfo.idx}&id=${festivalinfo.accountId }' />"
                                           class="btn btn-sm btn-default btn-rounded no-margin"><i class="lnr lnr-pencil"></i><span>영화제 수정</span></a></span>
                                     <span class="pull-right" style="padding-right: 10px;">
                                     	<c:url var="filmRegisterUrl" value="/donation/film_register">
@@ -64,6 +65,7 @@
                                     <th colspan="2" class="funding-register-fontsize" style="color: black;">영화제 정보</th>
                                  </c:otherwise>
                               </c:choose>
+                              </sec:authorize>
                            </tr>
                            <tr>
                               <td colspan="2"><img src="<c:url value='/resources/upload/${festivalinfo.subImg}' />" alt=""></td>
@@ -99,18 +101,22 @@
 
                         <c:forEach items="${filminfo}" var="film">
                            <table>
-                           	<c:if test="${(loginAccount.id == festivalinfo.accountId || loginAccount.status == 0) and festivalinfo.state != 4}">
+                           <sec:authorize access="isAuthenticated()">
+                           	<sec:authorize access="hasRole('ROLE_REGISTER')" var="registerRole"/>
+                           	<sec:authentication property="principal" var="pinfo"/>	
+                           	<c:if test="${registerRole and pinfo.id eq festivalinfo.accountId}">
                            	  <tr>
                            	  	<td>
-                           			<a href="<c:url value='/donation/film_update?idx=${film.idx}' />" class="btn btn-sm btn-default btn-rounded no-margin pull-right"><i class="lnr lnr-pencil"></i><span>영화 수정</span></a>
+                           			<a href="<c:url value='/donation/film_update?idx=${film.idx}&accountId=${film.accountId }' />" class="btn btn-sm btn-default btn-rounded no-margin pull-right"><i class="lnr lnr-pencil"></i><span>영화 수정</span></a>
                            		</td>
                            		<td>
                            			<span class="pull-right" style="padding-right: 10px;">
-									    <a href="<c:url value='/donation/film_remove?idx=${film.idx}' />" class="btn btn-sm btn-default btn-rounded no-margin">영화 삭제</a>
+									    <a href="<c:url value='/donation/film_remove?idx=${film.idx}&accountId=${film.accountId }' />" class="btn btn-sm btn-default btn-rounded no-margin">영화 삭제</a>
 									</span>
                            		</td>
                            	  </tr>
                            	</c:if>
+                           	</sec:authorize>
                               <tr>
                                  <td colspan="2"><img src="<c:url value='/resources/upload/${film.img}'/>" width="600" alt=""></td>
                               </tr>
@@ -144,14 +150,6 @@
                   <p>&nbsp;</p>
                   <p>&nbsp;</p>
 
-                  <!-- idx
-                      festivalIdx
-                      accountId
-                      star
-                     content
-                     day
-                     status
-                   -->
                   <!-- 기대평 출력 -->
                   <div role="tabpanel" class="tab-pane animated fadeIn active"
                      id="reviews">
@@ -374,15 +372,34 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	
 <script type="text/javascript">
-var achievementPercentage = ${achievementPercentage}; // 클라이언트 측에서 서버에서 받은 값을 저장
+var achievementPercentage = ${festivalinfo.percentage}; // 클라이언트 측에서 서버에서 받은 값을 저장
 var progressBar = document.getElementById("progress-fill");
-if(achievementPercentage >= 100){
+
+if(achievementPercentage >= 100){ 
 	progressBar.style.width = "100%";	
 }else{
 	progressBar.style.width = achievementPercentage + "%";
 }
+
 var festivalIdx = "${param.idx}";
 var wishList ='';
+
+//CSRF 토큰 관련 정보를 자바스트립트 변수에 저장 
+//var csrfHeaderName="${_csrf.headerName}";
+//var csrfTokenValue="${_csrf.token}";
+
+//로그인되지 않은 경우 null 반환
+var loginAccountid = null;
+
+<sec:authorize access="isAuthenticated()">
+	var loginAccountid="<sec:authentication property="principal.id"/>";
+</sec:authorize>
+
+//ajaxSend() 메소드를 호출하여 페이지에서 Ajax 기능으로 요청하는 모든 웹프로그램에게 CSRF 토큰 전달
+// => Ajax 요청시 beforeSend 속성을 설정 불필요
+//$(document).ajaxSend(function(e, xhr) {
+//	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+//});
 
 //AJAX 요청으로 Wish 목록을 가져온 다음 하트 버튼을 출력하는 함수
 function myWishDisplay() {
@@ -451,7 +468,7 @@ function displayexpectForm(){
 			addReviewformDiv.empty();
 				
 			if(result.donationinfo != null && result.expectAccountId == null){
-				var row = `<h4>리뷰작성하기</h4>
+				var row = `<h4>기대평작성</h4>
 		            <div class="row">
 		            <div class="col-sm-4 review-form">
 		               <select class="form-control" id="reviewstar">
@@ -464,8 +481,8 @@ function displayexpectForm(){
 		               <div id="reviewstarMsg" style="color: red; display: none;">기대되는 만큼 별을 반드시 선택해주세요</div>
 		            </div>
 		            <div class="col-sm-12 review-form">
-		               <textarea id="reviewcontent" rows="7" class="form-control" placeholder="*리뷰를 작성해주세요" required></textarea>
-		               <div id="reviewcontentMsg" style="color: red; display: none;">리뷰를 반드시 작성해주세요</div>
+		               <textarea id="reviewcontent" rows="7" class="form-control" placeholder="*기대평을 작성해주세요" required></textarea>
+		               <div id="reviewcontentMsg" style="color: red; display: none;">기대평을 반드시 작성해주세요</div>
 		               <button type="button" id="addReviewBtn" class="btn btn-submit btn-primary-filled btn-rounded">작성하기</button>
 		            </div>
 		         </div>`;
@@ -473,7 +490,7 @@ function displayexpectForm(){
 			}
 	    },
 		error: function (xhr) {
-		 	 alert("에러 = " + xhr.status);
+		 	 alert("에러(기대평 입력란) = " + xhr.status);
 		},
 	});
 }
@@ -519,12 +536,12 @@ function expectDisplay() {
               "</div>" +
               "<p>" + expect.content + "</p>" +
               "<cite>" + expect.day + "</cite>";
-
-            if (expect.accountId == "${loginAccount.id}") {
-              review += "<span class='pull-right' style='padding-right: 10px;'>" +
-                "<a class='btn btn-sm btn-default btn-rounded no-margin removeReview' data-idx='" + expect.idx + "'>삭제</a>" +
-                "</span>";
-            }
+              
+	            if (expect.accountId == loginAccountid) {
+    	          review += "<span class='pull-right' style='padding-right: 10px;'>" +
+        	        "<a class='btn btn-sm btn-default btn-rounded no-margin removeReview' data-idx='" + expect.idx +"' data-account-id='"+ expect.accountId +"'>삭제</a>" +
+            	    "</span>";
+            	}
 
             review += "</div><p>&nbsp;</p>";        	      
               
@@ -582,11 +599,12 @@ $(document).ready(function() {
 	 //기대평 삭제하기
 	 $(document).on("click",".removeReview", function() {
 		 var idx = $(this).data("idx");
+		 var accountId = $(this).data("accountId");
 			if (confirm("정말로 삭제하시겠습니까?")) {
 				$.ajax({
 					type: "get",
-					url: "${pageContext.request.contextPath}/expect_remove/" + idx,
-					data: { "idx": idx },
+					url: "${pageContext.request.contextPath}/expect_remove/"+idx+"/"+accountId,
+					data: { "idx": idx, "accountId": accountId },
 					contentType: "application/json",
 					dataType: "text",
 					success: function (result) {
@@ -617,7 +635,7 @@ $(document).ready(function() {
 	        type: "post",
 	        url: "<c:url value='/expect_add'/>",
 	        contentType: "application/json",
-	        data: JSON.stringify({ "star": star, "content": content, "accountId": "${loginAccount.id}", "festivalIdx": festivalIdx }),
+	        data: JSON.stringify({ "star": star, "content": content, "accountId": loginAccountid, "festivalIdx": festivalIdx }),
 	        dataType: "text",
 	        success: function (result) {
 	        	if(result == "success") {
@@ -641,7 +659,7 @@ $(document).ready(function() {
 	        type: "PUT",
 	        url: "<c:url value='/donation/wish_add'/>",
 	        contentType: "application/json",
-	        data: JSON.stringify({"accountId": "${loginAccount.id}", "festivalIdx": festivalIdx }),
+	        data: JSON.stringify({"accountId": loginAccountid, "festivalIdx": festivalIdx }),
 	        dataType: "text",
 	        success: function(result) {
 	            if(result == "success") {
@@ -662,7 +680,7 @@ $(document).ready(function() {
 	        type: "DELETE",
 	        url: "<c:url value='/donation/wish_remove'/>",
 	        contentType: "application/json",
-	        data: JSON.stringify({"accountId": "${loginAccount.id}", "festivalIdx": festivalIdx }),
+	        data: JSON.stringify({"accountId": loginAccountid, "festivalIdx": festivalIdx }),
 	        dataType: "text",
 	        success: function(result) {
 	            if(result == "success") {

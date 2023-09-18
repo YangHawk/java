@@ -155,7 +155,7 @@
 	            "<td>" + approved.collected + "</td>" +
 	            "<td>" + approved.fundingStart +" ~ "+ approved.fundingEnd + "</td>" +
 	            "<td><a href='${pageContext.request.contextPath}/donation/festival_update?idx="+approved.idx+"&id="+approved.accountId+"' class='btn btn-sm btn-default btn-rounded no-margin'><span>수정</span></a></td>"+
-	            "<td><a class='btn btn-sm btn-default btn-rounded no-margin removeFestival' data-idx='"+approved.idx+"'><span>삭제</span></a></td>"+ 
+	            "<td><a class='btn btn-sm btn-default btn-rounded no-margin removeFestival' data-idx='"+approved.idx+"' data-account-id='"+approved.accountId+"'><span>삭제</span></a></td>"+ 
 	            "<td><a class='btn btn-sm btn-default btn-rounded no-margin showFilmList' data-idx='"+approved.idx+ "'><span>출품영화</span></a></td>"+ 
 	            "</tr>"+
 		        "<tr><td class='filmListTd' data-idx='"+approved.idx+ "' colspan = '8' style='display: none;'></td></tr>";
@@ -251,11 +251,12 @@
 		
 		$(document).on("click", ".removeFestival", function () {
 			var idx = $(this).data("idx");
+			var accountId = $(this).data("accountId")
 			if (confirm("정말로 삭제하시겠습니까?")) {
 				$.ajax({
 					type: "get",
-					url: "${pageContext.request.contextPath}/remove_festival/" +idx,
-					data: { "idx": idx},
+					url: "${pageContext.request.contextPath}/remove_festival",
+					data: { "idx": idx, "accountId": accountId},
 					contentType: "application/json",
 					dataType: "text",
 					success: function (result) {
@@ -263,7 +264,7 @@
 						getMyFestivalsData(loginId);
 					},
 					error: function (xhr) {
-						alert("에러코드(게시글 삽입) = " + xhr.status);
+						alert("에러코드(영화제 삭제) = " + xhr.status);
 					},
 				});
 			}
@@ -311,8 +312,8 @@
 	                            "<td>" + film.director + "</td>" +
 	                            "<td>" + film.day + "</td>" +
 	                            "<td>" + film.time + "</td>" +
-	                            "<td><a href='${pageContext.request.contextPath}/donation/film_update?idx="+film.idx+"' class='btn btn-rounded' style='background:#BFBFBF; color:black;'><span>수정</span></a></td>"+
-	                            "<td><a class='btn btn-rounded removeFilm' style='background:#BFBFBF; color:black;' data-idx='"+film.idx+ "'><span>삭제</span></a></td>"+
+	                            "<td><a href='${pageContext.request.contextPath}/donation/film_update?idx="+film.idx+"&accountId="+film.accountId+"' class='btn btn-rounded' style='background:#BFBFBF; color:black;'><span>수정</span></a></td>"+
+	                            "<td><a class='btn btn-rounded removeFilm' style='background:#BFBFBF; color:black;' data-idx='"+film.idx+"' data-account-id='"+film.accountId+"'><span>삭제</span></a></td>"+
 	                            "</tr>";
 	                        tbody.append(row);
 	                    }
@@ -330,11 +331,12 @@
 		
 		$(document).on("click", ".removeFilm", function () {
 			var idx = $(this).data("idx");
+			var accountId = $(this).data("accountId");
 			if (confirm("정말로 삭제하시겠습니까?")) {
 				$.ajax({
 					type: "get",
-					url: "${pageContext.request.contextPath}/remove_film/" + idx,
-					data: { "idx": idx },
+					url: "${pageContext.request.contextPath}/remove_film",
+					data: { "idx": idx, "accountId" : accountId },
 					contentType: "application/json",
 					dataType: "text",
 					success: function (result) {

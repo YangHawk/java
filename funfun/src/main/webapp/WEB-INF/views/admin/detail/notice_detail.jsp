@@ -96,10 +96,8 @@ img {
                     <div class="post-footer">
                         <div class="pull-left">
                             <!-- 관리자에게만 보이게 -->
-                        <c:if test="${loginAccount.status == 0 and question.answerContent == null }">
                             <a href="javascript:void(0)" id="modify-notice" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
                             <a href="javascript:void(0)" id="delete-notice" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</a>
-	                   </c:if>
                         </div>
                     </div><!-- / post-footer -->
                 </div><!-- / blog-block -->

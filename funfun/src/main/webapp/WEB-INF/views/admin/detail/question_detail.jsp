@@ -58,12 +58,8 @@
                     <div class="post-footer">
                         <div class="pull-left">
                             <!-- 작성자에게만 보이게 -->
-                            <c:if test="${loginAccount != null and loginAccount.id == question.accountId}">
 	                            <a href="#" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
-                            </c:if>
-                            <c:if test="${loginAccount != null and loginAccount.id == question.accountId || loginAccount.status == 0}">
 								<a href="<c:url value='/community/question/delete'/>?idx=${question.idx}" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</a>
-                            </c:if>
                         </div>
                     </div><!-- / post-footer -->
                 </div><!-- / blog-block -->
@@ -96,7 +92,7 @@
                                 	<br>
                                 	<br>
                                 <div class="comment">
-                                	<c:if test="${loginAccount.status == 0 and question.answerContent != null }">
+                                	<c:if test="${question.answerContent != null }">
 	                                    <a id="modifyBtn" href="javascript:void(0)" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
 	                            		<a href="<c:url value='/community/question/delete_by_admin'/>?idx=${question.idx}" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</a>
                             		</c:if>
@@ -107,7 +103,7 @@
                     </ul><!-- / media-list -->
 
                     <!-- comment form -->
-                    <c:if test="${loginAccount.status == 0 and question.answerContent == null }">
+                    <c:if test="${question.answerContent == null }">
 	                    <div id="comment-form">
 	                        <form id="commentForm" data-toggle="validator">
 	                            <h4 class="space-left">답변 작성</h4>
@@ -123,7 +119,7 @@
 	                        </form>
 	                    </div>
                     </c:if>
-					<c:if test="${loginAccount.status == 0 and question.answerContent != null }">                    	
+					<c:if test="${question.answerContent != null }">                    	
                     	<div id="comment-form2">
 	                        <form id="commentForm2" data-toggle="validator">
 	                            <h4 class="space-left">답변 수정</h4>

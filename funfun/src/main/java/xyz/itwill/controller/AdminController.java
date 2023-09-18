@@ -33,8 +33,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/account_detail", method = RequestMethod.GET)
-	public String getAccountDetail(@RequestParam String id, Model model)
-			throws UserinfoNotFoundException {
+	public String getAccountDetail(@RequestParam String id, Model model) throws UserinfoNotFoundException {
 		model.addAttribute("account", accountService.getAccount(id));
 		return "admin/detail/account_detail";
 	}
@@ -55,8 +54,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/festival_detail", method = RequestMethod.GET)
-	public String getFestivalDetail(@RequestParam int idx, Model model)
-			throws FestivalinfoNotFoundException {
+	public String getFestivalDetail(@RequestParam int idx, Model model) throws FestivalinfoNotFoundException {
 
 		model.addAttribute("festival", festivalService.getFestival(idx));
 		double achievementPercentage = festivalService.calcAchievementPercentage(idx);

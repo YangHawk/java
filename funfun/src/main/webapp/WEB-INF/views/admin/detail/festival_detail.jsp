@@ -33,25 +33,13 @@
                <!-- / nav-tabs -->
 
                <div class="tab-content">
-
                   <!-- 영화제 정보 출력 -->
                   <div role="tabpanel" class="tab-pane animated fadeIn active"
                      id="festival">
                      <table>
                         <tbody>
                            <tr>
-                              <c:choose>
-                                 <c:when test="${loginAccount.id == festival.accountId }">
-                                    <th colspan="2" class="funding-register-fontsize">영화제 정보 <span class="pull-right"><a
-                                          href="#x"
-                                          class="btn btn-sm btn-default btn-rounded no-margin"><i
-                                             class="lnr lnr-pencil"></i><span>Edit</span></a></span>
-                                    </th>
-                                 </c:when>
-                                 <c:otherwise>
-                                    <th colspan="2" class="funding-register-fontsize" style="color: black;">영화제 정보</th>
-                                 </c:otherwise>
-                              </c:choose>
+                           	<th colspan="2" class="funding-register-fontsize" style="color: black;">영화제 정보</th>
                            </tr>
                            <tr>
                               <td colspan="2"><img src="<c:url value='/resources/upload/${festival.subImg}' />" alt=""></td>
@@ -82,20 +70,8 @@
                   <div role="tabpanel" class="tab-pane animated fadeIn active"
                      id="filminfo">
                      <div class="row">
-                        <c:choose>
-                           <c:when test="${loginAccount.id == festival.accountId }">
-                              <h4 class="funding-register-fontsize">
-                                 영화제 출품작 및 감독<span class="pull-right"><a href="#x"
-                                    class="btn btn-sm btn-default btn-rounded no-margin"><i
-                                       class="lnr lnr-pencil"></i><span>Edit</span></a></span>
-                              </h4>
-                           </c:when>
-                           <c:otherwise>
-                              <h4 class="funding-register-fontsize">영화제 출품작 및 감독</h4>
-                           </c:otherwise>
-                        </c:choose>
+                        <h4 class="funding-register-fontsize">영화제 출품작 및 감독</h4>
                         <!-- 영화 이미지를 출력할 영역 -->
-
 
                         <c:forEach items="${filminfo}" var="film">
                            <table>
@@ -193,32 +169,6 @@
                <!-- / tab-content -->
             </div>
             <!-- / product-content-area -->
-
-            <!-- add review - ajax 사용하기 -->
-            <c:if test="후원내역이 있는 사람에게만 리뷰를 받도록">
-               <div id="add-review" class="space-top-30">
-                  <h4>리뷰작성하기</h4>
-                  <div class="row">
-                     <div class="col-sm-4 review-form">
-                        <select class="form-control">
-                           <option>5 Stars</option>
-                           <option>4 Stars</option>
-                           <option>3 Stars</option>
-                           <option>2 Stars</option>
-                           <option>1 Star</option>
-                        </select>
-                     </div>
-                     <div class="col-sm-12 review-form">
-                        <textarea rows="7" class="form-control"
-                           placeholder="*리뷰를 작성해주세요" required></textarea>
-                        <button type="submit"
-                           class="btn btn-submit btn-primary-filled btn-rounded">작성하기</button>
-                     </div>
-                  </div>
-                  <!-- /row -->
-               </div>
-            </c:if>
-            <!-- / add review -->
 
             <!-- product pagination -->
             <div class="pagination no-padding">

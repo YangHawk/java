@@ -20,14 +20,15 @@ VIDEO                 VARCHAR2(100)
 
 @Data
 public class Film {
-	private int idx;
-	private int festivalIdx;
-	private String title;
-	private String director;
-	private String story;
-	private String day;
-	private String time;
-	private String img;
-	private String video;
-	private MultipartFile multipartFile;
+   private int idx;
+   private int festivalIdx;
+   private String title;
+   private String director;
+   private String story;
+   private String day;
+   private String time;
+   private String img;
+   private String video;
+   private String accountId;
+   private MultipartFile multipartFile;
 }

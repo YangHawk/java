@@ -44,9 +44,9 @@ public class ExpectController {
 		return "success";
 	}
 	
-	@PreAuthorize("isAuthenticated()")
-	@GetMapping(value = "/expect_remove/{idx}")
-	public String removeExpect(@PathVariable int idx) {
+	@PreAuthorize("isAuthenticated() and principal.id eq #accountId")
+	@GetMapping(value = "/expect_remove/{idx}/{accountId}")
+	public String removeExpect(@PathVariable int idx, @PathVariable String accountId) {
 		expectService.removeExpect(idx);
 		return "success";
 	}

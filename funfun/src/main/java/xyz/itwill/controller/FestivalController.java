@@ -147,7 +147,7 @@ public class FestivalController {
 		return "donation/festival_update";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_REGISTER')")
+	@PreAuthorize("hasRole('ROLE_REGISTER') and principal.id eq #festival.accountId")
 	@RequestMapping(value = "/festival_update", method = RequestMethod.POST)
 	public String modifyFestival(@ModelAttribute("festival") Festival festival, @RequestParam("mainMultipartFile") MultipartFile mainMultipartFile,
             @RequestParam("subMultipartFile") MultipartFile subMultipartFile, Model model, @RequestParam("command") String command) throws FestivalinfoNotFoundException, IllegalStateException, IOException {
