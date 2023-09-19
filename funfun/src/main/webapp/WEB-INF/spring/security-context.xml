@@ -43,9 +43,9 @@
 		<!-- eaccess 속성: 페이지에 접근 가능한 권한(Role)을 속성값으로 설정 -->
 		<!-- ▶ use-expressions 속성이 [true]인 경우 SpEL을 사용하여 권한 설정 가능 -->
 		<!-- ▶ 권한이 없는 사용자가 페이지를 요청할 경우 SPRING_SECURITY_403_EXCEPTION 이름의 AccessDeniedException 예외 발생 -->
+		<intercept-url pattern="/admin/question_modify_by_user" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/**" access="permitAll" />
-		
 		<!-- form-login: form 방식의 로그인 페이지를 설정하기 위한 엘리먼트 -->
 		<!-- ▶ 속성을 사용하지 않은 경우 Spring Security의 로그인 페이지를 제공 -->
 		<!-- login-page 속성: 아이디와 비밀번호를 입력받기 위한 로그인 페이지의 요청 URL 주소를 속성값으로 설정 -->

@@ -188,14 +188,14 @@ public class CommunityController {
    /* QNA 글 상세 페이지 */
    @RequestMapping(value = "/community/qna_detail", method = RequestMethod.GET)
    public String questionDetail(@RequestParam int idx, Model model, Authentication authentication) {
-      CustomAccountDetails loginAccount = null;
+      
       Question question = questionService.getQuestion(idx);
 
       // 비밀글이라면
       if (question.getSecret() == 1) {
          // 비밀글인데 로그인 사용자라면
          if (authentication != null && authentication.getPrincipal() instanceof CustomAccountDetails) {
-            loginAccount = (CustomAccountDetails) authentication.getPrincipal();
+        	 CustomAccountDetails loginAccount = (CustomAccountDetails) authentication.getPrincipal();
             model.addAttribute("question", question);
 
             // 비밀글인데 로그인 사용자가 있고 그게 작성자 혹은 관리자라면

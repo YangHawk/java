@@ -113,11 +113,11 @@ img {
                 <div class="pagination" style="width:100%;"><!-- 이전글이 없는 경우 이전글 버튼 생략 -->
                 <div class="pull-left">
                     <!-- 작성자에게만 보이게 -->
-                    <sec:authorize access="principal.id eq #question.accountId">
+                    <sec:authorize access="isAuthenticated() and principal.id eq #question.accountId">
                        <a href="javascript:void(0)" id="modify-question" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
                     </sec:authorize>
                     
-                     <sec:authorize access="hasRole('ROLE_ADMIN') or principal.id eq #question.accountId">
+                     <sec:authorize access="hasRole('ROLE_ADMIN') or isAuthenticated() and principal.id eq #question.accountId">
                <a href="<c:url value='/community/question/delete'/>?idx=${question.idx}&accountId=${question.accountId}" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</a>
                     </sec:authorize>
                 </div>

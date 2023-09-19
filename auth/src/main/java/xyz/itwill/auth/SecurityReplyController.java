@@ -2,7 +2,11 @@ package xyz.itwill.auth;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +26,10 @@ public class SecurityReplyController {
 
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/register")
-	public String register(@RequestBody SecurityReply reply) {
+	public String register(@RequestBody @Valid SecurityReply reply, BindingResult bindingResult) throws BindException {
+		if (bindingResult.hasErrors()) {
+			throw new BindException(bindingResult);
+		}
 		securityReplyService.addSecurityReply(reply);
 		return "success";
 	}

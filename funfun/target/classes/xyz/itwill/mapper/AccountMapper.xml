@@ -18,7 +18,6 @@
 			ADDRESS2,
 			ADDRESS3,
 			STATUS,
-			SUB_DAY,
 			ENABLED
 		) VALUES (
 			#{idx},
@@ -33,7 +32,6 @@
 			#{address2},
 			#{address3},
 			#{status},
-			sysdate,
 			1
 		 )
 	</insert>
@@ -86,7 +84,6 @@
 		<result column="address2" property="address2"/>
 		<result column="address3" property="address3"/>
 		<result column="status" property="status"/>
-		<result column="subDay" property="subDay"/>
 		<result column="enabled" property="enabled"/>
 		<collection property="accountAuthList" select="selectAccountAuthById" column="id"/>
 	</resultMap>
@@ -109,7 +106,6 @@
 			ADDRESS2,
 			ADDRESS3,
 			STATUS,
-			SUB_DAY,
 			ENABLED
 		FROM ACCOUNT WHERE ID=#{id}
 	</select>
@@ -132,8 +128,7 @@
 		            ADDRESS1,
 		            ADDRESS2,
 		            ADDRESS3,
-		            STATUS,
-		            TO_CHAR(SUB_DAY,'yyyy-mm-dd') AS SUB_DAY
+		            STATUS
 		        FROM ACCOUNT 
        		 WHERE
         <choose>

@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <body>
-
+<sec:authentication property="principal" var="pinfo"/>
 <!-- preloader -->
 <div id="preloader">
     <div class="spinner spinner-round"></div>
@@ -20,7 +19,7 @@
                 <div class="page-header wsub">
                     <h1 class="page-title fadeInDown animated first">마이페이지</h1>
                 </div><!-- / page-header -->
-                <p class="slide-text fadeInUp animated second">${loginAccount.id } 님의 정보입니다.</p>
+                <p class="slide-text fadeInUp animated second">${pinfo.id }[${pinfo.name}] 님의 정보입니다.</p>
             </div><!-- / page-header-content -->
         </div><!-- / container -->
     </div><!-- / page-header -->
@@ -47,10 +46,19 @@
                     <div class="row">
 
                         <div class="col-xs-6 col-sm-8 col-md-10">
-                            <p>이 름: <span>${loginAccount.name }</span></p>
-                            <p>이메일: <span>${loginAccount.email }</span></p>
-                            <p>전화번호: <span>${loginAccount.phone }</span></p>
-                            <p>주소: <span>${loginAccount.address1 } ${loginAccount.address2 } ${loginAccount.address3 }</span></p>
+                            <p>이 름: <span>${pinfo.name}</span></p>
+                            <p>전화번호: <span>${pinfo.phone }</span></p>
+                            <c:choose>
+	                            <c:when test="${pinfo.gender == 0 }">
+        		                    <p>성별: <span> 남자 </span></p>
+    	                        </c:when>
+    	                        <c:otherwise>
+        		                    <p>성별: <span> 여자 </span></p>
+    	                        </c:otherwise>
+                            </c:choose>
+                            <p>이메일: <span>${pinfo.email }</span></p>
+                            <p>생년월일: <span>${pinfo.birth}</span></p>
+                            <p>주소: <span>${pinfo.address1 } ${pinfo.address2 } ${pinfo.address3 }</span></p>
                         </div>
 
                     </div><!-- / row -->
@@ -59,18 +67,21 @@
                     	<br>
                     	<h3>수정하세요</h3>
                     	<p> 이름 </p>
-                    	<input id="name" name="name" value="${loginAccount.name }">
-                    	<hr>
-                    	<p> 이메일 </p>
-                    	<input id="email" name="email" value="${loginAccount.email }">
+                    	<input id="name" name="name" value="${pinfo.name }">
                     	<hr>
                     	<p> 전화번호 </p>
-                    	<input id="phone" name="phone" value="${loginAccount.phone }">
+                    	<input id="phone" name="phone" value="${pinfo.phone }">
+                    	<hr>
+                    	<p> 이메일 </p>
+                    	<input id="email" name="email" value="${pinfo.email }">
+                    	<hr>
+						<p> 생년월일 </p>                    	
+                    	<input type="date" class="form-control" id="birth" name="birth" value="${pinfo.birth }" >
                     	<hr>
                     	<p> 주소 </p>
-                    	<input id="address1" name="address1" value="${loginAccount.address1 }">
-                    	<input id="address2" name="address2" value="${loginAccount.address2 }">
-                    	<input id="address3" name="address3" value="${loginAccount.address3 }">
+                    	<input id="address1" name="address1" value="${pinfo.address1 }">
+                    	<input id="address2" name="address2" value="${pinfo.address2 }">
+                    	<input id="address3" name="address3" value="${pinfo.address3 }">
                     	<hr>
                     	<!-- 수정 버튼 -->
                     	<button id="modifyBtn" type="submit">저장</button>
@@ -431,6 +442,7 @@
 	    	var address1 = $("#address1").val();
 	    	var address2 = $("#address2").val();
 	    	var address3 = $("#address3").val();
+	    	var birth = $("#birth").val();
 	    	
 	    	if(name == "") {
 	    		alert("이름을 입력해 주세요.");
@@ -447,6 +459,11 @@
 	    		return;
 	    	}
 	    	
+	    	if(birth == "" || birth == null) {
+	    		alert("생년월일을 선택해 주세요.");
+	    		return;
+	    	}
+	    	
 	    	if (address1 == null || address2 == null || address3 == null || address1 === "" || address2 === "" || address3 === "") {
 	    	    alert("주소를 입력해 주세요.");
 	    	    return;
@@ -456,7 +473,7 @@
 	    		type: "PUT",
 	    		url: "<c:url value="/account_modify"/>",
 	    		contentType: "application/json",
-	    		data: JSON.stringify({"id":loginId, "name":name, "email":email, "phone":phone, "address1":address1, "address2":address2, "address3":address3, }),
+	    		data: JSON.stringify({"id":loginId, "name":name, "email":email, "phone":phone, "birth":birth ,"address1":address1, "address2":address2, "address3":address3, }),
 	    		dataType: "text",
 	    		success: function(result) {
 	    			

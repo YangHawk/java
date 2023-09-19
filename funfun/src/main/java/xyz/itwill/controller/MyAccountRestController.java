@@ -10,7 +10,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +36,7 @@ public class MyAccountRestController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/account_detail")
 	public Map<String, Object> getMyAccount(@RequestParam int questionPageNum, @RequestParam int donationPageNum,
-			@RequestParam int wishPageNum, Model model, Authentication authentication) {
+			@RequestParam int wishPageNum, Authentication authentication) {
 		CustomAccountDetails loginAccount = (CustomAccountDetails)authentication.getPrincipal();
 		Map<String, Object> myWish;
 		myWish = wishService.getMyWishList(wishPageNum, loginAccount.getId());

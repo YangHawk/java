@@ -3,6 +3,7 @@ package xyz.itwill.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,7 +67,6 @@ public class NaverLoginController {
 	JSONParser parser = new JSONParser();
 	Object object = parser.parse(apiResult);
 	JSONObject jsonObject = (JSONObject)object;
-	
 	
 	JSONObject responseObject = (JSONObject)jsonObject.get("response");
 	String id = (String)responseObject.get("id");

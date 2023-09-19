@@ -1,10 +1,14 @@
 package xyz.itwill.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -24,7 +28,6 @@ ADDRESS1          		 VARCHAR2(10)
 ADDRESS2          		 VARCHAR2(10)  
 ADDRESS3          		 VARCHAR2(10)  
 STATUS            		 NUMBER(1)     
-SUB_DAY               	 TIMESTAMP(6)  
 
 */
 
@@ -37,12 +40,12 @@ public class Account {
 	private String phone;
 	private String email;
 	private int gender;
+	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private String birth;
 	private String address1;
 	private String address2;
 	private String address3;
 	private int status;
-	private String subDay;
 	
    // 비밀번호 변경을 위한 필드 추가
    @NotEmpty(message = "현재 비밀번호를 반드시 입력해주세요.")

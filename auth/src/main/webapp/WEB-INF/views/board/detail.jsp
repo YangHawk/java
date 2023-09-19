@@ -171,6 +171,8 @@ th, td {
 			success: function(result) {
 				if(result=="success") {
 					replyDisplay();
+				} else {
+					if(result.content) alert(result.content);
 				}
 			},
 			error: function(xhr) {
