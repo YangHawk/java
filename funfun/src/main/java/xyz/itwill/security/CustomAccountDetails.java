@@ -2,14 +2,11 @@ package xyz.itwill.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 import xyz.itwill.dto.Account;
@@ -31,12 +28,12 @@ public class CustomAccountDetails implements UserDetails {
 	private String phone;
 	private String email;
 	private int gender;
-	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private String birth;
 	private String address1;
 	private String address2;
 	private String address3;
 	private int status;
+	private String day;
 	private String currentPassword;
 	private String newPassword;
 	private String confirmPassword;

@@ -41,18 +41,18 @@
 	</insert>
 
 	<update id="updateAccount">
-		UPDATE ACCOUNT SET
-			ID = #{id},
-			PASSWORD = #{password},
-			NAME = #{name},
-			PHONE = #{phone},
-			EMAIL = #{email},
-			GENDER = #{gender},
-			BIRTH = #{birth},
-			ADDRESS1 = #{address1},
-			ADDRESS2 = #{address2},
-			ADDRESS3 = #{address3},
-			STATUS = #{status}
+		 UPDATE ACCOUNT SET
+		    ID = #{id},
+		    PASSWORD = #{password},
+		    NAME = #{name},
+		    PHONE = #{phone},
+		    EMAIL = #{email},
+		    GENDER = #{gender},
+		    BIRTH = #{birth},
+		    ADDRESS1 = #{address1},
+		    ADDRESS2 = #{address2},
+		    ADDRESS3 = #{address3},
+		    STATUS = #{status}
 		WHERE IDX = #{idx}
 	</update>
 	

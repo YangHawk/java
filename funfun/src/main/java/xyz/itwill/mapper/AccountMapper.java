@@ -5,6 +5,7 @@ import java.util.Map;
 
 import xyz.itwill.dto.Account;
 import xyz.itwill.dto.AccountAuth;
+import xyz.itwill.security.CustomAccountDetails;
 
 public interface AccountMapper {
 	int insertAccount(Account account);

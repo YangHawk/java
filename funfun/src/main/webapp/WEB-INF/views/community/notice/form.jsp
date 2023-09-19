@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,6 +75,7 @@
 	                        <button type="submit" id="addBtn" class="btn btn-md btn-primary-filled btn-form-submit btn-rounded">등록하기</button>
                         <div id="msgSubmit" class="h3 text-center hidden"></div>
                         <div class="clearfix"></div>
+                        <sec:csrfInput/>
                     </form>
                 </div><!-- / contact form -->
             </div><!-- / form-container -->

@@ -2,11 +2,12 @@
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html lang="en">
-
-<body>
+<html>
+<meta charset="UTF-8">
 <sec:authentication property="principal" var="pinfo"/>
+<body>
 <!-- preloader -->
 <div id="preloader">
     <div class="spinner spinner-round"></div>
@@ -48,6 +49,7 @@
                         <div class="col-xs-6 col-sm-8 col-md-10">
                             <p>이 름: <span>${pinfo.name}</span></p>
                             <p>전화번호: <span>${pinfo.phone }</span></p>
+                            <p>생년월일: <span>${fn:substring(pinfo.birth, 0, 4) }년 ${fn:substring(pinfo.birth, 5, 7) }월 ${fn:substring(pinfo.birth, 8, 10) }일</span></p>
                             <c:choose>
 	                            <c:when test="${pinfo.gender == 0 }">
         		                    <p>성별: <span> 남자 </span></p>
@@ -57,7 +59,6 @@
     	                        </c:otherwise>
                             </c:choose>
                             <p>이메일: <span>${pinfo.email }</span></p>
-                            <p>생년월일: <span>${pinfo.birth}</span></p>
                             <p>주소: <span>${pinfo.address1 } ${pinfo.address2 } ${pinfo.address3 }</span></p>
                         </div>
 
@@ -76,7 +77,7 @@
                     	<input id="email" name="email" value="${pinfo.email }">
                     	<hr>
 						<p> 생년월일 </p>                    	
-                    	<input type="date" class="form-control" id="birth" name="birth" value="${pinfo.birth }" >
+                    	<input type="date" class="form-control" id="birth" name="birth" value="${fn:substring(pinfo.birth, 0, 10) }">
                     	<hr>
                     	<p> 주소 </p>
                     	<input id="address1" name="address1" value="${pinfo.address1 }">
@@ -165,7 +166,7 @@
 <!-- / preloader -->
 
 <script type="text/javascript">
-	//CSRF 토큰 관련 정보를 자바스트립트 변수에 저장 
+	//CSRF 토큰 관련 정보를 자바스트립트 변수에 저장
 	var csrfHeaderName="${_csrf.headerName}";
 	var csrfTokenValue="${_csrf.token}";
 	
@@ -421,9 +422,7 @@
 		 $("#wishPageNumDiv").html(html);
 	}
 	
-	
 	$(document).ready(function () {
-		
 		getMyAccountsData(loginId, donationPage, questionPage, wishPage);
 		
 		$("#cancelModifyBtn").click(function(){
@@ -473,14 +472,15 @@
 	    		type: "PUT",
 	    		url: "<c:url value="/account_modify"/>",
 	    		contentType: "application/json",
-	    		data: JSON.stringify({"id":loginId, "name":name, "email":email, "phone":phone, "birth":birth ,"address1":address1, "address2":address2, "address3":address3, }),
+	    		data: JSON.stringify({"id":loginId, "name":name, "email":email, "phone":phone, "birth":birth, "address1":address1, "address2":address2, "address3":address3 }),
 	    		dataType: "text",
 	    		success: function(result) {
-	    			
+	    				console.log(result);
 	    			if(result == "success") {
 	    				console.log(result);
 	    				window.location.href = "<c:url value='/account/myaccount'/>";
 	    			}
+	    				console.log(result);
 	    		},
 	    		error: function(xhr) {
 	    			alert("회원 정보 편집 중 오류가 발생하였습니다("+ xhr.status+")");

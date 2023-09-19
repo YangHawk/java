@@ -54,19 +54,8 @@ public class MyAccountRestController {
 
 	@PreAuthorize("isAuthenticated()")
 	@PutMapping("/account_modify")
-	public String modifyAcocunt(@RequestBody Account account, Authentication authentication) throws UserinfoNotFoundException {
-		CustomAccountDetails loginAccount = (CustomAccountDetails)authentication.getPrincipal();
-		Account loginAccount2 = accountService.getAccount(loginAccount.getId()); 
-
-		loginAccount2.setName(account.getName());
-		loginAccount2.setEmail(account.getEmail());
-		loginAccount2.setPhone(account.getPhone());
-		loginAccount2.setAddress1(account.getAddress1());
-		loginAccount2.setAddress2(account.getAddress2());
-		loginAccount2.setAddress3(account.getAddress3());
-
-		accountService.modifyAccount(loginAccount2);
-
+	public String modifyAcocunt(@RequestBody Account account) throws UserinfoNotFoundException {
+		accountService.modifyAccount(account);
 		return "success";
 	}
 
@@ -84,12 +73,11 @@ public class MyAccountRestController {
 
 	@PreAuthorize("isAuthenticated()")
 	@PutMapping("/changePassword")
-	public String updatePassword(@RequestBody @Valid Account account, Authentication authentication, HttpServletRequest request, HttpServletResponse response)
+	public String updatePassword(@RequestBody @Valid CustomAccountDetails account, Authentication authentication, HttpServletRequest request, HttpServletResponse response)
 			throws UserinfoNotFoundException {
-		CustomAccountDetails loginAccount = (CustomAccountDetails) authentication.getPrincipal();
-		Account loginAccount2 = accountService.getAccount(loginAccount.getId()); 
+		Account loginAccount = accountService.getAccount(account.getId()); 
 
-		if (!BCrypt.checkpw(account.getCurrentPassword(), loginAccount2.getPassword())) {
+		if (!BCrypt.checkpw(account.getCurrentPassword(), loginAccount.getPassword())) {
 			return "error2";
 		}
 
@@ -99,8 +87,8 @@ public class MyAccountRestController {
 		}
 
 		String hashedNewPassword = BCrypt.hashpw(account.getNewPassword(), BCrypt.gensalt());
-		loginAccount2.setPassword(hashedNewPassword);
-		accountService.modifyPassword(loginAccount2);
+		loginAccount.setPassword(hashedNewPassword);
+		accountService.modifyPassword(loginAccount);
 
 		return "success";
 	}

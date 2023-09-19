@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%> 
+
 <!-- 영화제 및 펀딩정보 등록페이지 1 -->
 <div id="page-header" class="faq">
         <div class="container">
@@ -18,8 +19,7 @@
 
 <section id="shop">
    <div class="container">
-      <form id="register" action="festival_register" method="post"
-         enctype="multipart/form-data">
+      <form id="register" action="festival_register" method="post" enctype="multipart/form-data">
          <input type="hidden" name="accountId" value="<sec:authentication property="principal.id"/>">
          <sec:csrfInput/>
          <div class="row">
@@ -220,6 +220,7 @@
             <!-- / project sidebar area -->
          </div>
          <!-- / row -->
+         <sec:csrfInput/>
       </form>
    </div>
    <!-- / container -->
@@ -377,7 +378,6 @@ $(document).ready(function() {
       	$("#fundingStartEndDayMsg").css("display","none");
       }
       
-      
       const optionPattern = /^(?:10000|[1-9]\d{4,6}|5000000)$/;
       if ($("#option1").val() == "") {
            $("#option1").val("0");
@@ -391,7 +391,6 @@ $(document).ready(function() {
            }
        }
 
-
       if (typeof($("#option2").val()) != "undefined") {
          if ($("#option2").val() !== "0" && !optionPattern.test($("#option2").val())) {
              $("#option2Msg").css("display", "block");
@@ -400,7 +399,6 @@ $(document).ready(function() {
              $("#option2Msg").css("display", "none");
          }
      }
-
    
       if (typeof($("#option38").val()) != "undefined") {
          if ($("#option3").val() !== "0" && !optionPattern.test($("#option3").val())) {
@@ -410,7 +408,6 @@ $(document).ready(function() {
              $("#option3Msg").css("display", "none");
          }
      }
-
    
       if (typeof($("#option4").val()) != "undefined") {
          if ($("#option4").val() !== "0" && !optionPattern.test($("#option4").val())) {

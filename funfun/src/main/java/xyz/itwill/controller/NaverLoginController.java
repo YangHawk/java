@@ -3,7 +3,6 @@ package xyz.itwill.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,7 +55,7 @@ public class NaverLoginController {
 	//네이버 로그인 성공시 Callback URL 페이지를 처리하기 위한 요청 처리 메소드
 	@RequestMapping("/funfun")
 	public String login(@RequestParam String code, @RequestParam String state,
-			HttpSession session) throws IOException, ParseException, ExistsUserinfoException, UserinfoNotFoundException {
+			HttpSession session) throws IOException, ParseException, ExistsUserinfoException, UserinfoNotFoundException, java.text.ParseException {
 		//네이버 로그인 사용자에 대한 접근 토큰을 반환하는 메소드 호출하여 사용자 접근 토큰 저장 
 		OAuth2AccessToken accessToken = naverLoginBean.getAccessToken(session, code, state);
 		

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,6 +56,7 @@
                 <!-- contact form -->
                 <div id="contact-form-1">
                     <form id="contactForm" data-toggle="validator" action="${pageContext.request.contextPath}/community/qna_form" method="post" enctype="multipart/form-data">
+                        <sec:csrfInput/>
                         <div class="form-group">
                          <label for="title">제목</label>
                             <input name="title" type="text" class="form-control" id="title" placeholder="제목을 입력해주세요" required>
@@ -76,7 +78,7 @@
 						    <label class="form-check-label">비밀글</label>
 						</div>
 						<br>
-	                    <button type="submit" id="qnaBtn" class="btn btn-md btn-primary-filled btn-form-submit btn-rounded">등록하기</button>
+	                    <button type="button" id="qnaBtn" class="btn btn-md btn-primary-filled btn-form-submit btn-rounded">등록하기</button>
                         <div id="msgSubmit" class="h3 text-center hidden"></div>
                         <div class="clearfix"></div>
                     </form>

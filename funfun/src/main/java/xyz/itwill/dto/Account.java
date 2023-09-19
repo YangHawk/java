@@ -1,14 +1,10 @@
 package xyz.itwill.dto;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -40,7 +36,6 @@ public class Account {
 	private String phone;
 	private String email;
 	private int gender;
-	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private String birth;
 	private String address1;
 	private String address2;

@@ -27,6 +27,7 @@ import xyz.itwill.dto.AccountAuth;
 import xyz.itwill.exception.ExistsUserinfoException;
 import xyz.itwill.exception.LoginAuthFailException;
 import xyz.itwill.exception.UserinfoNotFoundException;
+import xyz.itwill.security.CustomAccountDetails;
 import xyz.itwill.util.Pager;
 
 @Service

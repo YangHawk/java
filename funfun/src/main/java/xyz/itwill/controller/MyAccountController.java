@@ -16,9 +16,6 @@ import xyz.itwill.security.CustomAccountDetails;
 public class MyAccountController {
 	@RequestMapping(value = "/myaccount", method = RequestMethod.GET)
 	public String index(Authentication authentication, Model model) {
-		CustomAccountDetails loginAccount = (CustomAccountDetails)authentication.getPrincipal();
-		model.addAttribute("loginAccount", loginAccount);
-
 		return "account/myaccount";
 	}
 }

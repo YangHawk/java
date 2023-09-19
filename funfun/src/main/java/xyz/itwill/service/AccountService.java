@@ -7,6 +7,7 @@ import xyz.itwill.dto.AccountAuth;
 import xyz.itwill.exception.ExistsUserinfoException;
 import xyz.itwill.exception.LoginAuthFailException;
 import xyz.itwill.exception.UserinfoNotFoundException;
+import xyz.itwill.security.CustomAccountDetails;
 
 public interface AccountService {
 	void addAccount(Account account, String accountRole) throws ExistsUserinfoException;

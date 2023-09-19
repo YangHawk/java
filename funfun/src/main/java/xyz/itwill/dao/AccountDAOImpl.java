@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import xyz.itwill.dto.Account;
 import xyz.itwill.dto.AccountAuth;
 import xyz.itwill.mapper.AccountMapper;
+import xyz.itwill.security.CustomAccountDetails;
 
 @Repository
 @RequiredArgsConstructor

@@ -88,14 +88,6 @@ public class FestivalController {
 	@PreAuthorize("hasRole('ROLE_REGISTER')")
 	@GetMapping(value = "/festival_register")
 	public String addfestival(Authentication authentication) {
-		CustomAccountDetails loginAccount = (CustomAccountDetails)authentication.getPrincipal();
-		if(loginAccount == null) {
-			return "redirect:/account/login";
-		}
-		//account_auth에서 가져오기
-		if(loginAccount.getStatus() != 1) {
-			return "redirect:/";
-		}
 		return "donation/festival_register";
 	}
 
