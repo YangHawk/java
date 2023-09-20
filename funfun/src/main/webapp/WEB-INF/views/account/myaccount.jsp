@@ -172,6 +172,7 @@
 	
 	<sec:authorize access="isAuthenticated()">
 	   var loginId="<sec:authentication property="principal.id"/>";
+	   var loginIdx="<sec:authentication property="principal.idx"/>";
 	</sec:authorize>
 	   
 	//ajaxSend() 메소드를 호출하여 페이지에서 Ajax 기능으로 요청하는 모든 웹프로그램에게 CSRF 토큰 전달
@@ -458,26 +459,27 @@
 	    		return;
 	    	}
 	    	
-	    	if(birth == "" || birth == null) {
-	    		alert("생년월일을 선택해 주세요.");
-	    		return;
-	    	}
-	    	
 	    	if (address1 == null || address2 == null || address3 == null || address1 === "" || address2 === "" || address3 === "") {
 	    	    alert("주소를 입력해 주세요.");
 	    	    return;
+	    	}
+	    	
+	    	if(birth == "" || birth == null) {
+	    		alert("생년월일을 선택하여 주세요.");
+	    		return;
 	    	}
 	    	
 	    	$.ajax({
 	    		type: "PUT",
 	    		url: "<c:url value="/account_modify"/>",
 	    		contentType: "application/json",
-	    		data: JSON.stringify({"id":loginId, "name":name, "email":email, "phone":phone, "birth":birth, "address1":address1, "address2":address2, "address3":address3 }),
+	    		data: JSON.stringify({"id":loginId, "name":name, "email":email, "birth":birth, "phone":phone, "address1":address1, "address2":address2, "address3":address3, "idx":loginIdx}),
 	    		dataType: "text",
 	    		success: function(result) {
 	    				console.log(result);
 	    			if(result == "success") {
 	    				console.log(result);
+	    				alert("회원 정보가 성공적으로 변경되었습니다. 다시 로그인 해주세요.");
 	    				window.location.href = "<c:url value='/account/myaccount'/>";
 	    			}
 	    				console.log(result);
@@ -502,31 +504,31 @@
    				var newPassword = $('#newPassword').val();
    				var confirmPassword = $('#confirmPassword').val();
    				
+   				if(currentPassword == "" || currentPassword == null || newPassword == "" || newPassword == null || confirmPassword == "" || confirmPassword == null) {
+   		    		alert("비밀번호를 입력하여 주세요.");
+   		    		return;
+   		    	}
+   				
    				// PUT 요청을 서버로 보냄
    		        $.ajax({
    		            type: "PUT",
    		            url: "<c:url value='/changePassword'/>", // 변경할 비밀번호 엔드포인트 URL로 변경해야 합니다.
    		            contentType: "application/json",
    		            data: JSON.stringify({
-   		            	"id": loginId,
+   		            	"id":loginId,
    		            	"currentPassword": currentPassword,
    		                "newPassword": newPassword,
-   		             	"confirmPassword": confirmPassword
+   		             	"confirmPassword": confirmPassword,
+   		            	"idx":loginIdx
    		            }),
    		            dataType: "text",
    		            success: function(result) {
    		            	if(result == "success") {
    		            		console.log(result);
    		            		window.location.href = "<c:url value='/account/login'/>";	   		       
-	   		                alert("비밀번호가 성공적으로 변경되었습니다. 재로그인 해주세요.");
-   		            	} else if(result.startsWith("error")) {
-   		            		console.log(result);
+	   		                alert("비밀번호가 성공적으로 변경되었습니다. 다시 로그인 해주세요.");
+   		            	} else {
    		            		alert("오류: "+result);
-   		            	} else if(result == "error1") {
-   		            		console.log(result);
-   		            	} else if(result == "error2") {
-   		            		console.log(result);
-   		            	} else if(result == "error3") {
    		            		console.log(result);
    		            	}
    		                // 비밀번호 변경 성공 시 처리
@@ -543,8 +545,8 @@
  		        if (confirm("정말로 삭제하시겠습니까?")) {
  		            
  		            $.ajax({
- 		                type: "DELETE",
- 		                url: "<c:url value='/account_remove?id='/>" + id,
+ 		                type: "PUT",
+ 		                url: "<c:url value='/account_remove?id='/>" + loginId,
  		                success: function(result) {
  		                    if(result == "success") {
  		                    	 window.location.href = "<c:url value='/'/>";

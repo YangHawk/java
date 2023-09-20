@@ -68,7 +68,7 @@
 	</update>	
 
 	<update id="deleteAccount">
-		UPDATE ACCOUNT SET STATUS = 9 WHERE ID = #{id}
+		UPDATE ACCOUNT SET ENABLED = 0 WHERE ID = #{id}
 	</update>
 
 	<resultMap type="Account" id="accountResultMap">
@@ -142,8 +142,7 @@
                  ADDRESS1 LIKE '%' || #{selectKeyword} || '%' OR
                  ADDRESS2 LIKE '%' || #{selectKeyword} || '%' OR
                  ADDRESS3 LIKE '%' || #{selectKeyword} || '%' OR
-                 STATUS LIKE '%' || #{selectKeyword} || '%' OR
-                 SUB_DAY LIKE '%' || #{selectKeyword} || '%')
+                 STATUS LIKE '%' || #{selectKeyword} || '%')
             </when>
             <otherwise>
                 1=1 <!-- 검색어가 없는 경우 모든 데이터 검색 -->

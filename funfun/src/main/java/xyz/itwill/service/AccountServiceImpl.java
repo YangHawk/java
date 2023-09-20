@@ -286,7 +286,7 @@ public class AccountServiceImpl implements AccountService {
 	// 비밀번호 변경 메소드
 	@Override
 	public void modifyPassword(Account account) {
-		accountDAO.updateAccount(account);
+		accountDAO.updatePassword(account);
 	}
 
 	// 아이디 중복체크

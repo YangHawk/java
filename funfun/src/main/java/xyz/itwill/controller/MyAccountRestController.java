@@ -54,16 +54,26 @@ public class MyAccountRestController {
 
 	@PreAuthorize("isAuthenticated()")
 	@PutMapping("/account_modify")
-	public String modifyAcocunt(@RequestBody Account account) throws UserinfoNotFoundException {
-		accountService.modifyAccount(account);
+	public String modifyAcocunt(@RequestBody Account account, Authentication authentication, HttpServletRequest request, HttpServletResponse response) throws UserinfoNotFoundException {
+		Account loginAccount = accountService.getAccount(account.getId());
+		loginAccount.setName(account.getName());
+		loginAccount.setEmail(account.getEmail());
+		loginAccount.setBirth(account.getBirth());
+		loginAccount.setPhone(account.getPhone());
+		loginAccount.setAddress1(account.getAddress1());
+		loginAccount.setAddress2(account.getAddress2());
+		loginAccount.setAddress3(account.getAddress3());
+		loginAccount.setIdx(account.getIdx());
+		accountService.modifyAccount(loginAccount);
+		
+		new SecurityContextLogoutHandler().logout(request, response, authentication);
+		
 		return "success";
 	}
 
 	@PreAuthorize("isAuthenticated()")
 	@PutMapping("/account_remove")
-	 public String removeAccount(Authentication authentication, HttpServletRequest request, HttpServletResponse response) throws UserinfoNotFoundException {
-        CustomAccountDetails loginAccount = (CustomAccountDetails) authentication.getPrincipal();
-        String id = loginAccount.getId();
+	 public String removeAccount(@RequestParam String id, Authentication authentication, HttpServletRequest request, HttpServletResponse response) throws UserinfoNotFoundException {
         accountService.removeAccount(id);
 
         new SecurityContextLogoutHandler().logout(request, response, authentication);
@@ -73,22 +83,25 @@ public class MyAccountRestController {
 
 	@PreAuthorize("isAuthenticated()")
 	@PutMapping("/changePassword")
-	public String updatePassword(@RequestBody @Valid CustomAccountDetails account, Authentication authentication, HttpServletRequest request, HttpServletResponse response)
+	public String updatePassword(@RequestBody @Valid Account account, Authentication authentication, HttpServletRequest request, HttpServletResponse response)
 			throws UserinfoNotFoundException {
-		Account loginAccount = accountService.getAccount(account.getId()); 
-
+		Account loginAccount = accountService.getAccount(account.getId());
+		
 		if (!BCrypt.checkpw(account.getCurrentPassword(), loginAccount.getPassword())) {
-			return "error2";
+			return "비밀번호가 같지 않습니다.";
 		}
 
 		// 새 비밀번호와 새 비밀번호 확인이 일치하는지 확인
 		if (!account.getNewPassword().equals(account.getConfirmPassword())) {
-			return "error3";
+			return "새 비밀번호 확인을 다시 해주십시오";
 		}
 
 		String hashedNewPassword = BCrypt.hashpw(account.getNewPassword(), BCrypt.gensalt());
+		loginAccount.setIdx(account.getIdx());		
 		loginAccount.setPassword(hashedNewPassword);
 		accountService.modifyPassword(loginAccount);
+		
+		new SecurityContextLogoutHandler().logout(request, response, authentication);
 
 		return "success";
 	}
