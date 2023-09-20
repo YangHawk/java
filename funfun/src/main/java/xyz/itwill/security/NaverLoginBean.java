@@ -21,7 +21,7 @@ public class NaverLoginBean {
 	// 로그인에 필요한 정보를 저장한 필드(상수) 선언
 	private static final String CLIENT_ID = "dhsS8GuQWYnziR51CCzl";
 	private static final String CLIENT_SECRET = "Ud6UI8dC4v";
-	private static final String REDIRECT_URI = "http://localhost:8000/funfun";
+	private static final String REDIRECT_URI = "http://localhost:8000/funfun/naver/callback";
 	private static final String SESSION_STATE = "naver_state";
 	// 사용자 프로필을 조회하기 위한 API의 URL 주소 저장
 	private static final String PROFILE_API_URI = "https://openapi.naver.com/v1/nid/me";
@@ -57,7 +57,6 @@ public class NaverLoginBean {
 		if (!StringUtils.pathEquals(sessionState, state)) {
 			return null;
 		}
-
 		// 사용자 접근 토큰을 발급받기 위한 정보가 저장된 OAuth20Service 객체 생성
 		OAuth20Service oAuth20Service = new ServiceBuilder()
 				.apiKey(CLIENT_ID)

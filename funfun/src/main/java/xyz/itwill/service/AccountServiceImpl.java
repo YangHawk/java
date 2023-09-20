@@ -112,9 +112,9 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Account getAccount(String id) throws UserinfoNotFoundException {
 		Account account = accountDAO.selectAccount(id);
-		if (account == null) {
+		/*if (account == null) {
 			throw new UserinfoNotFoundException("아이디의 회원 정보가 존재하지 않습니다.");
-		}
+		}*/
 		//return account;
 		return accountDAO.selectAccount(id);
 	}

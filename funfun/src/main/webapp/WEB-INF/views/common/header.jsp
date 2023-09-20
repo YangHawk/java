@@ -30,7 +30,7 @@
                 <a href="${pageContext.request.contextPath}/donation/wishlist"><i class="lnr lnr-cart"></i> <span>위시리스트</span></a>
 
                 <sec:authorize access="isAuthenticated()">
-                    <a><sec:authentication property="principal.username"/> 님 환영합니다.</a>
+                    <a><sec:authentication property="principal.name"/> 님 환영합니다.</a>
                 </sec:authorize>
             </span>
         </div>

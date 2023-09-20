@@ -4,10 +4,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
+    .social-login-buttons {
+	    display: flex;
+		float: left;
+	    margin-right: 10px; /* 이미지 사이의 간격 조정 */
+	}
+	
+	
     .naver-login-img {
-        width: 50px; /* 원하는 가로 크기 */
-        height: auto; /* 자동으로 세로 크기 조절하여 비율 유지 */
-       	float: left;
+        width: 50px;
+        margin-right: 10px;
+    	
+    }
+    
+    .kakao-login-img {
+        width: 58px;
     }
 </style>
 <body>
@@ -68,9 +79,13 @@
 						</c:if>
 						
 						<!-- 회원가입 버튼 및 아이디,비밀번호 찾기 버튼 -->
+						<div class="social-login-buttons">
 						<img class="naver-login-img" alt="네이버로그인" src="<c:url value="/resources/images/btnW_one.png"/>" 
   								  onclick="location.href='${pageContext.request.contextPath}/naver/login';">
-						<br><br>
+						<img class="kakao-login-img" alt="카카오톡로그인" src="<c:url value="/resources/images/kakao_login2.png"/>"
+						onclick="location.href='${pageContext.request.contextPath}/kakao/login';">
+						</div>
+						<br><br><br>
   						<hr>
 						<a href="register" class="register">회원 가입하기</a>
 						<br>
