@@ -19,6 +19,8 @@ public interface AccountDAO {
 	int deleteAccount(String id);
 
 	Account selectAccount(String id);
+	
+	Account selectAccountByEmail(String email);
 
 	int selectAccountCount();
 

@@ -19,7 +19,9 @@ public interface AccountMapper {
 	int deleteAccount(String id);
 
 	Account selectAccount(String id);
-
+	
+	Account selectAccountByEmail(String email);
+	
 	int selectAccountCount();
 
 	List<Account> selectAccountList(Map<String, Object> map);

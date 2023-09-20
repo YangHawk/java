@@ -45,7 +45,7 @@
   }
  
   .top_btn{
-     font-size: 20px;
+    font-size: 20px;
     padding: 6px 12px;
     background-color: #fff;
     border: 1px solid #ddd;
@@ -59,7 +59,6 @@
     margin-top: 150px;
     margin-left: 50px;
 }
-
 .widget-title {
     margin-top: 20px;
 }
@@ -93,14 +92,14 @@
 <!-- / preloader -->
 
 <div id="page-header" class="notice">
-        <div class="container">
-            <div class="page-header-content text-center">
-                <div class="page-header wsub">
-                    <h1 class="page-title fadeInDown animated first">공지사항</h1>
-                </div><!-- / page-header -->
-            </div><!-- / page-header-content -->
-        </div><!-- / container -->
-    </div><!-- / page-header -->
+	<div class="container">
+		<div class="page-header-content text-center">
+			<div class="page-header wsub">
+				<h1 class="page-title fadeInDown animated first">공지사항</h1>
+            </div>
+        </div>
+	</div>
+</div>
 
 <!-- 사이드바 -->
    <div class="col-sm-4 col-md-3 sidebar-area">
@@ -119,29 +118,27 @@
    </div>
 <!-- 사이드바 -->
 
-            <!-- 한 번에 볼 게시글 수를 출력하는 태그 -->
-                <select id="pageSizeSelect"></select>
-                
-                <!-- 검색 창을 출력하는 태그 -->
-                <div id="searchDiv"></div>
+<!-- 한 번에 볼 게시글 수를 출력하는 태그 -->
+    <select id="pageSizeSelect"></select>
+    
+    <!-- 검색 창을 출력하는 태그 -->
+    <div id="searchDiv"></div>
 
-            <!-- 게시글 목록을 출력하는 태그 -->
-                <div id="infoListDiv"></div>
+<!-- 게시글 목록을 출력하는 태그 -->
+    <div id="infoListDiv"></div>
 
-			    <!-- 공지사항 등록 버튼 -->
-			<div class="button-and-page-num">
-				<sec:authorize access="hasRole('ROLE_ADMIN')">
-			        <button type="button" id="right-button" 
-			        class="noinBtn - btn btn-md btn-primary-filled btn-form-submit btn-rounded"
-			        onclick="window.location.href='/funfun/community/notice/form';">공지사항 등록</button>
-			    </sec:authorize>
-			    
-			    <!-- 페이지 번호를 출력하는 태그 -->
-			    <div id="pageNumDiv"></div>
-			</div>
+    <!-- 공지사항 등록 버튼 -->
+<div class="button-and-page-num">
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
+        <button type="button" id="right-button" 
+        class="noinBtn - btn btn-md btn-primary-filled btn-form-submit btn-rounded"
+        onclick="window.location.href='/funfun/community/notice/form';">공지사항 등록</button>
+    </sec:authorize>
+    
+    <!-- 페이지 번호를 출력하는 태그 -->
+    <div id="pageNumDiv"></div>
+</div>
 
-                
-   
 
 <!-- 
 <form action="">

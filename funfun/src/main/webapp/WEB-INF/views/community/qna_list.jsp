@@ -41,7 +41,6 @@
   thead{
      font-weight: 700;
   }
- 
   .top_btn{
      font-size: 20px;
     padding: 6px 12px;
@@ -57,7 +56,6 @@
     margin-top: 150px;
     margin-left: 50px;
 }
-
 .widget-title {
     margin-top: 20px;
 }
@@ -89,7 +87,6 @@
     justify-content: space-between;
     align-items: center; /* 수직 가운데 정렬 */
 }
-
 </style>
 </head>
 
@@ -137,24 +134,17 @@
 		<!-- 게시글 목록을 출력하는 태그 -->
 		    <div id="infoListDiv"></div>
 		
-			<!-- 질문 등록 버튼 -->
-		<div class="button-and-page-num">
-				<button type="button" id="right-button" 
-			    class="noinBtn - btn btn-md btn-primary-filled btn-form-submit btn-rounded"
-			    onclick="window.location.href='/funfun/community/qna_form';">문의글 등록</button>
-			
-			<!-- 페이지 번호를 출력하는 태그 -->
-			<div id="pageNumDiv"></div>
-		</div>
-                
-   
+		<!-- 질문 등록 버튼 -->
+			<div class="button-and-page-num">
+					<button type="button" id="right-button" 
+				    class="noinBtn - btn btn-md btn-primary-filled btn-form-submit btn-rounded"
+				    onclick="window.location.href='/funfun/community/qna_form';">문의글 등록</button>
+				
+				<!-- 페이지 번호를 출력하는 태그 -->
+				<div id="pageNumDiv"></div>
+			</div>
+	                
 
-<!-- 
-<form action="">
-<button type="submit"></button>
-</form>
- -->
- 
 <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.easing.min.js"></script>

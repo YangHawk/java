@@ -37,4 +37,9 @@ public interface AccountService {
 
 	// 아이디 중복 체크
 	boolean isIdExists(Account account);
+	
+	// 이메일 중복 체크
+	boolean isEmailExists(Account account);
+	
+	
 }

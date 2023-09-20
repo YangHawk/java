@@ -279,7 +279,7 @@ public class AccountServiceImpl implements AccountService {
 
 		// 해시화된 임시 비밀번호를 서버에 저장
 		account.setPassword(hashedTemporaryPassword);
-		accountDAO.updateAccount(account); // 데이터베이스에 업데이트
+		accountDAO.updatePassword(account); // 데이터베이스에 업데이트
 
 	}
 
@@ -297,6 +297,20 @@ public class AccountServiceImpl implements AccountService {
 
 		// 계정이 조회되었으면 아이디가 이미 존재한다고 판단
 		if (checkId != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	//이메일 중복체크
+	@Override
+	public boolean isEmailExists(Account account) {
+		// 입력된 이메일을 가진 계정이 데이터베이스에서 조회되는지 확인
+		Account checkEmail = accountDAO.selectAccountByEmail(account.getEmail());
+		
+		//계정이 조회되었으면 아이디가 이미 존재한다고 판단
+		if(checkEmail != null ) {
 			return true;
 		} else {
 			return false;

@@ -18,7 +18,7 @@
    margin-bottom: 50px;
 }
 .right-align {
-        text-align: right;
+	text-align: right;
 }
 .space {
    height: auto;
@@ -29,124 +29,120 @@ img {
    max-width: 500px;
     height: auto;
 }
-
 </style>
 </head>
 
 <body>
 
 <!-- 사이드바 -->
-   <div class="col-sm-4 col-md-3 sidebar-area">
-      <div class="categories-sidebar-widget widget no-border">
-         <h5 class="widget-title">커뮤니티</h5>
-         <p class="product-category">
-            <a href="${pageContext.request.contextPath}/community/notice">공지사항</a> <span class="pull-right"></span>
-         </p>
-         <p class="product-category">
-            <a href="${pageContext.request.contextPath}/community/faq">FAQ</a> <span class="pull-right"></span>
-         </p>
-         <p class="product-category">
-            <a href="${pageContext.request.contextPath}/community/qna_list">Q&amp;A</a> <span class="pull-right"></span>
-         </p>
-      </div>
+<div class="col-sm-4 col-md-3 sidebar-area">
+   <div class="categories-sidebar-widget widget no-border">
+      <h5 class="widget-title">커뮤니티</h5>
+      <p class="product-category">
+         <a href="${pageContext.request.contextPath}/community/notice">공지사항</a> <span class="pull-right"></span>
+      </p>
+      <p class="product-category">
+         <a href="${pageContext.request.contextPath}/community/faq">FAQ</a> <span class="pull-right"></span>
+      </p>
+      <p class="product-category">
+         <a href="${pageContext.request.contextPath}/community/qna_list">Q&amp;A</a> <span class="pull-right"></span>
+      </p>
    </div>
+</div>
 <!-- 사이드바 -->
 
 <div class="container">
-    <!-- blog content + sidebar -->
-    <section id="blog">
-        <div class="row">
-            <!-- blog content area -->
-            <div class="col-sm-8">
-                <div class="post-content-area">
-                    <div class="media">
+	<section id="blog">
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="post-content-area">
+                	<div class="media">
                         <div class="media-body">
                             <h4 class="media-heading">${notice.title}</h4>
                             <hr>
-                            <p class="right-align">${notice.day}</p>
+                            	<p class="right-align">${notice.day}</p>
                             <hr>
                             <c:if test="${not empty notice.fileData}">
-                         <img src="<c:url value='/resources/upload/${notice.fileData}' />" >
-                     </c:if>
-                            <p>${notice.content}</p>
+                         		<img src="<c:url value='/resources/upload/${notice.fileData}' />" >
+                     		</c:if>
+                            	<p>${notice.content}</p>
                             <hr>
                             <c:if test="${not empty notice.fileData}">
-                         <p>첨부파일: ${notice.fileData}</p>
-                         <!-- 파일 다운로드 링크 -->
-                         <a href="<c:url value='/resources/upload/${notice.fileData}' />" download="${notice.fileData}">첨부 파일 다운로드</a>
+                         		<p>첨부파일: ${notice.fileData}</p>
+		                         <!-- 파일 다운로드 링크 -->
+		                         <a href="<c:url value='/resources/upload/${notice.fileData}' />" download="${notice.fileData}">첨부 파일 다운로드</a>
                              <hr>
-                     </c:if>
+                     		</c:if>
                         </div><!-- / media-body -->
                     </div><!-- / media -->
                     
-                            <!-- 수정 폼을 감싸는 div -->
-                            <div id="edit-form" style="display: none;">
-                            <label>수정하기</label>
-                            <br><br>
-                            <div class="form-group">
-                            <label for="title">제목</label>
-                            <textarea id="title" name="title" class="form-control">${notice.title}</textarea>
-                        </div>
-                        <hr>
-                        <div class="form-group">
-                            <label for="nContent">내용</label>
-                            <textarea id="nContent" name="content" class="form-control">${notice.content}</textarea>
-                        </div>
-                        <div class="form_group">
-                      <label>파일 첨부</label>
-                      <input type="file" id="uploadFile" name="uploadFile">
-                       <c:if test="${not empty notice.fileData}">
-                         <img src="<c:url value='/resources/upload/${notice.fileData}' />" id="fileimg" style="display: block;">
-                        <button id="deleteFileBtn">파일 삭제</button>
-                     </c:if>
-                  </div>
-                     <input type="hidden" name="idx" value="${notice.idx}">
-                        <hr>
+                    <!-- 수정 폼을 감싸는 div -->
+                    <div id="edit-form" style="display: none;">
+                    	<label>수정하기</label>
+                    <br><br>
+                    <div class="form-group">
+	                    <label for="title">제목</label>
+	                    <textarea id="title" name="title" class="form-control">${notice.title}</textarea>
+                    </div>
+                    <hr>
+	                <div class="form-group">
+	                    <label for="nContent">내용</label>
+	                    <textarea id="nContent" name="content" class="form-control">${notice.content}</textarea>
+	                </div>
+                    <div class="form_group">
+                    	<label>파일 첨부</label>
+                    	<input type="file" id="uploadFile" name="uploadFile">
+		                <c:if test="${not empty notice.fileData}">
+		                 	<img src="<c:url value='/resources/upload/${notice.fileData}' />" id="fileimg" style="display: block;">
+		                <button id="deleteFileBtn">파일 삭제</button>
+		                </c:if>
+                  	</div>
+                    	<input type="hidden" name="idx" value="${notice.idx}">
+                    <hr>
 
-                              <!-- 수정 버튼 -->
-                                 <button id="modifyBtn" type="submit">저장</button>
-                                 <button id="cancelModifyBtn" type="button">취소</button>
-                            </div>
-                      </div><!-- / blog-block -->
+                    	<!-- 수정 버튼 -->
+	                    <button id="modifyBtn" type="submit">저장</button>
+	                    <button id="cancelModifyBtn" type="button">취소</button>
+                    </div>
+				</div><!-- / blog-block -->
 
-                
 
                 <!-- post pagination -->
                 <div class="pagination" style="width:100%;">
-                <div class="pull-left">
-                    <sec:authorize access="hasRole('ROLE_ADMIN')">
-                       <a href="javascript:void(0)" id="modify-notice" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
-                      <form action="${pageContext.request.contextPath}/community/notice/delete" method="POST" style="display: inline;">
-                        <input type="hidden" name="idx" value="${notice.idx}">
-                        <button type="submit" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</button>
-                    </form>
-                    </sec:authorize>
-                </div>
-                 
-                 <div class="pagination" style="width:100%;"> 
-                     <div class="text-right" style="margin-right: 20px;">  
-                      <c:choose>
-                         <c:when test="${preNextIdx.prevnum != 0 }">
-                             <a href="<c:url value='/community/notice/notice_detail'/>?idx=${preNextIdx.prevnum}" class="btn btn-direction btn-default btn-rounded" id="prevButton"><i class="fa fa-long-arrow-left"></i><span>이전글</span></a>
-                         </c:when>
-                         <c:otherwise>
-                            <div class="space"></div>
-                         </c:otherwise>
-                      </c:choose>
-                           <div class="space"></div>
-                          <button type="button" class="btn btn-direction btn-default btn-rounded" id="list_btn"><i class="fa fa-long-arrow-center"></i><span>목록</span></button>
-                           <div class="space"></div>
-                      <c:choose>
-                         <c:when test="${preNextIdx.nextnum != 0 }">
-                           <a href="<c:url value='/community/notice/notice_detail'/>?idx=${preNextIdx.nextnum}" class="btn btn-direction btn-default btn-rounded" id="nextButton"><span>다음글</span><i class="fa fa-long-arrow-right"></i></a>
-                         </c:when>
-                      </c:choose>
-                      </div>
-                </div>
-              </div><!-- / post pagination -->
-            </div><!-- / col-sm-8 -->
-        </div><!-- / row -->
-    </section>
+	                <div class="pull-left">
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
+							<a href="javascript:void(0)" id="modify-notice" class="btn btn-xs btn-primary-filled btn-rounded">수정하기</a>
+							<form action="${pageContext.request.contextPath}/community/notice/delete" method="POST" style="display: inline;">
+	                        <input type="hidden" name="idx" value="${notice.idx}">
+	                        	<button type="submit" class="btn btn-xs btn-primary-filled btn-rounded">삭제하기</button>
+	                    	</form>
+	                    </sec:authorize>
+	                </div>
+	                 
+	                <div class="pagination" style="width:100%;"> 
+	                     <div class="text-right" style="margin-right: 20px;">  
+		                     <c:choose>
+		                        <c:when test="${preNextIdx.prevnum != 0 }">
+		                            <a href="<c:url value='/community/notice/notice_detail'/>?idx=${preNextIdx.prevnum}" class="btn btn-direction btn-default btn-rounded" id="prevButton"><i class="fa fa-long-arrow-left"></i><span>이전글</span></a>
+		                        </c:when>
+		                        <c:otherwise>
+		                           <div class="space"></div>
+		                        </c:otherwise>
+		                     </c:choose>
+								<div class="space"></div>
+									<button type="button" class="btn btn-direction btn-default btn-rounded" id="list_btn"><i class="fa fa-long-arrow-center"></i><span>목록</span></button>
+		                        <div class="space"></div>
+		                     <c:choose>
+		                        <c:when test="${preNextIdx.nextnum != 0 }">
+									<a href="<c:url value='/community/notice/notice_detail'/>?idx=${preNextIdx.nextnum}" class="btn btn-direction btn-default btn-rounded" id="nextButton"><span>다음글</span><i class="fa fa-long-arrow-right"></i></a>
+		                        </c:when>
+		                     </c:choose>
+	                     </div>
+	                </div>
+                </div><!-- / post pagination -->
+			</div><!-- / col-sm-8 -->
+		</div><!-- / row -->
+	</section>
 </div><!-- / container -->
 
 

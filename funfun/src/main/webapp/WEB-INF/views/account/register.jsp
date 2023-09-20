@@ -4,7 +4,52 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
+<style>
+/* 체크박스 커스터마이즈 스타일 */
+.checkbox-primary input[type="checkbox"] {
+    display: none; /* 기본 체크박스 숨기기 */
+}
+
+.checkbox-primary label {
+    position: relative; /* 상대 위치 지정 */
+    padding-left: 5px; /* 약간의 여백 지정 */
+    cursor: pointer; /* 포인터 커서로 변경하여 클릭 가능하게 만듦 */
+    display: flex;
+    align-items: center; /* 텍스트와 체크박스 수직 중앙 정렬 */
+}
+
+.checkbox-primary label::before {
+    content: ''; /* 체크박스를 나타내는 요소 생성 */
+    position: absolute;
+    left: 0; /* 수정: 텍스트와 가운데 정렬 */
+    top: 50%; /* 수직 정렬을 위해 중앙으로 이동 */
+    transform: translateY(-50%); /* 수직 정렬을 위한 트랜스폼 사용 */
+    width: 20px; /* 체크박스 크기 조절 */
+    height: 20px;
+    border: 1px solid #000; /* 체크박스 테두리 색상을 검정색으로 변경 */
+    border-radius: 4px; /* 체크박스 모서리 둥글게 만들기 */
+    background-color: transparent; /* 초기 배경색은 투명 */
+    text-align: center; /* 가운데 정렬 추가 */
+    line-height: 20px; /* 가운데 정렬을 위해 높이 값 설정 */
+}
+
+.checkbox-primary input[type="checkbox"]:checked + label::before {
+    background-color: #007bff; /* 체크된 상태의 배경색 변경 */
+}
+
+.checkbox-primary input[type="checkbox"]:checked + label::after {
+    content: '\2713'; /* 체크마크 아이콘 (유니코드 문자) */
+    font-size: 18px; /* 아이콘 크기 조절 */
+    color: #fff; /* 체크된 상태의 아이콘 색상 변경 */
+    position: absolute;
+    left: 0; /* 수정: 텍스트와 가운데 정렬 */
+    top: 50%; /* 수직 정렬을 위해 중앙으로 이동 */
+    transform: translateY(-50%); /* 수직 정렬을 위한 트랜스폼 사용 */
+}
+
+</style>
 <body>
+
 
 	<!-- preloader -->
 	<div id="preloader">
@@ -86,18 +131,29 @@
 						</div>
 						<!-- 이메일 -->
 						<div class="form-group">
-							<input type="email" class="form-control" id="register-email" name="email"
-								name="email" placeholder="이메일" required
-								data-error="*올바른 이메일형식으로 입력해주세요.">
-							<div class="help-block with-errors"></div>
-							<div id="emailError" class="text-danger" style="display: none;">
-									이메일은 @를 포함한 형식으로 입력해주세요.
-								</div>
+						    <div class="input-group">
+						        <input type="email" class="form-control" id="register-email" name="email"
+						            name="email" placeholder="이메일" required
+						            data-error="*올바른 이메일형식으로 입력해주세요."
+						            style="width: 320px;">
+						            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						        <!-- 이메일 중복체크 버튼 -->
+						        <button type="button" id="check-email-button" class="btn btn-primary">이메일 중복체크</button>
+						    </div>
+						    <div class="help-block with-errors"></div>
+						    <div id="emailError" class="text-danger" style="display: none;">
+						        이메일은 @를 포함한 형식으로 입력해주세요.
+						    </div>
+						    <div id="emailDuplicationMessage" class="text-danger" style="display: none;">
+						        이메일 중복체크를 실행해주세요.
+						    </div>
 						</div>
+
 						<!-- 성별 -->
 						<div class="form-group">
 							<label>성별</label>
 							<div>
+							<br>
 							<label class="radio-inline" style="width: 30%">
 								<input type="radio" name="gender" value="0">남자				
 							</label>
@@ -110,8 +166,10 @@
 									성별을 체크해주세요.
 								</div>
 							</div>
+							<br>
 						<!-- 생년월일 -->
 						<div class="form-group">
+							<label>생년월일</label>
 							<input type="date" class="form-control" id="register-birth"
 								name="birth" placeholder="생년월일" required
 								data-error="*올바른 값을 입력해주세요.">
@@ -120,8 +178,10 @@
 									생년월일을 선택해주세요.
 								</div>	
 						</div>
+						<br>
 						<!-- 주소 -->
 						<div class="form-group">
+							<label>주소</label>
 							<div class="aaa">
 								<input type="text" class="bbb" id="register-address1"
 									name="address1" placeholder="우편번호">
@@ -148,10 +208,12 @@
 									주소검색을 통해 주소를 올바르게 입력해주세요.
 								</div>
 						</div>
+						<br>
 						<!-- 회원가입 구분 -->
 						<div class="form-group">
 							<label>회원구분</label>
 							<div>
+							<br>
 							<label class="radio-inline" style="width: 30%">
 								<input type="radio" name="accountRole" value="ROLE_REGISTER">등록자				
 							</label>
@@ -164,6 +226,7 @@
 									올바른 회원구분을 선택해주세요.
 								</div>
 							</div>
+							<br>
 						<!-- log-line -->
 						<div class="log-line reg-form-1 no-margin">
 							<div class="pull-left">
@@ -245,10 +308,38 @@
 		});
 		
 		</script>
+		
+		<script>
+		
+		//이메일 중복체크 및 아이디 유효성 관련 검증 코드!!!
+		document.addEventListener('DOMContentLoaded', function () {
+		    var registerEmailInput = document.getElementById('register-email');
+		    var checkEmailButton = document.getElementById('check-email-button');
+	
+		    // 이메일 입력 필드의 값이 변경될 때 이벤트 리스너 등록
+		    registerEmailInput.addEventListener('input', function () {
+		    	var emailError = document.getElementById('emailError');
+		        var emailValue = registerEmailInput.value;
+		        var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	
+		        if (emailPattern.test(emailValue)) {
+		        	emailError.style.display = 'none';
+		            checkEmailButton.disabled = false; // 이메일이 유효하면 버튼 활성화
+		        } else {
+		        	emailError.style.display = 'block';
+		            checkEmailButton.disabled = true; // 이메일이 유효하지 않으면 버튼 비활성화
+		            event.preventDefault(); 
+		        }
+		    });
+		});
+		
+		</script>
+		
 		<!-- 유효성 검사 및 회원가입 버튼 활성화(이벤트 핸들러) -->
 	     <script>
 	     document.getElementById('reg-submit').addEventListener('click', function(event) {
 	     var isIdChecked = false; //ID 중복체크를 추적하기 위한 변수
+	     var isEmailChecked = false; //Email 중복체크를 추적하기 위한 변수
 	     var isValid = true; //모든 유효성 검사를 통과했는지 확인하는 변수
 	     
 	     //아이디 중복체크 버튼을 누르지 않으면 오류 메세지를 띄우는 코드
@@ -256,6 +347,15 @@
 				isIdChecked = true;
 			} else {
 				document.getElementById('idDuplicationMessage').style.display = 'block';
+				event.preventDefault(); //양식 제출 방지
+				return;
+			}
+	     
+	     //이메일 중복체크 버튼을 누르지 않으면 오류 메세지를 띄우는 코드
+		 if(document.getElementById('check-email-button').disabled) {
+				isEmailChecked = true;
+			} else {
+				document.getElementById('emailDuplicationMessage').style.display = 'block';
 				event.preventDefault(); //양식 제출 방지
 				return;
 			}
@@ -285,7 +385,7 @@
 	     	document.getElementById('password-match-error').style.display = 'none';
 	     }
 			
-			var nameInput = document.getElementById('register-name');
+		 var nameInput = document.getElementById('register-name');
 	     var nameValue = nameInput.value;
 	     var namePattern = /^[가-힣]{2,6}$/;
 	     
@@ -311,7 +411,7 @@
 	     	document.getElementById('phoneError').style.display = 'none';
 	     }
 	     
-	     var emailInput = document.getElementById('register-email');
+	     /*var emailInput = document.getElementById('register-email');
 	     var emailValue = emailInput.value;
 	     var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	     
@@ -322,7 +422,7 @@
 	         isValid = false;
 	     } else {
 	     	document.getElementById('emailError').style.display = 'none';
-	     }
+	     }*/
 	     
 	     var genderInput = document.querySelector('input[name="gender"]:checked');
 	     if (!genderInput) {
@@ -382,10 +482,10 @@
 	     	document.getElementById('agreeError').style.display = 'none';
 	     }
 	     
-          	//ID 중복체크가 확인되었고 다른 유효성 검사가 통과되면 양식 제출을 허용
-   			if (isIdChecked && isValid == true) {
+          	//ID 중복체크와 Email 중복체크가 확인되었고 다른 유효성 검사가 통과되면 양식 제출을 허용
+   			if (isIdChecked && isEmailChecked && isValid == true) {
              alert("회원가입이 완료 되었습니다.");
-          } else if(!isIdChecked && isValid == false){
+          } else if(!isIdChecked && isEmailChecked && isValid == false){
         	  event.preventDefault(); // 회원가입 방지
           }
       });
@@ -401,6 +501,7 @@
 					idInput.focus();
 					return;
 				}
+				
 				
 				$.ajax({
 					type: 'GET',
@@ -423,6 +524,38 @@
 				});
 			});
 
+	     	//이메일 중복체크 버튼 이벤트 핸들러
+			$('#check-email-button').click(function(){
+				var emailValue = $('#register-email').val();
+				var emailInput = $('#register-email');
+				var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			
+				if(!emailPattern.test(emailValue)) {
+					document.getElementById('emailDuplicationMessage').style.display = 'block';
+					emailInput.focus();
+					return;
+				}
+				
+				$.ajax({
+					type: 'GET',
+					url: "<c:url value='/checkEmail'/>",
+					data: {email: emailValue},
+					success: function(response) {
+						 if (response.available) {
+							alert('사용 가능한 이메일입니다.');
+							document.getElementById('emailDuplicationMessage').style.display = 'none';
+							 $('#check-email-button').prop('disabled', true);
+						} else {
+							alert('이미 사용중인 이메일입니다.');
+							document.getElementById('emailDuplicationMessage').style.display = 'block';
+						}
+						isEmailChecked = true;
+					},
+					error: function() {
+						alert('서버 오류가 발생하였습니다.');
+					}
+				});
+			});
         
         
      	//페이지를 다시 로드(뒤로가기 버튼 누를 때)

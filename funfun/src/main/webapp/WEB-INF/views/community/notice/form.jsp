@@ -8,7 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <style> 
 .categories-sidebar-widget {
-     max-width: 150px;
+    max-width: 150px;
     margin-top: 150px;
     margin-left: 50px;
 }
@@ -21,32 +21,32 @@
 </div>
 <!-- / preloader -->
 
-   <div id="page-header" class="notice">
-        <div class="container">
-            <div class="page-header-content text-center">
-                <div class="page-header wsub">
-                    <h1 class="page-title fadeInDown animated first">공지사항 등록</h1>
-                </div><!-- / page-header -->
-            </div><!-- / page-header-content -->
-        </div><!-- / container -->
-    </div><!-- / page-header -->
+<div id="page-header" class="notice">
+	<div class="container">
+		<div class="page-header-content text-center">
+			<div class="page-header wsub">
+				<h1 class="page-title fadeInDown animated first">공지사항 등록</h1>
+			</div><!-- / page-header -->
+		</div><!-- / page-header-content -->
+	</div><!-- / container -->
+</div><!-- / page-header -->
 
 
 <!-- 사이드바 -->
-   <div class="col-sm-4 col-md-3 sidebar-area">
-      <div class="categories-sidebar-widget widget no-border">
-         <h5 class="widget-title">커뮤니티</h5>
-         <p class="product-category">
-            <a href="${pageContext.request.contextPath}/community/notice">공지사항</a> <span class="pull-right"></span>
-         </p>
-         <p class="product-category">
-            <a href="${pageContext.request.contextPath}/community/faq">FAQ</a> <span class="pull-right"></span>
-         </p>
-         <p class="product-category">
-            <a href="${pageContext.request.contextPath}/community/qna_list">Q&amp;A</a> <span class="pull-right"></span>
-         </p>
-      </div>
+<div class="col-sm-4 col-md-3 sidebar-area">
+   <div class="categories-sidebar-widget widget no-border">
+      <h5 class="widget-title">커뮤니티</h5>
+      <p class="product-category">
+         <a href="${pageContext.request.contextPath}/community/notice">공지사항</a> <span class="pull-right"></span>
+      </p>
+      <p class="product-category">
+         <a href="${pageContext.request.contextPath}/community/faq">FAQ</a> <span class="pull-right"></span>
+      </p>
+      <p class="product-category">
+         <a href="${pageContext.request.contextPath}/community/qna_list">Q&amp;A</a> <span class="pull-right"></span>
+      </p>
    </div>
+</div>
 <!-- 사이드바 -->
 
 <section id="contact">

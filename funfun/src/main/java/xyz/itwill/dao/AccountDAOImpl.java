@@ -41,7 +41,12 @@ public class AccountDAOImpl implements AccountDAO {
 	public Account selectAccount(String id) {
 		return sqlSession.getMapper(AccountMapper.class).selectAccount(id);
 	}
-
+	
+	@Override
+	public Account selectAccountByEmail(String email) {
+		return sqlSession.getMapper(AccountMapper.class).selectAccountByEmail(email);
+	}
+	
 	@Override
 	public int selectAccountCount() {
 		return sqlSession.getMapper(AccountMapper.class).selectAccountCount();

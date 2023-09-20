@@ -109,6 +109,24 @@
 			ENABLED
 		FROM ACCOUNT WHERE ID=#{id}
 	</select>
+	
+	<select id="selectAccountByEmail" resultMap="accountResultMap">
+		SELECT
+			IDX,
+			ID,
+			PASSWORD,
+			NAME,
+			PHONE,
+			EMAIL,
+			GENDER,
+			BIRTH,
+			ADDRESS1,
+			ADDRESS2,
+			ADDRESS3,
+			STATUS,
+			ENABLED
+		FROM ACCOUNT WHERE EMAIL=#{email}
+	</select>
 
 	<select id="selectAccountCount">
 		SELECT COUNT(*) FROM ACCOUNT
@@ -177,4 +195,5 @@
 	<select id="getHashedPassword" resultType="string" parameterType="string">
 		SELECT password FROM Account WHERE id = #{id}
 	</select>
+
 </mapper>

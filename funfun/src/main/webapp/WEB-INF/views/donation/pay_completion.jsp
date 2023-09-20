@@ -136,11 +136,11 @@
 								success: function(result) {
 									console.log(result);
 									if(result == "success") {
-										// 결제 성공 페이지로 이동
 										alert("결제 성공");
+										window.location.href = '${pageContext.request.contextPath}/';
 									} else {
-										// 결제 취소 페이지로 이동
-										alert("결제 취소");
+										alert("결제 취소: 처음부터 다시 진행하여 주세요.");
+										window.location.href = '${pageContext.request.contextPath}/';
 									}	
 								}
 							});

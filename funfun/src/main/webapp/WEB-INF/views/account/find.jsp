@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,6 +44,7 @@
 							<div class="text-center">
 								<button type="submit" class="btn btn-md btn-primary-filled btn-log btn-rounded btn-id" >아이디 찾기</button>
 							</div>
+							<sec:csrfInput/>
 						</form>
 					</div>
 
@@ -72,6 +75,7 @@
 							<div class="text-center">
 								<button type="submit" class="btn btn-md btn-primary-filled btn-log btn-rounded btn-password">비밀번호 찾기</button>
 							</div>
+							<sec:csrfInput/>
 						</form>
 					</div>
 				</div>
