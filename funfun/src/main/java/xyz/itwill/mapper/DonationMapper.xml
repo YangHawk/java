@@ -28,6 +28,33 @@
          #{refundBank}
       )
    </insert>
+   
+   <!-- 1이 결제 완료? 난 몰라! -->
+   <update id="updateDonation">
+   		UPDATE DONATION SET
+   			STATE = 1,
+   			PAY_DAY = SYSDATE,
+   			IMP_UID = #{impUid},
+   			MERCHANT_UID = #{merchantUid}
+   		WHERE IDX = #{idx}
+   </update>
+   <select id="selectDonationOne" resultType="Donation">
+      SELECT
+         IDX, 
+         FESTIVAL_IDX,
+         ACCOUNT_ID,
+         MONEY,
+         TO_CHAR(DAY,'YYYY-MM-DD') AS DAY,
+         STATE,
+         TO_CHAR(CANCEL_DAY,'YYYY-MM-DD') AS CANCEL_DAY,
+         TO_CHAR(PAY_DAY,'YYYY-MM-DD') AS PAY_DAY,
+         PAY_TYPE,
+         REFUND_ACCOUNT,
+         REFUND_BANK
+      FROM DONATION
+      WHERE IDX = #{arg0} AND FESTIVAL_IDX = #{arg1}
+   </select>
+   
    <!-- 변경 -->
    <select id="selectDonation" resultType="Donation">
       SELECT

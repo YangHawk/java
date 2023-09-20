@@ -20,6 +20,16 @@ public class DonationDAOImpl implements DonationDAO {
 		return sqlSession.getMapper(DonationMapper.class).insertDonation(donation);
 	}
 
+	@Override
+	public int updateDonation(Donation donation) {
+		return sqlSession.getMapper(DonationMapper.class).updateDonation(donation);
+	}
+
+	@Override
+	public Donation selectDonationOne(int idx, int festivalIdx) {
+		return sqlSession.getMapper(DonationMapper.class).selectDonationOne(idx, festivalIdx);
+	}
+	
 	//변경
 	@Override
 	public List<Donation> selectDonation(String accountId, int festivalIdx) {
@@ -36,6 +46,9 @@ public class DonationDAOImpl implements DonationDAO {
 		return sqlSession.getMapper(DonationMapper.class).selectMyDonationList(map);
 	}
 
+	
+
+	
 	
 
 }

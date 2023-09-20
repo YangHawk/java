@@ -348,6 +348,7 @@
             	<!-- /옵션4 -->
     		</c:if>
     		</div>
+    		<sec:csrfInput/>
 		</form>
       </div>
       <!-- / row -->

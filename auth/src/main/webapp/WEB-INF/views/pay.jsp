@@ -29,7 +29,7 @@
 		
 		var IMP=window.IMP;
 		//IMP 객체 초기화 - 가맹점 식별코드
-		IMP.init("imp37020058");
+		IMP.init("imp16048620");
 		
 		//주문번호 - 주문테이블에서 제공된 값 사용
 		var merchantUid="merchant_"+new Date().getTime();

@@ -8,6 +8,10 @@ import xyz.itwill.dto.Donation;
 public interface DonationDAO {
 	int insertDonation(Donation donation);
 	//변경
+	int updateDonation(Donation donation);
+	
+	Donation selectDonationOne(int idx, int festivalIdx);
+	
 	List<Donation> selectDonation(String accountId, int festivalIdx);
 	
 	int selectMyDonationCount(String accountId);

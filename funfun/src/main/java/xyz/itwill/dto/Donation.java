@@ -25,7 +25,7 @@ public class Donation {
 	private String accountId;
 	private String money;
 	private String day;
-	private int state;
+	private int state; // 0 = 결제 전 / 1 = 결제 완료 / 2 = 결제 취소
 	private String cancelDay;
 	private String payDay;
 	private int payType;
@@ -33,4 +33,6 @@ public class Donation {
 	private String refundBank;
 	private String subject;
 	private String mainImg;
+	private String impUid; //결제 관련 Open API에서 제공되는 고유값 
+	private String merchantUid; //주문번호
 }

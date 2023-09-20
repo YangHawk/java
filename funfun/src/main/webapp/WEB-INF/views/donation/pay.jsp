@@ -1,6 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
@@ -50,7 +50,6 @@
                     <th>영화제</th>
                     <th>후원금액</th>
                     <th>결제예정일</th>
-                    
                 </tr>
             </thead>
             <tbody>
@@ -72,7 +71,7 @@
                 <h4>결제정보입력</h4>
                 <input type="hidden" name="festivalIdx" value="${festivalinfo.idx}">
                 <sec:authentication property="principal" var="pinfo"/>   
-                <p><span class="font-bold">후원자명: </span><span>${pinfo.name}</span><input type="hidden" name="accountId" value="${pinfo}"></p>
+                <p><span class="font-bold">후원자명: </span><span>${pinfo.name}</span><input type="hidden" name="accountId" value="${pinfo.id}"></p>
                 <p><span class="font-bold">후원금액: </span><span><input type="text" name="money" id="moneypay" value="${money }" class="form-control" readonly></span></p>
                 <p><span class="font-bold">결제방법: </span>
                     <input type="radio" id="card" name="payType" value="0">
@@ -148,75 +147,72 @@
 
 <!-- / javascript -->
 <script type="text/javascript">
-$("#changemoney").click(function() {
-   var result = true;
-   var change = $("#changemoneyinput").val();
-   var moneyPattern = /^(?:10000|[1-9]\d{4,6}|5000000)$/;
-   
-   if(change == "" || !moneyPattern.test(change)){
-      alert("10,000원 ~ 5,000,000원 사이 값만 입력 가능합니다.");
-   }else{
-      $("#moneyInput").val(change);
-      $("#moneypay").val(change);
-   }
-   
-   return result;
-});
-
-//DOMContentLoaded : 페이지가 완전히 로드되기 전에 자바스크립트 코드가 실행되는 것을 방지
-document.addEventListener('DOMContentLoaded', function () {
-   var radioButton = document.querySelectorAll('input[type="radio"]');
-   for (var i = 0; i < radioButton.length; i++) {
-        radioButton[i].addEventListener('change', function () {
-            var selectedOptionId = this.id;
-            //라디오 버튼 클릭 전엔 [환불계좌] 및 [환불은행] 입력란 미출력
-            $("#bankTransferInfo").css("display", "none");
-
-            // 선택된 라디오 버튼에 맞는 입력란 및 [후원하기]버튼 출력
-            if (selectedOptionId == "bankbook") {
-               $("#bankTransferInfo").css("display", "block");
-            } 
-          });
-   };
-});
-
-
-$("#payForm").submit(function() {
-   var resultSubmit = true;
-   
-   var radioButtons = document.querySelectorAll('input[type="radio"]');
-   var checkCount = 0;
-   var refundaccountPattern = /([0-9,\-]{3,6}\-[0-9,\-]{2,6}\-[0-9,\-])/;
-   
-   
-   for (var i = 0; i < radioButtons.length; i++){
-      if(radioButtons[i].checked == true){
-         if(radioButtons[i].id == "bankbook"){
-            if($("#refundAccount").val() == "" || refundaccountPattern.test($("#refundAccount").val())){
-               resultSubmit = false;
-            }
-            var refundBank = $("#bank option:selected").val();
-            if(refundBank == ""){
-               resultSubmit = false;
-            }
-         }
-         checkCount++;
-      }
-   }
-   
-   if(checkCount<1){
-      $("#payTypeMsg").css("display", "block");
-      resultSubmit = false;
-   }
-   
-   if ($("#agreedCheckbox").prop("checked")) {
-       $("#agreeMsg").css("display", "none");
-   } else {
-       $("#agreeMsg").css("display", "block");
-       resultSubmit = false;
-   }
-
-   
-   return resultSubmit;
-});
+	$("#changemoney").click(function() {
+		var result = true;
+		var change = $("#changemoneyinput").val();
+		var moneyPattern = /^(?:10000|[1-9]\d{4,6}|5000000)$/;
+		
+		if(change == "" || !moneyPattern.test(change)){
+			alert("10,000원 ~ 5,000,000원 사이 값만 입력 가능합니다.");
+		} else {
+			$("#moneyInput").val(change);
+			$("#moneypay").val(change);
+		}
+		
+		return result;
+	});
+	
+	//DOMContentLoaded : 페이지가 완전히 로드되기 전에 자바스크립트 코드가 실행되는 것을 방지
+	document.addEventListener('DOMContentLoaded', function () {
+		var radioButton = document.querySelectorAll('input[type="radio"]');
+		for (var i = 0; i < radioButton.length; i++) {
+			radioButton[i].addEventListener('change', function () {
+				var selectedOptionId = this.id;
+	            // 라디오 버튼 클릭 전엔 [환불계좌] 및 [환불은행] 입력란 미출력
+	            $("#bankTransferInfo").css("display", "none");
+	
+	            // 선택된 라디오 버튼에 맞는 입력란 및 [후원하기]버튼 출력
+	            if (selectedOptionId == "bankbook") {
+	               $("#bankTransferInfo").css("display", "block");
+	            } 
+			});
+		};
+	});
+	
+	$("#payForm").submit(function() {
+		var resultSubmit = true;
+		
+		var radioButtons = document.querySelectorAll('input[type="radio"]');
+		var checkCount = 0;
+		var refundaccountPattern = /([0-9,\-]{3,6}\-[0-9,\-]{2,6}\-[0-9,\-])/;
+		
+		for (var i = 0; i < radioButtons.length; i++){
+			if(radioButtons[i].checked == true){
+				if(radioButtons[i].id == "bankbook"){
+					if($("#refundAccount").val() == "" || refundaccountPattern.test($("#refundAccount").val())){
+						resultSubmit = false;
+					}
+					var refundBank = $("#bank option:selected").val();
+					if(refundBank == ""){
+						resultSubmit = false;
+					}
+				}
+				checkCount++;
+			}
+		}
+		
+		if(checkCount < 1){
+			$("#payTypeMsg").css("display", "block");
+			resultSubmit = false;
+		}
+		
+		if ($("#agreedCheckbox").prop("checked")) {
+			$("#agreeMsg").css("display", "none");
+		} else {
+			$("#agreeMsg").css("display", "block");
+			resultSubmit = false;
+		}
+		
+		return resultSubmit;
+	});
 </script>
