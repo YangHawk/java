@@ -56,6 +56,9 @@ public class MyAccountRestController {
 	@PutMapping("/account_modify")
 	public String modifyAcocunt(@RequestBody Account account, Authentication authentication, HttpServletRequest request, HttpServletResponse response) throws UserinfoNotFoundException {
 		Account loginAccount = accountService.getAccount(account.getId());
+		if(loginAccount == null) {
+			return "error";
+		}
 		loginAccount.setName(account.getName());
 		loginAccount.setEmail(account.getEmail());
 		loginAccount.setBirth(account.getBirth());

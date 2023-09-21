@@ -96,6 +96,4 @@ public class KakaoLoginController {
 			System.out.println(apiResult);
 			return "redirect:/";
 		}
-	
-	
 }
