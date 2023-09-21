@@ -44,80 +44,92 @@ import xyz.itwill.service.AccountService;
 public class NaverLoginController {
 	private final NaverLoginBean naverLoginBean;
 	private final AccountService accountService;
-	
-	//네이버 로그인 페이지를 요청하기 위한 요청 처리 메소드
+
+	// 네이버 로그인 페이지를 요청하기 위한 요청 처리 메소드
 	@RequestMapping("/login")
 	public String login(HttpSession session) throws UnsupportedEncodingException {
-		String naverAuthUrl= naverLoginBean.getAuthorizationUrl(session);
-		return "redirect:"+naverAuthUrl;
+		String naverAuthUrl = naverLoginBean.getAuthorizationUrl(session);
+		return "redirect:" + naverAuthUrl;
 	}
-	
-	//네이버 로그인 성공시 Callback URL 페이지를 처리하기 위한 요청 처리 메소드
+
+	// 네이버 로그인 성공시 Callback URL 페이지를 처리하기 위한 요청 처리 메소드
 	@RequestMapping("/callback")
-	public String login(@RequestParam String code, @RequestParam String state,
-			HttpSession session) throws IOException, ParseException, ExistsUserinfoException, UserinfoNotFoundException {
-		//네이버 로그인 사용자에 대한 접근 토큰을 반환하는 메소드 호출하여 사용자 접근 토큰 저장 
+	public String login(@RequestParam String code, @RequestParam String state, HttpSession session)
+			throws IOException, ParseException, ExistsUserinfoException, UserinfoNotFoundException {
+		// 네이버 로그인 사용자에 대한 접근 토큰을 반환하는 메소드 호출하여 사용자 접근 토큰 저장
 		OAuth2AccessToken accessToken = naverLoginBean.getAccessToken(session, code, state);
-		
-		//접근 토큰을 이용하여 로그인 사용자의 프로필을 반환하는 메소드를 호출하여 사용자 프로필(JSON)을 저장
+
+		// 접근 토큰을 이용하여 로그인 사용자의 프로필을 반환하는 메소드를 호출하여 사용자 프로필(JSON)을 저장
 		String apiResult = naverLoginBean.getUserProfile(accessToken);
-	
+
 		System.out.println(apiResult);
-	
-	JSONParser parser = new JSONParser();
-	Object object = parser.parse(apiResult);
-	JSONObject jsonObject = (JSONObject)object;
-	
-	
-	JSONObject responseObject = (JSONObject)jsonObject.get("response");
-	String id = (String)responseObject.get("id");
-	String name = (String)responseObject.get("name");
-	String phone = (String)responseObject.get("phone");
-	String email = (String)responseObject.get("email");
-	String genderStr = (String)responseObject.get("gender");
-	String birth = (String)responseObject.get("birth");
 
-	//System.out.println("aaaa");
-	
-	AccountAuth auth = new AccountAuth();
-	auth.setId("naver_"+id);
-	auth.setAuth("ROLE_USER");
-	
-	List<AccountAuth> authList = new ArrayList<AccountAuth>();
-	authList.add(auth);
-	
-	Account account = new Account();
-	account.setId("naver_"+id);
-	account.setPassword(UUID.randomUUID().toString());
-	account.setName(name);
-	account.setPhone(phone);
-	account.setEmail(email);
-	//gender를 String으로 받아와서 int로 변환하여 서버에 저장
-	if(genderStr.equals("F")) {
-		account.setGender(1);
-	} else {
-		account.setGender(0);
-	}
-	account.setBirth(birth);
+		JSONParser parser = new JSONParser();
+		Object object = parser.parse(apiResult);
+		JSONObject jsonObject = (JSONObject) object;
 
-	account.setAccountAuthList(authList);
-	account.setEnabled("1");
+		JSONObject responseObject = (JSONObject) jsonObject.get("response");
+		String id = (String) responseObject.get("id");
+		String name = (String) responseObject.get("name");
+		String phone = (String) responseObject.get("phone");
+		String email = (String) responseObject.get("email");
+		String genderStr = (String) responseObject.get("gender");
+		String birth = (String) responseObject.get("birth");
 
-	if(accountService.getAccount("naver_"+id) == null ) {
-		accountService.addAccount(account,"ROLE_USER");
-		//accountService.addAccountAuth(auth);
-	}
-	
-	
-	CustomAccountDetails customAccountDetails = new CustomAccountDetails(account);
-	Authentication authentication = new UsernamePasswordAuthenticationToken(customAccountDetails, null, customAccountDetails.getAuthorities());
-	
-	SecurityContextHolder.getContext().setAuthentication(authentication);
-	
-	//System.out.println("ddd");
-	return "redirect:/";
+		// System.out.println("aaaa");
+
+		AccountAuth auth = new AccountAuth();
+		auth.setId("naver_" + id);
+		auth.setAuth("ROLE_USER");
+
+		List<AccountAuth> authList = new ArrayList<AccountAuth>();
+		authList.add(auth);
+
+		Account account = new Account();
+		account.setId("naver_" + id);
+		account.setPassword(UUID.randomUUID().toString());
+		account.setName(name);
+		account.setPhone(phone);
+		account.setEmail(email);
+		// gender를 String으로 받아와서 int로 변환하여 서버에 저장
+		if (genderStr.equals("F")) {
+			account.setGender(1);
+		} else {
+			account.setGender(0);
+		}
+		account.setBirth(birth);
+
+		account.setAccountAuthList(authList);
+		account.setEnabled("1");
+
+		Account existAccount = new Account();
+
+		if (accountService.getAccount("naver_" + id) == null) { // 계정이 없는 상태라면
+			accountService.addAccount(account, "ROLE_USER");
+
+			account.setIdx(accountService.getAccount("naver_" + id).getIdx());
+
+			CustomAccountDetails customAccountDetails = new CustomAccountDetails(account);
+			Authentication authentication = new UsernamePasswordAuthenticationToken(customAccountDetails, null,
+					customAccountDetails.getAuthorities());
+
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+
+			System.out.println(apiResult);
+			return "redirect:/";
+
+		} else { // 계정이 이미 있는 상태라면
+			existAccount = accountService.getAccount("naver_" + id);
+
+			CustomAccountDetails customAccountDetails = new CustomAccountDetails(existAccount);
+			Authentication authentication = new UsernamePasswordAuthenticationToken(customAccountDetails, null,
+					customAccountDetails.getAuthorities());
+
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+
+			System.out.println(apiResult);
+			return "redirect:/";
+		}
 	}
 
 }
-
-

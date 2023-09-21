@@ -39,59 +39,74 @@ import xyz.itwill.service.AccountService;
 public class GoogleLoginController {
 	private final GoogleLoginBean googleLoginBean;
 	private final AccountService accountService;
-	
+
 	@RequestMapping("/login")
-	public String googlelogin(HttpSession session) throws UnsupportedEncodingException{
+	public String googlelogin(HttpSession session) throws UnsupportedEncodingException {
 		String googleAuthUrl = googleLoginBean.getAuthorizationUrl(session);
-		return "redirect:"+googleAuthUrl;
+		return "redirect:" + googleAuthUrl;
 	}
-	
+
 	@RequestMapping("/callback")
-	public String googlelogin(@RequestParam String code, @RequestParam String state,
-			HttpSession session) throws IOException, ParseException, ExistsUserinfoException, UserinfoNotFoundException, ParseException{
+	public String googlelogin(@RequestParam String code, @RequestParam String state, HttpSession session)
+			throws IOException, ParseException, ExistsUserinfoException, UserinfoNotFoundException, ParseException {
 		OAuth2AccessToken accessToken = googleLoginBean.getAccessToken(session, code, state);
-		
+
 		String apiResult = googleLoginBean.getUserProfile(accessToken);
-		
+
 		JSONParser parser = new JSONParser();
 		Object object = parser.parse(apiResult);
-		JSONObject responseObject = (JSONObject)object;
-		
-		String id = (String)responseObject.get("id");
-		String email = (String)responseObject.get("email");
-		String name = (String)responseObject.get("name");
-		//String genderStr = (String)responseObject.get("gender");
-		//String birth = (String)responseObject.get("birth");
+		JSONObject responseObject = (JSONObject) object;
+
+		String id = (String) responseObject.get("id");
+		String email = (String) responseObject.get("email");
+		String name = (String) responseObject.get("name");
+		// String genderStr = (String)responseObject.get("gender");
+		// String birth = (String)responseObject.get("birth");
 
 		AccountAuth auth = new AccountAuth();
-		auth.setId("google_"+id);
+		auth.setId("google_" + id);
 		auth.setAuth("ROLE_USER");
-		
+
 		List<AccountAuth> authList = new ArrayList<AccountAuth>();
 		authList.add(auth);
-		
+
 		Account account = new Account();
-		account.setId("google_"+id);
+		account.setId("google_" + id);
 		account.setName(name);
 		account.setPassword(UUID.randomUUID().toString());
 		account.setEmail(email);
-		
 
 		account.setAccountAuthList(authList);
 		account.setEnabled("1");
+
+		Account existAccount = new Account();
 		
-		if(accountService.getAccount("google_"+id) == null ) {
+		if (accountService.getAccount("google_" + id) == null) { // 계정이 없는 상태라면
 			accountService.addAccount(account, "ROLE_USER");
+
+			account.setIdx(accountService.getAccount("google_" + id).getIdx());
+			
+			CustomAccountDetails customAccountDetails = new CustomAccountDetails(account);
+			Authentication authentication = new UsernamePasswordAuthenticationToken(customAccountDetails, null,
+					customAccountDetails.getAuthorities());
+
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+
+			System.out.println(apiResult);
+			return "redirect:/";
+			
+		} else { // 계정이 이미 있는 상태라면
+			existAccount = accountService.getAccount("google_" + id);
+			
+			CustomAccountDetails customAccountDetails = new CustomAccountDetails(existAccount);
+			Authentication authentication = new UsernamePasswordAuthenticationToken(customAccountDetails, null,
+					customAccountDetails.getAuthorities());
+
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+
+			System.out.println(apiResult);
+			return "redirect:/";
 		}
-		
-		CustomAccountDetails customAccountDetails = new CustomAccountDetails(account);
-		Authentication authentication = new UsernamePasswordAuthenticationToken(customAccountDetails, null, customAccountDetails.getAuthorities());
-		
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
-		System.out.println(apiResult);
-		return "redirect:/";
 	}
 
-	
 }

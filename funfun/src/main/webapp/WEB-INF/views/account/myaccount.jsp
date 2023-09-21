@@ -427,7 +427,6 @@
 	}
 	
 	$(document).ready(function () {
-		console.log(loginIdDecoded);
 		getMyAccountsData(loginIdDecoded, donationPage, questionPage, wishPage);
 		
 		$("#cancelModifyBtn").click(function(){
@@ -480,14 +479,10 @@
 	    		data: JSON.stringify({"id":loginIdDecoded, "name":name, "email":email, "birth":birth, "phone":phone, "address1":address1, "address2":address2, "address3":address3, "idx":loginIdx}),
 	    		dataType: "text",
 	    		success: function(result) {
-	    				console.log(JSON.stringify({"id":loginIdDecoded, "name":name, "email":email, "birth":birth, "phone":phone, "address1":address1, "address2":address2, "address3":address3, "idx":loginIdx}));
-	    				console.log(result);
 	    			if(result == "success") {
-	    				console.log(result);
 	    				alert("회원 정보가 성공적으로 변경되었습니다. 다시 로그인 해주세요.");
 	    				window.location.href = "<c:url value='/account/myaccount'/>";
 	    			} else {
-	    				console.log(result);
 	    				alert("회원 정보가 실패적으로 변경되었습니다. 다시 로그인 해주세요.");
 	    			}
 	    		},
@@ -531,12 +526,10 @@
    		            dataType: "text",
    		            success: function(result) {
    		            	if(result == "success") {
-   		            		console.log(result);
    		            		window.location.href = "<c:url value='/account/login'/>";	   		       
 	   		                alert("비밀번호가 성공적으로 변경되었습니다. 다시 로그인 해주세요.");
    		            	} else {
    		            		alert("오류: "+result);
-   		            		console.log(result);
    		            	}
    		                // 비밀번호 변경 성공 시 처리
    		            },
