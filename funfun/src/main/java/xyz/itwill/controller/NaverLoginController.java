@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -91,6 +93,12 @@ public class NaverLoginController {
 		account.setName(name);
 		account.setPhone(phone);
 		account.setEmail(email);
+		
+		if(accountService.isEmailExists(account)) {
+			session.setAttribute("SocialLoginErrorMessage", "이메일이 중복되었습니다.");
+			 throw new AccessDeniedException("이메일이 중복되었습니다.");
+		}
+		
 		// gender를 String으로 받아와서 int로 변환하여 서버에 저장
 		if (genderStr.equals("F")) {
 			account.setGender(1);
@@ -122,6 +130,14 @@ public class NaverLoginController {
 			existAccount = accountService.getAccount("naver_" + id);
 
 			CustomAccountDetails customAccountDetails = new CustomAccountDetails(existAccount);
+			
+			if (!customAccountDetails.isEnabled()) {
+				session.setAttribute("SocialLoginErrorMessage", "삭제된 계정입니다.");
+		           throw new DisabledException("삭제된 계정입니다.");
+	        }
+			
+			customAccountDetails.isEnabled();
+			
 			Authentication authentication = new UsernamePasswordAuthenticationToken(customAccountDetails, null,
 					customAccountDetails.getAuthorities());
 

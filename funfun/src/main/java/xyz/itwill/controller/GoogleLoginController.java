@@ -12,6 +12,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.json.simple.parser.ParseException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -75,6 +77,11 @@ public class GoogleLoginController {
 		account.setName(name);
 		account.setPassword(UUID.randomUUID().toString());
 		account.setEmail(email);
+		
+		if(accountService.isEmailExists(account)) {
+			session.setAttribute("SocialLoginErrorMessage", "이메일이 중복되었습니다.");
+			 throw new AccessDeniedException("이메일이 중복되었습니다.");
+		}
 
 		account.setAccountAuthList(authList);
 		account.setEnabled("1");
@@ -99,6 +106,12 @@ public class GoogleLoginController {
 			existAccount = accountService.getAccount("google_" + id);
 			
 			CustomAccountDetails customAccountDetails = new CustomAccountDetails(existAccount);
+			
+			if (!customAccountDetails.isEnabled()) {
+				session.setAttribute("SocialLoginErrorMessage", "삭제된 계정입니다.");
+		           throw new DisabledException("삭제된 계정입니다.");
+	        }
+			
 			Authentication authentication = new UsernamePasswordAuthenticationToken(customAccountDetails, null,
 					customAccountDetails.getAuthorities());
 

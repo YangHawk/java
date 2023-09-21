@@ -51,7 +51,6 @@ public class ExpectController {
       return "success";
    }
    
-   @PreAuthorize("isAuthenticated()")
    @GetMapping(value = "/expect_form/{idx}", produces = "application/json")
    @ResponseBody
    public Map<String, Object> showExpectForm(@PathVariable int idx, Model model, Authentication authentication) {

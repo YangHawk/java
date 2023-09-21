@@ -33,15 +33,15 @@
                 <tr>
                     <th class="image" style="width: 40%; text-align: center;">영화제</th>
                     <th style="width: 50%; text-align: center;">이름</th>
-                	<th>&nbsp;</th>
+                   <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody class="wish-items">
             </tbody>
         </table>
-	</div>  
-	
-	<div id="pageNumDiv"></div>
+   </div>  
+   
+   <div id="pageNumDiv"></div>
         <!-- / shopping cart table -->
 </div>
 
@@ -67,11 +67,11 @@ var csrfTokenValue = "${_csrf.token}";
 // Ajax 기능을 사용하여 요청하는 모든 웹 프로그램에게 CSRF 토큰 전달 가능
 // ▶ Ajax 요청 시 beforeSend 속성을 설정할 필요 없음
 $(document).ajaxSend(function(e, xhr){
-	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+   xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 });
 
 <sec:authorize access="isAuthenticated()">
-	var loginAccountId="<sec:authentication property="principal.id"/>";
+   var loginAccountId="<sec:authentication property="principal.id"/>";
 </sec:authorize>
 
 var page = 1; // 기본 페이지 번호 설정
@@ -83,9 +83,9 @@ var wishlistUrl = "${pageContext.request.contextPath}/wish_list"
 
 //위시 리스트 출력 함수
 function wishListDisplay(pageNum) {
-	$(".wish-items").show();
-	$("#pageNumDiv").show();
-	page=pageNum;
+   $(".wish-items").show();
+   $("#pageNumDiv").show();
+   page=pageNum;
 
  $.ajax({
      method: "GET",
@@ -104,14 +104,14 @@ function wishListDisplay(pageNum) {
              tbody.append(row);
          } 
          for (var i = 0; i < result.wishList.length; i++) {
-        	 var wish = result.wishList[i];
-        	 var imagePath = '${pageContext.request.contextPath}/resources/upload/' + wish.mainImg;
-        	 var row = "<tr class='wish-item'>" +
-        	     "<td class='image'><a href='${pageContext.request.contextPath}/donation/single-festival?idx=" + wish.festivalIdx + "'><img src='" + imagePath + "' width='50px' height='50px' style='object-fit:cover;'/></a></td>" +
-        	     "<td style='text-align: center'>" + wish.subject + "</td>" +
-        	     "<td><a class='btn btn-danger-filled x-remove wishremove' data-festival-idx='"+wish.festivalIdx+"'>×</a></td>"+
-        	     "</tr>";
-        	 tbody.append(row);
+            var wish = result.wishList[i];
+            var imagePath = '${pageContext.request.contextPath}/resources/upload/' + wish.mainImg;
+            var row = "<tr class='wish-item'>" +
+                "<td class='image'><a href='${pageContext.request.contextPath}/donation/single-festival?idx=" + wish.festivalIdx + "'><img src='" + imagePath + "' width='50px' height='50px' style='object-fit:cover;'/></a></td>" +
+                "<td style='text-align: center'>" + wish.subject + "</td>" +
+                "<td><a class='btn btn-danger-filled x-remove wishremove' data-festival-idx='"+wish.festivalIdx+"'>×</a></td>"+
+                "</tr>";
+            tbody.append(row);
         }
          // 페이지 번호 출력
          pageNumDisplay(result.pager);
@@ -132,7 +132,7 @@ function pageNumDisplay(pager) {
  if (pager.startPage > pager.blockSize) {
      html += "<a href=\"javascript:wishListDisplay(" + pager.prevPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
  } else {
-	 html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-right'/></a>";
+    html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-right'/></a>";
  }
 
  for (var i = pager.startPage; i <= pager.endPage; i++) {
@@ -153,31 +153,30 @@ function pageNumDisplay(pager) {
 }
 
 $(document).ready(function () {
-	wishListDisplay();
+   wishListDisplay();
 
-	// 부모 요소에 이벤트 리스너 추가
-	$(document).on("click",".wishremove", function() {
-		var festivalIdx = $(this).data("festival-idx");
-	
-	    $.ajax({
-	        type: "DELETE",
-	        url: "${pageContext.request.contextPath}/wish_remove",
-	        contentType: "application/json",
-	        data: JSON.stringify({"accountId": loginAccountId, "festivalIdx": festivalIdx }),
-	        dataType: "text",
-	        success: function(result) {
-	            if(result == "success") {
-	            	wishListDisplay();
-	            }
-	        },
-	        error: function(xhr) {
-	            alert("찜 취소 중 오류가 발생하였습니다("+ xhr.status+")");
-	        }
-	    });
-	    
-	});
-	
+   // 부모 요소에 이벤트 리스너 추가
+   $(document).on("click",".wishremove", function() {
+      var festivalIdx = $(this).data("festival-idx");
+   
+       $.ajax({
+           type: "DELETE",
+           url: "${pageContext.request.contextPath}/wish_remove",
+           contentType: "application/json",
+           data: JSON.stringify({"accountId": loginAccountId, "festivalIdx": festivalIdx }),
+           dataType: "text",
+           success: function(result) {
+               if(result == "success") {
+                  wishListDisplay();
+               }
+           },
+           error: function(xhr) {
+               alert("찜 취소 중 오류가 발생하였습니다("+ xhr.status+")");
+           }
+       });
+       
+   });
+   
 });
-
 
 </script>

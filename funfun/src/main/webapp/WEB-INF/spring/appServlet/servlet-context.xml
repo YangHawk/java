@@ -173,4 +173,5 @@
 	<!-- secured-annotations 속성: [disabled] 또는 [enabled] 중 하나를 속성값으로 설정 -->
 	<!-- ▶ 속성값을 [enabled]로 설정할 경우 @Secured 어노테이션을 제공 -->
 	<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled"/>
+	
 </beans:beans>

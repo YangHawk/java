@@ -54,13 +54,14 @@ public class MyAccountRestController {
 
 	@PreAuthorize("isAuthenticated()")
 	@PutMapping("/account_modify")
-	public String modifyAcocunt(@RequestBody Account account, Authentication authentication, HttpServletRequest request, HttpServletResponse response) throws UserinfoNotFoundException {
+	public String modifyAccount(@RequestBody Account account, Authentication authentication, HttpServletRequest request, HttpServletResponse response) throws UserinfoNotFoundException {
 		Account loginAccount = accountService.getAccount(account.getId());
 		if(loginAccount == null) {
 			return "error";
 		}
 		loginAccount.setName(account.getName());
 		loginAccount.setEmail(account.getEmail());
+		loginAccount.setGender(account.getGender());
 		loginAccount.setBirth(account.getBirth());
 		loginAccount.setPhone(account.getPhone());
 		loginAccount.setAddress1(account.getAddress1());

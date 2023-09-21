@@ -24,7 +24,6 @@
 		            <p class="space-top-2x"><button type="button" id="kakaopay" class="pay"><i class="fa fa-long-arrow-left"></i><span>지금 결제하기</span></button></p>
             	</c:otherwise>
             </c:choose>
-		            <p class="space-top-2x"><button type="button" id="kakaopay" class="pay"><i class="fa fa-long-arrow-left"></i><span>지금 결제하기</span></button></p>
             <p class="space-top-2x"><a href="${pageContext.request.contextPath}/" class="btn btn-default-filled btn-rounded"><i class="fa fa-long-arrow-left"></i><span>나중에 결제하기</span></a></p>
         </div><!-- / text-wrap -->
     </div><!-- / container -->

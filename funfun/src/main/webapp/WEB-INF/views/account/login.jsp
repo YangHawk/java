@@ -77,6 +77,10 @@
 							<%-- 예외가 저장된 세션에 속성값을 삭제 --%>
 							<c:remove var="SPRING_SECURITY_LAST_EXCEPTION"/>
 						</c:if>
+						<c:if test="${not empty SocialLoginErrorMessage}">
+						    <h3 style="color: red;">${SocialLoginErrorMessage}</h3>
+						    <c:remove var="SocialLoginErrorMessage"/>
+						</c:if>
 						
 						<!-- 회원가입 버튼 및 아이디,비밀번호 찾기 버튼 -->
 						<div class="social-login-buttons">
@@ -97,10 +101,6 @@
 			</div>
 		</div>
 	</section>
-	
-	
-	
-	
 	
 		<!-- 로그인 기능!!!!!!!!! --> 
 		<script>

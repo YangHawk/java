@@ -12,6 +12,8 @@ import org.apache.log4j.spi.LoggerFactory;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -74,6 +76,12 @@ public class KakaoLoginController {
 		account.setId("kakao_" + id);
 		account.setPassword(UUID.randomUUID().toString());
 		account.setEmail(email);
+		
+		if(accountService.isEmailExists(account)) {
+			session.setAttribute("SocialLoginErrorMessage", "이메일이 중복되었습니다.");
+			 throw new AccessDeniedException("이메일이 중복되었습니다.");
+		}
+		
 		/*
 		 * if(genderStr.equals("female")) { account.setGender(1); } else {
 		 * account.setGender(0); }
@@ -102,6 +110,14 @@ public class KakaoLoginController {
 			existAccount = accountService.getAccount("kakao_" + id);
 
 			CustomAccountDetails customAccountDetails = new CustomAccountDetails(existAccount);
+			
+			if (!customAccountDetails.isEnabled()) {
+				session.setAttribute("SocialLoginErrorMessage", "삭제된 계정입니다.");
+		           throw new DisabledException("삭제된 계정입니다.");
+	        }
+			
+			customAccountDetails.isEnabled();
+			
 			Authentication authentication = new UsernamePasswordAuthenticationToken(customAccountDetails, null,
 					customAccountDetails.getAuthorities());
 

@@ -3,6 +3,13 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
+<style>
+#pageNumDiv {
+    text-align: center;
+      margin-bottom: 50px;
+      margin-left: 400px;
+}
+</style>
 <body>
 
 <!-- preloader -->
@@ -10,18 +17,17 @@
     <div class="spinner spinner-round"></div>
 </div>
 <!-- / preloader -->
-    <div id="page-header" class="shop-full">
-    <img src="${pageContext.request.contextPath}/resources/images/shopfull_background.jpg" alt="">
-        <div class="container">
-            <div class="page-header-content text-center">
-                <div class="page-header wsub">
-                    <h1 class="page-title fadeInDown animated first">영화제</h1>
-                </div><!-- / page-header -->
-                <p class="slide-text fadeInUp animated second">영화제 목록에 따라 바뀌게 함</p>
-            </div><!-- / page-header-content -->
-        </div><!-- / container -->
-    </div><!-- / page-header -->
-<!-- content -->
+
+<div id="page-header" class="shop-full">
+<img src="${pageContext.request.contextPath}/resources/images/shopfull_background.jpg" alt="">
+    <div class="container">
+        <div class="page-header-content text-center">
+            <div class="page-header wsub">
+                <h1 class="page-title fadeInDown animated first">영화제</h1>
+            </div><!-- / page-header -->
+        </div><!-- / page-header-content -->
+    </div><!-- / container -->
+</div><!-- / page-header -->
 
 <!-- shop 3col -->
 <section id="shop">
@@ -31,31 +37,26 @@
                 <p class="shop-results">
                     <span class="pull-right">
                         <select id="viewSelect" class="selectpicker">
-                                <option value="all">전체 영화제</option>
+                         <option value="all">전체 영화제</option>
                          <option value="ongoing">진행 중 영화제</option>
                          <option value="upcoming">진행 예정 영화제</option>
                          <option value="sponsor">후원자 순 영화제</option>
                          <option value="collected">금액 순 영화제</option>
                         </select>
                     </span>
-               <span class="pull-left">
-                  <select id="pageSizeSelect"></select>
-               </span>                    
-                </p>
+                  <span class="pull-left">
+                     <select id="pageSizeSelect"></select>
+                  </span>                    
+                   </p>
                    <div id="grid" class="row"></div><!-- / row -->
-            <div id="searchDiv">
-            </div>
-            
-            <br>
-                <div id="pageNumDiv">
-                </div>
-
             </div><!-- / content-area -->
-
         </div><!-- / row -->
     </div><!-- / container -->
 </section>
 <!-- / shop 3col -->
+               <div id="searchDiv"></div>
+            
+                <div id="pageNumDiv"></div>
 
 <!-- / content -->
 
@@ -80,13 +81,17 @@ var csrfTokenValue = "${_csrf.token}";
 // Ajax 기능을 사용하여 요청하는 모든 웹 프로그램에게 CSRF 토큰 전달 가능
 // ▶ Ajax 요청 시 beforeSend 속성을 설정할 필요 없음
 $(document).ajaxSend(function(e, xhr){
-	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+   xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 });
 
-var loginAccountId = null;
+var loginId = null;
 
 <sec:authorize access="isAuthenticated()">
-	var loginAccountId="<sec:authentication property="principal.id"/>";
+   var loginId="<sec:authentication property="principal.id"/>";
+   
+   var loginIdElement = document.createElement("textarea");
+	loginIdElement.innerHTML = loginId;
+	var loginIdDecoded = loginIdElement.value;
 </sec:authorize>
 
 var page = 1;
@@ -107,6 +112,7 @@ function festivalListDisplay(pageNum, pageSize, selectKeyword, viewType) {
         url: "<c:url value ="/donation/festival_list"/>",
         data: ({"pageNum": pageNum, "pageSize": pageSize, "selectKeyword": selectKeyword, "viewType":viewType}),
         dataType: "json",
+        async: false,
         success: function(result) {
            
            $("#grid").empty();
@@ -168,11 +174,9 @@ function festivalListDisplay(pageNum, pageSize, selectKeyword, viewType) {
             searchDiv.empty();
 
             searchDiv.append(
-                  "<br>"+
-                  "<input type='text' class='form-control' id='selectKeyword' placeholder='${keyword}'>"+
-                "<br>"+                 
-                    "<button id='searchButton'>검색</button>"
-            )
+                    "<button id='searchButton' class='btn btn-md btn-primary-filled btn-form-submit btn-rounded' style='float:right; margin-right:200px; height:48px;'>검색</button>"+
+                    "<input type='text' class='form-control' id='selectKeyword' placeholder='검색어를 입력하세요' style='width:250px; height:4px; float:right; margin-right:10px; margin-left:50px;'>"
+                    )
           
             // 페이지 번호 출력
            pageNumDisplay(result.pager);
@@ -280,6 +284,7 @@ function getWishList() {
         url: "<c:url value='/donation/wish_list'/>", // 실제 URL에 맞게 변경
         contentType: "application/json",
         dataType: "json",
+        async: false,
         success: function (data) {
             wishList = data;
         },
@@ -333,8 +338,9 @@ $(document).ready(function() {
            type: "PUT",
            url: "<c:url value='/donation/wish_add'/>",
            contentType: "application/json",
-           data: JSON.stringify({"accountId": loginAccountId, "festivalIdx": festivalIdx }),
+           data: JSON.stringify({"accountId": loginIdDecoded, "festivalIdx": festivalIdx }),
            dataType: "text",
+           async: false,
            success: function(result) {
                if(result == "success") {
                    getWishList();
@@ -355,8 +361,9 @@ $(document).ready(function() {
            type: "DELETE",
            url: "<c:url value='/donation/wish_remove'/>",
            contentType: "application/json",
-           data: JSON.stringify({"accountId": loginAccountId, "festivalIdx": festivalIdx }),
+           data: JSON.stringify({"accountId": loginIdDecoded, "festivalIdx": festivalIdx }),
            dataType: "text",
+           async: false,
            success: function(result) {
                if(result == "success") {
                    getWishList();

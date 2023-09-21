@@ -410,13 +410,13 @@ $(document).ready(function() {
        }).open();
    });
    
-$(document).ready(function() {
    //register form 태그 submit
 	//register form 태그 submit
-	   $("#register").submit(function() {
+	   $("#festival_update").submit(function() {
 	      //전송 결과 : true(전송), false(미전송)
+	      var optoin1 = $("#option1").val();
 	      var submitResult=true;
-	   
+		    
 	      if($("#mainMultipartFile").val()=="") {
 	         $("#mainMultipartFileMsg").css("display","block");
 	         submitResult=false;
@@ -516,52 +516,65 @@ $(document).ready(function() {
 	      	$("#fundingStartEndDayMsg").css("display","none");
 	      }
 	      
-	      
 	      const optionPattern = /^(?:10000|[1-9]\d{4,6}|5000000)$/;
+	      
 	      if ($("#option1").val() == "") {
-	           $("#option1").val("0");
-	           $("#option1Msg").css("display", "none");
-	       } else {
-	           if ($("#option1").val() != "0" && !optionPattern.test($("#option1").val())) {
-	               $("#option1Msg").css("display", "block");
-	               return false;
-	           } else {
-	               $("#option1Msg").css("display", "none");
-	           }
-	       }
-
-
-	      if (typeof($("#option2").val()) != "undefined") {
-	         if ($("#option2").val() !== "0" && !optionPattern.test($("#option2").val())) {
-	             $("#option2Msg").css("display", "block");
-	             return false;
-	         } else {
-	             $("#option2Msg").css("display", "none");
-	         }
-	     }
-
-	   
-	      if (typeof($("#option38").val()) != "undefined") {
-	         if ($("#option3").val() !== "0" && !optionPattern.test($("#option3").val())) {
-	             $("#option3Msg").css("display", "block");
-	             return false;
-	         } else {
-	             $("#option3Msg").css("display", "none");
-	         }
-	     }
-
-	   
-	      if (typeof($("#option4").val()) != "undefined") {
-	         if ($("#option4").val() !== "0" && !optionPattern.test($("#option4").val())) {
-	             $("#option4Msg").css("display", "block");
-	             return false;
-	         } else {
-	             $("#option4Msg").css("display", "none");
-	         }
-	     }
-
+	    	  $("#option1").val(0);
+	    	  $("#option1Msg").css("display", "none");
+	    	  submitResult=false;
+    	  } else if ($("#option1").val() == 0) {
+    		  submitResult=true;
+    		  if ($("#option1").val() != "0" && !optionPattern.test($("#option1").val())) {
+    			  $("#option1Msg").css("display", "block");
+    			  submitResult=false;
+   			  } else {
+   				  $("#option1Msg").css("display", "none");
+			  }
+   		  }
+	      
+	      if ($("#option2").val() == "") {
+	    	  $("#option2").val(0);
+	    	  $("#option1Msg").css("display", "none");
+	    	  submitResult=false;
+    	  } else if ($("#option2").val() == 0) {
+    		  submitResult=true;
+    		  if ($("#option2").val() != "0" && !optionPattern.test($("#option2").val())) {
+    			  $("#option2Msg").css("display", "block");
+    			  submitResult=false;
+   			  } else {
+   				  $("#option2Msg").css("display", "none");
+			  }
+   		  }
+	      
+	      if ($("#option3").val() == "") {
+	    	  $("#option3").val(0);
+	    	  $("#option3Msg").css("display", "none");
+	    	  submitResult=false;
+    	  } else if ($("#option3").val() == 0) {
+    		  submitResult=true;
+    		  if ($("#option3").val() != "0" && !optionPattern.test($("#option3").val())) {
+    			  $("#option3Msg").css("display", "block");
+    			  submitResult=false;
+   			  } else {
+   				  $("#option3Msg").css("display", "none");
+			  }
+   		  }
+	      
+	      if ($("#option4").val() == "") {
+	    	  $("#option4").val(0);
+	    	  $("#option4Msg").css("display", "none");
+	    	  submitResult=false;
+    	  } else if ($("#option4").val() == 0) {
+    		  submitResult=true;
+    		  if ($("#option4").val() != "0" && !optionPattern.test($("#option1").val())) {
+    			  $("#option4Msg").css("display", "block");
+    			  submitResult=false;
+   			  } else {
+   				  $("#option1Msg").css("display", "none");
+			  }
+   		  }
+	      
 	      return submitResult;
 	   });
-	});
    
 </script>

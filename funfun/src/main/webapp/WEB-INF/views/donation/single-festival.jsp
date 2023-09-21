@@ -45,20 +45,21 @@
                      <table>
                         <tbody>
                            <tr>
-                           	<sec:authorize access="permitAll">
-                           		<sec:authorize access="hasRole('ROLE_REGISTER')" var='registerRole'/>
-                           		<sec:authentication property="principal" var='pinfo'/>
+                              <sec:authorize access="permitAll">
+                                 <sec:authorize access="hasRole('ROLE_REGISTER')" var='registerRole'/>
+                                 <sec:authentication property="principal" var='pinfo'/>
                               <c:choose>
                                  <c:when test="${registerRole and pinfo.id eq festivalinfo.accountId and festivalinfo.state != 4}">
-                                    <th colspan="2" class="funding-register-fontsize">영화제 정보 
+                                    <th colspan="2">
+                                    <h5>영화제 정보</h5>
                                     <span class="pull-right"><a href="<c:url value='/donation/festival_update?idx=${festivalinfo.idx}&id=${festivalinfo.accountId }' />"
                                           class="btn btn-sm btn-default btn-rounded no-margin"><i class="lnr lnr-pencil"></i><span>영화제 수정</span></a></span>
                                     <span class="pull-right" style="padding-right: 10px;">
-                                    	<c:url var="filmRegisterUrl" value="/donation/film_register">
-								        <c:param name="festivalIdx" value="${festivalinfo.idx}" />
-									    </c:url>
-									    <a href="${filmRegisterUrl}" class="btn btn-sm btn-default btn-rounded no-margin"><span class="lnr lnr-plus-circle"></span>영화 추가하기</a>
-									</span>
+                                       <c:url var="filmRegisterUrl" value="/donation/film_register">
+                                <c:param name="festivalIdx" value="${festivalinfo.idx}" />
+                               </c:url>
+                               <a href="${filmRegisterUrl}" class="btn btn-sm btn-default btn-rounded no-margin"><span class="lnr lnr-plus-circle"></span>영화 추가하기</a>
+                           </span>
                                     </th>
                                  </c:when>
                                  <c:otherwise>
@@ -96,27 +97,29 @@
                   <div role="tabpanel" class="tab-pane animated fadeIn active"
                      id="filminfo">
                      <div class="row">
-                        <h4 class="funding-register-fontsize">영화제 출품작 및 감독</h4>
+                        <h5>영화제 출품작 및 감독</h5>
                         <!-- 영화 이미지를 출력할 영역 -->
 
                         <c:forEach items="${filminfo}" var="film">
                            <table>
                            <sec:authorize access="isAuthenticated()">
-                           	<sec:authorize access="hasRole('ROLE_REGISTER')" var="registerRole"/>
-                           	<sec:authentication property="principal" var="pinfo"/>	
-                           	<c:if test="${registerRole and pinfo.id eq festivalinfo.accountId}">
-                           	  <tr>
-                           	  	<td>
-                           			<a href="<c:url value='/donation/film_update?idx=${film.idx}&accountId=${film.accountId }' />" class="btn btn-sm btn-default btn-rounded no-margin pull-right"><i class="lnr lnr-pencil"></i><span>영화 수정</span></a>
-                           		</td>
-                           		<td>
-                           			<span class="pull-right" style="padding-right: 10px;">
-									    <a href="<c:url value='/donation/film_remove?idx=${film.idx}&accountId=${film.accountId }' />" class="btn btn-sm btn-default btn-rounded no-margin">영화 삭제</a>
-									</span>
-                           		</td>
-                           	  </tr>
-                           	</c:if>
-                           	</sec:authorize>
+		                     <sec:authorize access="hasRole('ROLE_REGISTER')" var="registerRole"/>
+		                     <sec:authentication property="principal" var="pinfo"/>   
+		                     <c:if test="${registerRole and pinfo.id eq festivalinfo.accountId}">
+		                     <tr>
+		                        <td>
+		                           <div class="pull-right">
+		                               <a href="<c:url value='/donation/film_update?idx=${film.idx}&accountId=${film.accountId }' />"
+		                                   class="btn btn-sm btn-default btn-rounded no-margin">
+		                                   <i class="lnr lnr-pencil"></i><span>영화 수정</span>
+		                               </a>
+		                               <a href="<c:url value='/donation/film_remove?idx=${film.idx}&accountId=${film.accountId }' />"
+		                                   class="btn btn-sm btn-default btn-rounded no-margin">영화 삭제</a>
+		                           </div>
+		                        </td>
+		                     </tr>
+		                     </c:if>
+		                     </sec:authorize>
                               <tr>
                                  <td colspan="2"><img src="<c:url value='/resources/upload/${film.img}'/>" width="600" alt=""></td>
                               </tr>
@@ -142,14 +145,14 @@
                                  <td><iframe width="600" height="338" src="${film.video }" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></td>
                               </tr>
                            </table>
-                           <p class="nav nav-tabs" />
                         </c:forEach>
+                           <p class="nav nav-tabs" />
                      </div>
                   </div>
                   <!-- /filminfo -->
                   <p>&nbsp;</p>
+               <h5>후원자 기대평</h5>
                   <p>&nbsp;</p>
-
                   <!-- 기대평 출력 -->
                   <div role="tabpanel" class="tab-pane animated fadeIn active"
                      id="reviews">
@@ -162,8 +165,8 @@
             </div>
             <!-- / product-content-area -->
 
-			<div id="add-review" class="space-top-30">
-			</div>
+         <div id="add-review" class="space-top-30">
+         </div>
          
 
          </div>
@@ -204,8 +207,8 @@
                      <c:otherwise>
                      <td colspan="3" style="text-align: center;"><span>후원자</span></td>
                      <td><span class="info-size">${festivalinfo.sponsor}</span></td>
-                  	 </c:otherwise>
-                  	 </c:choose>
+                      </c:otherwise>
+                      </c:choose>
                   </tr>
                   <tr>
                      <td colspan="3" style="text-align: center;"><span>목표금액</span></td>
@@ -231,16 +234,16 @@
                         <a id="wishA"></a>
                            
                            <a id="kakaotalk-sharing-btn" class="btn btn-rounded" href="javascript:kakaoShare();">
-	  						<img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" width="35px" height="35px" alt="카카오톡 공유 보내기 버튼" />
-							</a>
+                       <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" width="35px" height="35px" alt="카카오톡 공유 보내기 버튼" />
+                     </a>
                            
                         <c:choose>
-                        	<c:when test="${festivalinfo.state == 1}">
- 		                       <a class="btn btn-rounded btn-donation"><span class="donation-text">${festivalinfo.fundingStart } 진행 예정</span></a>
-                        	</c:when>
-                        	<c:when test="${festivalinfo.state == 2 }">
-        		                <a href="#donationForm" class="page-scroll btn btn-rounded btn-donation"><span class="donation-text">이 영화제 후원하기</span></a>
-                        	</c:when>
+                           <c:when test="${festivalinfo.state == 1}">
+                              <a class="btn btn-rounded btn-donation"><span class="donation-text">${festivalinfo.fundingStart } 진행 예정</span></a>
+                           </c:when>
+                           <c:when test="${festivalinfo.state == 2 }">
+                              <a href="#donationForm" class="page-scroll btn btn-rounded btn-donation"><span class="donation-text">이 영화제 후원하기</span></a>
+                           </c:when>
                         </c:choose>
                      </td>
                   </tr>
@@ -255,28 +258,28 @@
 
          <!-- 펀딩금액 사용자가 금액을 설정할 수 있는 입력란이 출력될 영역 -->
          <form id="donationForm" action="pay" method="POST">
-         	<input type="hidden" name="festivalIdx" value="${festivalinfo.idx}">
-         	<sec:csrfInput/>
-    	 	<!-- 직접 입력한 금액 -->
-    		<div class="col-sm-6 col-md-5 product-sidebar" style="overflow:scroll; height: 500px;">
-        	<div class="funding-options">
-            	<input type="radio" name="money" id="customMoney">
-            	<div style="padding-left: 30px;">
-            	<p>직접 금액 입력</p>
-            	<input type="text" id="custom" name="custommoney" size="35%" height="40" placeholder="*10000 ~ 5000000원까지 입력 가능합니다." class="form-control" style="display: none;">
-            	<p></p>
-            	<div id="custommoneyMsg" style="color: red; display: none;">10000 ~ 5000000원의 범위 안에서 입력해주세요.</div>
-            	</div>
-            	<div style="padding-left: 300px;">
-            	<button type="submit" id="customMoneyBtn" name="moneyBtn" style="display: none; background:#BFBFBF;" class="btn btn-rounded">후원하기</button>
-        		</div>
-        	</div>
-        	<!-- /사용자가 금액설정 -->
+            <input type="hidden" name="festivalIdx" value="${festivalinfo.idx}">
+            <sec:csrfInput/>
+           <!-- 직접 입력한 금액 -->
+          <div class="col-sm-6 col-md-5 product-sidebar" style="overflow:scroll; height: 500px;">
+           <div class="funding-options">
+               <input type="radio" name="money" id="customMoney">
+               <div style="padding-left: 30px;">
+               <p>직접 금액 입력</p>
+               <input type="text" id="custom" name="custommoney" size="35%" height="40" placeholder="*10000 ~ 5000000원까지 입력 가능합니다." class="form-control" style="display: none;">
+               <p></p>
+               <div id="custommoneyMsg" style="color: red; display: none;">10000 ~ 5000000원의 범위 안에서 입력해주세요.</div>
+               </div>
+               <div style="padding-left: 300px;">
+               <button type="submit" id="customMoneyBtn" name="moneyBtn" style="display: none; background:#BFBFBF;" class="btn btn-rounded">후원하기</button>
+              </div>
+           </div>
+           <!-- /사용자가 금액설정 -->
 
- 		   <p>&nbsp;</p>
+          <p>&nbsp;</p>
 
-		    <!-- 옵션1 -->
-		    <c:if test="${festivalinfo.option1 != 0}">
+          <!-- 옵션1 -->
+          <c:if test="${festivalinfo.option1 != 0}">
             <div class="funding-options">
                 <input type="radio" name="money" value="${festivalinfo.option1}" id="option1">
                <div style="padding-left: 30px;">
@@ -287,16 +290,16 @@
                 </div>
                <div style="padding-left: 300px;">
                 <button type="submit" name="moneyBtn" style="display: none; background:#BFBFBF;" class="btn btn-rounded" data-option="option1">후원하기</button>
-            	</div>
-            	</div>
-            	<!-- /옵션1 -->
-    		</c:if>
+               </div>
+               </div>
+               <!-- /옵션1 -->
+          </c:if>
 
-    		<p>&nbsp;</p>
+          <p>&nbsp;</p>
 
-		    <!-- 옵션2 -->
-    		<c:if test="${festivalinfo.option2 != 0}">
-            	<div class="funding-options">
+          <!-- 옵션2 -->
+          <c:if test="${festivalinfo.option2 != 0}">
+               <div class="funding-options">
                 <input type="radio" name="money" value="${festivalinfo.option2}" id="option2">
                 <div style="padding-left: 30px;">
                 <p>펀딩금액 옵션2</p>
@@ -306,16 +309,16 @@
                 </div>
                 <div style="padding-left: 300px;">
                 <button type="submit" name="moneyBtn" style="display: none; background:#BFBFBF;" class="btn btn-rounded" data-option="option2">후원하기</button>
-            	</div>
-            	</div>
-            	<!-- /옵션2 -->
-    		</c:if>
-    		
-    		<p>&nbsp;</p>
+               </div>
+               </div>
+               <!-- /옵션2 -->
+          </c:if>
+          
+          <p>&nbsp;</p>
 
-    		<!-- 옵션3 -->
-    		<c:if test="${festivalinfo.option3 != 0}">
-            	<div class="funding-options">
+          <!-- 옵션3 -->
+          <c:if test="${festivalinfo.option3 != 0}">
+               <div class="funding-options">
                 <input type="radio" name="money" value="${festivalinfo.option3}" id="option3">
                 <div style="padding-left: 30px;">
                 <p>펀딩금액 옵션3</p>
@@ -325,16 +328,16 @@
                 </div>
                 <div style="padding-left: 300px;">
                 <button type="submit" name="moneyBtn" style="display: none; background:#BFBFBF;" class="btn btn-rounded" data-option="option3">후원하기</button>
-            	</div>
-            	</div>
+               </div>
+               </div>
             <!-- /옵션3 -->
-    		</c:if>
-    		
-    		<p>&nbsp;</p>
+          </c:if>
+          
+          <p>&nbsp;</p>
 
-    		<!-- 옵션4 -->
-    		<c:if test="${festivalinfo.option4 != 0}">
-            	<div class="funding-options">
+          <!-- 옵션4 -->
+          <c:if test="${festivalinfo.option4 != 0}">
+               <div class="funding-options">
                 <input type="radio" name="money" value="${festivalinfo.option4}" id="option4">
                 <div style="padding-left: 30px;">
                 <p>펀딩금액 옵션4</p>
@@ -344,12 +347,12 @@
                 </div>
                 <div style="padding-left: 300px;">
                 <button type="submit" name="moneyBtn" style="display: none; background:#BFBFBF;" class="btn btn-rounded" data-option="option4">후원하기</button>
-            	</div>
-            	</div>
-            	<!-- /옵션4 -->
-    		</c:if>
-    		</div>
-		</form>
+               </div>
+               </div>
+               <!-- /옵션4 -->
+          </c:if>
+          </div>
+      </form>
       </div>
       <!-- / row -->
 
@@ -371,15 +374,15 @@
 <!-- / preloader -->
 
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	
+   
 <script type="text/javascript">
 var achievementPercentage = ${festivalinfo.percentage}; // 클라이언트 측에서 서버에서 받은 값을 저장
 var progressBar = document.getElementById("progress-fill");
 
 if(achievementPercentage >= 100){ 
-	progressBar.style.width = "100%";	
+   progressBar.style.width = "100%";   
 }else{
-	progressBar.style.width = achievementPercentage + "%";
+   progressBar.style.width = achievementPercentage + "%";
 }
 
 var festivalIdx = "${param.idx}";
@@ -390,16 +393,20 @@ var wishList ='';
 //var csrfTokenValue="${_csrf.token}";
 
 //로그인되지 않은 경우 null 반환
-var loginAccountid = null;
+var loginId = null;
 
 <sec:authorize access="isAuthenticated()">
-	var loginAccountid="<sec:authentication property="principal.id"/>";
+   var loginId="<sec:authentication property="principal.id"/>";
+   
+   var loginIdElement = document.createElement("textarea");
+	loginIdElement.innerHTML = loginId;
+	var loginIdDecoded = loginIdElement.value;
 </sec:authorize>
 
 //ajaxSend() 메소드를 호출하여 페이지에서 Ajax 기능으로 요청하는 모든 웹프로그램에게 CSRF 토큰 전달
 // => Ajax 요청시 beforeSend 속성을 설정 불필요
 //$(document).ajaxSend(function(e, xhr) {
-//	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+//   xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 //});
 
 //AJAX 요청으로 Wish 목록을 가져온 다음 하트 버튼을 출력하는 함수
@@ -409,11 +416,12 @@ function myWishDisplay() {
         url: "<c:url value='/donation/wish_list'/>", // 실제 URL에 맞게 변경
         contentType: "application/json",
         dataType: "json",
+        async: false,
         success: function (data) {
             wishList = data;
             
-        	$("#wishA").empty();
-        	
+           $("#wishA").empty();
+           
             var wishA = $("#wishA");
                   
             var wishBtn = $("<a>").attr('href', 'javascript:javascript:void(0)').addClass('view-btn');
@@ -429,9 +437,9 @@ function myWishDisplay() {
             wishA.append(wishBtn);
             
             if (wishListHasFestivalIdx(festivalIdx)) {
-            	wishBtn.attr("id", "heart_"+festivalIdx).attr("data-festival-idx", festivalIdx);
+               wishBtn.attr("id", "heart_"+festivalIdx).attr("data-festival-idx", festivalIdx);
             } else {
-            	wishBtn.attr("id", "emptyHeart_"+festivalIdx).attr("data-festival-idx", festivalIdx);
+               wishBtn.attr("id", "emptyHeart_"+festivalIdx).attr("data-festival-idx", festivalIdx);
             }
             
         },
@@ -460,98 +468,110 @@ function wishListHasFestivalIdx(festivalIdx) {
 
 //기대평 입력란을 화면에 출력하기 위한 함수
 function displayexpectForm(){
-	$.ajax({
-		type: "get",
-	    url: "<c:url value='/expect_form/'/>"+festivalIdx,
-	    dataType: "json",
-	    success: function (result) {
-			var addReviewformDiv = $("#add-review");
-			addReviewformDiv.empty();
-				
-			if(result.donationinfo != null && result.expectAccountId == null){
-				var row = `<h4>기대평작성</h4>
-		            <div class="row">
-		            <div class="col-sm-4 review-form">
-		               <select class="form-control" id="reviewstar">
-		                  <option value="5">5 Stars</option>
-		                  <option value="4">4 Stars</option>
-		                  <option value="3">3 Stars</option>
-		                  <option value="2">2 Stars</option>
-		                  <option value="1">1 Star</option>
-		               </select>
-		               <div id="reviewstarMsg" style="color: red; display: none;">기대되는 만큼 별을 반드시 선택해주세요</div>
-		            </div>
-		            <div class="col-sm-12 review-form">
-		               <textarea id="reviewcontent" rows="7" class="form-control" placeholder="*기대평을 작성해주세요" required></textarea>
-		               <div id="reviewcontentMsg" style="color: red; display: none;">기대평을 반드시 작성해주세요</div>
-		               <button type="button" id="addReviewBtn" class="btn btn-submit btn-primary-filled btn-rounded">작성하기</button>
-		            </div>
-		         </div>`;
-		         addReviewformDiv.append(row);
-			}
-	    },
-		error: function (xhr) {
-		 	 alert("에러(기대평 입력란) = " + xhr.status);
-		},
-	});
+   $.ajax({
+      type: "get",
+       url: "<c:url value='/expect_form/'/>"+festivalIdx,
+       dataType: "json",
+       async: false,
+       success: function (result) {
+         var addReviewformDiv = $("#add-review");
+         addReviewformDiv.empty();
+            
+         if(result.donationinfo != null && result.expectAccountId == null){
+            var row = `<h5>기대평 작성</h5>
+                  <div class="row">
+                  <div class="col-sm-4 review-form">
+                     <select class="form-control" id="reviewstar">
+                        <option value="5">5 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="2">2 Stars</option>
+                        <option value="1">1 Star</option>
+                     </select>
+                     <div id="reviewstarMsg" style="color: red; display: none;">기대되는 만큼 별을 반드시 선택해주세요</div>
+                  </div>
+                  <div class="col-sm-12 review-form">
+                     <textarea id="reviewcontent" rows="7" class="form-control" placeholder="*기대평을 작성해주세요" required></textarea>
+                     <div id="reviewcontentMsg" style="color: red; display: none;">기대평을 반드시 작성해주세요</div>
+                     <br>
+                     <button type="button" id="addReviewBtn" class="btn btn-submit btn-primary-filled btn-rounded">작성하기</button>
+                  </div>
+               </div>`;
+               addReviewformDiv.append(row);
+         }
+       },
+      error: function (xhr) {
+           alert("에러(기대평 입력란) = " + xhr.status);
+      },
+   });
 }
-	
+   
 
 
 //기대평을 가져와 화면에 출력하기 위한 함수
 function expectDisplay() {
   $.ajax({
-      type: "get",
-      url: "<c:url value='/expect_list/'/>" + festivalIdx,
-      dataType: "json",
-      success: function (result) {
-    	  var reviewDiv = $("#reviews");
-          reviewDiv.empty();
+    type: "get",
+    url: "<c:url value='/expect_list/'/>" + festivalIdx,
+    dataType: "json",
+    async: false,
+    success: function (result) {
+      var reviewDiv = $("#reviews");
+      reviewDiv.empty();
 
+      if (result.length == 0) {
+       // 기대평 데이터가 없을 때 메시지를 표시
+          var noExpectMessage = "<p>＊아직 작성된 기대평이 없습니다.<br>후원자가 기대평을 작성하면 이곳에 기대평이 표시됩니다.</p>";
+          reviewDiv.append(noExpectMessage);
+        } else {
           for (var i = 0; i < result.length; i++) {
-        	  var expect = result[i];
-        	  var starRating = "";
-        	  switch (expect.star) {
-        	    case 5:
-        	      starRating = "<span class='product-rating'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>";
-        	      break;
-        	    case 4:
-        	      starRating = "<span class='product-rating'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>";
-        	      break;
-        	    case 3:
-        	      starRating = "<span class='product-rating'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>";
-        	      break;
-        	    case 2:
-        	      starRating = "<span class='product-rating'><i class='fa fa-star'></i><i class='fa fa-star'></i></span>";
-        	      break;
-        	    case 1:
-        	      starRating = "<span class='product-rating'><i class='fa fa-star'></i></span>";
-        	      break;
-        	    default:
-        	      starRating = "<p>유효하지 않은 별점입니다.</p>";
-        	  }
-        	  var review = "<div class='review-content'>" +
-              "<h2 class='review-title no-margin'>" + expect.accountId + "</h2>" +
-              "<div class='review-stars'>" +
-              starRating +
-              "</div>" +
-              "<p>" + expect.content + "</p>" +
-              "<cite>" + expect.day + "</cite>";
-              
-	            if (expect.accountId == loginAccountid) {
-    	          review += "<span class='pull-right' style='padding-right: 10px;'>" +
-        	        "<a class='btn btn-sm btn-default btn-rounded no-margin removeReview' data-idx='" + expect.idx +"' data-account-id='"+ expect.accountId +"'>삭제</a>" +
-            	    "</span>";
-            	}
+            var expect = result[i];
+          var starRating = "";
+          switch (expect.star) {
+            case 5:
+              starRating = "<span class='product-rating'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>";
+              break;
+            case 4:
+              starRating = "<span class='product-rating'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>";
+              break;
+            case 3:
+              starRating = "<span class='product-rating'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>";
+              break;
+            case 2:
+              starRating = "<span class='product-rating'><i class='fa fa-star'></i><i class='fa fa-star'></i></span>";
+              break;
+            case 1:
+              starRating = "<span class='product-rating'><i class='fa fa-star'></i></span>";
+              break;
+            default:
+              starRating = "<p>유효하지 않은 별점입니다.</p>";
+          }
+          var review = "<div class='review-content'>" +
+            "<h5 class='review-title no-margin'>" + expect.accountId + "</h5>" +
+            "<div class='review-stars'>" +
+            starRating +
+            "</div>" +
+            "<p>" + expect.content + "</p>" +
+            "<cite>" + expect.day + "</cite>";
 
-            review += "</div><p>&nbsp;</p>";        	      
-              
+          if (expect.accountId == loginIdDecoded) {
+            review += "<span class='pull-right' style='padding-right: 10px;'>" +
+              "<a class='btn btn-sm btn-default btn-rounded no-margin removeReview' data-idx='" + expect.idx + "' data-account-id='" + expect.accountId + "'>삭제</a>" +
+              "</span>";
+          }
+
+          review += "</div><p>&nbsp;</p>";
+
           reviewDiv.append(review);
-      	}
-      },
-      error: function (xhr) {
-          alert("expectDisplay 에러 = " + xhr.status);
-      },
+        }
+        
+        // 기대평 데이터가 있을 때 #reviews 요소를 다시 표시합니다.
+        reviewDiv.show();
+      }
+    },
+    error: function (xhr) {
+      alert("expectDisplay 에러 = " + xhr.status);
+    },
   });
 }
 
@@ -559,15 +579,15 @@ function expectDisplay() {
 //선택한 라디오버튼에 따라 value를 다르게 하여 [후원하기] 전송폼이 생성되도록 작성
 //DOMContentLoaded : 페이지가 완전히 로드되기 전에 자바스크립트 코드가 실행되는 것을 방지
 document.addEventListener('DOMContentLoaded', function () {
-	//document.querySelectorAll() : NodeList 객체를 반환
+   //document.querySelectorAll() : NodeList 객체를 반환
     var radioButtons = document.querySelectorAll('input[type="radio"]');
     var buttons = document.querySelectorAll('button[name="moneyBtn"]');
     var customButton = document.getElementById("customMoneyBtn");
     var input = document.querySelector('input[name="custommoney"]');
 
     for (var i = 0; i < radioButtons.length; i++) {
-    	//addEventListener('change', callback) : input 요소의 내용이 변경되거나 select 요소에 새로운 옵션이 선택되었을 때 
-	    //발생하는 change 이벤트를 감지하여 이벤트가 발생되면 등록된 콜백함수가 실행됨
+       //addEventListener('change', callback) : input 요소의 내용이 변경되거나 select 요소에 새로운 옵션이 선택되었을 때 
+       //발생하는 change 이벤트를 감지하여 이벤트가 발생되면 등록된 콜백함수가 실행됨
         radioButtons[i].addEventListener('change', function () {
             var selectedOptionId = this.id;
 
@@ -593,175 +613,179 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 $(document).ready(function() {
-	//CSRF 토큰 관련 정보를 자바스크립트 변수에 저장
-	var csrfHeaderName = "${_csrf.headerName}";
-	var csrfTokenValue = "${_csrf.token}";
+   //CSRF 토큰 관련 정보를 자바스크립트 변수에 저장
+   var csrfHeaderName = "${_csrf.headerName}";
+   var csrfTokenValue = "${_csrf.token}";
 
-	// Ajax 기능을 사용하여 요청하는 모든 웹 프로그램에게 CSRF 토큰 전달 가능
-	// ▶ Ajax 요청 시 beforeSend 속성을 설정할 필요 없음
-	$(document).ajaxSend(function(e, xhr){
-		xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-	});
-	
-	displayexpectForm();
-	expectDisplay();
-	myWishDisplay();
+   // Ajax 기능을 사용하여 요청하는 모든 웹 프로그램에게 CSRF 토큰 전달 가능
+   // ▶ Ajax 요청 시 beforeSend 속성을 설정할 필요 없음
+   $(document).ajaxSend(function(e, xhr){
+      xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+   });
+   
+   displayexpectForm();
+   expectDisplay();
+   myWishDisplay();
 
-	 //기대평 삭제하기
-	 $(document).on("click",".removeReview", function() {
-		 var idx = $(this).data("idx");
-		 var accountId = $(this).data("accountId");
-			if (confirm("정말로 삭제하시겠습니까?")) {
-				$.ajax({
-					type: "get",
-					url: "${pageContext.request.contextPath}/expect_remove/"+idx+"/"+accountId,
-					data: { "idx": idx, "accountId": accountId },
-					contentType: "application/json",
-					dataType: "text",
-					success: function (result) {
-						alert("기대평이 삭제되었습니다.");
-						expectDisplay();
-						displayexpectForm();
-					},
-					error: function (xhr) {
-						alert("에러코드(게시글 삽입) = " + xhr.status);
-					},
-				});
-			}
-	});
+    //기대평 삭제하기
+    $(document).on("click",".removeReview", function() {
+       var idx = $(this).data("idx");
+       var accountId = $(this).data("accountId");
+         if (confirm("정말로 삭제하시겠습니까?")) {
+            $.ajax({
+               type: "get",
+               url: "${pageContext.request.contextPath}/expect_remove/"+idx+"/"+accountId,
+               data: { "idx": idx, "accountId": accountId },
+               contentType: "application/json",
+               async: false,
+               dataType: "text",
+               success: function (result) {
+                  alert("기대평이 삭제되었습니다.");
+                  expectDisplay();
+                  displayexpectForm();
+               },
+               error: function (xhr) {
+                  alert("에러코드(게시글 삽입) = " + xhr.status);
+               },
+            });
+         }
+   });
 
-	// [리뷰작성] 버튼 클릭 이벤트
-	$(document).on("click","#addReviewBtn", function() {
-	    var star = $("#reviewstar option:selected").val();
-	    var content = $("#reviewcontent").val();
-	
-	    if (star == "") {
-	        $("#reviewstarMsg").css("display", "block");
-	        return;
-	    }
-	    if (content == "") {
-	        $("#reviewcontentMsg").css("display", "block");
-	        return;
-	    }
-	
-	    $.ajax({
-	        type: "post",
-	        url: "<c:url value='/expect_add'/>",
-	        contentType: "application/json",
-	        data: JSON.stringify({ "star": star, "content": content, "accountId": loginAccountid, "festivalIdx": festivalIdx }),
-	        dataType: "text",
-	        success: function (result) {
-	        	if(result == "success") {
-	                //$("#add-review").hide();
-	                expectDisplay();
-					displayexpectForm();
-	        	}
-	        },
-	        error: function (xhr) {
-	        	console.log(result);
-	            alert("에러코드(게시글 삽입) = " + xhr.status); 
-	        },
-	    });
-	});
-	
-	//부모 요소에 이벤트 리스너 추가
-	$("#wishA").on("click", "[id^='emptyHeart_']", function() {
-	    var festivalIdx = $(this).data("festival-idx"); // data-festival-idx 속성을 통해 festivalIdx 값을 읽어옴
-	
-	    $.ajax({
-	        type: "PUT",
-	        url: "<c:url value='/donation/wish_add'/>",
-	        contentType: "application/json",
-	        data: JSON.stringify({"accountId": loginAccountid, "festivalIdx": festivalIdx }),
-	        dataType: "text",
-	        success: function(result) {
-	            if(result == "success") {
-	            	myWishDisplay();
-	            }
-	        },
-	        error: function(xhr) {
-	            alert("찜하기 중 오류가 발생하였습니다("+ xhr.status+")");
-	        }
-	    });
-	});
-	
-	// 부모 요소에 이벤트 리스너 추가
-	$("#wishA").on("click", "[id^='heart_']", function() {
-	    var festivalIdx = $(this).data("festival-idx"); // data-festival-idx 속성을 통해 festivalIdx 값을 읽어옴
-	
-	    $.ajax({
-	        type: "DELETE",
-	        url: "<c:url value='/donation/wish_remove'/>",
-	        contentType: "application/json",
-	        data: JSON.stringify({"accountId": loginAccountid, "festivalIdx": festivalIdx }),
-	        dataType: "text",
-	        success: function(result) {
-	            if(result == "success") {
-	            	myWishDisplay();
-	            }
-	        },
-	        error: function(xhr) {
-	            alert("찜 취소 중 오류가 발생하였습니다("+ xhr.status+")");
-	        }
-	    });
-	    
-	});
-	
-	//[후원하기] submit 하기 전 입력값 검증 - 미구현 : 비로그인 회원이 /pay 경로 접속 시 로그인 페이지로 전환할것(Interceptor)
-	$("#donationForm").submit(function(event) {
+   // [리뷰작성] 버튼 클릭 이벤트
+   $(document).on("click","#addReviewBtn", function() {
+       var star = $("#reviewstar option:selected").val();
+       var content = $("#reviewcontent").val();
+   
+       if (star == "") {
+           $("#reviewstarMsg").css("display", "block");
+           return;
+       }
+       if (content == "") {
+           $("#reviewcontentMsg").css("display", "block");
+           return;
+       }
+   
+       $.ajax({
+           type: "post",
+           url: "<c:url value='/expect_add'/>",
+           contentType: "application/json",
+           data: JSON.stringify({ "star": star, "content": content, "accountId": loginIdDecoded, "festivalIdx": festivalIdx }),
+           async: false,
+           dataType: "text",
+           success: function (result) {
+              if(result == "success") {
+                   //$("#add-review").hide();
+                   expectDisplay();
+               displayexpectForm();
+              }
+           },
+           error: function (xhr) {
+              console.log(result);
+               alert("에러코드(게시글 삽입) = " + xhr.status); 
+           },
+       });
+   });
+   
+   //부모 요소에 이벤트 리스너 추가
+   $("#wishA").on("click", "[id^='emptyHeart_']", function() {
+       var festivalIdx = $(this).data("festival-idx"); // data-festival-idx 속성을 통해 festivalIdx 값을 읽어옴
+   
+       $.ajax({
+           type: "PUT",
+           url: "<c:url value='/donation/wish_add'/>",
+           contentType: "application/json",
+           data: JSON.stringify({"accountId": loginIdDecoded, "festivalIdx": festivalIdx }),
+           async: false,
+           dataType: "text",
+           success: function(result) {
+               if(result == "success") {
+                  myWishDisplay();
+               }
+           },
+           error: function(xhr) {
+               alert("찜하기 중 오류가 발생하였습니다("+ xhr.status+")");
+           }
+       });
+   });
+   
+   // 부모 요소에 이벤트 리스너 추가
+   $("#wishA").on("click", "[id^='heart_']", function() {
+       var festivalIdx = $(this).data("festival-idx"); // data-festival-idx 속성을 통해 festivalIdx 값을 읽어옴
+   
+       $.ajax({
+           type: "DELETE",
+           url: "<c:url value='/donation/wish_remove'/>",
+           contentType: "application/json",
+           data: JSON.stringify({"accountId": loginIdDecoded, "festivalIdx": festivalIdx }),
+           async: false,
+           dataType: "text",
+           success: function(result) {
+               if(result == "success") {
+                  myWishDisplay();
+               }
+           },
+           error: function(xhr) {
+               alert("찜 취소 중 오류가 발생하였습니다("+ xhr.status+")");
+           }
+       });
+       
+   });
+   
+   //[후원하기] submit 하기 전 입력값 검증 - 미구현 : 비로그인 회원이 /pay 경로 접속 시 로그인 페이지로 전환할것(Interceptor)
+   $("#donationForm").submit(function(event) {
     var result = true;
     var state = ${festivalinfo.state};
     var customMoneyValue = $("#custom").val();
-	var moneyPattern = /^(?:10000|[1-9]\d{4,6}|5000000)$/;
+   var moneyPattern = /^(?:10000|[1-9]\d{4,6}|5000000)$/;
     
     if(state != 2){
-    	alert("진행 예정 영화제에는 아직 후원이 불가능합니다.");
-    	result = false;
+       alert("진행 예정 영화제에는 아직 후원이 불가능합니다.");
+       result = false;
     }  
     
     if ($('#customMoney').is(':checked')) {
-    	$('#customMoney').attr('value', customMoneyValue);
+       $('#customMoney').attr('value', customMoneyValue);
     }
     
     if (customMoneyValue!="" && !moneyPattern.test(customMoneyValue) && !$('#customMoney').is(':checked')) {
         $("#custommoneyMsg").css("display", 'block');
-    	result = false;
+       result = false;
     }
     if(customMoneyValue == "" && $('#customMoney').is(':checked')){
-    	$("#custommoneyMsg").css("display", 'block');
-    	result = false;
+       $("#custommoneyMsg").css("display", 'block');
+       result = false;
     }
    
     return result;
 });
-	
+   
 Kakao.init('dbd84c3979d7583576ee37c4e94c93e7'); // 사용하려는 앱의 JavaScript 키 입력
 //카카오 공유 API
-	Kakao.Share.createDefaultButton({
-		container: '#kakaotalk-sharing-btn',
-		objectType: 'feed',
-	    content: {
-	      title: '${festivalinfo.subject}',
-	      description: '${festivalinfo.subject} 펀딩하기',
-	      imageUrl:
-	        '${pageContext.request.contextPath}/resources/upload/${festivalinfo.mainImg}',
-	      link: {
-	        // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
-	        mobileWebUrl: 'http://itwill.xyz',
-	        webUrl: 'http://itwill.xyz',
-	      },
-	    },
-	    buttons: [
-	      {
-	        title: '웹으로 보기',
-	        link: {
-	          mobileWebUrl: 'http://itwill.xyz/funfun/donation/single-festival?idx=${festivalinfo.idx}',
-	          webUrl: 'http://itwill.xyz/funfun/donation/single-festival?idx=${festivalinfo.idx}',
-	        },
-	      },
-	    ],
-	 	// 카카오톡 미설치 시 카카오톡 설치 경로이동
-	    installTalk: true,
-	});
-});	   
+   Kakao.Share.createDefaultButton({
+      container: '#kakaotalk-sharing-btn',
+      objectType: 'feed',
+       content: {
+         title: '${festivalinfo.subject}',
+         description: '${festivalinfo.subject} 펀딩하기',
+         imageUrl:
+           '${pageContext.request.contextPath}/resources/upload/${festivalinfo.mainImg}',
+         link: {
+           // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+           mobileWebUrl: 'http://itwill.xyz',
+           webUrl: 'http://itwill.xyz',
+         },
+       },
+       buttons: [
+         {
+           title: '웹으로 보기',
+           link: {
+             mobileWebUrl: 'http://itwill.xyz/funfun/donation/single-festival?idx=${festivalinfo.idx}',
+             webUrl: 'http://itwill.xyz/funfun/donation/single-festival?idx=${festivalinfo.idx}',
+           },
+         },
+       ],
+       // 카카오톡 미설치 시 카카오톡 설치 경로이동
+       installTalk: true,
+   });
+});      
 </script>
