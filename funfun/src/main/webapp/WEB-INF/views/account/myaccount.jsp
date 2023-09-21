@@ -170,10 +170,13 @@
 	var csrfHeaderName="${_csrf.headerName}";
 	var csrfTokenValue="${_csrf.token}";
 	
-	<sec:authorize access="isAuthenticated()">
-	   var loginId="<sec:authentication property="principal.id"/>";
-	   var loginIdx="<sec:authentication property="principal.idx"/>";
-	</sec:authorize>
+	var loginIdx="<sec:authentication property="principal.idx"/>";
+	
+	var loginId="<sec:authentication property="principal.id"/>";
+	
+	var loginIdElement = document.createElement("textarea");
+	loginIdElement.innerHTML = loginId;
+	var loginIdDecoded = loginIdElement.value;
 	   
 	//ajaxSend() 메소드를 호출하여 페이지에서 Ajax 기능으로 요청하는 모든 웹프로그램에게 CSRF 토큰 전달
 	// => Ajax 요청시 beforeSend 속성을 설정 불필요
@@ -186,7 +189,7 @@
 	var wishPage = 1;
 	
 	function getMyAccountsData(accountId, donationPageNum, questionPageNum, wishPageNum) {
-		loginId = accountId;
+		loginIdDecoded = accountId;
 		questionPage = questionPageNum;
 		donationPage = donationPageNum;
 		wishPage = wishPage;
@@ -195,7 +198,7 @@
 	        method: "GET",
 	        url: "<c:url value ='/account_detail'/>",
 	        data: {
-	            "id": loginId,
+	            "id": loginIdDecoded,
 	            "donationPageNum": donationPageNum,
 	            "questionPageNum": questionPageNum,
 	            "wishPageNum": wishPageNum
@@ -351,7 +354,7 @@
 	function donationPageNumDisplay(pager) {
 		 var html = "";
 		 if (pager.startPage > pager.blockSize) {
-			 html += "<a href=\"javascript:getMyAccountsData('" + loginId + "', " + pager.prevPage + ", " + questionPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
+			 html += "<a href=\"javascript:getMyAccountsData('" + loginIdDecoded + "', " + pager.prevPage + ", " + questionPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
 		 } else {
 			 html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-left'/></a>";
 		 }
@@ -365,7 +368,7 @@
 		 }
 	
 		 if (pager.endPage != pager.totalPage) {
-		     html += "<a href=\"javascript:getMyAccountsData('" + loginId + "', " + pager.nextPage + ", " + questionPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-right'/></a>";
+		     html += "<a href=\"javascript:getMyAccountsData('" + loginIdDecoded + "', " + pager.nextPage + ", " + questionPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-right'/></a>";
 		 } else {
 		     html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-right'/></a>";
 		 }
@@ -376,21 +379,21 @@
 	function questionPageNumDisplay(pager) {
 	 var html = "";
 	 if (pager.startPage > pager.blockSize) {
-	     html += "<a href=\"javascript:getMyAccountsData('" + loginId + "', " + donationPage + ", " + pager.prevPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
+	     html += "<a href=\"javascript:getMyAccountsData('" + loginIdDecoded + "', " + donationPage + ", " + pager.prevPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
 	 } else {
 		 html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-left'/></a>";
 	 }
 	
 	 for (var i = pager.startPage; i <= pager.endPage; i++) {
 	     if (pager.pageNum != i) {
-	         html += "<a class='btn btn-direction btn-default btn-rounded' href=\"javascript:getMyAccountsData('" + loginId + "', " + donationPage + ", " + i + ", " + wishPage + ");\">" + i + "</a>";
+	         html += "<a class='btn btn-direction btn-default btn-rounded' href=\"javascript:getMyAccountsData('" + loginIdDecoded + "', " + donationPage + ", " + i + ", " + wishPage + ");\">" + i + "</a>";
 	     } else {
 	         html += "<a class='btn btn-direction btn-default btn-rounded' disabled>" + i + "</a>";
 	     }
 	 }
 	
 	 if (pager.endPage != pager.totalPage) {
-	     html += "<a href=\"javascript:getMyAccountsData('" + loginId + "', " + donationPage + ", " + pager.nextPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-right'/></a>";
+	     html += "<a href=\"javascript:getMyAccountsData('" + loginIdDecoded + "', " + donationPage + ", " + pager.nextPage + ", " + wishPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-right'/></a>";
 	 } else {
 	     html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-right'/></a>";
 	 }
@@ -401,21 +404,21 @@
 	function wishPageNumDisplay(pager) {
 		 var html = "";
 		 if (pager.startPage > pager.blockSize) {
-		     html += "<a href=\"javascript:getMyAccountsData('" + loginId + "', " + donationPage + ", " + questionPage + ", " + pager.prevPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
+		     html += "<a href=\"javascript:getMyAccountsData('" + loginIdDecoded + "', " + donationPage + ", " + questionPage + ", " + pager.prevPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
 		 } else {
 			 html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-left'/></a>";
 		 }
 	
 		 for (var i = pager.startPage; i <= pager.endPage; i++) {
 		     if (pager.pageNum != i) {
-		         html += "<a class='btn btn-direction btn-default btn-rounded' href=\"javascript:getMyAccountsData('" + loginId + "', " + donationPage + ", " + questionPage + ", " + i + ");\">" + i + "</a>";
+		         html += "<a class='btn btn-direction btn-default btn-rounded' href=\"javascript:getMyAccountsData('" + loginIdDecoded + "', " + donationPage + ", " + questionPage + ", " + i + ");\">" + i + "</a>";
 		     } else {
 		         html += "<a class='btn btn-direction btn-default btn-rounded' disabled>" + i + "</a>";
 		     }
 		 }
 	
 		 if (pager.endPage != pager.totalPage) {
-		     html += "<a href=\"javascript:getMyAccountsData('" + loginId + "', " + donationPage + ", " + questionPage + ", " + pager.nextPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-right'/></a>";
+		     html += "<a href=\"javascript:getMyAccountsData('" + loginIdDecoded + "', " + donationPage + ", " + questionPage + ", " + pager.nextPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-right'/></a>";
 		 } else {
 		     html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-right'/></a>";
 		 }
@@ -424,7 +427,8 @@
 	}
 	
 	$(document).ready(function () {
-		getMyAccountsData(loginId, donationPage, questionPage, wishPage);
+		console.log(loginIdDecoded);
+		getMyAccountsData(loginIdDecoded, donationPage, questionPage, wishPage);
 		
 		$("#cancelModifyBtn").click(function(){
 	        $("#edit-form").toggle();
@@ -473,7 +477,7 @@
 	    		type: "PUT",
 	    		url: "<c:url value="/account_modify"/>",
 	    		contentType: "application/json",
-	    		data: JSON.stringify({"id":loginId, "name":name, "email":email, "birth":birth, "phone":phone, "address1":address1, "address2":address2, "address3":address3, "idx":loginIdx}),
+	    		data: JSON.stringify({"id":loginIdDecoded, "name":name, "email":email, "birth":birth, "phone":phone, "address1":address1, "address2":address2, "address3":address3, "idx":loginIdx}),
 	    		dataType: "text",
 	    		success: function(result) {
 	    				console.log(result);
@@ -515,7 +519,7 @@
    		            url: "<c:url value='/changePassword'/>", // 변경할 비밀번호 엔드포인트 URL로 변경해야 합니다.
    		            contentType: "application/json",
    		            data: JSON.stringify({
-   		            	"id":loginId,
+   		            	"id":loginIdDecoded,
    		            	"currentPassword": currentPassword,
    		                "newPassword": newPassword,
    		             	"confirmPassword": confirmPassword,
@@ -546,8 +550,9 @@
  		            
  		            $.ajax({
  		                type: "PUT",
- 		                url: "<c:url value='/account_remove?id='/>" + loginId,
+ 		                url: "<c:url value='/account_remove?id='/>" + loginIdDecoded,
  		                success: function(result) {
+ 		                	
  		                    if(result == "success") {
  		                    	 window.location.href = "<c:url value='/'/>";
  		                    } else {
