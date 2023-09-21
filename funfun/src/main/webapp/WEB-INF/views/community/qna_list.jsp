@@ -65,16 +65,8 @@
    margin-bottom: 50px;
    display: block;
 }
-.pageNumDiv {
-   margin-left: 500px;
-}
 .secret-text {
     font-weight: bold;
-}
-.noinBtn {
-   width: 150px;
-   margin-bottom: 50px;
-   display: block;
 }
 #pageNumDiv {
     text-align: center; 
