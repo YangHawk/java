@@ -92,8 +92,9 @@ public class DonationController{
 			donationService.modifyDonation(donation); // 테이블에 결제 정보를 변경
 			return "success";
 		} else { // 검증 실패 - 결제 금액 불일치 - 위변조된 결제
-			donationService.cancelDonation(accessToken, returnDonation);
+			donationService.cancelDonation(returnDonation);
 			return "forgery";
 		}
 	}
+	
 }

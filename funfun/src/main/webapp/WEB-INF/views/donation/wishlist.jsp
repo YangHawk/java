@@ -70,9 +70,11 @@ $(document).ajaxSend(function(e, xhr){
    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 });
 
-<sec:authorize access="isAuthenticated()">
-   var loginAccountId="<sec:authentication property="principal.id"/>";
-</sec:authorize>
+var loginId="<sec:authentication property="principal.id"/>";
+
+var loginIdElement = document.createElement("textarea");
+loginIdElement.innerHTML = loginId;
+var loginIdDecoded = loginIdElement.value;
 
 var page = 1; // 기본 페이지 번호 설정
 var size = 10; // 기본 페이지 크기 설정
@@ -163,7 +165,7 @@ $(document).ready(function () {
            type: "DELETE",
            url: "${pageContext.request.contextPath}/wish_remove",
            contentType: "application/json",
-           data: JSON.stringify({"accountId": loginAccountId, "festivalIdx": festivalIdx }),
+           data: JSON.stringify({"accountId": loginIdDecoded, "festivalIdx": festivalIdx }),
            dataType: "text",
            success: function(result) {
                if(result == "success") {
@@ -178,5 +180,6 @@ $(document).ready(function () {
    });
    
 });
+
 
 </script>

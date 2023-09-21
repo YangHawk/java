@@ -13,9 +13,7 @@
          MONEY,
          DAY,
          STATE,
-         PAY_TYPE,
-         REFUND_ACCOUNT,
-         REFUND_BANK
+         PAY_TYPE
       )VALUES(
          #{idx},
          #{festivalIdx},
@@ -23,20 +21,18 @@
          #{money},
          sysdate,
          2,
-         #{payType},
-         #{refundAccount},
-         #{refundBank}
+         #{payType}
       )
    </insert>
    
    <!-- 1이 결제 완료? 난 몰라! -->
    <update id="updateDonation">
-   		UPDATE DONATION SET
-   			STATE = 1,
-   			PAY_DAY = SYSDATE,
-   			IMP_UID = #{impUid},
-   			MERCHANT_UID = #{merchantUid}
-   		WHERE IDX = #{idx}
+         UPDATE DONATION SET
+            STATE = 1,
+            PAY_DAY = SYSDATE,
+            IMP_UID = #{impUid},
+            MERCHANT_UID = #{merchantUid}
+         WHERE IDX = #{idx}
    </update>
    <select id="selectDonationOne" resultType="Donation">
       SELECT
@@ -48,9 +44,7 @@
          STATE,
          TO_CHAR(CANCEL_DAY,'YYYY-MM-DD') AS CANCEL_DAY,
          TO_CHAR(PAY_DAY,'YYYY-MM-DD') AS PAY_DAY,
-         PAY_TYPE,
-         REFUND_ACCOUNT,
-         REFUND_BANK
+         PAY_TYPE
       FROM DONATION
       WHERE IDX = #{arg0} AND FESTIVAL_IDX = #{arg1}
    </select>
@@ -66,9 +60,7 @@
          STATE,
          TO_CHAR(CANCEL_DAY,'YYYY-MM-DD') AS CANCEL_DAY,
          TO_CHAR(PAY_DAY,'YYYY-MM-DD') AS PAY_DAY,
-         PAY_TYPE,
-         REFUND_ACCOUNT,
-         REFUND_BANK
+         PAY_TYPE
       FROM DONATION
       WHERE ACCOUNT_ID = #{arg0} AND FESTIVAL_IDX = #{arg1}
    </select>
@@ -94,8 +86,6 @@
             TO_CHAR(CANCEL_DAY,'yyyy-mm-dd') AS CANCEL_DAY,
             TO_CHAR(PAY_DAY,'yyyy-mm-dd') AS PAY_DAY,
             D.PAY_TYPE,
-            D.REFUND_ACCOUNT,
-            D.REFUND_BANK,
             F.SUBJECT,
             F.MAIN_IMG
             FROM DONATION D JOIN (

@@ -451,7 +451,7 @@
    
        for (var i = pager.startPage; i <= pager.endPage; i++) {
            if (pager.pageNum != i) {
-               html += "<a class='btn btn-direction btn-default btn-rounded' href=\"javascript:getMyAccountsData('" + id + "', " + i + ", " + questionPage + ", " + wishPage + ");\">" + i + "</a>";
+               html += "<a class='btn btn-direction btn-default btn-rounded' href=\"javascript:getMyAccountsData('" + loginIdDecoded + "', " + i + ", " + questionPage + ", " + wishPage + ");\">" + i + "</a>";
            } else {
                html += "<a class='btn btn-direction btn-default btn-rounded' disabled>" + i + "</a>";
            }
@@ -561,7 +561,7 @@
              document.getElementById('emailError').style.display = 'none';
           }
           
-          if(!phonePattern.test(콜)) {
+          if(!phonePattern.test(phone)) {
              document.getElementById('phoneError').style.display = 'block';
              $("#phone").focus();
              event.preventDefault();

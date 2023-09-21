@@ -356,27 +356,27 @@
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    if ($("#option2").val() === "0") {
+    if ($("#option2").val() === "0" && $("#option3").val() === "0" && $("#option4").val() === "0") {
       $("#fundingOption2").hide();
       $("#fundingOptionPlus2").show();
-    }else{
-    	$("#fundingOption2").show();
-        $("#fundingOptionPlus2").hide();
-    }
-    if ($("#option3").val() === "0") {
-      $("#fundingOption3").hide();  
-      $("#fundingOptionPlus3").show();
-    }else{
-    	$("#fundingOption3").show();
-        $("#fundingOptionPlus3").hide();
-    }
- 
-    if ($("#option4").val() === "0") {
+      $("#fundingOption3").hide();
+      $("#fundingOptionPlus3").hide();
       $("#fundingOption4").hide();
-      $("#fundingOptionPlus4").show();
-    }else{
-    	$("#fundingOption4").show();
+      $("#fundingOptionPlus4").hide();
+    } else if ($("#option2").val() !== "0" && $("#option3").val() === "0" && $("#option4").val() === "0") {
+        $("#fundingOption2").show();
+        $("#fundingOptionPlus2").hide();
+        $("#fundingOption3").hide();
+        $("#fundingOptionPlus3").show();
+        $("#fundingOption4").hide();
         $("#fundingOptionPlus4").hide();
+    } else {
+        $("#fundingOption2").show();
+        $("#fundingOptionPlus2").hide();
+        $("#fundingOption3").show();
+        $("#fundingOptionPlus3").hide();
+        $("#fundingOption4").hide();
+        $("#fundingOptionPlus4").show();
     }
 
     function toggleOption(optionNumber) {
@@ -386,16 +386,21 @@ $(document).ready(function() {
     $("#fundingOptionPlus2").click(function() {
       toggleOption(2);
       $("#fundingOptionPlus2").hide();
+      $("#fundingOption2").show();
+      $("#fundingOptionPlus3").show();
     });
 
     $("#fundingOptionPlus3").click(function() {
       toggleOption(3);
       $("#fundingOptionPlus3").hide();
+      $("#fundingOption3").show();
+      $("#fundingOptionPlus4").show();
     });
 
     $("#fundingOptionPlus4").click(function() {
       toggleOption(4);
       $("#fundingOptionPlus4").hide();
+      $("#fundingOption4").show();
     });
   });
 

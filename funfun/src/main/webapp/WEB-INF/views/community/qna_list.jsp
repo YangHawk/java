@@ -66,7 +66,7 @@
    display: block;
 }
 .pageNumDiv {
-	margin-left: 500px;
+   margin-left: 500px;
 }
 .secret-text {
     font-weight: bold;
@@ -78,14 +78,17 @@
 }
 #pageNumDiv {
     text-align: center; 
-   	margin-bottom: 50px;
-   	margin-left: 10px;
-   	margin-right: 500px;
+      margin-bottom: 50px;
+      margin-left: 10px;
+      margin-right: 450px;
 }
 .button-and-page-num {
     display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나열 */
     justify-content: space-between;
     align-items: center; /* 수직 가운데 정렬 */
+}
+#pageSizeSelect {
+    margin-top: 10px;
 }
 </style>
 </head>
@@ -99,7 +102,7 @@
 <!-- / preloader -->
 
 <div id="page-header" class="question">
-		<div class="container">
+      <div class="container">
             <div class="page-header-content text-center">
                 <div class="page-header wsub">
                     <h1 class="page-title fadeInDown animated first">Q&amp;A</h1>
@@ -125,25 +128,25 @@
    </div>
 <!-- 사이드바 -->
 
-		<!-- 한 번에 볼 게시글 수를 출력하는 태그 -->
-		    <select id="pageSizeSelect"></select>
-		    
-		<!-- 검색 창을 출력하는 태그 -->
-		    <div id="searchDiv"></div>
-		
-		<!-- 게시글 목록을 출력하는 태그 -->
-		    <div id="infoListDiv"></div>
-		
-		<!-- 질문 등록 버튼 -->
-			<div class="button-and-page-num">
-					<button type="button" id="right-button" 
-				    class="noinBtn - btn btn-md btn-primary-filled btn-form-submit btn-rounded"
-				    onclick="window.location.href='/funfun/community/qna_form';">문의글 등록</button>
-				
-				<!-- 페이지 번호를 출력하는 태그 -->
-				<div id="pageNumDiv"></div>
-			</div>
-	                
+      <!-- 한 번에 볼 게시글 수를 출력하는 태그 -->
+          <select id="pageSizeSelect"></select>
+          
+      <!-- 검색 창을 출력하는 태그 -->
+          <div id="searchDiv"></div>
+      
+      <!-- 게시글 목록을 출력하는 태그 -->
+          <div id="infoListDiv"></div>
+      
+      <!-- 질문 등록 버튼 -->
+         <div class="button-and-page-num">
+               <button type="button" id="right-button" 
+                class="noinBtn - btn btn-md btn-primary-filled btn-form-submit btn-rounded"
+                onclick="window.location.href='/funfun/community/qna_form';">문의글 등록</button>
+            
+            <!-- 페이지 번호를 출력하는 태그 -->
+            <div id="pageNumDiv"></div>
+         </div>
+                   
 
 <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
@@ -159,7 +162,7 @@ var csrfTokenValue = "${_csrf.token}";
 // Ajax 기능을 사용하여 요청하는 모든 웹 프로그램에게 CSRF 토큰 전달 가능
 // ▶ Ajax 요청 시 beforeSend 속성을 설정할 필요 없음
 $(document).ajaxSend(function(e, xhr){
-	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+   xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 });
 
 var page = 1; // 기본 페이지 번호 설정
@@ -169,10 +172,10 @@ var infoType = ''; // 기본 검색 타입 = NULL String(account / festival / q&
 
 //qna 목록 출력 함수
 function questionListDisplay(pageNum, pageSize, selectKeyword) {
-	$("#viewSelect").show();
-	$("#pageSizeSelect").show();
-	$("#pageNumDiv").show();
-	$("#searchDiv").show();
+   $("#viewSelect").show();
+   $("#pageSizeSelect").show();
+   $("#pageNumDiv").show();
+   $("#searchDiv").show();
    page=pageNum;
    size=pageSize;
    keyword=selectKeyword;
@@ -206,7 +209,7 @@ function questionListDisplay(pageNum, pageSize, selectKeyword) {
                 tbody.append(row);
             } 
             for (var i = 0; i < result.questionList.length; i++) {
-            	console.log(${question.secret});
+               console.log(${question.secret});
                 var question = result.questionList[i];
                 var accountId = question.accountId !== null ? question.accountId : "";
                 var title = question.secret === 1 ? "<span class='secret-text'>[비밀글]</span> " + question.title : question.title;
@@ -333,43 +336,43 @@ $(document).ready(function() { // JSP가 렌더링되자마자,
       questionListDisplay(page, size, keyword);
 
       $("#pageSizeSelect").change(function() {
-    	  var functionName = infoType + "ListDisplay";
-    	  
+         var functionName = infoType + "ListDisplay";
+         
           var selectedPageSize = parseInt($(this).val());
           window[functionName](page, selectedPageSize, keyword);
      });
-	   // 공지 사항 버튼 클릭 시
-	   $("#notice-info").click(function() {
-		   $("#viewSelect").show();
-		   $("#pageSizeSelect").show();
-		   $("#pageNumDiv").show();
-		   $("#searchDiv").show();
-	      page = 1;
-	      size = 10;
-	      keyword ='';
-	      infoType = "notice";
-	      noticeListDisplay(page, size, keyword);
-	       
-	       $("#pageSizeSelect").val(size);
-	    });
-	
-	   // 검색 버튼 클릭 시
-	   $("#searchDiv").on("click", "#searchButton", function() {
-	        performSearch();
-	    });
-	
-	    // Enter 키를 눌렀을 때 검색 버튼 클릭과 동일한 기능 실행
-	    $(document).on("keydown", "#selectKeyword", function(event) {
-	        if (event.key === "Enter") {
-	            performSearch();
-	        }
-	    });
-	    
-	    // QNA tr 태그 클릭 시 상세 정보 보기로 이동
-	    $("#infoListDiv").on("click", "#questionInfoTable tbody tr", function() {
-	        var idx = $(this).data("idx");
-	        window.location.href = "<c:url value='/community/qna_detail' />?idx=" + idx;
-	    });
+      // 공지 사항 버튼 클릭 시
+      $("#notice-info").click(function() {
+         $("#viewSelect").show();
+         $("#pageSizeSelect").show();
+         $("#pageNumDiv").show();
+         $("#searchDiv").show();
+         page = 1;
+         size = 10;
+         keyword ='';
+         infoType = "notice";
+         noticeListDisplay(page, size, keyword);
+          
+          $("#pageSizeSelect").val(size);
+       });
+   
+      // 검색 버튼 클릭 시
+      $("#searchDiv").on("click", "#searchButton", function() {
+           performSearch();
+       });
+   
+       // Enter 키를 눌렀을 때 검색 버튼 클릭과 동일한 기능 실행
+       $(document).on("keydown", "#selectKeyword", function(event) {
+           if (event.key === "Enter") {
+               performSearch();
+           }
+       });
+       
+       // QNA tr 태그 클릭 시 상세 정보 보기로 이동
+       $("#infoListDiv").on("click", "#questionInfoTable tbody tr", function() {
+           var idx = $(this).data("idx");
+           window.location.href = "<c:url value='/community/qna_detail' />?idx=" + idx;
+       });
 });
 </script>
 </body>

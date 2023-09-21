@@ -168,7 +168,7 @@ public class DonationServiceImpl implements DonationService {
 	}
 
 	@Override
-	public String cancelDonation(String accessToken, Donation donation) {
+	public String cancelDonation(Donation donation) {
 		// 결제 취소를 요청하기 위한 API의 URL 주소
 				String apiUrl = "https://api.iamport.kr/payments/cancel";
 

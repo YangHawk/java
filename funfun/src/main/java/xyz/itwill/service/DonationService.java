@@ -22,5 +22,5 @@ public interface DonationService {
 	// 하나의 결제 정보를 제공하는 API를 요청하여 결제 정보를 반환하는 메소드
 	Donation getRealDonation(String accessToken, Donation donation);
 	
-	String cancelDonation(String accessToken, Donation donation);
+	String cancelDonation(Donation donation);
 }
