@@ -108,5 +108,4 @@ public class GoogleLoginController {
 			return "redirect:/";
 		}
 	}
-
 }
