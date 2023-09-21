@@ -256,6 +256,7 @@
          <!-- 펀딩금액 사용자가 금액을 설정할 수 있는 입력란이 출력될 영역 -->
          <form id="donationForm" action="pay" method="POST">
          	<input type="hidden" name="festivalIdx" value="${festivalinfo.idx}">
+         	<sec:csrfInput/>
     	 	<!-- 직접 입력한 금액 -->
     		<div class="col-sm-6 col-md-5 product-sidebar" style="overflow:scroll; height: 500px;">
         	<div class="funding-options">
@@ -348,7 +349,6 @@
             	<!-- /옵션4 -->
     		</c:if>
     		</div>
-    		<sec:csrfInput/>
 		</form>
       </div>
       <!-- / row -->
@@ -373,16 +373,6 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	
 <script type="text/javascript">
-//CSRF 토큰 관련 정보를 자바스크립트 변수에 저장
-var csrfHeaderName = "${_csrf.headerName}";
-var csrfTokenValue = "${_csrf.token}";
-
-// Ajax 기능을 사용하여 요청하는 모든 웹 프로그램에게 CSRF 토큰 전달 가능
-// ▶ Ajax 요청 시 beforeSend 속성을 설정할 필요 없음
-$(document).ajaxSend(function(e, xhr){
-	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-});
-
 var achievementPercentage = ${festivalinfo.percentage}; // 클라이언트 측에서 서버에서 받은 값을 저장
 var progressBar = document.getElementById("progress-fill");
 
@@ -603,6 +593,16 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 $(document).ready(function() {
+	//CSRF 토큰 관련 정보를 자바스크립트 변수에 저장
+	var csrfHeaderName = "${_csrf.headerName}";
+	var csrfTokenValue = "${_csrf.token}";
+
+	// Ajax 기능을 사용하여 요청하는 모든 웹 프로그램에게 CSRF 토큰 전달 가능
+	// ▶ Ajax 요청 시 beforeSend 속성을 설정할 필요 없음
+	$(document).ajaxSend(function(e, xhr){
+		xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	});
+	
 	displayexpectForm();
 	expectDisplay();
 	myWishDisplay();
@@ -637,9 +637,11 @@ $(document).ready(function() {
 	
 	    if (star == "") {
 	        $("#reviewstarMsg").css("display", "block");
+	        return;
 	    }
 	    if (content == "") {
 	        $("#reviewcontentMsg").css("display", "block");
+	        return;
 	    }
 	
 	    $.ajax({

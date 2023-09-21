@@ -84,6 +84,8 @@
   								  onclick="location.href='${pageContext.request.contextPath}/naver/login';">
 						<img class="kakao-login-img" alt="카카오톡로그인" src="<c:url value="/resources/images/kakao_login2.png"/>"
 						onclick="location.href='${pageContext.request.contextPath}/kakao/login';">
+						<img class="google-login-img" alt="구글로그인" src="<c:url value="/resources/images/g-logo.png"/>"
+						onclick="location.href='${pageContext.request.contextPath}/google/login';" width="45px" height="45px" style="padding-left: 10px; padding-top: 5px;">
 						</div>
 						<br><br><br>
   						<hr>
