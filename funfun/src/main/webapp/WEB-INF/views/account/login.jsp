@@ -5,21 +5,64 @@
 <html lang="en">
 <style>
     .social-login-buttons {
-	    display: flex;
-		float: left;
-	    margin-right: 10px; /* 이미지 사이의 간격 조정 */
-	}
-	
-	
+       display: flex;
+      float: left;
+       margin-right: 10px; /* 이미지 사이의 간격 조정 */
+   }
+   
+   
     .naver-login-img {
         width: 50px;
         margin-right: 10px;
-    	
+       
     }
     
     .kakao-login-img {
         width: 58px;
     }
+    
+    /* 체크박스 커스터마이즈 스타일 */
+.checkbox-primary input[type="checkbox"] {
+    display: none; /* 기본 체크박스 숨기기 */
+}
+
+.checkbox-primary label {
+    position: relative; /* 상대 위치 지정 */
+    padding-left: 5px; /* 약간의 여백 지정 */
+    cursor: pointer; /* 포인터 커서로 변경하여 클릭 가능하게 만듦 */
+    display: flex;
+    align-items: center; /* 텍스트와 체크박스 수직 중앙 정렬 */
+}
+
+.checkbox-primary label::before {
+    content: ''; /* 체크박스를 나타내는 요소 생성 */
+    position: absolute;
+    left: 0; /* 수정: 텍스트와 가운데 정렬 */
+    top: 50%; /* 수직 정렬을 위해 중앙으로 이동 */
+    transform: translateY(-50%); /* 수직 정렬을 위한 트랜스폼 사용 */
+    width: 20px; /* 체크박스 크기 조절 */
+    height: 20px;
+    border: 1px solid #000; /* 체크박스 테두리 색상을 검정색으로 변경 */
+    border-radius: 4px; /* 체크박스 모서리 둥글게 만들기 */
+    background-color: transparent; /* 초기 배경색은 투명 */
+    text-align: center; /* 가운데 정렬 추가 */
+    line-height: 20px; /* 가운데 정렬을 위해 높이 값 설정 */
+}
+
+.checkbox-primary input[type="checkbox"]:checked + label::before {
+    background-color: #007bff; /* 체크된 상태의 배경색 변경 */
+}
+
+.checkbox-primary input[type="checkbox"]:checked + label::after {
+    content: '\2713'; /* 체크마크 아이콘 (유니코드 문자) */
+    font-size: 18px; /* 아이콘 크기 조절 */
+    color: #fff; /* 체크된 상태의 아이콘 색상 변경 */
+    position: absolute;
+    left: 0; /* 수정: 텍스트와 가운데 정렬 */
+    top: 50%; /* 수직 정렬을 위해 중앙으로 이동 */
+    transform: translateY(-50%); /* 수직 정렬을 위한 트랜스폼 사용 */
+}
+
 </style>
 <body>
 	<!-- preloader -->
@@ -73,12 +116,12 @@
 						</form>
 						<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION }">
 							<%-- <h3 style="color: red;">아이디 또는 비밀번호가 맞지 않습니다.</h3> --%>
-							<h3 style="color: red;">${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message }</h3>
+							<h6 style="color: #dc143c;">${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message }</h6>
 							<%-- 예외가 저장된 세션에 속성값을 삭제 --%>
 							<c:remove var="SPRING_SECURITY_LAST_EXCEPTION"/>
 						</c:if>
 						<c:if test="${not empty SocialLoginErrorMessage}">
-						    <h3 style="color: red;">${SocialLoginErrorMessage}</h3>
+						    <h6 style="color: #dc143c;">${SocialLoginErrorMessage}</h6>
 						    <c:remove var="SocialLoginErrorMessage"/>
 						</c:if>
 						

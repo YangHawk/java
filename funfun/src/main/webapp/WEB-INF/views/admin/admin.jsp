@@ -102,8 +102,6 @@ function accountListDisplay(pageNum, pageSize, selectKeyword) {
                 "<th>성별</th>" +
                 "<th>생년월일</th>" +
                 "<th>주소</th>" +
-                "<th>등급</th>" +
-                "<th>가입일</th>" +
                 "</tr>"
             );
 
@@ -117,17 +115,16 @@ function accountListDisplay(pageNum, pageSize, selectKeyword) {
             } 
             for (var i = 0; i < result.accountList.length; i++) {
                 var account = result.accountList[i];
+                var shortenedId = account.id.substring(0, 10);
                 var row = "<tr data-id='" + account.id + "'>" +
                     "<td>" + account.idx + "</td>" +
-                    "<td>" + account.id + "</td>" +
+                    "<td>" + shortenedId + "</td>" +
                     "<td>" + account.name + "</td>" +
                     "<td>" + account.phone + "</td>" +
                     "<td>" + account.email + "</td>" +
                     "<td>" + account.gender + "</td>" +
                     "<td>" + account.birth + "</td>" +
                     "<td>" + account.address1 + " " + account.address2 + " " + account.address3 + "</td>" +
-                    "<td>" + account.status + "</td>" +
-                    "<td>" + account.subDay + "</td>" +
                     "</tr>";
                 tbody.append(row);
            }

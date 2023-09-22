@@ -47,14 +47,13 @@
 <!-- / preloader -->
 
 <div id="page-header" class="about">
-	<div class="container">
-		<div class="page-header-content text-center">
-			<div class="page-header wsub">
-				<h1 class="page-title fadeInDown animated first" >고객센터</h1>
-			</div><!-- / page-header -->
-			<p class="slide-text fadeInUp animated second" >불만 있으면 찾아오세요...</p>
-		</div><!-- / page-header-content -->
-	</div><!-- / container -->
+   <div class="container">
+      <div class="page-header-content text-center">
+         <div class="page-header wsub">
+            <h1 class="page-title fadeInDown animated first" >고객센터</h1>
+         </div><!-- / page-header -->
+      </div><!-- / page-header-content -->
+   </div><!-- / container -->
 </div><!-- / page-header -->
 
 <!-- content -->
@@ -68,10 +67,10 @@
             </div><!-- / page-header -->
             <p class="large-a">국내 영화제를 위한 크라우드 펀딩 사이트!</p>
             <p class="large-p">영화제의 성공적인 개최를 위한 후원 펀딩을 모집합니다</p>
-			<p class="large-p">영화제들이 직접적인 정보들을 제공하여 사용자들이 보다 손 쉽게 국내의 영화제를 접할 수 있는,</p>
-			<p class="large-p">영화제와 후원자를 연결하는 플랫폼 사이트를 목표로 합니다</p>
-			<br>
-			<br>
+         <p class="large-p">영화제들이 직접적인 정보들을 제공하여 사용자들이 보다 손 쉽게 국내의 영화제를 접할 수 있는,</p>
+         <p class="large-p">영화제와 후원자를 연결하는 플랫폼 사이트를 목표로 합니다</p>
+         <br>
+         <br>
         </div><!-- / text-wrap -->
         <div class="row_a">
             
@@ -117,7 +116,7 @@
                 <div>
                     <h5>운영시간 <p>9:00 ~ 17:30(주말, 공휴일 휴무)</p></h5>
                     <p>고객센터 번호 : 0505 - 0404 - 0303</p>
-                    <p>자주하는 질문 게시판(FaQ)을 이용하시면 더 빠른 안내가 가능합니다.</p>
+                    <p>자주하는 질문 게시판(FAQ)을 이용하시면 더 빠른 안내가 가능합니다.</p>
                 </div>
             </div><!-- / col-md-4 -->
             <!-- / testimonial -->
