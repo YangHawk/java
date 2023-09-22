@@ -46,9 +46,10 @@ public class DonationDAOImpl implements DonationDAO {
 		return sqlSession.getMapper(DonationMapper.class).selectMyDonationList(map);
 	}
 
-	
-
-	
+	@Override
+	public int deleteDonation(int idx) {
+		return sqlSession.getMapper(DonationMapper.class).deleteDonation(idx);
+	}
 	
 
 }

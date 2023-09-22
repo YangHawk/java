@@ -1,17 +1,13 @@
 package xyz.itwill.service;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -170,9 +166,9 @@ public class DonationServiceImpl implements DonationService {
 		}
 		return responseDonation;
 	}
-	
+
 	@Override
-	public String cancelDonation(Donation donation) {
+	public String cancelDonation(String accessToken, Donation donation) {
 		// 결제 취소를 요청하기 위한 API의 URL 주소
 				String apiUrl = "https://api.iamport.kr/payments/cancel";
 
@@ -211,5 +207,10 @@ public class DonationServiceImpl implements DonationService {
 	@Override
 	public void modifyDonation(Donation donation) {
 		donationDAO.updateDonation(donation);
+	}
+
+	@Override
+	public void removeDonation(int idx) {
+		donationDAO.deleteDonation(idx);
 	}
 }

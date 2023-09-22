@@ -27,13 +27,21 @@
    
    <!-- 1이 결제 완료? 난 몰라! -->
    <update id="updateDonation">
-         UPDATE DONATION SET
-            STATE = 1,
-            PAY_DAY = SYSDATE,
-            IMP_UID = #{impUid},
-            MERCHANT_UID = #{merchantUid}
-         WHERE IDX = #{idx}
+   		UPDATE DONATION SET
+   			STATE = 1,
+   			PAY_DAY = SYSDATE,
+   			IMP_UID = #{impUid},
+   			MERCHANT_UID = #{merchantUid}
+   		WHERE IDX = #{idx}
    </update>
+   
+   <!-- 결제 취소 -->
+   <delete id="deleteDonation">
+   		DELETE
+   		FROM DONATION
+   		WHERE IDX = #{idx}
+   </delete>
+   
    <select id="selectDonationOne" resultType="Donation">
       SELECT
          IDX, 

@@ -10,7 +10,9 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import xyz.itwill.dto.Account;
+import xyz.itwill.dto.Donation;
 import xyz.itwill.exception.UserinfoNotFoundException;
 import xyz.itwill.security.CustomAccountDetails;
 import xyz.itwill.service.AccountService;
@@ -107,6 +110,13 @@ public class MyAccountRestController {
 		
 		new SecurityContextLogoutHandler().logout(request, response, authentication);
 
+		return "success";
+	}
+	
+	@PreAuthorize("isAuthenticated() and principal.id eq #accountId")
+	@PutMapping("/removeDonation")
+	public String removeDonation(@RequestParam int idx, @RequestParam String accountId) {
+		donationService.removeDonation(idx);
 		return "success";
 	}
 }

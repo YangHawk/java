@@ -82,9 +82,14 @@
                        <hr>
                        <p> 이메일 </p>
                        <input id="email" name="email" value="${pinfo.email }" style="min-height: 35px; width:300px; font-size:15px;">
+                       <!-- 이메일 중복체크 버튼 -->
+						        <button type="button" id="check-email-button" class="btn btn-primary">이메일 중복체크</button>
                        <div id="emailError" class="text-danger" style="display: none;">
-                     이메일은 @를 포함하여 입력해주세요.
-                  </div>
+                     				이메일은 @를 포함하여 입력해주세요.
+	                  </div>
+	                  <div id="emailDuplicationMessage" class="text-danger" style="display: none;">
+							        이메일 중복체크를 실행해주세요.
+						    </div>
                        <hr>
                        <label>성별</label>
                      <div>
@@ -516,6 +521,35 @@
        $("#wishPageNumDiv").html(html);
    }
    
+
+	// 이메일 중복체크 버튼 이벤트 핸들러
+	$('#check-email-button').click(function () {
+	    var emailValue = $('#email').val();
+
+	    // 클라이언트에서 서버로 이메일 중복 체크 요청을 보냅니다.
+	    $.ajax({
+	        type: 'GET',
+	        url: "<c:url value='/checkEmail'/>",
+	        data: { email: emailValue },
+	        success: function (response) {
+	            if (response.available) {
+	                alert('사용 가능한 이메일입니다.');
+	                document.getElementById('emailDuplicationMessage').style.display = 'none';
+
+	                // 이메일 중복 체크 성공 시, 중복 체크 버튼 비활성화
+	                $('#check-email-button').prop('disabled', true);
+	            } else {
+	                alert('이미 사용중인 이메일입니다.');
+	                document.getElementById('emailDuplicationMessage').style.display = 'block';
+	            }
+	        },
+	        error: function () {
+	            alert('서버 오류가 발생하였습니다.');
+	        }
+	    });
+	});
+
+   
    $(document).ready(function () {
       getMyAccountsData(loginIdDecoded, donationPage, questionPage, wishPage);
       
@@ -543,6 +577,13 @@
           var phonePattern = /^\d{3}-\d{4}-\d{4}$/;
           var isValid = true;
           
+       	  // 이메일 중복 체크 문구가 띄워져 있는지 확인
+          if ($("#emailDuplicationMessage").is(":visible")) {
+              alert("이메일 중복 체크를 실행해주세요.");
+              event.preventDefault(); // 저장 이벤트 취소
+              return;
+          }
+
           if(!namePattern.test(name)) {
              document.getElementById('nameError').style.display = 'block';
              $("#name").focus();
@@ -552,7 +593,7 @@
              document.getElementById('nameError').style.display = 'none';
           }
           
-          if(!emailPattern.test(email)) {
+           if(!emailPattern.test(email)) {
              document.getElementById('emailError').style.display = 'block';
              $("#email").focus();
              event.preventDefault();
@@ -560,6 +601,7 @@
           } else {
              document.getElementById('emailError').style.display = 'none';
           }
+          
           
           if(!phonePattern.test(phone)) {
              document.getElementById('phoneError').style.display = 'block';
@@ -687,6 +729,33 @@
            });
       
    });
+
+</script>
+<script>
+	//이메일 중복체크 및 아이디 유효성 관련 검증 코드!!!
+	document.addEventListener('DOMContentLoaded', function () {
+	    var emailInput = document.getElementById('email');
+	    var checkEmailButton = document.getElementById('check-email-button');
+	    var emailError = document.getElementById('emailError');
+	    var emailDuplicationMessage = document.getElementById('emailDuplicationMessage');
+	
+	    // 이메일 입력 필드의 값이 변경될 때 이벤트 리스너 등록
+	    	emailInput.addEventListener('input', function () {
+	        var emailValue = emailInput.value;
+	        var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	
+	        if (emailPattern.test(emailValue)) {
+	        	emailError.style.display = 'none';
+	        	emailDuplicationMessage.style.display = 'block'; // 이메일 중복 체크 메시지 띄우기
+	            checkEmailButton.disabled = false; // 이메일이 유효하면 버튼 활성화
+	        } else {
+	        	emailError.style.display = 'block';
+	        	emailDuplicationMessage.style.display = 'none'; // 이메일 중복 체크 메시지 숨기기
+	            checkEmailButton.disabled = true; // 이메일이 유효하지 않으면 버튼 비활성화
+	            event.preventDefault(); 
+	        }
+	    });
+	});
 
 </script>
 

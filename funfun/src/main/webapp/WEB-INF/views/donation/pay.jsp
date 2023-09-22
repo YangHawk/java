@@ -76,28 +76,9 @@
                 <p><span class="font-bold">결제방법: </span>
                     <input type="radio" id="card" name="payType" value="0">
                       <label for="card"> 신용카드&nbsp;&nbsp;</label>
-                      <input type="radio" id="bankbook" name="payType" value="1">
-                      <label for="bankbook"> 무통장결제&nbsp;&nbsp;</label>
-                   <input type="radio" id="kakaopay" name="payType" value="2">
+                   <input type="radio" id="kakaopay" name="payType" value="1">
                       <label for="kakaopay"> 카카오페이&nbsp;&nbsp;</label>
-                   <input type="radio" id="naverpay" name="payType" value="3">
-                      <label for="naverpay"> 네이버페이&nbsp;&nbsp;</label>
-                     <span style="color: red; display: none;" id="payTypeMsg">결제방법을 선택해주세요.</span>
             </p>
-            <div id="bankTransferInfo" style="display: none;">
-                <!-- 무통장입금 선택시 보여질 내용 -->
-                <p class="font-bold">환불계좌 입력: <input type="text" name="refundAccount"></p>
-                <p class="font-bold">환불받을 은행: <select class="form-control" id="bank" name="refundBank">
-                                                   <option value="신한은행">신한은행</option>
-                                                   <option value="기업은행">기업은행</option>
-                                                   <option value="토스뱅크">토스뱅크</option>
-                                                   <option value="KB국민은행">KB국민은행</option>
-                                                   <option value="하나은행">하나은행</option>
-                                                   <option value="NH농협은행">NH농협은행</option>
-                                                   <option value="수협은행">수협은행</option>
-                                             </select>
-                    </p>
-            </div>
             <div class="panel">
                 <div class="panel-heading faq-panel-heading">
                     <label class="panel-title collapsed" for="agreedCheckbox" data-toggle="collapse" data-target="#agreecontent">
@@ -120,8 +101,8 @@
             
 
         </div><!-- / row -->
-    </div><!-- / container -->
 </form>
+    </div><!-- / container -->
 </div>
 <!-- / shopping-cart -->
 

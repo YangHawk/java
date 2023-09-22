@@ -17,4 +17,7 @@ public interface DonationMapper {
 	int selectMyDonationCount(String accountId);
 	
 	List<Donation> selectMyDonationList(Map<String, Object> map);
+	
+	//결제 취소
+	int deleteDonation(int idx);
 }

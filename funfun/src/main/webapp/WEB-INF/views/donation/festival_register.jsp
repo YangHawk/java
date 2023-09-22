@@ -400,7 +400,7 @@ $(document).ready(function() {
          }
      }
    
-      if (typeof($("#option38").val()) != "undefined") {
+      if (typeof($("#option3").val()) != "undefined") {
          if ($("#option3").val() !== "0" && !optionPattern.test($("#option3").val())) {
              $("#option3Msg").css("display", "block");
              return false;

@@ -29,8 +29,6 @@ public class Donation {
 	private String cancelDay;
 	private String payDay;
 	private int payType;
-	private String refundAccount;
-	private String refundBank;
 	private String subject;
 	private String mainImg;
 	private String impUid; //결제 관련 Open API에서 제공되는 고유값 

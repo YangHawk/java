@@ -25,10 +25,10 @@ import xyz.itwill.service.FestivalService;
 @Controller
 @RequestMapping("/donation")
 @RequiredArgsConstructor
-public class DonationController{
+public class DonationController {
 	private final DonationService donationService;
 	private final FestivalService festivalService;
-	
+
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/pay")
 	public String donationDisplay(@ModelAttribute Donation donation, Model model) throws FestivalinfoNotFoundException {
@@ -41,26 +41,28 @@ public class DonationController{
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/pay_update", method = RequestMethod.POST)
 	public String donationAdd(@ModelAttribute Donation donation, RedirectAttributes redirectAttributes) {
-		if(donation == null) {
+		if (donation == null) {
 			redirectAttributes.addFlashAttribute("message", "결제 오류! 다시 시도해주세요.");
 			return "error/error";
 		}
-		
+
 		donationService.addDonation(donation);
 		redirectAttributes.addFlashAttribute("message", "결제가 완료되었습니다.후원 감사드립니다.");
-		return "redirect:/donation/pay_completion?idx=" + donation.getIdx() + "&festivalIdx=" + donation.getFestivalIdx();
+		return "redirect:/donation/pay_completion?idx=" + donation.getIdx() + "&festivalIdx="
+				+ donation.getFestivalIdx();
 	}
-	
+
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping(value = "/pay_completion")
-	public String donationCompletion(@RequestParam int idx, @RequestParam int festivalIdx, @ModelAttribute("message") String message, Model model) throws FestivalinfoNotFoundException {
+	public String donationCompletion(@RequestParam int idx, @RequestParam int festivalIdx,
+			@ModelAttribute("message") String message, Model model) throws FestivalinfoNotFoundException {
 		Festival festival = festivalService.getFestival(festivalIdx);
 		model.addAttribute("festival", festival);
 		model.addAttribute("message", message);
 		model.addAttribute("donation", donationService.getDonationOne(idx, festivalIdx));
 		return "donation/pay_completion";
 	}
-	
+
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/real_pay", method = RequestMethod.POST)
 	@ResponseBody
@@ -92,7 +94,7 @@ public class DonationController{
 			donationService.modifyDonation(donation); // 테이블에 결제 정보를 변경
 			return "success";
 		} else { // 검증 실패 - 결제 금액 불일치 - 위변조된 결제
-			donationService.cancelDonation(returnDonation);
+			donationService.cancelDonation(accessToken, returnDonation);
 			return "forgery";
 		}
 	}
