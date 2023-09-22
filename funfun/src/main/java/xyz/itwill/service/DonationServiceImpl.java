@@ -31,8 +31,8 @@ public class DonationServiceImpl implements DonationService {
 	}
 	
 	@Override
-	public Donation getDonationOne(int idx, int festivalIdx) {
-		return donationDAO.selectDonationOne(idx, festivalIdx);
+	public Donation getDonationOne(int idx) {
+		return donationDAO.selectDonationOne(idx);
 	}
 	
 	//변경
@@ -169,7 +169,7 @@ public class DonationServiceImpl implements DonationService {
 
 	@Override
 	public String cancelDonation(String accessToken, Donation donation) {
-		// 결제 취소를 요청하기 위한 API의 URL 주소
+				// 결제 취소를 요청하기 위한 API의 URL 주소
 				String apiUrl = "https://api.iamport.kr/payments/cancel";
 
 				// 요청 API에게 전달될 값을 JSON 형식의 문자열로 표현하여 저장
@@ -182,6 +182,7 @@ public class DonationServiceImpl implements DonationService {
 					connection.setDoOutput(true); // 응답 결과를 반환하기 위하여 필드값 변경
 					connection.setRequestMethod("POST"); // 요청 방식을 변경하기 위한 필드값 변경
 					connection.setRequestProperty("Content-Type", "application/json"); // 전달값의 형식을 변경하기 위한 필드값 변경
+					connection.setRequestProperty("Authorization", accessToken);
 
 					// API 요청에 필요한 값을 출력 스트림을 제공받아 전달(JSON 형식의 문자열)
 					try (OutputStream out = connection.getOutputStream()) {

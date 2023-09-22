@@ -83,13 +83,13 @@
                        <p> 이메일 </p>
                        <input id="email" name="email" value="${pinfo.email }" style="min-height: 35px; width:300px; font-size:15px;">
                        <!-- 이메일 중복체크 버튼 -->
-						        <button type="button" id="check-email-button" class="btn btn-primary">이메일 중복체크</button>
+                          <button type="button" id="check-email-button" class="btn btn-primary">이메일 중복체크</button>
                        <div id="emailError" class="text-danger" style="display: none;">
-                     				이메일은 @를 포함하여 입력해주세요.
-	                  </div>
-	                  <div id="emailDuplicationMessage" class="text-danger" style="display: none;">
-							        이메일 중복체크를 실행해주세요.
-						    </div>
+                                 이메일은 @를 포함하여 입력해주세요.
+                     </div>
+                     <div id="emailDuplicationMessage" class="text-danger" style="display: none;">
+                             이메일 중복체크를 실행해주세요.
+                      </div>
                        <hr>
                        <label>성별</label>
                      <div>
@@ -271,7 +271,7 @@
        });
    }
    
-   //예시: 기부 데이터를 표시하는 함수
+ //예시: 기부 데이터를 표시하는 함수
    function displayDonationData(myDonationData) {
       $("#donationListDiv").empty();
        
@@ -285,6 +285,7 @@
            "<th>후원일</th>" +
            "<th>결제 수단</th>" +
            "<th>결제 상태</th>" +
+           "<th></th>" +
            "<th></th>" +
            "</tr>"
        );
@@ -309,9 +310,6 @@
                  break;
               case 1:
                  payTypeText = "카카오페이";
-                 break;
-              case 2:
-                 payTypeText = "네이버페이";
                  break;
               default:
                  payTypeText = "알 수 없음"; //다른 값이 들어올 경우 처리
@@ -341,7 +339,8 @@
                "<td>" + donation.payDay + "</td>" +
                "<td>" + payTypeText + "</td>"+
                "<td>" + stateText + "</td>"+
-              "<td><a href='${pageContext.request.contextPath}/donation/pay_completion?idx="+donation.idx+"&festivalIdx="+donation.festivalIdx+"' class='btn btn-sm btn-default btn-rounded no-margin payBtn'><span>결제</span></a></td></tr>";
+              "<td><a href='${pageContext.request.contextPath}/donation/pay_completion?idx="+donation.idx+"&festivalIdx="+donation.festivalIdx+"' class='btn btn-sm btn-default btn-rounded no-margin payBtn'><span>결제</span></a></td>"+
+              "<td><a class='btn btn-sm btn-default btn-rounded no-margin deleteDonation' data-idx='"+donation.idx+"' data-account-id='"+donation.accountId+"'><span>삭제</span></a></td></tr>";
            }else{
               row ="<tr data-idx='" + donation.idx + "'>" +
                "<td>" + donation.idx + "</td>" +
@@ -350,8 +349,9 @@
                "<td>" + donation.day + "</td>" +
                "<td>" + donation.payDay + "</td>" +
                "<td>" + payTypeText + "</td>"+
-               "<td>" + stateText + "</td>"+
-              "<td></td></tr>";
+               "<td colspan='2'>" + stateText + "</td>"+
+              "<td><a class='btn btn-sm btn-default btn-rounded no-margin refundDonation' data-idx='"+donation.idx+"''><span>환불</span></a></td>";
+              "</tr>";
            }
            tbody.append(row);
          }
@@ -522,32 +522,32 @@
    }
    
 
-	// 이메일 중복체크 버튼 이벤트 핸들러
-	$('#check-email-button').click(function () {
-	    var emailValue = $('#email').val();
+   // 이메일 중복체크 버튼 이벤트 핸들러
+   $('#check-email-button').click(function () {
+       var emailValue = $('#email').val();
 
-	    // 클라이언트에서 서버로 이메일 중복 체크 요청을 보냅니다.
-	    $.ajax({
-	        type: 'GET',
-	        url: "<c:url value='/checkEmail'/>",
-	        data: { email: emailValue },
-	        success: function (response) {
-	            if (response.available) {
-	                alert('사용 가능한 이메일입니다.');
-	                document.getElementById('emailDuplicationMessage').style.display = 'none';
+       // 클라이언트에서 서버로 이메일 중복 체크 요청을 보냅니다.
+       $.ajax({
+           type: 'GET',
+           url: "<c:url value='/checkEmail'/>",
+           data: { email: emailValue },
+           success: function (response) {
+               if (response.available) {
+                   alert('사용 가능한 이메일입니다.');
+                   document.getElementById('emailDuplicationMessage').style.display = 'none';
 
-	                // 이메일 중복 체크 성공 시, 중복 체크 버튼 비활성화
-	                $('#check-email-button').prop('disabled', true);
-	            } else {
-	                alert('이미 사용중인 이메일입니다.');
-	                document.getElementById('emailDuplicationMessage').style.display = 'block';
-	            }
-	        },
-	        error: function () {
-	            alert('서버 오류가 발생하였습니다.');
-	        }
-	    });
-	});
+                   // 이메일 중복 체크 성공 시, 중복 체크 버튼 비활성화
+                   $('#check-email-button').prop('disabled', true);
+               } else {
+                   alert('이미 사용중인 이메일입니다.');
+                   document.getElementById('emailDuplicationMessage').style.display = 'block';
+               }
+           },
+           error: function () {
+               alert('서버 오류가 발생하였습니다.');
+           }
+       });
+   });
 
    
    $(document).ready(function () {
@@ -577,7 +577,7 @@
           var phonePattern = /^\d{3}-\d{4}-\d{4}$/;
           var isValid = true;
           
-       	  // 이메일 중복 체크 문구가 띄워져 있는지 확인
+            // 이메일 중복 체크 문구가 띄워져 있는지 확인
           if ($("#emailDuplicationMessage").is(":visible")) {
               alert("이메일 중복 체크를 실행해주세요.");
               event.preventDefault(); // 저장 이벤트 취소
@@ -603,7 +603,7 @@
           }
           
           
-          if(!phonePattern.test(phone)) {
+          if(!phonePattern.test(콜)) {
              document.getElementById('phoneError').style.display = 'block';
              $("#phone").focus();
              event.preventDefault();
@@ -727,35 +727,87 @@
                    });
                }
            });
-      
+          
+           $(document).on("click", ".deleteDonation", function () {
+                 var idx = $(this).data("idx");
+                var accountId = $(this).data("accountId");
+                if (confirm("정말로 삭제하시겠습니까?")) {
+                $.ajax({
+                   type: "PUT",
+                      url: "<c:url value='/removeDonation?idx='/>" +idx+"&accountId="+accountId,
+                      data: JSON.stringify({
+                         "idx":idx,
+                            "accountId":accountId
+                      }),
+                      contentType: "application/json",
+                      dataType: "text",
+                      success: function (result) {
+                            alert("후원정보가 삭제되었습니다.");
+                            window.location.reload();
+                    },
+                      error: function (xhr) {
+                               alert("에러코드(게시글 삽입) = " + xhr.status);
+                      },
+                });
+            }
+        });
+           
+        $(document).on("click", ".refundDonation", function () {
+                   var idx = $(this).data("idx");
+                   if (confirm("정말로 환불하시겠습니까?")) {
+                	   
+          		   $.ajax({
+          		         type: "post",
+          		         url: "<c:url value="/donation/real_cancel"/>",
+          		         contentType: "application/json",
+          		         data: JSON.stringify({"idx":idx}),
+          		         dataType: "text",
+          		         success: function(result) {
+          	                 console.log(result);
+          	                 if(result == "success") {
+          	                    alert("결제 취소 완료");
+          	                  window.location.reload();
+          	                 } else {
+          	                    alert("결제 취소 실패: 처음부터 다시 진행하여 주세요.");
+          	                  window.location.reload();
+          	                 }   
+          		         }, 
+          		         error: function(xhr) {
+          		            alert("에러 = "+xhr.status);
+          		         }
+          		      });
+               }
+           });
+
+                        
    });
 
 </script>
 <script>
-	//이메일 중복체크 및 아이디 유효성 관련 검증 코드!!!
-	document.addEventListener('DOMContentLoaded', function () {
-	    var emailInput = document.getElementById('email');
-	    var checkEmailButton = document.getElementById('check-email-button');
-	    var emailError = document.getElementById('emailError');
-	    var emailDuplicationMessage = document.getElementById('emailDuplicationMessage');
-	
-	    // 이메일 입력 필드의 값이 변경될 때 이벤트 리스너 등록
-	    	emailInput.addEventListener('input', function () {
-	        var emailValue = emailInput.value;
-	        var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-	
-	        if (emailPattern.test(emailValue)) {
-	        	emailError.style.display = 'none';
-	        	emailDuplicationMessage.style.display = 'block'; // 이메일 중복 체크 메시지 띄우기
-	            checkEmailButton.disabled = false; // 이메일이 유효하면 버튼 활성화
-	        } else {
-	        	emailError.style.display = 'block';
-	        	emailDuplicationMessage.style.display = 'none'; // 이메일 중복 체크 메시지 숨기기
-	            checkEmailButton.disabled = true; // 이메일이 유효하지 않으면 버튼 비활성화
-	            event.preventDefault(); 
-	        }
-	    });
-	});
+   //이메일 중복체크 및 아이디 유효성 관련 검증 코드!!!
+   document.addEventListener('DOMContentLoaded', function () {
+       var emailInput = document.getElementById('email');
+       var checkEmailButton = document.getElementById('check-email-button');
+       var emailError = document.getElementById('emailError');
+       var emailDuplicationMessage = document.getElementById('emailDuplicationMessage');
+   
+       // 이메일 입력 필드의 값이 변경될 때 이벤트 리스너 등록
+          emailInput.addEventListener('input', function () {
+           var emailValue = emailInput.value;
+           var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+   
+           if (emailPattern.test(emailValue)) {
+              emailError.style.display = 'none';
+              emailDuplicationMessage.style.display = 'block'; // 이메일 중복 체크 메시지 띄우기
+               checkEmailButton.disabled = false; // 이메일이 유효하면 버튼 활성화
+           } else {
+              emailError.style.display = 'block';
+              emailDuplicationMessage.style.display = 'none'; // 이메일 중복 체크 메시지 숨기기
+               checkEmailButton.disabled = true; // 이메일이 유효하지 않으면 버튼 비활성화
+               event.preventDefault(); 
+           }
+       });
+   });
 
 </script>
 

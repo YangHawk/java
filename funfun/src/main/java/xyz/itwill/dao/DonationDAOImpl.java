@@ -26,8 +26,8 @@ public class DonationDAOImpl implements DonationDAO {
 	}
 
 	@Override
-	public Donation selectDonationOne(int idx, int festivalIdx) {
-		return sqlSession.getMapper(DonationMapper.class).selectDonationOne(idx, festivalIdx);
+	public Donation selectDonationOne(int idx) {
+		return sqlSession.getMapper(DonationMapper.class).selectDonationOne(idx);
 	}
 	
 	//변경

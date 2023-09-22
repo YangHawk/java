@@ -54,7 +54,7 @@
          TO_CHAR(PAY_DAY,'YYYY-MM-DD') AS PAY_DAY,
          PAY_TYPE
       FROM DONATION
-      WHERE IDX = #{arg0} AND FESTIVAL_IDX = #{arg1}
+      WHERE IDX = #{arg0}
    </select>
    
    <!-- 변경 -->

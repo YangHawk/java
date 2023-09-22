@@ -59,7 +59,7 @@ public class DonationController {
 		Festival festival = festivalService.getFestival(festivalIdx);
 		model.addAttribute("festival", festival);
 		model.addAttribute("message", message);
-		model.addAttribute("donation", donationService.getDonationOne(idx, festivalIdx));
+		model.addAttribute("donation", donationService.getDonationOne(idx));
 		return "donation/pay_completion";
 	}
 
@@ -97,5 +97,20 @@ public class DonationController {
 			donationService.cancelDonation(accessToken, returnDonation);
 			return "forgery";
 		}
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(value = "/real_cancel", method = RequestMethod.POST)
+	public String realCancel(@RequestBody Donation donation) {
+		Donation cancelDonation = donationService.getDonationOne(donation.getIdx());
+		
+		String accessToken = donationService.getAccessToken(cancelDonation);
+		
+		donationService.cancelDonation(accessToken, cancelDonation);
+		
+		if(donationService.cancelDonation(accessToken, cancelDonation)=="success") {
+			return "success";
+		}
+		return "error";
 	}
 }
