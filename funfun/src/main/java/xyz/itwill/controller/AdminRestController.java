@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -137,7 +138,7 @@ public class AdminRestController {
 	}
 
 	@PutMapping("/festival_accept")
-	public String modifyNotice(@RequestBody Festival festival)
+	public String modifyNotice(@RequestBody Festival festival, HttpSession session)
 			throws FestivalinfoNotFoundException {
 		festival.setState(1);
 		festivalService.modifyFestivalState(festival);
@@ -146,7 +147,7 @@ public class AdminRestController {
 	}
 
 	@PutMapping("/festival_reject")
-	public String acceptFestival(@RequestBody Festival festival)
+	public String acceptFestival(@RequestBody Festival festival, HttpSession session)
 			throws FestivalinfoNotFoundException {
 		festival.setState(4);
 		festivalService.modifyFestivalState(festival);
@@ -161,7 +162,7 @@ public class AdminRestController {
 	}
 
 	@PostMapping("/question_add")
-	public String addQuestion(@RequestBody Question question, @RequestPart MultipartFile uploadFile) throws IllegalStateException, IOException {
+	public String addQuestion(@RequestBody Question question, @RequestPart MultipartFile uploadFile, HttpSession session) throws IllegalStateException, IOException {
 		String uploadDirectory = context.getServletContext().getRealPath("/resources/upload");
 		String uploadFilename = UUID.randomUUID().toString() + "_" + uploadFile.getOriginalFilename();
 
@@ -175,7 +176,7 @@ public class AdminRestController {
 
 
 	@PutMapping("/question_modify_by_user")
-	public String modifyQuestionByUser(@RequestBody Question question) {
+	public String modifyQuestionByUser(@RequestBody Question question, HttpSession session) {
 		question.setTitle(HtmlUtils.htmlEscape(question.getTitle()));
 		question.setContent(HtmlUtils.htmlEscape(question.getContent()));
 
@@ -185,7 +186,7 @@ public class AdminRestController {
 	}
 
 	@PutMapping("/question_modify_by_admin")
-	public String modifyQuestionByAdmin(@RequestBody Question question) {
+	public String modifyQuestionByAdmin(@RequestBody Question question, HttpSession session) {
 		question.setAnswerContent(HtmlUtils.htmlEscape(question.getAnswerContent()));
 
 		questionService.modifyQuestionByAdmin(question);
@@ -194,7 +195,7 @@ public class AdminRestController {
 	}
 
 	@PutMapping("/question_remove")
-	public String removeQuestion(@RequestParam int idx) {
+	public String removeQuestion(@RequestParam int idx, HttpSession session) {
 		questionService.removeQuestion(idx);
 		return "success";
 	}
@@ -210,7 +211,7 @@ public class AdminRestController {
 			throws IllegalStateException, IOException {
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-
+		
 		// 파일을 업로드하려면 uploadFile 변수를 확인합니다.
         if (uploadFile != null && !uploadFile.isEmpty()) {
             try {
@@ -272,7 +273,7 @@ public class AdminRestController {
 	}
 
 	@PutMapping("/notice_remove")
-	public String removeNotice(@RequestParam int idx) {
+	public String removeNotice(@RequestParam int idx, HttpSession session) {
 		noticeService.removeNotice(idx);
 		return "success";
 	}

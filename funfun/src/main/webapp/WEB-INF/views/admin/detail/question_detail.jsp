@@ -149,6 +149,16 @@
 
 
 <script type="text/javascript">
+//CSRF 토큰 관련 정보를 자바스크립트 변수에 저장
+var csrfHeaderName = "${_csrf.headerName}";
+var csrfTokenValue = "${_csrf.token}";
+
+// Ajax 기능을 사용하여 요청하는 모든 웹 프로그램에게 CSRF 토큰 전달 가능
+// ▶ Ajax 요청 시 beforeSend 속성을 설정할 필요 없음
+$(document).ajaxSend(function(e, xhr){
+	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+});
+
 $(document).ready(function() {
     $("#comment-form2").hide(); // 답변 작성 폼을 숨김
 	var isEditing = false;
@@ -190,15 +200,13 @@ $(document).ready(function() {
             success: function(response) {
                 // 서버에서 성공적으로 응답을 받았을 때
                 if (response=="success") {
-	            	console.log(response);
                     // 새 댓글을 화면에 동적으로 추가
                     var newComment = $("<div>").text(commentContent);
                     $("#adminComment").append(newComment);
                     $("#ansmessage").val(""); // 입력 필드 초기화
                     $("#comment-form").hide();
-                    location.reload();
+                    questionDetail(idx);
                 } else {
-	            	console.log(response);
                     alert("댓글 등록에 실패했습니다.");
                 }
             },
@@ -230,13 +238,11 @@ $(document).ready(function() {
             success: function(response) {
                 // 서버에서 성공적으로 응답을 받았을 때
                 if (response=="success") {
-	            	console.log(response);
                     // 새 댓글을 화면에 동적으로 추가
                     var newComment = $("<div>").text(commentContent);
                     $("#adminComment").append(newComment);
                     $("#comment-form2").hide();
                 } else {
-	            	console.log(response);
                     alert("댓글 등록에 실패했습니다.");
                 }
             },

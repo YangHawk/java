@@ -3,6 +3,13 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
+<style>
+#pageNumDiv {
+    text-align: center;
+      margin-bottom: 50px;
+      margin-left: 100px;
+}
+</style>
 <body>
 <!-- preloader -->
 <div id="preloader">
@@ -40,7 +47,7 @@
             </tbody>
         </table>
    </div>  
-   
+   <br>
    <div id="pageNumDiv"></div>
         <!-- / shopping cart table -->
 </div>
@@ -70,11 +77,9 @@ $(document).ajaxSend(function(e, xhr){
    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 });
 
-var loginId="<sec:authentication property="principal.id"/>";
-
-var loginIdElement = document.createElement("textarea");
-loginIdElement.innerHTML = loginId;
-var loginIdDecoded = loginIdElement.value;
+<sec:authorize access="isAuthenticated()">
+   var loginAccountId="<sec:authentication property="principal.id"/>";
+</sec:authorize>
 
 var page = 1; // 기본 페이지 번호 설정
 var size = 10; // 기본 페이지 크기 설정
@@ -134,7 +139,7 @@ function pageNumDisplay(pager) {
  if (pager.startPage > pager.blockSize) {
      html += "<a href=\"javascript:wishListDisplay(" + pager.prevPage + ");\" class='btn btn-direction btn-default btn-rounded'><i class='fa fa-long-arrow-left'/></a>";
  } else {
-    html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-right'/></a>";
+    html += "<a class='btn btn-direction btn-default btn-rounded' disabled><i class='fa fa-long-arrow-left'/></a>";
  }
 
  for (var i = pager.startPage; i <= pager.endPage; i++) {
@@ -165,7 +170,7 @@ $(document).ready(function () {
            type: "DELETE",
            url: "${pageContext.request.contextPath}/wish_remove",
            contentType: "application/json",
-           data: JSON.stringify({"accountId": loginIdDecoded, "festivalIdx": festivalIdx }),
+           data: JSON.stringify({"accountId": loginAccountId, "festivalIdx": festivalIdx }),
            dataType: "text",
            success: function(result) {
                if(result == "success") {

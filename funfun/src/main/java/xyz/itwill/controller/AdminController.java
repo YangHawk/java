@@ -1,5 +1,7 @@
 package xyz.itwill.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,33 +30,33 @@ public class AdminController {
 	private final NoticeService noticeService;
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	public String getInfoList() {
+	public String getInfoList(HttpSession session) {
 		return "admin/admin"; // JSP 파일의 경로와 이름
 	}
 
 	@RequestMapping(value = "/account_detail", method = RequestMethod.GET)
-	public String getAccountDetail(@RequestParam String id, Model model) throws UserinfoNotFoundException {
+	public String getAccountDetail(@RequestParam String id, Model model, HttpSession session) throws UserinfoNotFoundException {
 		model.addAttribute("account", accountService.getAccount(id));
 		return "admin/detail/account_detail";
 	}
 
 	@RequestMapping(value = "/page_manage", method = RequestMethod.GET)
-	public String getManagePage() throws UserinfoNotFoundException {
+	public String getManagePage(HttpSession session) throws UserinfoNotFoundException {
 		return "admin/detail/page_manage";
 	}
 
 	@RequestMapping(value = "/account_add", method = RequestMethod.GET)
-	public String getAccountAdd() {
+	public String getAccountAdd(HttpSession session) {
 		return "admin/detail/account_add";
 	}
 
 	@RequestMapping(value = "/notice_add", method = RequestMethod.GET)
-	public String getNoticeAdd() {
+	public String getNoticeAdd(HttpSession session) {
 		return "admin/detail/notice_add";
 	}
 
 	@RequestMapping(value = "/festival_detail", method = RequestMethod.GET)
-	public String getFestivalDetail(@RequestParam int idx, Model model) throws FestivalinfoNotFoundException {
+	public String getFestivalDetail(@RequestParam int idx, Model model, HttpSession session) throws FestivalinfoNotFoundException {
 
 		model.addAttribute("festival", festivalService.getFestival(idx));
 		double achievementPercentage = festivalService.calcAchievementPercentage(idx);
@@ -66,14 +68,14 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/question_detail", method = RequestMethod.GET)
-	public String getQuestionDetail(@RequestParam int idx, Model model) {
+	public String getQuestionDetail(@RequestParam int idx, Model model, HttpSession session) {
 		model.addAttribute("question", questionService.getQuestion(idx));
 
 		return "admin/detail/question_detail";
 	}
 
 	@RequestMapping(value = "/notice_detail", method = RequestMethod.GET)
-	public String getnoticeDetail(@RequestParam int idx, Model model) {
+	public String getnoticeDetail(@RequestParam int idx, Model model, HttpSession session) {
 		model.addAttribute("notice", noticeService.getNotice(idx));
 
 		return "admin/detail/notice_detail";

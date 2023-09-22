@@ -68,11 +68,19 @@
 <script src="${pageContext.request.contextPath}/resources/js/form-scripts.js"></script>
 <!-- / contact-form -->
 <script>
-	
+//CSRF 토큰 관련 정보를 자바스크립트 변수에 저장
+var csrfHeaderName = "${_csrf.headerName}";
+var csrfTokenValue = "${_csrf.token}";
+
+// Ajax 기능을 사용하여 요청하는 모든 웹 프로그램에게 CSRF 토큰 전달 가능
+// ▶ Ajax 요청 시 beforeSend 속성을 설정할 필요 없음
+$(document).ajaxSend(function(e, xhr){
+	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+});
+
 	$(document).ready(function(){
 		$("#addBtn").click(function() {
 		    var formData = new FormData();
-			var idx=${sessionScope.idx};
 		    
 	        formData.append("title", $("#title").val());
 	        formData.append("content", $("#message").val());
@@ -87,8 +95,9 @@
 	            dataType: "text",
 	            success: function(result) {
 	                if (result == "success") {
+	                	console.log(result);
 		                alert("공지 사항을 등록하였습니다.");
-	                    noticeDetail(idx);
+		                noticeListDisplay(1, 1, "");
 	                }
 	            },
 	            error: function(xhr) {

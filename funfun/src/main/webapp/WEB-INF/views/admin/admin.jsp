@@ -521,9 +521,11 @@ function viewSelect(infoType) {
 		        '<button id="thumbnailViewButton" class="btn btn-primary">썸네일</button>' +
 		        '<button id="listViewButton" class="btn btn-primary">목록</button>'
 		    );
-	} else if(infoType === 'notice') {
-		viewSelectDiv.append('<button id="addNotice" class="btn btn-primary">공지사항 등록하기</button>');
-	}
+	} 
+	
+	//else if(infoType === 'notice') {
+	//	viewSelectDiv.append('<button id="addNotice" class="btn btn-primary">공지사항 등록하기</button>');
+	//}
 	
 }
 
