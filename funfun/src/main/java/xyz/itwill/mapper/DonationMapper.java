@@ -10,6 +10,8 @@ public interface DonationMapper {
 	//변경 - 하나의 영화제에 여러번 후원가능하도록 구현?
 	int updateDonation(Donation donation);
 	
+	int cancelDonation(Donation donation);
+	
 	Donation selectDonationOne(int idx);
 	
 	List<Donation> selectDonation(String accountId, int festivalIdx);

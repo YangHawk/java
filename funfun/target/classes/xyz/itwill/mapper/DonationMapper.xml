@@ -42,6 +42,14 @@
    		WHERE IDX = #{idx}
    </delete>
    
+   <!-- 환불  -->
+   <update id="cancelDonation">
+   		UPDATE DONATION SET
+   			STATE = 0,
+   			CANCEL_DAY = SYSDATE
+   		WHERE IDX = #{idx}
+   </update>
+   
    <select id="selectDonationOne" resultType="Donation">
       SELECT
          IDX, 
@@ -52,7 +60,8 @@
          STATE,
          TO_CHAR(CANCEL_DAY,'YYYY-MM-DD') AS CANCEL_DAY,
          TO_CHAR(PAY_DAY,'YYYY-MM-DD') AS PAY_DAY,
-         PAY_TYPE
+         PAY_TYPE,
+         IMP_UID
       FROM DONATION
       WHERE IDX = #{arg0}
    </select>

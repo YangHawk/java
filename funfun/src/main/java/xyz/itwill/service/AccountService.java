@@ -41,5 +41,6 @@ public interface AccountService {
 	// 이메일 중복 체크
 	boolean isEmailExists(Account account);
 	
-	
+	//소셜로그인 회원 비밀번호 변경 방지
+	Account getUserInfo(String id);
 }

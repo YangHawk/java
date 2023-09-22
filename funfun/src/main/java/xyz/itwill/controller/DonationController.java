@@ -101,15 +101,21 @@ public class DonationController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/real_cancel", method = RequestMethod.POST)
+	@ResponseBody
 	public String realCancel(@RequestBody Donation donation) {
 		Donation cancelDonation = donationService.getDonationOne(donation.getIdx());
 		
+		if(cancelDonation == null) {
+			return "error";
+		}
+		
 		String accessToken = donationService.getAccessToken(cancelDonation);
 		
-		donationService.cancelDonation(accessToken, cancelDonation);
+		String returnValue = donationService.cancelDonation(accessToken, cancelDonation);
 		
-		if(donationService.cancelDonation(accessToken, cancelDonation)=="success") {
-			return "success";
+		if(returnValue=="success") {
+			donationService.refundDonation(cancelDonation);
+			return returnValue;
 		}
 		return "error";
 	}

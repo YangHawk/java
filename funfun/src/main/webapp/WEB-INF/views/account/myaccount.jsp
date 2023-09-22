@@ -341,7 +341,7 @@
                "<td>" + stateText + "</td>"+
               "<td><a href='${pageContext.request.contextPath}/donation/pay_completion?idx="+donation.idx+"&festivalIdx="+donation.festivalIdx+"' class='btn btn-sm btn-default btn-rounded no-margin payBtn'><span>결제</span></a></td>"+
               "<td><a class='btn btn-sm btn-default btn-rounded no-margin deleteDonation' data-idx='"+donation.idx+"' data-account-id='"+donation.accountId+"'><span>삭제</span></a></td></tr>";
-           }else{
+           }else if(donation.state == 1){
               row ="<tr data-idx='" + donation.idx + "'>" +
                "<td>" + donation.idx + "</td>" +
                "<td>" + donation.subject + "</td>" +
@@ -351,6 +351,17 @@
                "<td>" + payTypeText + "</td>"+
                "<td colspan='2'>" + stateText + "</td>"+
               "<td><a class='btn btn-sm btn-default btn-rounded no-margin refundDonation' data-idx='"+donation.idx+"''><span>환불</span></a></td>";
+              "</tr>";
+           } else {
+        	   row ="<tr data-idx='" + donation.idx + "'>" +
+               "<td>" + donation.idx + "</td>" +
+               "<td>" + donation.subject + "</td>" +
+               "<td>" + donation.money + "</td>" +
+               "<td>" + donation.day + "</td>" +
+               "<td>" + donation.payDay + "</td>" +
+               "<td>" + payTypeText + "</td>"+
+               "<td colspan='2'>" + stateText + "</td>"+
+              "<td><a style='color: red;' class='btn btn-sm btn-default btn-rounded no-margin disabled'><span>환불</span></a></td>";
               "</tr>";
            }
            tbody.append(row);
@@ -603,7 +614,7 @@
           }
           
           
-          if(!phonePattern.test(콜)) {
+          if(!phonePattern.test(phone)) {
              document.getElementById('phoneError').style.display = 'block';
              $("#phone").focus();
              event.preventDefault();
@@ -658,10 +669,29 @@
         }
     });
       
-         //비밀번호 수정
-            $('#modify-password').click(function() {
-               $('#passwordChangeform').toggle();
-            });   
+                 //비밀번호 수정(소셜로그인 회원은 비밀번호 변경 편집 불가능하게 설정)
+                   $('#modify-password').click(function() {
+                  	 if(loginIdDecoded.includes("kakao") || loginIdDecoded.includes("naver") || loginIdDecoded.includes("google")) {
+                           alert("소셜 로그인 회원은 비밀번호를 변경할 수 없습니다.");
+                           return;
+                  	 } else {
+                  		 $.ajax({
+                           type: "GET",
+                           url: "<c:url value='/getUserInfo'/>", // 사용자 정보를 가져오는 엔드포인트 URL
+                           data: {
+                          	"id": loginIdDecoded 
+                           },
+                           dataType: "json",
+                           success: function(userInfo) {
+                          	 
+                           },
+                           error: function(xhr) {
+                               alert("사용자 정보를 가져오는 중 오류가 발생하였습니다. (" + xhr.status + ")");
+                           }
+                       });
+                   }
+                       $('#passwordChangeform').toggle();
+                   });
          
          $('#cancelModifypasswordBtn').click(function(){
             $('#passwordChangeform').hide();
@@ -760,16 +790,16 @@
           		         type: "post",
           		         url: "<c:url value="/donation/real_cancel"/>",
           		         contentType: "application/json",
-          		         data: JSON.stringify({"idx":idx}),
+          		         data: JSON.stringify({ idx: idx }),
           		         dataType: "text",
           		         success: function(result) {
           	                 console.log(result);
           	                 if(result == "success") {
           	                    alert("결제 취소 완료");
-          	                  window.location.reload();
+          	                  //window.location.reload();
           	                 } else {
           	                    alert("결제 취소 실패: 처음부터 다시 진행하여 주세요.");
-          	                  window.location.reload();
+          	                  //window.location.reload();
           	                 }   
           		         }, 
           		         error: function(xhr) {
@@ -778,8 +808,6 @@
           		      });
                }
            });
-
-                        
    });
 
 </script>

@@ -10,6 +10,8 @@ public interface DonationService {
 	//변경
 	void modifyDonation(Donation donation);
 	
+	void refundDonation(Donation donation);
+	
 	Donation getDonationOne(int idx);
 	
 	List<Donation> getDonation(String accountId, int festivalIdx);

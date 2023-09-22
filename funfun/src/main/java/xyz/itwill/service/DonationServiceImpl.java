@@ -214,4 +214,9 @@ public class DonationServiceImpl implements DonationService {
 	public void removeDonation(int idx) {
 		donationDAO.deleteDonation(idx);
 	}
+
+	@Override
+	public void refundDonation(Donation donation) {
+		donationDAO.cancelDonation(donation);
+	}
 }

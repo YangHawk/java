@@ -77,6 +77,7 @@ public class AccountServiceImpl implements AccountService {
 		if (accountDAO.selectAccount(account.getId()) == null) {
 			throw new UserinfoNotFoundException("아이디의 회원 정보가 존재하지 않습니다.");
 		}
+		
 		if (account.getPassword() != null && account.getPassword().equals("")) {
 			String hashedPassword = BCrypt.hashpw(account.getPassword(), BCrypt.gensalt());
 			account.setPassword(hashedPassword);
@@ -315,5 +316,11 @@ public class AccountServiceImpl implements AccountService {
 		} else {
 			return false;
 		}
+	}
+	
+	//소셜로그인 회원 비밀번호 변경 방지
+	@Override
+	public Account getUserInfo(String id) {
+		return accountDAO.selectAccount(id);
 	}
 }

@@ -10,6 +10,8 @@ public interface DonationDAO {
 	//변경
 	int updateDonation(Donation donation);
 	
+	int cancelDonation(Donation donation);
+	
 	Donation selectDonationOne(int idx);
 	
 	List<Donation> selectDonation(String accountId, int festivalIdx);

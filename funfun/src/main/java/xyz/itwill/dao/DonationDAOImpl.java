@@ -26,6 +26,11 @@ public class DonationDAOImpl implements DonationDAO {
 	}
 
 	@Override
+	public int cancelDonation(Donation donation) {
+		return sqlSession.getMapper(DonationMapper.class).cancelDonation(donation);
+	}
+	
+	@Override
 	public Donation selectDonationOne(int idx) {
 		return sqlSession.getMapper(DonationMapper.class).selectDonationOne(idx);
 	}
@@ -50,6 +55,6 @@ public class DonationDAOImpl implements DonationDAO {
 	public int deleteDonation(int idx) {
 		return sqlSession.getMapper(DonationMapper.class).deleteDonation(idx);
 	}
-	
 
+	
 }
