@@ -96,7 +96,7 @@
 								name="password" placeholder="비밀번호" title="비밀번호는 대소문자,숫자,특수문자 하나씩 포함해야하며 12자리 이내로 입력해주세요." 
 							required data-error="*비밀번호는 8~12자, 대소문자,특수문자,숫자를 포함해야합니다.">
 							<div class="help-block with-errors"></div>
-							<div id="PasswordError" class="text-danger" style="display: none;">
+							<div id="passwordError" class="text-danger" style="display: none;">
 									비밀번호는 대소문자,숫자,특수문자를 각 1개씩 포함하여 8~12자로 입력해주세요.
 								</div>
 						</div>
@@ -116,14 +116,14 @@
 								required data-error="*올바른 값을 입력해주세요.">
 							<div class="help-block with-errors"></div>
 							<div id="nameError" class="text-danger" style="display: none;">
-									이름은 한글로만 입력 가능합니다.
+									이름은 한글(자음+모음)로만 입력 가능합니다.
 								</div>
 						</div>
 						<!-- 전화번호 -->
 						<div class="form-group">
 							<input type="text" class="form-control" id="register-phone"
-						        name="phone" placeholder="010________" title="숫자만 입력해주세요." 
-								required data-error="*전화번호 값은 필수 입니다.">
+						        name="phone" placeholder="010-____-____" title="숫자만 입력해주세요." 
+								required data-error="*전화번호 값은 필수 입니다." >
 						    <div class="help-block with-errors"></div>
 						    <div id="phoneError" class="text-danger" style="display: none;">
 									전화번호를 입력해주세요.
@@ -275,21 +275,22 @@
 		src="${pageContext.request.contextPath}/resources/js/preloader.js"></script>
 	<!-- / preloader -->
 
-	<!-- inputmask 스크립트 -->
-	<script>
+	<!-- inputmask 스크립트 
+	  <script>
 	    $(document).ready(function() {
-	        $('#register-phone').inputmask("999-9999-9999", { "placeholder": "010-____-____" });
+	        $('#register-phone').inputmask("999-9999-9999", { "placeholder": "___-____-____" });
 	    });
-	</script>
+	</script> -->
 	
 	
 		<script>
-		
 		//아이디 중복체크 및 아이디 유효성 관련 검증 코드!!!
+		
 		document.addEventListener('DOMContentLoaded', function () {
 		    var registerIdInput = document.getElementById('register-id');
 		    var checkIdButton = document.getElementById('check-id-button');
-	
+			var isValid2 = true;
+			
 		    // 아이디 입력 필드의 값이 변경될 때 이벤트 리스너 등록
 		    registerIdInput.addEventListener('input', function () {
 		    	var idError = document.getElementById('idError');
@@ -302,20 +303,17 @@
 		        } else {
 		        	idError.style.display = 'block';
 		            checkIdButton.disabled = true; // 아이디가 유효하지 않으면 버튼 비활성화
-		            event.preventDefault(); 
+		            isValid2 = false;
+		            event.preventDefault();
 		        }
 		    });
 		});
-		
-		</script>
-		
-		<script>
-		
+
 		//이메일 중복체크 및 아이디 유효성 관련 검증 코드!!!
 		document.addEventListener('DOMContentLoaded', function () {
 		    var registerEmailInput = document.getElementById('register-email');
 		    var checkEmailButton = document.getElementById('check-email-button');
-	
+		    var isValid2 = true;
 		    // 이메일 입력 필드의 값이 변경될 때 이벤트 리스너 등록
 		    registerEmailInput.addEventListener('input', function () {
 		    	var emailError = document.getElementById('emailError');
@@ -328,15 +326,93 @@
 		        } else {
 		        	emailError.style.display = 'block';
 		            checkEmailButton.disabled = true; // 이메일이 유효하지 않으면 버튼 비활성화
-		            event.preventDefault(); 
+		            isValid2 = false;
+		            event.preventDefault();
 		        }
 		    });
 		});
 		
-		</script>
+		document.addEventListener('DOMContentLoaded', function (){
+			var registerPasswordInput = document.getElementById('register-password');
+			var PasswordConfirmInput = document.getElementById('register-password-confirm');
+			var passwordError = document.getElementById('passwordError');
+			var passwordConfirmError = document.getElementById('password-match-error');
+			var isValid2 = true;
+			
+			registerPasswordInput.addEventListener('input', function() {
+				var passwordValue = registerPasswordInput.value;
+				var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/;
+				
+				if(passwordPattern.test(passwordValue)) {
+					passwordError.style.display = 'none';
+				} else {
+					passwordError.style.display = 'block';
+					isValid2 = false;
+					event.preventDefault();
+				} 
+			});
+			
+			//비밀번호 확인
+			PasswordConfirmInput.addEventListener('input', function() {
+				var passwordConfirmValue = PasswordConfirmInput.value;
+				var passwordValue = registerPasswordInput.value;
+				var isValid2 = true;
+				
+				if(passwordValue == passwordConfirmValue) {
+					passwordConfirmError.style.display = 'none';
+				} else {
+					passwordConfirmError.style.display = 'block';
+					isValid2 = false;
+					event.preventDefault();
+				}
+			});
+		});
 		
-		<!-- 유효성 검사 및 회원가입 버튼 활성화(이벤트 핸들러) -->
-	     <script>
+		document.addEventListener('DOMContentLoaded', function (){
+			var nameInput = document.getElementById('register-name');
+		    var namePattern = /^[가-힣]{2,6}$/;
+			var nameError = document.getElementById('nameError');
+			var isValid2 = true;
+			
+			  nameInput.addEventListener('input', function(){
+			    var nameValue = nameInput.value;
+			    
+			     if (!namePattern.test(nameValue)) {
+			     	 nameError.style.display = 'block';
+			         event.preventDefault();//회원가입 방지
+					 isValid2 = false;
+			     } else {
+			     	nameError.style.display = 'none';
+			     }
+			});
+		});	
+		
+		//자동 대시 삽입하는 스크립트
+		/*$(document).on("keyup", ".register-phone", function() { 
+			$(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
+		});*/
+		
+		document.addEventListener('DOMContentLoaded', function (){
+		     var phoneInput = document.getElementById('register-phone');
+		     var phonePattern = /^\d{3}-?\d{4}-?\d{4}$/
+		     var phoneError = document.getElementById('phoneError');
+		     var isValid2 = true;
+		    
+			  phoneInput.addEventListener('input', function(){
+			    var phoneValue = phoneInput.value;
+			   
+			     if (!phonePattern.test(phoneValue)) {
+			    	 phoneError.style.display = 'block';
+					 isValid2 = false;
+			    	 event.preventDefault();//회원가입 방지
+			     } else {
+			    	 phoneError.style.display = 'none';
+			     }
+			});
+		});	
+	     
+	
+		<!-- 유효성 검사 및 회원가입 버튼 활성화(이벤트 핸들러) --> 
 	     document.getElementById('reg-submit').addEventListener('click', function(event) {
 	     var isIdChecked = false; //ID 중복체크를 추적하기 위한 변수
 	     var isEmailChecked = false; //Email 중복체크를 추적하기 위한 변수
@@ -359,70 +435,6 @@
 				event.preventDefault(); //양식 제출 방지
 				return;
 			}
-	     
-	     var passwordInput = document.getElementById('register-password');
-	     var passwordValue = passwordInput.value;
-	     var passwordConfirmInput = document.getElementById('register-password-confirm');
-	     var passwordConfirmValue = passwordConfirmInput.value;
-	     var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/;
-	     
-	     if (!passwordPattern.test(passwordValue)) {
-	     	document.getElementById('PasswordError').style.display = 'block'; // 비밀번호 오류 메시지 표시
-	         passwordInput.focus(); 
-	         event.preventDefault();//회원가입 방지
-	         isValid = false;
-	     } else {
-	     	document.getElementById('PasswordError').style.display = 'none'; // 비밀번호 오류 메시지 제거
-	     }
-	     
-	     
-		if(passwordValue !== passwordConfirmValue) {
-			document.getElementById('password-match-error').style.display = 'block';
-	     	passwordConfirmInput.focus();
-	     	event.preventDefault();//회원가입 방지
-	     	isValid = false;
-	     } else {
-	     	document.getElementById('password-match-error').style.display = 'none';
-	     }
-			
-		 var nameInput = document.getElementById('register-name');
-	     var nameValue = nameInput.value;
-	     var namePattern = /^[가-힣]{2,6}$/;
-	     
-	     if (!namePattern.test(nameValue)) {
-	     	document.getElementById('nameError').style.display = 'block';
-	         nameInput.focus();
-	         event.preventDefault();//회원가입 방지
-	         isValid = false;
-	     } else {
-	     	document.getElementById('nameError').style.display = 'none';
-	     }
-			
-	     var phoneInput = document.getElementById('register-phone');
-	     var phoneValue = phoneInput.value;
-	     var phonePattern = /^\d{3}-\d{4}-\d{4}$/;
-	     
-	     if (!phonePattern.test(phoneValue)) {
-	     	document.getElementById('phoneError').style.display = 'block';
-	         phoneInput.focus();
-	         event.preventDefault();//회원가입 방지
-	         isValid = false;
-	     } else {
-	     	document.getElementById('phoneError').style.display = 'none';
-	     }
-	     
-	     /*var emailInput = document.getElementById('register-email');
-	     var emailValue = emailInput.value;
-	     var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-	     
-	     if (!emailPattern.test(emailValue)) {
-	     	document.getElementById('emailError').style.display = 'block';
-	         emailInput.focus();
-	         event.preventDefault();//회원가입 방지
-	         isValid = false;
-	     } else {
-	     	document.getElementById('emailError').style.display = 'none';
-	     }*/
 	     
 	     var genderInput = document.querySelector('input[name="gender"]:checked');
 	     if (!genderInput) {
@@ -483,9 +495,9 @@
 	     }
 	     
           	//ID 중복체크와 Email 중복체크가 확인되었고 다른 유효성 검사가 통과되면 양식 제출을 허용
-   			if (isIdChecked && isEmailChecked && isValid == true) {
+   			if (isIdChecked && isEmailChecked && isValid && isValid2 == true) {
              alert("회원가입이 완료 되었습니다.");
-          } else if(!isIdChecked && isEmailChecked && isValid == false){
+          } else if(!isIdChecked && isEmailChecked && isValid && isValid2 == false){
         	  event.preventDefault(); // 회원가입 방지
           }
       });
