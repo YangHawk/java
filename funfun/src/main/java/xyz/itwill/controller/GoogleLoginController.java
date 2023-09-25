@@ -78,10 +78,6 @@ public class GoogleLoginController {
 		account.setPassword(UUID.randomUUID().toString());
 		account.setEmail(email);
 		
-		if(accountService.isEmailExists(account)) {
-			session.setAttribute("SocialLoginErrorMessage", "이메일이 중복되었습니다.");
-			 throw new AccessDeniedException("이메일이 중복되었습니다.");
-		}
 
 		account.setAccountAuthList(authList);
 		account.setEnabled("1");
@@ -89,6 +85,12 @@ public class GoogleLoginController {
 		Account existAccount = new Account();
 		
 		if (accountService.getAccount("google_" + id) == null) { // 계정이 없는 상태라면
+				
+			if(accountService.isEmailExists(account)) { // 이메일 중복 체크
+				session.setAttribute("SocialLoginErrorMessage", "이메일이 중복되었습니다.");
+				throw new AccessDeniedException("이메일이 중복되었습니다.");
+			}
+			
 			accountService.addAccount(account, "ROLE_USER");
 
 			account.setIdx(accountService.getAccount("google_" + id).getIdx());

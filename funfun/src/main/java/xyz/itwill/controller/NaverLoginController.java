@@ -94,11 +94,6 @@ public class NaverLoginController {
 		account.setPhone(phone);
 		account.setEmail(email);
 		
-		if(accountService.isEmailExists(account)) {
-			session.setAttribute("SocialLoginErrorMessage", "이메일이 중복되었습니다.");
-			 throw new AccessDeniedException("이메일이 중복되었습니다.");
-		}
-		
 		// gender를 String으로 받아와서 int로 변환하여 서버에 저장
 		if (genderStr.equals("F")) {
 			account.setGender(1);
@@ -113,6 +108,12 @@ public class NaverLoginController {
 		Account existAccount = new Account();
 
 		if (accountService.getAccount("naver_" + id) == null) { // 계정이 없는 상태라면
+			
+			if(accountService.isEmailExists(account)) {
+				session.setAttribute("SocialLoginErrorMessage", "이메일이 중복되었습니다.");
+				 throw new AccessDeniedException("이메일이 중복되었습니다.");
+			}
+			
 			accountService.addAccount(account, "ROLE_USER");
 
 			account.setIdx(accountService.getAccount("naver_" + id).getIdx());

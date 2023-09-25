@@ -77,11 +77,6 @@ public class KakaoLoginController {
 		account.setPassword(UUID.randomUUID().toString());
 		account.setEmail(email);
 		
-		if(accountService.isEmailExists(account)) {
-			session.setAttribute("SocialLoginErrorMessage", "이메일이 중복되었습니다.");
-			 throw new AccessDeniedException("이메일이 중복되었습니다.");
-		}
-		
 		/*
 		 * if(genderStr.equals("female")) { account.setGender(1); } else {
 		 * account.setGender(0); }
@@ -94,6 +89,12 @@ public class KakaoLoginController {
 		Account existAccount = new Account();
 
 		if (accountService.getAccount("kakao_" + id) == null) {
+			
+			if(accountService.isEmailExists(account)) {
+				session.setAttribute("SocialLoginErrorMessage", "이메일이 중복되었습니다.");
+				 throw new AccessDeniedException("이메일이 중복되었습니다.");
+			}
+			
 			accountService.addAccount(account, "ROLE_USER");
 
 			account.setIdx(accountService.getAccount("kakao_" + id).getIdx());
