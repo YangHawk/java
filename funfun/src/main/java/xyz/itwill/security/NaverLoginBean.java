@@ -21,7 +21,7 @@ public class NaverLoginBean {
 	// 로그인에 필요한 정보를 저장한 필드(상수) 선언
 	private static final String CLIENT_ID = "dhsS8GuQWYnziR51CCzl";
 	private static final String CLIENT_SECRET = "Ud6UI8dC4v";
-	private static final String REDIRECT_URI = "http://www.itwill.xyz/funfun/naver/callback";
+	private static final String REDIRECT_URI = "https://www.itwill.xyz/funfun/naver/callback";
 	private static final String SESSION_STATE = "naver_state";
 	// 사용자 프로필을 조회하기 위한 API의 URL 주소 저장
 	private static final String PROFILE_API_URI = "https://openapi.naver.com/v1/nid/me";

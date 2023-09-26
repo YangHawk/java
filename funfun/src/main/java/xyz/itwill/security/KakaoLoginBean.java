@@ -23,11 +23,10 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 public class KakaoLoginBean {
 	private final static String KAKAO_CLIENT_ID = "96e6fb32d28db6681b59bc88806dfbc9";
     private final static String KAKAO_CLIENT_SECRET = "HgwAHNVdAaBXCORYfBYMpc1G4yEquozv";
-    private final static String KAKAO_REDIRECT_URI = "https://itwill.xyz/funfun/kakao/callback";
+    private final static String KAKAO_REDIRECT_URI = "https://www.itwill.xyz/funfun/kakao/callback";
     private final static String SESSION_STATE = "kakao_oauth_state";
     /* 프로필 조회 API URL */
     private final static String PROFILE_API_URL ="https://kapi.kakao.com/v2/user/me";
-
 
     /* 카카오 아이디 인증  URL 생성  Method */
     public String getAuthorizationUrl(HttpSession session) {
