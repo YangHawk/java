@@ -26,7 +26,7 @@
 	<!-- ▶ pom.xml 파일에서 ${이름} 형식으로 값을 제공받아 사용 -->
 	<!-- ▶ 라이브러리 버전을 효율적으로 관리하기 위해 properties 엘리먼트 사용 -->
 	<properties>
-		<org.springframework-version>5.3.29</org.springframework-version>
+		<org.springframework-version>6.1.13</org.springframework-version>
 		<org.aspectj-version>1.9.19</org.aspectj-version>
 		<org.slf4j-version>2.0.7</org.slf4j-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
